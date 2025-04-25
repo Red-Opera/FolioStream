@@ -3,13 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>FolioStream</title>
+    <link rel="icon" type="image/png" href="/images/logo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">FolioStream</a>
+            <a class="navbar-brand" href="#">
+                <img src="/images/logo.png" alt="FolioStream Logo" height="30" class="d-inline-block align-text-top">
+                FolioStream
+            </a>
+            <div class="ms-auto">
+                <a href="https://github.com/Red-Opera" target="_blank" class="github-link">
+                    <i class="fab fa-github fa-2x"></i>
+                </a>
+            </div>
         </div>
     </nav>
 
@@ -50,6 +60,10 @@
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom page-header">
                     <h1 class="h2" th:text="${message}">포트폴리오 갤러리</h1>
+                    <div class="visitor-count">
+                        <span class="today-visitors">오늘 방문자: 0</span>
+                        <span class="total-visitors">전체 방문자: 0</span>
+                    </div>
                 </div>
 
                 <!-- Unity 포트폴리오 -->
@@ -58,9 +72,17 @@
                     <div class="row">
                         <div class="col-md-4" th:each="item : ${portfolios?.get('unity')}">
                             <div class="portfolio-item">
-                                <h3 th:text="${item}">Unity Game</h3>
-                                <p>Unity로 제작된 게임 프로젝트입니다.</p>
-                                <a href="#" class="btn btn-primary">자세히 보기</a>
+                                <div class="portfolio-content">
+                                    <h3 th:text="${item}">Unity Game</h3>
+                                    <div class="portfolio-image">
+                                        <img th:src="@{'/images/Main/' + ${#strings.replace(#strings.replace(item, ' ', ''), ':', '')} + '.png'}" 
+                                             th:alt="${item} + ' Screenshot'"
+                                             style="width: 100%; height: 100%; object-fit: cover;"
+                                             onerror="console.log('Failed to load image: ' + this.src)">
+                                    </div>
+                                    <p>Unity로 제작된 게임 프로젝트입니다. 다양한 게임플레이 요소와 시각적 효과를 구현했습니다.</p>
+                                    <a href="#" class="btn btn-primary">자세히 보기</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -72,9 +94,17 @@
                     <div class="row">
                         <div class="col-md-4" th:each="item : ${portfolios?.get('unreal')}">
                             <div class="portfolio-item">
-                                <h3 th:text="${item}">Unreal Project</h3>
-                                <p>Unreal Engine으로 제작된 프로젝트입니다.</p>
-                                <a href="#" class="btn btn-primary">자세히 보기</a>
+                                <div class="portfolio-content">
+                                    <h3 th:text="${item}">Unreal Project</h3>
+                                    <div class="portfolio-image">
+                                        <img th:src="@{'/images/Main/' + ${#strings.replace(#strings.replace(item, ' ', ''), ':', '')} + '.png'}" 
+                                             th:alt="${item} + ' Screenshot'"
+                                             style="width: 100%; height: 100%; object-fit: cover;"
+                                             onerror="console.log('Failed to load image: ' + this.src)">
+                                    </div>
+                                    <p>Unreal Engine으로 제작된 프로젝트입니다. 고품질 그래픽과 물리 효과를 구현했습니다.</p>
+                                    <a href="#" class="btn btn-primary">자세히 보기</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -86,9 +116,17 @@
                     <div class="row">
                         <div class="col-md-4" th:each="item : ${portfolios?.get('graphic')}">
                             <div class="portfolio-item">
-                                <h3 th:text="${item}">Graphic Design</h3>
-                                <p>그래픽 디자인 작품입니다.</p>
-                                <a href="#" class="btn btn-primary">자세히 보기</a>
+                                <div class="portfolio-content">
+                                    <h3 th:text="${item}">Graphic Design</h3>
+                                    <div class="portfolio-image">
+                                        <img th:src="@{'/images/Main/' + ${#strings.replace(#strings.replace(item, ' ', ''), ':', '')} + '.png'}" 
+                                             th:alt="${item} + ' Screenshot'"
+                                             style="width: 100%; height: 100%; object-fit: cover;"
+                                             onerror="console.log('Failed to load image: ' + this.src)">
+                                    </div>
+                                    <p>그래픽 디자인 작품입니다. 다양한 디자인 요소와 시각적 효과를 활용했습니다.</p>
+                                    <a href="#" class="btn btn-primary">자세히 보기</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -100,7 +138,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // URL의 해시값을 확인하여 해당 섹션으로 스크롤
             const hash = window.location.hash;
             if (hash) {
                 const element = document.querySelector(hash);
