@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FolioStream</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">FolioStream</a>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 사이드바 -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" th:classappend="${selectedCategory == null} ? 'active'" href="#top">
+                                전체 보기
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:classappend="${selectedCategory == 'unity'} ? 'active'" 
+                               href="#unity-section">
+                                Unity 포트폴리오
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:classappend="${selectedCategory == 'unreal'} ? 'active'"
+                               href="#unreal-section">
+                                Unreal 포트폴리오
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:classappend="${selectedCategory == 'graphic'} ? 'active'"
+                               href="#graphic-section">
+                                Graphic 포트폴리오
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- 메인 콘텐츠 -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom page-header">
+                    <h1 class="h2" th:text="${message}">포트폴리오 갤러리</h1>
+                </div>
+
+                <!-- Unity 포트폴리오 -->
+                <div id="unity-section" class="section" th:if="${selectedCategory == null || selectedCategory == 'unity'}">
+                    <h2 class="category-title">Unity 포트폴리오</h2>
+                    <div class="row">
+                        <div class="col-md-4" th:each="item : ${portfolios?.get('unity')}">
+                            <div class="portfolio-item">
+                                <h3 th:text="${item}">Unity Game</h3>
+                                <p>Unity로 제작된 게임 프로젝트입니다.</p>
+                                <a href="#" class="btn btn-primary">자세히 보기</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unreal 포트폴리오 -->
+                <div id="unreal-section" class="section" th:if="${selectedCategory == null || selectedCategory == 'unreal'}">
+                    <h2 class="category-title">Unreal 포트폴리오</h2>
+                    <div class="row">
+                        <div class="col-md-4" th:each="item : ${portfolios?.get('unreal')}">
+                            <div class="portfolio-item">
+                                <h3 th:text="${item}">Unreal Project</h3>
+                                <p>Unreal Engine으로 제작된 프로젝트입니다.</p>
+                                <a href="#" class="btn btn-primary">자세히 보기</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Graphic 포트폴리오 -->
+                <div id="graphic-section" class="section" th:if="${selectedCategory == null || selectedCategory == 'graphic'}">
+                    <h2 class="category-title">Graphic 포트폴리오</h2>
+                    <div class="row">
+                        <div class="col-md-4" th:each="item : ${portfolios?.get('graphic')}">
+                            <div class="portfolio-item">
+                                <h3 th:text="${item}">Graphic Design</h3>
+                                <p>그래픽 디자인 작품입니다.</p>
+                                <a href="#" class="btn btn-primary">자세히 보기</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // URL의 해시값을 확인하여 해당 섹션으로 스크롤
+            const hash = window.location.hash;
+            if (hash) {
+                const element = document.querySelector(hash);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    </script>
+</body>
+</html> 
