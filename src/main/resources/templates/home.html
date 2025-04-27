@@ -7,6 +7,84 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
+    <style>
+        /* ... existing styles ... */
+        .github-link, .support-link {
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+        .github-link:hover {
+            color: #6e5494;
+            transform: translateY(-2px);
+        }
+        .support-link {
+            position: relative;
+            background: linear-gradient(45deg, #6f4e37, #8b5a2b);
+            border-radius: 50%;
+            margin-left: 1rem;
+            z-index: 1;
+        }
+        .support-link::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(90deg,
+                #c49b6a,
+                #8b5a2b,
+                #6f4e37,
+                #a87b51,
+                #d4a36f,
+                #c49b6a
+            );
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .support-link:hover::before {
+            opacity: 1;
+            animation: rotate 3s linear infinite;
+        }
+        .support-link::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, #6f4e37, #8b5a2b);
+            border-radius: 50%;
+            z-index: -1;
+        }
+        .support-link:hover {
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(111, 78, 55, 0.3);
+        }
+        .support-link i {
+            font-size: 1.5rem;
+        }
+        .github-link i {
+            font-size: 1.8rem;
+        }
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -15,9 +93,12 @@
                 <img src="/images/logo.png" alt="FolioStream Logo" height="30" class="d-inline-block align-text-top">
                 FolioStream
             </a>
-            <div class="ms-auto">
+            <div class="ms-auto d-flex align-items-center">
                 <a href="https://github.com/Red-Opera" target="_blank" class="github-link">
-                    <i class="fab fa-github fa-2x"></i>
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="/support" class="support-link">
+                    <i class="fas fa-mug-hot"></i>
                 </a>
             </div>
         </div>

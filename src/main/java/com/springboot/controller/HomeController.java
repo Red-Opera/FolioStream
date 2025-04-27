@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import com.springboot.model.VisitorCount;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -40,5 +41,13 @@ public class HomeController {
         model.addAttribute("selectedCategory", category);
         
         return "home";
+    }
+
+    @GetMapping("/support")
+    public String support(Model model) 
+    {
+        model.addAttribute("message", "Support");
+        model.addAttribute("visitorCount", new VisitorCount(0, 0)); // 임시로 0으로 설정
+        return "support";
     }
 }
