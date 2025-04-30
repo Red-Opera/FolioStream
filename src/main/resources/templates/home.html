@@ -19,6 +19,72 @@
             width: 40px;
             height: 40px;
         }
+
+        /* 포트폴리오 아이템 스타일 */
+        .portfolio-item {
+            margin-bottom: 30px;
+            height: 100%;
+            width: 100%; /* 너비를 100%로 설정 */
+        }
+
+        .portfolio-content {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            height: 100%;
+            width: 100%; /* 너비를 100%로 설정 */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .portfolio-image {
+            width: 100%;
+            height: 200px;
+            min-height: 200px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            overflow: hidden;
+            background-color: #f5f5f5; /* 이미지가 없을 때의 배경색 */
+        }
+
+        .portfolio-image img {
+            width: 100%;
+            height: 100%;
+            min-width: 100%;
+            min-height: 200px;
+            object-fit: cover;
+        }
+
+        .portfolio-content h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.25rem;
+        }
+
+        .portfolio-content p {
+            flex-grow: 1;
+            margin-bottom: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .portfolio-content .btn {
+            align-self: flex-start;
+        }
+
+        /* 행의 높이를 동일하게 맞추기 위한 스타일 */
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .col-md-4 {
+            display: flex;
+            margin-bottom: 30px;
+            min-width: 300px; /* 최소 너비 설정 */
+        }
+
         .github-link:hover {
             color: #6e5494;
             transform: translateY(-2px);
@@ -82,6 +148,33 @@
             }
             100% {
                 transform: rotate(360deg);
+            }
+        }
+
+        /* 이미지가 없을 때 대체 텍스트 스타일 */
+        .portfolio-image:empty::after {
+            content: "이미지 준비중";
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #999;
+            font-size: 1rem;
+        }
+
+        /* 반응형 그리드 조정 */
+        @media (min-width: 768px) {
+            .col-md-4 {
+                flex: 0 0 33.333333%;
+                max-width: 33.333333%;
+            }
+        }
+
+        /* 작은 화면에서의 조정 */
+        @media (max-width: 767px) {
+            .col-md-4 {
+                flex: 0 0 100%;
+                max-width: 100%;
             }
         }
     </style>
@@ -154,14 +247,14 @@
                         <div class="col-md-4" th:each="item : ${portfolios?.get('unity')}">
                             <div class="portfolio-item">
                                 <div class="portfolio-content">
-                                    <h3 th:text="${item}">Unity Game</h3>
+                                    <h3 th:text="${item.title}">Unity Game</h3>
                                     <div class="portfolio-image">
-                                        <img th:src="@{'/images/Main/' + ${#strings.replace(#strings.replace(item, ' ', ''), ':', '')} + '.png'}" 
-                                             th:alt="${item} + ' Screenshot'"
+                                        <img th:src="@{'/images/Main/' + ${#strings.replace(#strings.replace(item.title, ' ', ''), ':', '')} + '.png'}" 
+                                             th:alt="${item.title} + ' Screenshot'"
                                              style="width: 100%; height: 100%; object-fit: cover;"
                                              onerror="console.log('Failed to load image: ' + this.src)">
                                     </div>
-                                    <p>Unity로 제작된 게임 프로젝트입니다. 다양한 게임플레이 요소와 시각적 효과를 구현했습니다.</p>
+                                    <p th:utext="${item.description}">Unity로 제작된 게임 프로젝트입니다. 다양한 게임플레이 요소와 시각적 효과를 구현했습니다.</p>
                                     <a href="#" class="btn btn-primary">자세히 보기</a>
                                 </div>
                             </div>
@@ -176,14 +269,14 @@
                         <div class="col-md-4" th:each="item : ${portfolios?.get('unreal')}">
                             <div class="portfolio-item">
                                 <div class="portfolio-content">
-                                    <h3 th:text="${item}">Unreal Project</h3>
+                                    <h3 th:text="${item.title}">Unreal Project</h3>
                                     <div class="portfolio-image">
-                                        <img th:src="@{'/images/Main/' + ${#strings.replace(#strings.replace(item, ' ', ''), ':', '')} + '.png'}" 
-                                             th:alt="${item} + ' Screenshot'"
+                                        <img th:src="@{'/images/Main/' + ${#strings.replace(#strings.replace(item.title, ' ', ''), ':', '')} + '.png'}" 
+                                             th:alt="${item.title} + ' Screenshot'"
                                              style="width: 100%; height: 100%; object-fit: cover;"
                                              onerror="console.log('Failed to load image: ' + this.src)">
                                     </div>
-                                    <p>Unreal Engine으로 제작된 프로젝트입니다. 고품질 그래픽과 물리 효과를 구현했습니다.</p>
+                                    <p th:utext="${item.description}">Unreal Engine으로 제작된 프로젝트입니다. 고품질 그래픽과 물리 효과를 구현했습니다.</p>
                                     <a href="#" class="btn btn-primary">자세히 보기</a>
                                 </div>
                             </div>
@@ -198,14 +291,14 @@
                         <div class="col-md-4" th:each="item : ${portfolios?.get('graphic')}">
                             <div class="portfolio-item">
                                 <div class="portfolio-content">
-                                    <h3 th:text="${item}">Graphic Design</h3>
+                                    <h3 th:text="${item.title}">Graphic Project</h3>
                                     <div class="portfolio-image">
-                                        <img th:src="@{'/images/Main/' + ${#strings.replace(#strings.replace(item, ' ', ''), ':', '')} + '.png'}" 
-                                             th:alt="${item} + ' Screenshot'"
+                                        <img th:src="@{'/images/Main/' + ${#strings.replace(#strings.replace(item.title, ' ', ''), ':', '')} + '.png'}" 
+                                             th:alt="${item.title} + ' Screenshot'"
                                              style="width: 100%; height: 100%; object-fit: cover;"
                                              onerror="console.log('Failed to load image: ' + this.src)">
                                     </div>
-                                    <p>그래픽 디자인 작품입니다. 다양한 디자인 요소와 시각적 효과를 활용했습니다.</p>
+                                    <p th:utext="${item.description}">DirectX로 제작된 프로젝트입니다. 다양한 그래픽 효과를 구현했습니다.</p>
                                     <a href="#" class="btn btn-primary">자세히 보기</a>
                                 </div>
                             </div>
