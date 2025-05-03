@@ -12,7 +12,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 @Controller
-public class HomeController {
+public class HomeController 
+{
 
     private Map<String, List<Project>> createPortfolioData() 
     {
