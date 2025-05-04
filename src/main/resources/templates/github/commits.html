@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GitHub Activity - <span th:text="${username}">Username</span></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .event-card {
+            margin-bottom: 1rem;
+            border-left: 4px solid #28a745;
+        }
+        .event-message {
+            font-weight: 500;
+        }
+        .event-meta {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-4">GitHub Activity for <span th:text="${username}">Username</span></h1>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div th:if="${events != null and !events.isEmpty()}">
+                    <div th:each="event : ${events}" class="card event-card">
+                        <div class="card-body">
+                            <h5 class="card-title event-message" th:text="${event.type}">Event type</h5>
+                            <div class="event-meta">
+                                <span th:text="${event.actor?.login}">Actor</span>
+                                <span th:text="${event.created_at_formatted}">Date</span>
+                                <span th:if="${event.created_at_timezone != null && event.created_at_offset != null}"
+                                      th:text="'(' + ${event.created_at_timezone} + ' ' + ${event.created_at_offset} + ')'">
+                                    (KST +9:00)
+                                </span>
+                                <span th:if="${event.created_at_timezone != null && event.created_at_offset == null}"
+                                      th:text="'(' + ${event.created_at_timezone} + ')'">
+                                    (KST)
+                                </span>
+                            </div>
+                            <div th:if="${event.repo != null}">
+                                <p class="mb-1">Repository: <span th:text="${event.repo.name}">Repository name</span></p>
+                            </div>
+                            <div th:if="${event.type == 'PushEvent'}">
+                                <b>Commits:</b>
+                                <ul>
+                                    <li th:each="msg : ${event.commitMessages}" th:text="${msg}">커밋 메시지</li>
+                                </ul>
+                            </div>
+                            <a th:if="${event.repo != null}" 
+                               th:href="'https://github.com/' + ${event.repo.name}" 
+                               target="_blank" 
+                               class="btn btn-sm btn-outline-primary mt-2">
+                                View Repository
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${events == null or events.isEmpty()}" class="alert alert-info">
+                    No activity found for this user.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
