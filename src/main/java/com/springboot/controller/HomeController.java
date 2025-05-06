@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.io.File;
 
 @Controller
 public class HomeController 
@@ -118,5 +120,28 @@ public class HomeController
         model.addAttribute("message", "Support");
         model.addAttribute("visitorCount", new VisitorCount(0, 0)); // 임시로 0으로 설정
         return "support";
+    }
+
+    @GetMapping("/legacy-of-auras")
+    public String legacyOfAuras(Model model) {
+        String projectName = "Legacy of Auras";
+        String galleryPath = "/images/Gallery/Legacy of Auras/";
+        String realPath = "src/main/resources/static/images/Gallery/Legacy of Auras/";
+
+        File folder = new File(realPath);
+        String[] files = folder.list((dir, name) -> name.matches("\\d+\\.png"));
+        List<String> galleryImages = new ArrayList<>();
+        if (files != null) {
+            Arrays.sort(files, (a, b) -> {
+                int numA = Integer.parseInt(a.replace(".png", ""));
+                int numB = Integer.parseInt(b.replace(".png", ""));
+                return Integer.compare(numA, numB);
+            });
+            for (String file : files) {
+                galleryImages.add(galleryPath + file);
+            }
+        }
+        model.addAttribute("galleryImages", galleryImages);
+        return "legacy-of-auras";
     }
 }
