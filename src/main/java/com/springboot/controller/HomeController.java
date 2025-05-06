@@ -123,25 +123,47 @@ public class HomeController
     }
 
     @GetMapping("/legacy-of-auras")
-    public String legacyOfAuras(Model model) {
+    public String legacyOfAuras(Model model) 
+    {
         String projectName = "Legacy of Auras";
         String galleryPath = "/images/Gallery/Legacy-of-Auras/";
-        String realPath = "src/main/resources/static/images/Gallery/Legacy-of-Auras/";
+        String projectRoot = System.getProperty("user.dir");
+        String realPath = projectRoot + "/src/main/resources/static/images/Gallery/Legacy-of-Auras/";
+        
+        System.out.println("Real Path: " + realPath);
+        model.addAttribute("realPath", realPath);
 
         File folder = new File(realPath);
         String[] files = folder.list((dir, name) -> name.matches("\\d+\\.png"));
+        
+        if (files == null || files.length == 0) {
+            System.out.println("No PNG files found in the directory");
+            model.addAttribute("filesStatus", "No files found");
+        } else {
+            System.out.println("Found " + files.length + " PNG files:");
+            for (String file : files) {
+                System.out.println("- " + file);
+            }
+            model.addAttribute("filesStatus", "Found " + files.length + " files");
+        }
+
         List<String> galleryImages = new ArrayList<>();
-        if (files != null) {
-            Arrays.sort(files, (a, b) -> {
+        
+        if (files != null) 
+        {
+            Arrays.sort(files, (a, b) -> 
+            {
                 int numA = Integer.parseInt(a.replace(".png", ""));
                 int numB = Integer.parseInt(b.replace(".png", ""));
                 return Integer.compare(numA, numB);
             });
-            for (String file : files) {
+            
+            for (String file : files)
                 galleryImages.add(galleryPath + file);
-            }
         }
+        
         model.addAttribute("galleryImages", galleryImages);
+        
         return "legacy-of-auras";
     }
 }
