@@ -125,8 +125,8 @@ public class HomeController
     @GetMapping("/legacy-of-auras")
     public String legacyOfAuras(Model model) {
         String projectName = "Legacy of Auras";
-        String galleryPath = "/images/Gallery/Legacy of Auras/";
-        String realPath = "src/main/resources/static/images/Gallery/Legacy of Auras/";
+        String galleryPath = "/images/Gallery/Legacy-of-Auras/";
+        String realPath = "src/main/resources/static/images/Gallery/Legacy-of-Auras/";
 
         File folder = new File(realPath);
         String[] files = folder.list((dir, name) -> name.matches("\\d+\\.png"));
