@@ -119,6 +119,7 @@ public class HomeController
     {
         model.addAttribute("message", "Support");
         model.addAttribute("visitorCount", new VisitorCount(0, 0)); // 임시로 0으로 설정
+        
         return "support";
     }
 
@@ -128,24 +129,32 @@ public class HomeController
         String projectName = "Legacy of Auras";
         String galleryPath = "/images/Gallery/Legacy-of-Auras/";
         String projectRoot = System.getProperty("user.dir");
-        String realPath = projectRoot + "/src/main/resources/static/images/Gallery/Legacy-of-Auras/";
         
-        System.out.println("Real Path: " + realPath);
+        // FolioStream 경로가 없으면 추가
+        if (!projectRoot.contains("FolioStream"))
+            projectRoot = projectRoot + "/FolioStream";
+        
+        String realPath = projectRoot + "/src/main/resources/static/images/Gallery/Legacy-of-Auras/";
         model.addAttribute("realPath", realPath);
+
+        // banner.gif 존재 여부 확인
+        String bannerPath = galleryPath + "banner.gif";
+        File bannerFile = new File(realPath + "banner.gif");
+        
+        if (bannerFile.exists())
+            model.addAttribute("bannerImage", bannerPath);
+        
+        else
+            model.addAttribute("bannerImage", null);
 
         File folder = new File(realPath);
         String[] files = folder.list((dir, name) -> name.matches("\\d+\\.png"));
         
-        if (files == null || files.length == 0) {
-            System.out.println("No PNG files found in the directory");
+        if (files == null || files.length == 0)
             model.addAttribute("filesStatus", "No files found");
-        } else {
-            System.out.println("Found " + files.length + " PNG files:");
-            for (String file : files) {
-                System.out.println("- " + file);
-            }
+        
+        else
             model.addAttribute("filesStatus", "Found " + files.length + " files");
-        }
 
         List<String> galleryImages = new ArrayList<>();
         

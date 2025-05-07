@@ -7,10 +7,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="/css/legacy-of-auras.css">
-    <script th:inline="javascript">
-        console.log("Real Path:", /*[[${realPath}]]*/ '');
-        console.log("Files Status:", /*[[${filesStatus}]]*/ '');
-    </script>
 </head>
 <body>
     <!-- Navigation -->
@@ -46,7 +42,8 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-section">
+    <section class="hero-section"
+        th:style="${bannerImage != null} ? 'background: url(' + @{${bannerImage}} + ') center center / cover no-repeat;' : ''">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
@@ -344,26 +341,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Back to Top Button
-        const backToTop = document.querySelector('.back-to-top');
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 100) {
-                backToTop.classList.add('visible');
-            } else {
-                backToTop.classList.remove('visible');
-            }
-        });
-
-        // Smooth Scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
+    <script src="/js/legacy-of-auras.js"></script>
 </body>
 </html> 
