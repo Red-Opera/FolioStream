@@ -206,5 +206,22 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 방문자 수 증가 (메인 페이지에서만 실행)
+        fetch('/api/visitors/increment', {
+            method: 'GET'
+        })
+        .then(() => {
+            // 방문자 통계 가져오기
+            return fetch('/api/visitors/stats');
+        })
+        .then(response => response.json())
+        .then(data => {
+            // 방문자 수 업데이트
+            document.querySelector('.visitor-count .count-item:nth-child(1) .count-value').textContent = data.dailyVisitors;
+            document.querySelector('.visitor-count .count-item:nth-child(2) .count-value').textContent = data.totalVisitors;
+        })
+        .catch(error => console.error('Error:', error));
+    </script>
 </body>
-</html> 
+</html>
