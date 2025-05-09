@@ -1,0 +1,367 @@
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #1e40af;
+    --background-color: #f8fafc;
+    --card-background: #ffffff;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --timeline-color: #e2e8f0;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.container {
+    max-width: 1400px;
+    padding: 2rem;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.timeline-container {
+    position: relative;
+    padding: 2rem 0;
+    overflow-x: auto;
+}
+
+.timeline {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    padding: 2rem 1rem;
+    min-width: max-content;
+    position: relative;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--timeline-color);
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.timeline-item {
+    flex: 0 0 350px;
+    position: relative;
+    z-index: 2;
+}
+
+.timeline-content {
+    background: var(--card-background);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.timeline-content::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    top: 50%;
+    left: -40px;
+    transform: translateY(-50%);
+    border: 4px solid var(--card-background);
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+.timeline-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.event-message {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.event-message > span {
+    word-break: break-all;
+}
+
+.event-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.event-meta i {
+    font-size: 1rem;
+}
+
+.repo-info {
+    background: var(--background-color);
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.commit-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.3rem 0;
+}
+
+.commit-list li {
+    padding: 0.5rem;
+    border-left: 3px solid var(--primary-color);
+    margin-bottom: 0.4rem;
+    background: var(--background-color);
+    border-radius: 0 4px 4px 0;
+    font-size: 0.875rem;
+}
+
+.btn-view-repo {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.btn-view-repo:hover {
+    background: var(--secondary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.no-activity {
+    text-align: center;
+    padding: 3rem;
+    background: var(--card-background);
+    border-radius: 16px;
+    color: var(--text-secondary);
+    margin: 2rem auto;
+    max-width: 600px;
+}
+
+.date-badge {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    display: inline-block;
+    max-width: 100%;
+    line-height: 1.4;
+}
+
+.timeline-svg-outer {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 60vh;
+}
+
+.timeline-svg-container {
+    width: 100%;
+    overflow-x: auto;
+    padding: 0 0 3rem 0;
+    position: relative;
+    height: 600px; 
+}
+
+#timeline-svg {
+    min-width: 1200px;
+    height: 500px;
+    display: block;
+}
+
+.timeline-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 0.75rem;
+    font-size: 0.95rem;
+    min-width: 200px;
+    max-width: 240px;
+    min-height: 80px;
+    color: #1e293b;
+    border: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.timeline-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+}
+
+.timeline-card .date-badge {
+    margin-bottom: 0.2rem;
+    font-size: 0.8rem;
+    background: #f1f5f9;
+    color: #64748b;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    max-width: 100%;
+    line-height: 1.4;
+}
+
+.timeline-card .repo-info {
+    font-weight: 600;
+    color: #2563eb;
+    font-size: 0.9rem;
+    margin-bottom: 0.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.timeline-card .commit-title {
+    font-size: 0.9rem;
+    color: #1e293b;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.timeline-card .tooltip {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1e293b;
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    width: 300px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.timeline-card .tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #1e293b;
+}
+
+.timeline-card:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    bottom: calc(100% + 15px);
+}
+
+.tooltip-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.tooltip-content .tooltip-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+}
+
+.tooltip-content .tooltip-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #94a3b8;
+    font-size: 0.8rem;
+}
+
+.tooltip-content .tooltip-commits {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.tooltip-content .tooltip-commits li {
+    font-size: 0.85rem;
+    color: #e2e8f0;
+    margin-bottom: 0.3rem;
+    padding-left: 0.5rem;
+    border-left: 2px solid #2563eb;
+}
+
+@media (max-width: 900px) {
+    #timeline-svg { min-width: 900px; }
+}
+
+@media (max-width: 600px) {
+    #timeline-svg { min-width: 600px; height: 480px; }
+    .timeline-card { max-width: 180px; font-size: 0.95rem; }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .timeline-item {
+        flex: 0 0 300px;
+    }
+
+    .page-title {
+        font-size: 2rem;
+    }
+
+    .timeline-content::before {
+        left: -30px;
+    }
+} 

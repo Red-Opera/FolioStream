@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class GitHubController {
-
+public class GitHubController 
+{
     @Autowired
     private GitHubService githubService;
 
@@ -37,11 +37,12 @@ public class GitHubController {
 
             // 스택트레이스 문자열로 변환
             StringBuilder sb = new StringBuilder();
-            for (StackTraceElement ste : e.getStackTrace()) {
+            
+            for (StackTraceElement ste : e.getStackTrace())
                 sb.append(ste.toString()).append("\\n");
-            }
 
             model.addAttribute("stackTrace", sb.toString());
+            
             return "error";
         }
     }
@@ -50,6 +51,7 @@ public class GitHubController {
     public String handleError(Model model) 
     {
         model.addAttribute("error", "An unexpected error occurred");
+        
         return "error";
     }
 } 
