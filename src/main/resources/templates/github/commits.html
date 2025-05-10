@@ -12,10 +12,10 @@
     <div class="container">
         <h1 class="page-title">GitHub Activity for <span th:text="${username}">Username</span></h1>
     </div>
-    
+
     <div class="timeline-svg-outer">
         <div class="timeline-svg-container" style="position: relative;">
-            <svg id="timeline-svg" th:attr="width=${events.size() * 220 + 200}, viewBox='0 0 ' + (${events.size() * 220 + 200}) + ' 380'">
+            <svg id="timeline-svg" th:if="${not #lists.isEmpty(events)}" th:attr="width=${events.size() * 220 + 200}, viewBox='0 0 ' + (${events.size() * 220 + 200}) + ' 380'">
                 <path id="timeline-path" th:attr="d='M 100 190 L ' + (${events.size() * 220 + 100}) + ' 190'"
                       fill="none" stroke="#e2e8f0" stroke-width="4"/>
                 <g th:each="event, iterStat : ${events}">
@@ -23,18 +23,34 @@
                           stroke="#cbd5e1" stroke-width="2"/>
                     <circle th:attr="cx=${100 + iterStat.index * 220}, cy=190"
                             fill="#fff" stroke="#e2e8f0" stroke-width="4" r="18"/>
-                            
+
                     <foreignObject th:attr="x=${100 + iterStat.index * 220 - 12}, y=178, width=24, height=24">
                         <div style="width:24px; height:24px; display:flex; align-items:center; justify-content:center;">
                             <i class="fas" th:classappend="${event.type == 'PushEvent' ? ' fa-code-commit' : ' fa-code-branch'}"
                                style="color: #94a3b8; font-size: 18px;"></i>
                         </div>
                     </foreignObject>
-                    
+
                     <foreignObject th:attr="x=${100 + iterStat.index * 220 - 120}, y=${iterStat.index % 2 == 0 ? -50 : 280}, width=240, height=200">
                         <div class="timeline-card" xmlns="http://www.w3.org/1999/xhtml"
-                             th:if="${event.repo != null}" 
-                             th:data-repo="${event.repo.name}">
+                             th:if="${event.repo != null}"
+                             th:data-repo="${event.repo.name}"
+                             th:attr="data-bs-toggle=${event.type == 'PushEvent' ? 'tooltip' : null},
+                                      data-bs-placement=${event.type == 'PushEvent' ? 'top' : null},
+                                      data-bs-html=${event.type == 'PushEvent' ? 'true' : null},
+                                      data-bs-title=${event.type == 'PushEvent' ?
+                                          (event.commitMessages != null and !event.commitMessages.isEmpty() ?
+                                              (
+                                                  (event.commitMessages[0].split('\n\n', 2).length > 1 and !#strings.isEmpty(event.commitMessages[0].split('\n\n', 2)[1].trim())) ?
+                                                  '&lt;div class=&quot;tooltip-title-custom&quot;&gt;' + #strings.escapeXml(event.commitMessages[0].split('\n\n', 2)[0]) + '&lt;/div&gt;' +
+                                                  '&lt;div class=&quot;tooltip-content-custom&quot;&gt;' + #strings.escapeXml(event.commitMessages[0].split('\n\n', 2)[1]) + '&lt;/div&gt;'
+                                                  :
+                                                  '&lt;div class=&quot;tooltip-title-custom no-border-if-no-content&quot;&gt;' + #strings.escapeXml(event.commitMessages[0].split('\n\n', 2)[0]) + '&lt;/div&gt;'
+                                              )
+                                              :
+                                              '&lt;div class=&quot;tooltip-title-custom&quot;&gt;' + #strings.escapeXml(event.type) + '&lt;/div&gt;&lt;div class=&quot;tooltip-content-custom&quot;&gt;이벤트에 대한 상세 커밋 정보가 없습니다.&lt;/div&gt;'
+                                          ) : null
+                                      }">
                             <div class="date-badge" th:utext="${event.created_at_formatted + (event.created_at_timezone != null && event.created_at_offset != null ? '<br/>(' + event.created_at_timezone + ' ' + event.created_at_offset + ')' : '')}">2025년 05월 08일 09:27<br/>(KST +09:00)</div>
                             <div class="event-message">
                                 <i class="fas"
@@ -73,7 +89,7 @@
                                 </span>
                             </div>
                             <!-- PushEvent일 경우 Commits 정보를 event-message 바로 아래에 표시 -->
-                            <div th:if="${event.type == 'PushEvent'}" style="margin-top: 0rem;">
+                            <!-- <div th:if="${event.type == 'PushEvent'}" style="margin-top: 0rem;">
                                 <b>Commits:</b>
                                 <ul class="commit-list">
                                     <li th:each="msg : ${event.commitMessages}"
@@ -81,7 +97,7 @@
                                         커밋 메시지 제목
                                     </li>
                                 </ul>
-                            </div>
+                            </div> -->
                             <div th:if="${event.repo != null}" class="repo-info">
                                 <i class="fas fa-code-branch"></i>
                                 <span th:text="${event.repo.name}">Repository name</span>
@@ -111,7 +127,75 @@
                     }
                 });
             });
+
+            // 커스텀 툴팁 초기화
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+              return new bootstrap.Tooltip(tooltipTriggerEl, {
+                html: true,
+                placement: 'top',
+                trigger: 'hover focus'
+              });
+            });
         });
     </script>
 </body>
 </html>
+
+<style>
+  :root {
+    --tooltip-bg: rgba(30, 30, 30, 0.85);
+    --tooltip-color: #fafafa;
+    --tooltip-radius: 0.6rem;
+    --tooltip-padding: 0.8rem 1rem;
+    --tooltip-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  /* 기본 부트스트랩 툴팁 확장 */
+  .tooltip {
+    pointer-events: none;
+  }
+
+  .tooltip-inner {
+    background: var(--tooltip-bg);
+    color: var(--tooltip-color);
+    padding: var(--tooltip-padding);
+    border-radius: var(--tooltip-radius);
+    box-shadow: var(--tooltip-shadow);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    text-align: left;
+    backdrop-filter: blur(6px);
+    min-width: 180px;
+    max-width: 280px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 제목 영역 */
+  .tooltip-title-custom {
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 0.2rem;
+  }
+
+  /* 제목만 있을 때 구분선 제거 */
+  .tooltip-title-custom:only-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  /* 내용 영역 */
+  .tooltip-content-custom {
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.9);
+  }
+
+  /* 화살표 색상 */
+  .tooltip .tooltip-arrow::before {
+    border-top-color: var(--tooltip-bg);
+  }
+</style>
