@@ -1,0 +1,221 @@
+/* 전체 스타일 */
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --text-color: #2c3e50;
+    --light-bg: #f8f9fa;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-top: 76px;
+    color: #333;
+}
+
+/* 섹션 제목 */
+.section-title {
+    position: relative;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+    color: #333;
+    font-weight: 700;
+    font-size: 2.5rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(to right, #3a7bd5, #00d2ff);
+    bottom: 0;
+    left: 0; /* 중앙정렬에서 왼쪽정렬로 변경 */
+    transform: none; /* transform 제거 */
+    border-radius: 2px;
+}
+
+/* text-start 클래스가 있는 경우 추가 스타일 */
+.section-title.text-start::after {
+    left: 0;
+    transform: none;
+}
+
+/* 히어로 섹션 */
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://via.placeholder.com/1920x1080') center/cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.1));
+}
+
+/* 특징 카드 */
+.feature-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.feature-card .card-body {
+    padding: 2rem;
+    text-align: center;
+}
+
+.feature-card .fa-2x {
+    color: #3a7bd5;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+}
+
+/* 갤러리 아이템 */
+.gallery-item {
+    margin-bottom: 30px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* 맨 위로 버튼 */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #3a7bd5;
+    color: white;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(58, 123, 213, 0.3);
+}
+
+.back-to-top:hover {
+    background-color: #00d2ff;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 210, 255, 0.4);
+}
+
+/* 개요 섹션 */
+#overview {
+    padding: 80px 0;
+}
+
+#overview .lead {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #555;
+}
+
+.tech-specs {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* 조작 방법 섹션 */
+#controls .card {
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+#controls .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+#controls .card-title {
+    font-weight: 600;
+}
+
+/* 푸터 */
+footer {
+    background-color: #1a1a2e;
+    color: #f8f9fa;
+    padding: 50px 0 30px;
+}
+
+footer h5 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+footer h5::after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 3px;
+    background: linear-gradient(to right, #3a7bd5, #00d2ff);
+    bottom: -10px;
+    left: 0;
+    border-radius: 2px;
+}
+
+footer .btn-outline-light {
+    border-radius: 30px;
+    transition: all 0.3s;
+}
+
+footer .btn-outline-light:hover {
+    background: linear-gradient(to right, #3a7bd5, #00d2ff);
+    border-color: transparent;
+    transform: translateY(-2px);
+}
+
+.nav-link {
+    color: var(--text-color);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--secondary-color);
+}
+
+
+/* 반응형 조정 */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .hero-section {
+        padding: 100px 0;
+    }
+    
+    .display-3 {
+        font-size: 2.5rem;
+    }
+}

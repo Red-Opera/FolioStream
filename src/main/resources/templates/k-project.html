@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K Project - Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="/css/k-project.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">K Project</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#overview">Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tech-specs">Tech Specs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#controls">Controls</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#gallery">Gallery</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section"
+        th:style="${bannerImage != null} ? 'background: url(' + @{${bannerImage}} + ') center center / cover no-repeat;' : ''">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1 class="display-3 fw-bold mb-4">K Project</h1>
+                    <p class="lead mb-4">혁신적인 게임 플레이와 독특한 아트 스타일이 결합된 실험적 게임 프로젝트</p>
+                    <div class="d-flex gap-3">
+                        <a href="#overview" class="btn btn-primary btn-lg">더 알아보기</a>
+                        <a href="https://github.com/Red-Opera/K-Project/archive/refs/heads/main.zip" class="btn btn-success btn-lg">
+                            <i class="fas fa-download me-2"></i>프로젝트 다운로드
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section id="overview" class="py-5">
+    <div class="container">
+        <h2 class="section-title text-start">프로젝트 개요</h2>
+        <div class="row">
+            <div class="col-lg-6">
+                <p class="lead mb-4">
+                  K Project는 팀 개발로 진행된 2D RPG 슈팅 게임으로, Unity 2D를 기반으로 한 클라이언트와 별도의 서버 애플리케이션으로 구성되어 있습니다. 슈팅 게임 장르의 액션성에 캐릭터 성장과 탐험 요소를 결합하여, 플레이어가 세계를 탐험하고 타임 어택 미션을 수행하며 캐릭터를 성장시키는 재미를 제공합니다.
+                </p>
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <div class="card shadow-sm border-0 rounded-4 p-3 d-flex flex-row align-items-center" style="min-height: 90px;">
+                            <i class="fas fa-gamepad fa-lg text-primary me-3"></i>
+                            <div>
+                                <div class="fw-bold">장르</div>
+                                <div class="small text-muted">2D RPG 슈팅 게임</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="card shadow-sm border-0 rounded-4 p-3 d-flex flex-row align-items-center" style="min-height: 90px;">
+                            <i class="fas fa-code fa-lg text-primary me-3"></i>
+                            <div>
+                                <div class="fw-bold">개발 언어</div>
+                                <div class="small text-muted">C, C++, C#, MySQL</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="card shadow-sm border-0 rounded-4 p-3 d-flex flex-row align-items-center" style="min-height: 90px;">
+                            <i class="fas fa-calendar fa-lg text-primary me-3"></i>
+                            <div>
+                                <div class="fw-bold">개발 기간</div>
+                                <div class="small text-muted">10개월</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="card shadow-sm border-0 rounded-4 p-3 d-flex flex-row align-items-center" style="min-height: 90px;">
+                            <i class="fas fa-calendar-day fa-lg text-primary me-3"></i>
+                            <div>
+                                <div class="fw-bold">시작 일자</div>
+                                <div class="small text-muted">2024.01.06</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="card shadow-sm border-0 rounded-4 p-3 d-flex flex-row align-items-center" style="min-height: 90px;">
+                            <i class="fas fa-desktop fa-lg text-primary me-3"></i>
+                            <div>
+                                <div class="fw-bold">지원 플랫폼</div>
+                                <div class="small text-muted">PC</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="card shadow-sm border-0 rounded-4 p-3 d-flex flex-row align-items-center" style="min-height: 90px;">
+                            <i class="fas fa-user fa-lg text-primary me-3"></i>
+                            <div>
+                                <div class="fw-bold">개발자</div>
+                                <div class="small text-muted">서정현, 이건이, 최재호</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="ratio ratio-16x9">
+                    <iframe src="https://www.youtube.com/embed/VTeiq-TKQ-U" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title text-start">주요 특징</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100 p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-crosshairs fa-2x text-primary"></i>
+                        </div>
+                        <h4>다이나믹한 슈팅 전투</h4>
+                        <p class="text-muted">
+                            빠른 템포의 2D 슈팅 액션과 전략적 접근이 필요한 보스전을 경험하세요. 다양한 무기와 스킬을 활용하여 적을 물리치고 난이도 높은 전투를 즐겨보세요.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100 p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-level-up-alt fa-2x text-primary"></i>
+                        </div>
+                        <h4>심층적인 캐릭터 육성</h4>
+                        <p class="text-muted">
+                            다양한 캐릭터 성장 시스템을 통해 자신만의 플레이 스타일을 구축하세요. 맞춤형 장비 커스터마이징으로 고유한 전투 경험을 만들어보세요.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100 p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-map-marked-alt fa-2x text-primary"></i>
+                        </div>
+                        <h4>광활한 세계 탐험</h4>
+                        <p class="text-muted">
+                            다채롭고 독특한 지역으로 구성된 넓은 2D 세계를 탐험하세요. 숨겨진 보물과 비밀 장소를 발견하고 흥미로운 NPC들과 교류하며 풍부한 스토리를 경험하세요.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Specifications -->
+    <section id="tech-specs" class="py-5">
+        <div class="container">
+            <h2 class="section-title text-start">기술 사양</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="tech-specs">
+                        <h3 class="h5 mb-4">개발 도구</h3>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check me-2 text-success"></i> Unity 2022.3.16f1</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> Visual Studio</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> Visual Studio Code</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> Ubuntu Server</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> Oracle Database</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="tech-specs">
+                        <h3 class="h5 mb-4">기술적 특징</h3>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check me-2 text-success"></i> 장비 시스템과 능력치 시스템 간의 상호작용</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> 다양한 무기와 장비 시스템</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> 다양하고 고급적인 UI/UX, 캐릭터와 맵 디자인</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> 실시간 멀티플레이어 기능과 데이터 베이스 연동</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Controls Section (Modern Card Style) -->
+    <section id="controls" class="py-5 bg-light">
+      <div class="container">
+        <h2 class="section-title text-start mb-4">조작 방법</h2>
+        <div class="row g-4">
+          <!-- Movement Controls -->
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title mb-3"><i class="fas fa-arrows-alt"></i> 이동 조작법</h5>
+                <div class="d-flex flex-wrap gap-3 align-items-center">
+                  <div class="text-center">
+                    <img src="/images/Key/key_a.png" alt="A" style="height:48px; object-fit:contain;">
+                    <div class="small text-muted mt-1">왼쪽으로 이동</div>
+                  </div>
+                  <div class="text-center">
+                    <img src="/images/Key/key_d.png" alt="D" style="height:48px; object-fit:contain;">
+                    <div class="small text-muted mt-1">오른쪽으로 이동</div>
+                  </div>
+                  <div class="text-center">
+                    <img src="/images/Key/key_space.png" alt="SPACE" style="height:48px; object-fit:contain;">
+                    <div class="small text-muted mt-1">점프</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Interaction Controls -->
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title mb-3"><i class="fas fa-hand-pointer"></i> 상호작용</h5>
+                <div class="d-flex flex-wrap gap-3 align-items-center">
+                  <div class="text-center">
+                    <img src="/images/Key/key_e.png" alt="E" style="height:48px; object-fit:contain;">
+                    <div class="small text-muted mt-1">능력치 확인</div>
+                  </div>
+                  <div class="text-center">
+                    <img src="/images/Key/key_f.png" alt="F" style="height:48px; object-fit:contain;">
+                    <div class="small text-muted mt-1">상호작용</div>
+                  </div>
+                  <div class="text-center">
+                    <img src="/images/Key/key_i.png" alt="I" style="height:48px; object-fit:contain;">
+                    <div class="small text-muted mt-1">지도 열기</div>
+                  </div>
+                  <div class="text-center">
+                    <img src="/images/Key/key_v.png" alt="V" style="height:48px; object-fit:contain;">
+                    <div class="small text-muted mt-1">인벤토리 열기</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Additional Controls -->
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title mb-3"><i class="fas fa-running"></i> 추가 조작</h5>
+                <div class="d-flex flex-wrap gap-3 align-items-center">
+                  <div class="text-center">
+                    <img src="/images/Key/key_tab.png" alt="TAB" style="height:48px; object-fit:contain;">
+                    <div class="small text-muted mt-1">무기 변경</div>
+                  </div>
+                  <div class="text-center">
+                    <img src="/images/Key/key_shift.png" alt="SHIFT" style="height:48px; object-fit:contain;">
+                    <div class="small text-muted mt-1">달리기</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Mouse Controls -->
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title mb-3"><i class="fas fa-mouse"></i> 마우스 조작</h5>
+                <div class="d-flex flex-wrap gap-3 align-items-center">
+                  <div class="text-center">
+                    <img src="/images/Key/mouse_left.png" alt="Mouse Left" style="height:48px; object-fit:contain;">
+                    <div class="small text-muted mt-1">공격, 음식 상점 스크롤, 무기 위치 이동</div>
+                  </div>
+                  <div class="text-center">
+                    <img src="/images/Key/mouse_wheel.png" alt="Mouse Wheel" style="height:48px; object-fit:contain;">
+                    <div class="small text-muted mt-1">미니맵 배율 조절</div>
+                  </div>
+                  <div class="text-center">
+                    <img src="/images/Key/mouse_right.png" alt="Mouse Right" style="height:48px; object-fit:contain;">
+                    <div class="small text-muted mt-1">음식 상점 구매, 대화</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title text-start">갤러리</h2>
+            <div class="row">
+                <div class="col-md-4" th:each="img : ${galleryImages}">
+                    <div class="gallery-item">
+                        <img th:src="@{${img}}" alt="Game Screenshot" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>K Project</h5>
+                <p>혁신적인 게임 디자인을 보여주는 실험적 프로젝트입니다.</p>
+                <a href="https://github.com/Red-Opera/K-Project/archive/refs/heads/main.zip" class="btn btn-outline-light btn-sm mt-2">
+                    <i class="fas fa-download me-2"></i>프로젝트 다운로드
+                </a>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="https://github.com/Red-Opera/K-Project" class="text-light me-3">
+                    <i class="fab fa-github fa-2x"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/k-project.js"></script>
+</body>
+</html>

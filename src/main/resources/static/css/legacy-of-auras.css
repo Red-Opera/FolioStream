@@ -8,8 +8,8 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--text-color);
-    line-height: 1.6;
+    padding-top: 76px;
+    color: #333;
 }
 
 .hero-section {
@@ -21,20 +21,32 @@ body {
     color: white;
 }
 
+/* 섹션 제목 */
 .section-title {
     position: relative;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     padding-bottom: 1rem;
+    color: #333;
+    font-weight: 700;
+    font-size: 2.5rem;
 }
 
 .section-title::after {
     content: '';
     position: absolute;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(to right, #3a7bd5, #00d2ff);
     bottom: 0;
     left: 0;
-    width: 50px;
-    height: 3px;
-    background-color: var(--secondary-color);
+    transform: none;
+    border-radius: 2px;
+}
+
+/* text-start 클래스가 있는 경우 추가 스타일 */
+.section-title.text-start::after {
+    left: 0;
+    transform: none;
 }
 
 .feature-card {
@@ -95,19 +107,22 @@ body {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: var(--secondary-color);
+    width: 50px;
+    height: 50px;
+    background-color: #3a7bd5;
     color: white;
-    width: 40px;
-    height: 40px;
     border-radius: 50%;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: all 0.3s;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(58, 123, 213, 0.3);
 }
 
-.back-to-top.visible {
-    opacity: 1;
-} 
+.back-to-top:hover {
+    background-color: #00d2ff;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 210, 255, 0.4);
+}

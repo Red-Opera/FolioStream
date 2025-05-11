@@ -287,7 +287,8 @@
                                     </div>
                                     <p th:utext="${item.description}">Unity로 제작된 게임 프로젝트입니다. 다양한 게임플레이 요소와 시각적 효과를 구현했습니다.</p>
                                     <a th:if="${item.title} == 'Legacy of Auras'" href="/legacy-of-auras" class="btn btn-primary">자세히 보기</a>
-                                    <a th:if="${item.title} != 'Legacy of Auras'" href="#" class="btn btn-primary">자세히 보기</a>
+                                    <a th:if="${item.title} == 'K Project'" href="/k-project" class="btn btn-primary">자세히 보기</a>
+                                    <a th:if="${item.title} != 'Legacy of Auras' and ${item.title} != 'K Project'" href="#" class="btn btn-primary">자세히 보기</a>
                                 </div>
                             </div>
                         </div>
@@ -310,7 +311,8 @@
                                     </div>
                                     <p th:utext="${item.description}">Unreal Engine으로 제작된 프로젝트입니다. 고품질 그래픽과 물리 효과를 구현했습니다.</p>
                                     <a th:if="${item.title} == 'Legacy of Auras'" href="/legacy-of-auras" class="btn btn-primary">자세히 보기</a>
-                                    <a th:if="${item.title} != 'Legacy of Auras'" href="#" class="btn btn-primary">자세히 보기</a>
+                                    <a th:if="${item.title} == 'K Project'" href="/k-project" class="btn btn-primary">자세히 보기</a>
+                                    <a th:if="${item.title} != 'Legacy of Auras' and ${item.title} != 'K Project'" href="#" class="btn btn-primary">자세히 보기</a>
                                 </div>
                             </div>
                         </div>
@@ -333,7 +335,8 @@
                                     </div>
                                     <p th:utext="${item.description}">DirectX로 제작된 프로젝트입니다. 다양한 그래픽 효과를 구현했습니다.</p>
                                     <a th:if="${item.title} == 'Legacy of Auras'" href="/legacy-of-auras" class="btn btn-primary">자세히 보기</a>
-                                    <a th:if="${item.title} != 'Legacy of Auras'" href="#" class="btn btn-primary">자세히 보기</a>
+                                    <a th:if="${item.title} == 'K Project'" href="/k-project" class="btn btn-primary">자세히 보기</a>
+                                    <a th:if="${item.title} != 'Legacy of Auras' and ${item.title} != 'K Project'" href="#" class="btn btn-primary">자세히 보기</a>
                                 </div>
                             </div>
                         </div>

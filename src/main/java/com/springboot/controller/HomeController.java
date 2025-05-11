@@ -126,7 +126,6 @@ public class HomeController
     @GetMapping("/legacy-of-auras")
     public String legacyOfAuras(Model model) 
     {
-        String projectName = "Legacy of Auras";
         String galleryPath = "/images/Gallery/Legacy-of-Auras/";
         String projectRoot = System.getProperty("user.dir");
         
@@ -174,5 +173,55 @@ public class HomeController
         model.addAttribute("galleryImages", galleryImages);
         
         return "legacy-of-auras";
+    }
+
+    @GetMapping("/k-project")
+    public String kProject(Model model) 
+    {
+        String galleryPath = "/images/Gallery/K-Project/";
+        String projectRoot = System.getProperty("user.dir");
+        
+        // FolioStream 경로가 없으면 추가
+        if (!projectRoot.contains("FolioStream"))
+            projectRoot = projectRoot + "/FolioStream";
+        
+        String realPath = projectRoot + "/src/main/resources/static/images/Gallery/K-Project/";
+        model.addAttribute("realPath", realPath);
+
+        // banner.gif 존재 여부 확인
+        String bannerPath = galleryPath + "banner.gif";
+        File bannerFile = new File(realPath + "banner.gif");
+        
+        if (bannerFile.exists())
+            model.addAttribute("bannerImage", bannerPath);
+        else
+            model.addAttribute("bannerImage", "/images/Banner/KProject.jpg"); // 기본 배너 이미지 유지
+
+        File folder = new File(realPath);
+        String[] files = folder.list((dir, name) -> name.matches("\\d+\\.png"));
+        
+        if (files == null || files.length == 0)
+            model.addAttribute("filesStatus", "No files found");
+        else
+            model.addAttribute("filesStatus", "Found " + files.length + " files");
+
+        List<String> galleryImages = new ArrayList<>();
+        
+        if (files != null) 
+        {
+            Arrays.sort(files, (a, b) -> 
+            {
+                int numA = Integer.parseInt(a.replace(".png", ""));
+                int numB = Integer.parseInt(b.replace(".png", ""));
+                return Integer.compare(numA, numB);
+            });
+            
+            for (String file : files)
+                galleryImages.add(galleryPath + file);
+        }
+        
+        model.addAttribute("galleryImages", galleryImages);
+        
+        return "k-project";
     }
 }

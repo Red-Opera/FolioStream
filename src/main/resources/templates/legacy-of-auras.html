@@ -49,7 +49,12 @@
                 <div class="col-lg-8">
                     <h1 class="display-3 fw-bold mb-4">Legacy of Auras</h1>
                     <p class="lead mb-4">눈부신 시각적 효과와 몰입감 있는 게임플레이 메커니즘이 결합된 3D RPG 경험</p>
-                    <a href="#overview" class="btn btn-primary btn-lg">더 알아보기</a>
+                    <div class="d-flex gap-3">
+                        <a href="#overview" class="btn btn-primary btn-lg">더 알아보기</a>
+                        <a href="https://github.com/Red-Opera/Legacy_of_Auras/archive/refs/heads/main.zip" class="btn btn-success btn-lg">
+                            <i class="fas fa-download me-2"></i>프로젝트 다운로드
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -58,7 +63,7 @@
     <!-- Overview Section -->
     <section id="overview" class="py-5">
         <div class="container">
-            <h2 class="section-title">게임 개요</h2>
+            <h2 class="section-title text-start">프로젝트 개요</h2>
             <div class="row">
                 <div class="col-lg-6">
                     <p class="lead mb-4">
@@ -133,7 +138,7 @@
     <!-- Features Section -->
     <section id="features" class="py-5 bg-light">
         <div class="container">
-            <h2 class="section-title">주요 특징</h2>
+            <h2 class="section-title text-start">주요 특징</h2>
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="card feature-card h-100">
@@ -169,7 +174,7 @@
     <!-- Technical Specifications -->
     <section id="tech-specs" class="py-5">
         <div class="container">
-            <h2 class="section-title">기술 사양</h2>
+            <h2 class="section-title text-start">기술 사양</h2>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="tech-specs">
@@ -199,7 +204,7 @@
     <!-- Controls Section (Modern Card Style) -->
     <section id="controls" class="py-5 bg-light">
       <div class="container">
-        <h2 class="section-title mb-4">조작 방법</h2>
+        <h2 class="section-title text-start mb-4">조작 방법</h2>
         <div class="row g-4">
           <!-- Movement Controls -->
           <div class="col-md-6">
@@ -356,7 +361,7 @@
     <!-- Gallery Section -->
     <section id="gallery" class="py-5 bg-light">
         <div class="container">
-            <h2 class="section-title">갤러리</h2>
+            <h2 class="section-title text-start">갤러리</h2>
             <div class="row">
                 <div class="col-md-4" th:each="img : ${galleryImages}">
                     <div class="gallery-item">
@@ -374,22 +379,25 @@
 
     <!-- Footer -->
     <footer class="bg-dark text-light py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>Legacy of Auras</h5>
-                    <p>게임 개발 기술을 선보이는 개인 포트폴리오 프로젝트입니다.</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <a href="https://github.com/Red-Opera/Legacy_of_Auras" class="text-light me-3">
-                        <i class="fab fa-github fa-2x"></i>
-                    </a>
-                </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Legacy of Auras</h5>
+                <p>게임 개발 기술을 선보이는 개인 포트폴리오 프로젝트입니다.</p>
+                <a href="https://github.com/Red-Opera/Legacy_of_Auras/archive/refs/heads/main.zip" class="btn btn-outline-light btn-sm mt-2">
+                    <i class="fas fa-download me-2"></i>프로젝트 다운로드
+                </a>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="https://github.com/Red-Opera/Legacy_of_Auras" class="text-light me-3">
+                    <i class="fab fa-github fa-2x"></i>
+                </a>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/legacy-of-auras.js"></script>
 </body>
-</html> 
+</html>
