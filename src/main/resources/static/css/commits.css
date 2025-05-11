@@ -1,0 +1,272 @@
+/* 툴팁 스타일 */
+:root {
+    --tooltip-bg: rgba(30, 30, 30, 0.85);
+    --tooltip-color: #fafafa;
+    --tooltip-radius: 0.6rem;
+    --tooltip-padding: 0.8rem 1rem;
+    --tooltip-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* 부트스트랩 툴팁 확장 */
+.tooltip {
+    pointer-events: none;
+}
+
+.tooltip-inner {
+    background: var(--tooltip-bg);
+    color: var(--tooltip-color);
+    padding: var(--tooltip-padding);
+    border-radius: var(--tooltip-radius);
+    box-shadow: var(--tooltip-shadow);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    text-align: left;
+    backdrop-filter: blur(6px);
+    min-width: 180px;
+    max-width: 280px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 제목 영역 */
+.tooltip-title-custom {
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 0.2rem;
+}
+
+/* 내용 없을 때 구분선 제거 */
+.tooltip-title-custom:only-child,
+.tooltip-title-custom.no-border-if-no-content {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* 내용 영역 */
+.tooltip-content-custom {
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.9);
+}
+
+/* 화살표 색상 */
+.tooltip .tooltip-arrow::before {
+    border-top-color: var(--tooltip-bg);
+}
+    
+/* 범례 아이템 너비 개선 */
+.legend-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(-30px, 1fr)); /* 너비 증가: 180px → 300px */
+    gap: 1rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.legend-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.02);
+    margin-right: 0.8rem;
+    flex-shrink: 0; /* 아이콘 크기 고정 */
+}
+
+.legend-text {
+    min-width: 0; /* 텍스트 영역 축소 허용 */
+    flex: 1; /* 남은 공간 모두 차지 */
+}
+    
+/* 텍스트 오버플로우 처리 개선 */
+.repo-owner, .repo-name {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 레포지토리 전체 이름이 툴팁으로 표시되도록 설정 */
+.legend-item:hover .legend-text::after {
+    content: attr(data-full-repo);
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.legend-item:hover .legend-text:hover::after {
+    opacity: 1;
+}
+
+/* 새로운 레포지토리 범례 스타일 */
+.repo-legend {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.legend-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.legend-header i {
+    font-size: 1.2rem;
+    margin-right: 0.7rem;
+    color: #5271FF;
+    background: linear-gradient(135deg, #5271FF, #914EFF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.legend-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+    color: #333;
+}
+
+.legend-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.legend-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.03);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+.legend-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.legend-item:hover::before {
+    transform: translateX(0);
+}
+
+.legend-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.02);
+    margin-right: 0.8rem;
+    flex-shrink: 0; /* 아이콘 크기 고정 */
+}
+    
+.legend-icon i {
+    font-size: 1rem;
+}
+    
+.legend-text {
+    min-width: 0; /* 텍스트 영역 축소 허용 */
+    flex: 1; /* 남은 공간 모두 차지 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+    
+.repo-owner {
+    color: #666;
+    font-weight: 400;
+}
+    
+.repo-name {
+    font-weight: 600;
+    white-space: nowrap;
+}
+    
+/* 반응형 조정 */
+@media (max-width: 768px) {
+    .legend-items {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+    
+    .repo-legend {
+        padding: 1rem;
+    }
+}
+    
+/* 타임라인 카드 스타일 유지 */
+.timeline-card {
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+    padding: 15px;
+    width: 220px;
+    transition: all 0.2s ease;
+}
+    
+.timeline-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* 레포지토리 정보 영역 스타일 */
+.repo-info {
+    padding: 6px 10px;
+    margin-top: 8px;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    border: 1px solid #eee;
+}
