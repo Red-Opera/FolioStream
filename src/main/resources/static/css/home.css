@@ -1,0 +1,364 @@
+body {
+    padding-top: 56px;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.navbar {
+    height: 56px;
+}
+
+.sidebar {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    bottom: 0;
+    width: 240px;
+    z-index: 100;
+    padding: 1rem 0;
+    background-color: #f8f9fa;
+    border-right: 1px solid rgba(0, 0, 0, .1);
+}
+
+.sidebar-sticky {
+    position: relative;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+}
+
+.main-content {
+    margin-left: 240px;
+    padding: 2rem;
+}
+
+.portfolio-item {
+    margin-bottom: 2rem;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, .125);
+    border-radius: .25rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, .075);
+    overflow: hidden;
+}
+
+.portfolio-content {
+    padding: 1.5rem;
+}
+
+.portfolio-item h3 {
+    margin-bottom: 1rem;
+    color: #007bff;
+}
+
+.portfolio-image {
+    width: 100%;
+    height: 200px;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.portfolio-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.portfolio-item p {
+    margin-bottom: 1.5rem;
+    color: #6c757d;
+}
+
+.category-title {
+    margin: 2rem 0 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #007bff;
+    color: #343a40;
+}
+
+.nav-link {
+    padding: 0.75rem 1rem;
+    color: #495057;
+    border-radius: 0.25rem;
+    margin-bottom: 0.25rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+    color: #007bff;
+}
+
+.nav-link.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.section {
+    scroll-margin-top: 76px;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 767.98px) {
+    .sidebar {
+        width: 100%;
+        position: relative;
+        top: 0;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(0, 0, 0, .1);
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .sidebar-sticky {
+        height: auto;
+    }
+}
+
+/* 방문자 수 스타일 */
+.visitor-count {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+}
+
+.visitor-count span {
+    padding: 0.5rem 1rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.visitor-count .today-visitors {
+    color: #ff6b6b;
+}
+
+.visitor-count .total-visitors {
+    color: #4dabf7;
+}
+
+/* GitHub 링크 스타일 */
+.github-link {
+    display: inline-block;
+    padding: 0.5rem;
+    color: white !important;
+    font-size: 1rem;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.github-link:hover {
+    opacity: 0.8;
+    color: white !important;
+    text-decoration: none;
+}
+
+.github-link i {
+    vertical-align: middle;
+}
+
+.github-link, .support-link {
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+/* 포트폴리오 아이템 스타일 */
+.portfolio-item {
+    margin-bottom: 30px;
+    height: 100%;
+    width: 100%; /* 너비를 100%로 설정 */
+}
+
+.portfolio-content {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    height: 100%;
+    width: 100%; /* 너비를 100%로 설정 */
+    display: flex;
+    flex-direction: column;
+}
+
+.portfolio-image {
+    width: 100%;
+    height: 200px;
+    min-height: 200px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #f5f5f5; /* 이미지가 없을 때의 배경색 */
+}
+
+.portfolio-image img {
+    width: 100%;
+    height: 100%;
+    min-width: 100%;
+    min-height: 200px;
+    object-fit: cover;
+}
+
+.portfolio-content h3 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.25rem;
+}
+
+.portfolio-content p {
+    flex-grow: 1;
+    margin-bottom: 15px;
+    color: #666;
+    line-height: 1.6;
+}
+
+.portfolio-content .btn {
+    align-self: flex-start;
+}
+
+/* 행의 높이를 동일하게 맞추기 위한 스타일 */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col-md-4 {
+    display: flex;
+    margin-bottom: 30px;
+    min-width: 300px; /* 최소 너비 설정 */
+}
+
+.github-link:hover {
+    color: #6e5494;
+    transform: translateY(-2px);
+}
+.support-link {
+    position: relative;
+    background: linear-gradient(45deg, #6f4e37, #8b5a2b);
+    border-radius: 50%;
+    margin-left: 1rem;
+    z-index: 1;
+}
+.support-link::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(90deg,
+        #c49b6a,
+        #8b5a2b,
+        #6f4e37,
+        #a87b51,
+        #d4a36f,
+        #c49b6a
+    );
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.support-link:hover::before {
+    opacity: 1;
+    animation: rotate 3s linear infinite;
+}
+.support-link::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, #6f4e37, #8b5a2b);
+    border-radius: 50%;
+    z-index: -1;
+}
+.support-link:hover {
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(111, 78, 55, 0.3);
+}
+.support-link i {
+    font-size: 1.5rem;
+}
+.github-link i {
+    font-size: 1.8rem;
+}
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* 이미지가 없을 때 대체 텍스트 스타일 */
+.portfolio-image:empty::after {
+    content: "이미지 준비중";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #999;
+    font-size: 1rem;
+}
+
+/* 반응형 그리드 조정 */
+@media (min-width: 768px) {
+    .col-md-4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+}
+
+/* 작은 화면에서의 조정 */
+@media (max-width: 767px) {
+    .col-md-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+.github-commits-btn {
+    background: linear-gradient(90deg, #6e5494 0%, #8f6ed5 100%);
+    color: #fff !important;
+    border: none;
+    border-radius: 2rem;
+    padding: 0.5rem 1.3rem;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(110, 84, 148, 0.12);
+    transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    outline: none;
+}
+.github-commits-btn:hover, .github-commits-btn:focus {
+    background: linear-gradient(90deg, #8f6ed5 0%, #6e5494 100%);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(110, 84, 148, 0.18);
+    transform: translateY(-2px) scale(1.04);
+    text-decoration: none;
+}
+.github-commits-btn i {
+    font-size: 1.3rem;
+}
