@@ -1,154 +1,220 @@
+<!--
+ * FolioStream - 포트폴리오 갤러리 홈페이지
+ * 
+ * 이 파일은 FolioStream의 메인 페이지 레이아웃을 정의합니다.
+ * 포트폴리오 카드, 카테고리 탐색 및 테마 전환 기능이 포함되어 있습니다.
+ * 
+ * @author FolioStream Team
+ * @version 1.0
+ * @since 2025-05-14
+-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FolioStream</title>
     <link rel="icon" type="image/png" href="/images/logo.png">
+    <!-- 외부 라이브러리 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- 구글 폰트 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- 커스텀 스타일시트 -->
     <link href="/css/home.css" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <!-- 헤더 영역: 로고, 방문자 통계, 소셜 링크 -->
+    <header class="main-header">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="/images/logo.png" alt="FolioStream Logo" height="30" class="d-inline-block align-text-top">
-                FolioStream
-            </a>
-            <div class="ms-auto d-flex align-items-center">
-                <a href="https://github.com/Red-Opera" target="_blank" class="github-link">
-                    <i class="fab fa-github"></i>
+            <div class="header-content">
+                <a class="logo" href="#">
+                    <img src="/images/logo.png" alt="FolioStream Logo">
+                    <span>FolioStream</span>
                 </a>
-                <a href="/github/commits?username=Red-Opera" class="github-commits-btn ms-2 d-flex align-items-center">
-                    <i class="fab fa-github me-2"></i>
-                    <span>GitHub 커밋 보기</span>
-                </a>
-                <a href="/support" class="support-link">
-                    <i class="fas fa-mug-hot"></i>
-                </a>
+                <div class="header-right">
+                    <!-- 방문자 통계 영역 -->
+                    <div class="visitor-stats">
+                        <div class="visitor-badge today-visitors">
+                            <i class="fas fa-user-clock"></i>
+                            <span>오늘 0</span>
+                        </div>
+                        <div class="visitor-badge total-visitors">
+                            <i class="fas fa-users"></i>
+                            <span>전체 0</span>
+                        </div>
+                    </div>
+                    <!-- 소셜 링크 영역 -->
+                    <div class="social-links">
+                        <a href="https://github.com/Red-Opera" target="_blank" class="github-link" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="/github/commits?username=Red-Opera" class="github-commits-btn">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub 커밋</span>
+                        </a>
+                        <a href="/support" class="support-link" aria-label="Support">
+                            <i class="fas fa-mug-hot"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <div class="container-fluid">
-        <div class="row">
-            <!-- 사이드바 -->
-            <nav class="col-md-3 col-lg-2 d-md-block sidebar">
-                <div class="sidebar-sticky">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link" th:classappend="${selectedCategory == null} ? 'active'" href="#top">
-                                전체 보기
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:classappend="${selectedCategory == 'unity'} ? 'active'" 
-                               href="#unity-section">
-                                Unity 포트폴리오
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:classappend="${selectedCategory == 'unreal'} ? 'active'"
-                               href="#unreal-section">
-                                Unreal 포트폴리오
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:classappend="${selectedCategory == 'graphic'} ? 'active'"
-                               href="#graphic-section">
-                                Graphic 포트폴리오
-                            </a>
-                        </li>
-                    </ul>
+    <!-- 메인 컨텐츠 컨테이너 -->
+    <div class="site-container">
+        <!-- 사이드바: 카테고리 메뉴 및 테마 스위치 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-header-content">
+                    <h3>카테고리</h3>
+                    <!-- 테마 스위치: 라이트/다크 모드 전환 -->
+                    <div class="theme-switch-wrapper">
+                        <label class="theme-switch" for="checkbox">
+                            <input type="checkbox" id="checkbox" />
+                            <span class="slider round">
+                                <i class="fas fa-sun"></i>
+                                <i class="fas fa-moon"></i>
+                            </span>
+                        </label>
+                    </div>
                 </div>
+            </div>
+            
+            <!-- 네비게이션 메뉴 -->
+            <nav class="nav-menu">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#top">
+                            <i class="fas fa-th-large"></i>
+                            <span>전체 보기</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#unity-section">
+                            <i class="fas fa-gamepad"></i>
+                            <span>Unity 포트폴리오</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#unreal-section">
+                            <i class="fas fa-vr-cardboard"></i>
+                            <span>Unreal 포트폴리오</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#graphic-section">
+                            <i class="fas fa-paint-brush"></i>
+                            <span>Graphic 포트폴리오</span>
+                        </a>
+                    </li>
+                </ul>
             </nav>
+        </aside>
 
-            <!-- 메인 콘텐츠 -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom page-header">
-                    <h1 class="h2" th:text="${message}">포트폴리오 갤러리</h1>
-                    <div class="visitor-count">
-                        <span class="today-visitors">오늘 방문자: 0</span>
-                        <span class="total-visitors">전체 방문자: 0</span>
-                    </div>
+        <!-- 메인 콘텐츠 영역 -->
+        <main class="main-content">
+            <!-- 페이지 제목 -->
+            <div class="page-header">
+                <h1 th:text="${message}">포트폴리오 갤러리</h1>
+            </div>
+
+            <!-- Unity 포트폴리오 섹션 -->
+            <section id="unity-section" class="portfolio-section" th:if="${selectedCategory == null || selectedCategory == 'unity'}">
+                <div class="section-header">
+                    <h2 class="section-title"><i class="fab fa-unity"></i> Unity 포트폴리오</h2>
                 </div>
-
-                <!-- Unity 포트폴리오 -->
-                <div id="unity-section" class="section" th:if="${selectedCategory == null || selectedCategory == 'unity'}">
-                    <h2 class="category-title">Unity 포트폴리오</h2>
-                    <div class="row">
-                        <div class="col-md-4" th:each="item : ${portfolios?.get('unity')}">
-                            <div class="portfolio-item">
-                                <div class="portfolio-content">
-                                    <h3 th:text="${item.title}">Unity Game</h3>
-                                    <div class="portfolio-image">
-                                        <img th:src="@{'/images/Main/' + ${#strings.replace(#strings.replace(item.title, ' ', ''), ':', '')} + '.png'}" 
-                                             th:alt="${item.title} + ' Screenshot'"
-                                             style="width: 100%; height: 100%; object-fit: cover;"
-                                             onerror="console.log('Failed to load image: ' + this.src)">
-                                    </div>
-                                    <p th:utext="${item.description}">Unity로 제작된 게임 프로젝트입니다. 다양한 게임플레이 요소와 시각적 효과를 구현했습니다.</p>
-                                    <a th:if="${item.title} == 'Legacy of Auras'" href="/legacy-of-auras" class="btn btn-primary">자세히 보기</a>
-                                    <a th:if="${item.title} == 'K Project'" href="/k-project" class="btn btn-primary">자세히 보기</a>
-                                    <a th:if="${item.title} != 'Legacy of Auras' and ${item.title} != 'K Project'" href="#" class="btn btn-primary">자세히 보기</a>
-                                </div>
+                <!-- Unity 포트폴리오 그리드 -->
+                <div class="portfolio-grid">
+                    <!-- 각 포트폴리오 카드 -->
+                    <div class="portfolio-card" th:each="item : ${portfolios?.get('unity')}">
+                        <div class="portfolio-card-image">
+                            <img th:src="@{'/images/Main/' + ${#strings.replace(#strings.replace(item.title, ' ', ''), ':', '')} + '.png'}" 
+                                 th:alt="${item.title} + ' Screenshot'"
+                                 onerror="this.onerror=null; this.parentElement.classList.add('no-image'); this.remove()">
+                        </div>
+                        <div class="portfolio-card-content">
+                            <h3 th:text="${item.title}">Unity Game</h3>
+                            <p th:utext="${item.description}">Unity로 제작된 게임 프로젝트입니다.</p>
+                            <div class="portfolio-card-actions">
+                                <a th:if="${item.title} == 'Legacy of Auras'" href="/legacy-of-auras" class="view-btn">자세히 보기</a>
+                                <a th:if="${item.title} == 'K Project'" href="/k-project" class="view-btn">자세히 보기</a>
+                                <a th:if="${item.title} != 'Legacy of Auras' and ${item.title} != 'K Project'" href="#" class="view-btn">자세히 보기</a>
                             </div>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <!-- Unreal 포트폴리오 -->
-                <div id="unreal-section" class="section" th:if="${selectedCategory == null || selectedCategory == 'unreal'}">
-                    <h2 class="category-title">Unreal 포트폴리오</h2>
-                    <div class="row">
-                        <div class="col-md-4" th:each="item : ${portfolios?.get('unreal')}">
-                            <div class="portfolio-item">
-                                <div class="portfolio-content">
-                                    <h3 th:text="${item.title}">Unreal Project</h3>
-                                    <div class="portfolio-image">
-                                        <img th:src="@{'/images/Main/' + ${#strings.replace(#strings.replace(item.title, ' ', ''), ':', '')} + '.png'}" 
-                                             th:alt="${item.title} + ' Screenshot'"
-                                             style="width: 100%; height: 100%; object-fit: cover;"
-                                             onerror="console.log('Failed to load image: ' + this.src)">
-                                    </div>
-                                    <p th:utext="${item.description}">Unreal Engine으로 제작된 프로젝트입니다. 고품질 그래픽과 물리 효과를 구현했습니다.</p>
-                                    <a th:if="${item.title} == 'Legacy of Auras'" href="/legacy-of-auras" class="btn btn-primary">자세히 보기</a>
-                                    <a th:if="${item.title} == 'K Project'" href="/k-project" class="btn btn-primary">자세히 보기</a>
-                                    <a th:if="${item.title} != 'Legacy of Auras' and ${item.title} != 'K Project'" href="#" class="btn btn-primary">자세히 보기</a>
-                                </div>
+            <!-- Unreal 포트폴리오 섹션 -->
+            <section id="unreal-section" class="portfolio-section" th:if="${selectedCategory == null || selectedCategory == 'unreal'}">
+                <div class="section-header">
+                    <h2 class="section-title"><i class="fas fa-gamepad"></i> Unreal 포트폴리오</h2>
+                </div>
+                <!-- Unreal 포트폴리오 그리드 -->
+                <div class="portfolio-grid">
+                    <!-- 각 포트폴리오 카드 -->
+                    <div class="portfolio-card" th:each="item : ${portfolios?.get('unreal')}">
+                        <div class="portfolio-card-image">
+                            <img th:src="@{'/images/Main/' + ${#strings.replace(#strings.replace(item.title, ' ', ''), ':', '')} + '.png'}" 
+                                 th:alt="${item.title} + ' Screenshot'"
+                                 onerror="this.onerror=null; this.parentElement.classList.add('no-image'); this.remove()">
+                        </div>
+                        <div class="portfolio-card-content">
+                            <h3 th:text="${item.title}">Unreal Project</h3>
+                            <p th:utext="${item.description}">Unreal Engine으로 제작된 프로젝트입니다.</p>
+                            <div class="portfolio-card-actions">
+                                <a th:if="${item.title} == 'Legacy of Auras'" href="/legacy-of-auras" class="view-btn">자세히 보기</a>
+                                <a th:if="${item.title} == 'K Project'" href="/k-project" class="view-btn">자세히 보기</a>
+                                <a th:if="${item.title} != 'Legacy of Auras' and ${item.title} != 'K Project'" href="#" class="view-btn">자세히 보기</a>
                             </div>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <!-- Graphic 포트폴리오 -->
-                <div id="graphic-section" class="section" th:if="${selectedCategory == null || selectedCategory == 'graphic'}">
-                    <h2 class="category-title">Graphic 포트폴리오</h2>
-                    <div class="row">
-                        <div class="col-md-4" th:each="item : ${portfolios?.get('graphic')}">
-                            <div class="portfolio-item">
-                                <div class="portfolio-content">
-                                    <h3 th:text="${item.title}">Graphic Project</h3>
-                                    <div class="portfolio-image">
-                                        <img th:src="@{'/images/Main/' + ${#strings.replace(#strings.replace(item.title, ' ', ''), ':', '')} + '.png'}" 
-                                             th:alt="${item.title} + ' Screenshot'"
-                                             style="width: 100%; height: 100%; object-fit: cover;"
-                                             onerror="console.log('Failed to load image: ' + this.src)">
-                                    </div>
-                                    <p th:utext="${item.description}">DirectX로 제작된 프로젝트입니다. 다양한 그래픽 효과를 구현했습니다.</p>
-                                    <a th:if="${item.title} == 'Legacy of Auras'" href="/legacy-of-auras" class="btn btn-primary">자세히 보기</a>
-                                    <a th:if="${item.title} == 'K Project'" href="/k-project" class="btn btn-primary">자세히 보기</a>
-                                    <a th:if="${item.title} != 'Legacy of Auras' and ${item.title} != 'K Project'" href="#" class="btn btn-primary">자세히 보기</a>
-                                </div>
+            <!-- Graphic 포트폴리오 섹션 -->
+            <section id="graphic-section" class="portfolio-section" th:if="${selectedCategory == null || selectedCategory == 'graphic'}">
+                <div class="section-header">
+                    <h2 class="section-title"><i class="fas fa-paint-brush"></i> Graphic 포트폴리오</h2>
+                </div>
+                <!-- Graphic 포트폴리오 그리드 -->
+                <div class="portfolio-grid">
+                    <!-- 각 포트폴리오 카드 -->
+                    <div class="portfolio-card" th:each="item : ${portfolios?.get('graphic')}">
+                        <div class="portfolio-card-image">
+                            <img th:src="@{'/images/Main/' + ${#strings.replace(#strings.replace(item.title, ' ', ''), ':', '')} + '.png'}" 
+                                 th:alt="${item.title} + ' Screenshot'"
+                                 onerror="this.onerror=null; this.parentElement.classList.add('no-image'); this.remove()">
+                        </div>
+                        <div class="portfolio-card-content">
+                            <h3 th:text="${item.title}">Graphic Project</h3>
+                            <p th:utext="${item.description}">DirectX로 제작된 프로젝트입니다.</p>
+                            <div class="portfolio-card-actions">
+                                <a th:if="${item.title} == 'Legacy of Auras'" href="/legacy-of-auras" class="view-btn">자세히 보기</a>
+                                <a th:if="${item.title} == 'K Project'" href="/k-project" class="view-btn">자세히 보기</a>
+                                <a th:if="${item.title} != 'Legacy of Auras' and ${item.title} != 'K Project'" href="#" class="view-btn">자세히 보기</a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </main>
-        </div>
+            </section>
+        </main>
     </div>
 
+    <!-- 푸터 영역 -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 FolioStream. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript 라이브러리 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- 커스텀 스크립트 -->
     <script src="/js/home.js"></script>
 </body>
 </html>
