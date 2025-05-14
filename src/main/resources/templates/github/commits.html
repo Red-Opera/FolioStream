@@ -7,113 +7,163 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="/css/github-activity.css" rel="stylesheet">
     <link href="/css/commits.css" rel="stylesheet">
+    <link href="/css/loading.css" rel="stylesheet">
+    <style>
+        .error-card {
+            background-color: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .error-title {
+            color: #dc2626;
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        .error-title i {
+            margin-right: 8px;
+        }
+        .error-message {
+            color: #7f1d1d;
+        }
+        .retry-button {
+            margin-top: 10px;
+            background-color: #ef4444;
+            border-color: #dc2626;
+        }
+        .retry-button:hover {
+            background-color: #dc2626;
+            border-color: #b91c1c;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1 class="page-title">GitHub Activity for <span th:text="${username}">Username</span></h1>
+    <!-- 로딩 화면 -->
+    <div id="loading-screen" class="loading-container">
+        <div class="loading-title">GitHub 활동 데이터를 가져오는 중...</div>
+        <div class="loading-spinner"></div>
+        <div class="loading-progress">
+            <div id="loading-progress-bar" class="loading-progress-bar"></div>
+        </div>
+        <div id="loading-message" class="loading-message">저장소 정보를 불러오는 중...</div>
     </div>
 
-    <div class="timeline-svg-outer">
-        <div class="timeline-svg-container" style="position: relative;">
-            <svg id="timeline-svg" th:if="${not #lists.isEmpty(events)}" th:attr="width=${events.size() * 220 + 200}, viewBox='0 0 ' + (${events.size() * 220 + 200}) + ' 380'">
-                <path id="timeline-path" th:attr="d='M 100 190 L ' + (${events.size() * 220 + 100}) + ' 190'"
-                      fill="none" stroke="#e2e8f0" stroke-width="4"/>
-                <g th:each="event, iterStat : ${events}">
-                    <line th:attr="x1=${100 + iterStat.index * 220}, y1=190, x2=${100 + iterStat.index * 220}, y2=${iterStat.index % 2 == 0 ? 100 : 280}"
-                          stroke="#cbd5e1" stroke-width="2"/>
-                    <circle th:attr="cx=${100 + iterStat.index * 220}, cy=190"
-                            fill="#fff" stroke="#e2e8f0" stroke-width="4" r="18"/>
+    <!-- 실제 콘텐츠 -->
+    <div id="content-container" class="content-container">
+        <div class="container">
+            <h1 class="page-title">GitHub Activity for <span th:text="${username}">Username</span></h1>
+            
+            <!-- 오류 표시 영역 (이벤트 목록에 ErrorEvent가 있을 경우) -->
+            <div th:if="${not #lists.isEmpty(events) and events[0].type == 'ErrorEvent'}" class="error-card">
+                <div class="error-title">
+                    <i class="fas fa-exclamation-circle"></i>
+                    GitHub API 오류 발생
+                </div>
+                <div class="error-message" th:text="${events[0].payload.commits[0].message}">
+                    GitHub API 레이트 리밋 한도에 도달했습니다. 잠시 후 다시 시도해주세요.
+                </div>
+                <button class="btn btn-danger retry-button mt-2" onclick="window.location.reload()">
+                    <i class="fas fa-sync-alt"></i> 다시 시도
+                </button>
+            </div>
+        </div>
 
-                    <foreignObject th:attr="x=${100 + iterStat.index * 220 - 12}, y=178, width=24, height=24">
-                        <div style="width:24px; height:24px; display:flex; align-items:center; justify-content:center;">
-                            <i class="fas" th:classappend="${event.type == 'PushEvent' ? ' fa-code-commit' : ' fa-code-branch'}"
-                               style="color: #94a3b8; font-size: 18px;"></i>
-                        </div>
-                    </foreignObject>
+        <div class="timeline-svg-outer">
+            <div class="timeline-svg-container" style="position: relative;">
+                <svg id="timeline-svg" th:if="${not #lists.isEmpty(events) and events[0].type != 'ErrorEvent'}" th:attr="width=${events.size() * 220 + 200}, viewBox='0 0 ' + (${events.size() * 220 + 200}) + ' 380'">
+                    <path id="timeline-path" th:attr="d='M 100 190 L ' + (${events.size() * 220 + 100}) + ' 190'"
+                          fill="none" stroke="#e2e8f0" stroke-width="4"/>
+                    <g th:each="event, iterStat : ${events}">
+                        <line th:attr="x1=${100 + iterStat.index * 220}, y1=190, x2=${100 + iterStat.index * 220}, y2=${iterStat.index % 2 == 0 ? 100 : 280}"
+                              stroke="#cbd5e1" stroke-width="2"/>
+                        <circle th:attr="cx=${100 + iterStat.index * 220}, cy=190"
+                                fill="#fff" stroke="#e2e8f0" stroke-width="4" r="18"/>
 
-                    <foreignObject th:attr="x=${100 + iterStat.index * 220 - 120}, y=${iterStat.index % 2 == 0 ? -50 : 280}, width=240, height=200">
-                        <div class="timeline-card" xmlns="http://www.w3.org/1999/xhtml"
-                             th:if="${event.repo != null}"
-                             th:data-repo="${event.repo.name}"
-                             th:data-commit-sha="${event.type == 'PushEvent' && event.payload != null ? 
-(event.payload['after'] != null ? event.payload['after'] : 
-(event.payload['commits'] != null && !#lists.isEmpty(event.payload['commits']) ? event.payload['commits'][0]['sha'] : 
-(event.payload['head_commit'] != null ? event.payload['head_commit']['id'] : ''))) : ''}"
-                             th:attr="data-bs-toggle=${event.type == 'PushEvent' ? 'tooltip' : null},
-                                      data-bs-placement=${event.type == 'PushEvent' ? 'top' : null},
-                                      data-bs-html=${event.type == 'PushEvent' ? 'true' : null},
-                                      data-bs-title=${event.type == 'PushEvent' ?
-                                          (event.commitMessages != null and !event.commitMessages.isEmpty() ?
-                                              (
-                                                  (event.commitMessages[0].split('\n\n', 2).length > 1 and !#strings.isEmpty(event.commitMessages[0].split('\n\n', 2)[1].trim())) ?
-                                                  '&lt;div class=&quot;tooltip-title-custom&quot;&gt;' + #strings.escapeXml(event.commitMessages[0].split('\n\n', 2)[0]) + '&lt;/div&gt;' +
-                                                  '&lt;div class=&quot;tooltip-content-custom&quot;&gt;' + #strings.escapeXml(event.commitMessages[0].split('\n\n', 2)[1]) + '&lt;/div&gt;'
+                        <foreignObject th:attr="x=${100 + iterStat.index * 220 - 12}, y=178, width=24, height=24">
+                            <div style="width:24px; height:24px; display:flex; align-items:center; justify-content:center;">
+                                <i class="fas" th:classappend="${event.type == 'PushEvent' ? ' fa-code-commit' : ' fa-code-branch'}"
+                                   style="color: #94a3b8; font-size: 18px;"></i>
+                            </div>
+                        </foreignObject>
+
+                        <foreignObject th:attr="x=${100 + iterStat.index * 220 - 120}, y=${iterStat.index % 2 == 0 ? -50 : 280}, width=240, height=200">
+                            <div class="timeline-card" xmlns="http://www.w3.org/1999/xhtml"
+                                 th:if="${event.repo != null}"
+                                 th:data-repo="${event.repo.name}"
+                                 th:data-commit-sha="${event.type == 'PushEvent' && event.payload != null ? 
+        (event.payload['after'] != null ? event.payload['after'] : 
+        (event.payload['commits'] != null && !#lists.isEmpty(event.payload['commits']) ? event.payload['commits'][0]['sha'] : 
+        (event.payload['head_commit'] != null ? event.payload['head_commit']['id'] : ''))) : ''}"
+                                 th:attr="data-bs-toggle=${event.type == 'PushEvent' ? 'tooltip' : null},
+                                          data-bs-placement=${event.type == 'PushEvent' ? 'top' : null},
+                                          data-bs-html=${event.type == 'PushEvent' ? 'true' : null},
+                                          data-bs-title=${event.type == 'PushEvent' ?
+                                              (event.commitMessages != null and !event.commitMessages.isEmpty() ?
+                                                  (
+                                                      (event.commitMessages[0].split('\n\n', 2).length > 1 and !#strings.isEmpty(event.commitMessages[0].split('\n\n', 2)[1].trim())) ?
+                                                      '&lt;div class=&quot;tooltip-title-custom&quot;&gt;' + #strings.escapeXml(event.commitMessages[0].split('\n\n', 2)[0]) + '&lt;/div&gt;' +
+                                                      '&lt;div class=&quot;tooltip-content-custom&quot;&gt;' + #strings.escapeXml(event.commitMessages[0].split('\n\n', 2)[1]) + '&lt;/div&gt;'
+                                                      :
+                                                      '&lt;div class=&quot;tooltip-title-custom no-border-if-no-content&quot;&gt;' + #strings.escapeXml(event.commitMessages[0].split('\n\n', 2)[0]) + '&lt;/div&gt;'
+                                                  )
                                                   :
-                                                  '&lt;div class=&quot;tooltip-title-custom no-border-if-no-content&quot;&gt;' + #strings.escapeXml(event.commitMessages[0].split('\n\n', 2)[0]) + '&lt;/div&gt;'
-                                              )
-                                              :
-                                              '&lt;div class=&quot;tooltip-title-custom&quot;&gt;' + #strings.escapeXml(event.type) + '&lt;/div&gt;&lt;div class=&quot;tooltip-content-custom&quot;&gt;이벤트에 대한 상세 커밋 정보가 없습니다.&lt;/div&gt;'
-                                          ) : null
-                                      }">
-                            <div class="date-badge" th:utext="${event.created_at_formatted + (event.created_at_timezone != null && event.created_at_offset != null ? '<br/>(' + event.created_at_timezone + ' ' + event.created_at_offset + ')' : '')}">2025년 05월 08일 09:27<br/>(KST +09:00)</div>
-                            <div class="event-message">
-                                <i class="fas"
-                                   th:classappend="${event.type == 'PushEvent' ? 'fa-code-commit' :
-                                                    event.type == 'PullRequestEvent' ? 'fa-code-pull-request' :
-                                                    event.type == 'CreateEvent' ? 'fa-plus-circle' :
-                                                    event.type == 'DeleteEvent' ? 'fa-trash-alt' :
-                                                    event.type == 'ForkEvent' ? 'fa-code-branch' :
-                                                    event.type == 'IssuesEvent' ? 'fa-exclamation-circle' :
-                                                    event.type == 'IssueCommentEvent' ? 'fa-comment' :
-                                                    event.type == 'WatchEvent' ? 'fa-star' :
-                                                    'fa-question-circle'}"></i>
-                                <span th:switch="${event.type}">
-                                    <span th:case="'PushEvent'">코드 업데이트</span>
-                                    <span th:case="'PullRequestEvent'">코드 변경 요청</span>
-                                    <span th:case="'CreateEvent'">
-                                        <span th:switch="${event.payload?.ref_type}">
-                                            <span th:case="'repository'">저장소 새로 만들기</span>
-                                            <span th:case="'branch'" th:text="'브랜치 새로 만들기' + (${event.payload?.ref != null ? ': ' + event.payload.ref : ''})"></span>
-                                            <span th:case="'tag'" th:text="'태그 새로 만들기' + (${event.payload?.ref != null ? ': ' + event.payload.ref : ''})"></span>
-                                            <span th:case="*">새로 만들기</span>
+                                                  '&lt;div class=&quot;tooltip-title-custom&quot;&gt;' + #strings.escapeXml(event.type) + '&lt;/div&gt;&lt;div class=&quot;tooltip-content-custom&quot;&gt;이벤트에 대한 상세 커밋 정보가 없습니다.&lt;/div&gt;'
+                                              ) : null
+                                          }">
+                                <div class="date-badge" th:utext="${event.created_at_formatted + (event.created_at_timezone != null && event.created_at_offset != null ? '<br/>(' + event.created_at_timezone + ' ' + event.created_at_offset + ')' : '')}">2025년 05월 08일 09:27<br/>(KST +09:00)</div>
+                                <div class="event-message">
+                                    <i class="fas"
+                                       th:classappend="${event.type == 'PushEvent' ? 'fa-code-commit' :
+                                                        event.type == 'PullRequestEvent' ? 'fa-code-pull-request' :
+                                                        event.type == 'CreateEvent' ? 'fa-plus-circle' :
+                                                        event.type == 'DeleteEvent' ? 'fa-trash-alt' :
+                                                        event.type == 'ForkEvent' ? 'fa-code-branch' :
+                                                        event.type == 'IssuesEvent' ? 'fa-exclamation-circle' :
+                                                        event.type == 'IssueCommentEvent' ? 'fa-comment' :
+                                                        event.type == 'WatchEvent' ? 'fa-star' :
+                                                        'fa-question-circle'}"></i>
+                                    <span th:switch="${event.type}">
+                                        <span th:case="'PushEvent'">코드 업데이트</span>
+                                        <span th:case="'PullRequestEvent'">코드 변경 요청</span>
+                                        <span th:case="'CreateEvent'">
+                                            <span th:switch="${event.payload?.ref_type}">
+                                                <span th:case="'repository'">저장소 새로 만들기</span>
+                                                <span th:case="'branch'" th:text="'브랜치 새로 만들기' + (${event.payload?.ref != null ? ': ' + event.payload.ref : ''})"></span>
+                                                <span th:case="'tag'" th:text="'태그 새로 만들기' + (${event.payload?.ref != null ? ': ' + event.payload.ref : ''})"></span>
+                                                <span th:case="*">새로 만들기</span>
+                                            </span>
                                         </span>
-                                    </span>
-                                    <span th:case="'DeleteEvent'">
-                                        <span th:switch="${event.payload?.ref_type}">
-                                            <span th:case="'branch'" th:text="'브랜치 삭제하기' + (${event.payload?.ref != null ? ': ' + event.payload.ref : ''})"></span>
-                                            <span th:case="'tag'" th:text="'태그 삭제하기' + (${event.payload?.ref != null ? ': ' + event.payload.ref : ''})"></span>
-                                            <span th:case="*">삭제하기</span>
+                                        <span th:case="'DeleteEvent'">
+                                            <span th:switch="${event.payload?.ref_type}">
+                                                <span th:case="'branch'" th:text="'브랜치 삭제하기' + (${event.payload?.ref != null ? ': ' + event.payload.ref : ''})"></span>
+                                                <span th:case="'tag'" th:text="'태그 삭제하기' + (${event.payload?.ref != null ? ': ' + event.payload.ref : ''})"></span>
+                                                <span th:case="*">삭제하기</span>
+                                            </span>
                                         </span>
+                                        <span th:case="'ForkEvent'">가져오기</span>
+                                        <span th:case="'IssuesEvent'">이슈</span>
+                                        <span th:case="'IssueCommentEvent'">이슈 댓글</span>
+                                        <span th:case="'WatchEvent'">관심 등록</span>
+                                        <span th:case="*" th:text="${event.type}">기타 활동</span>
                                     </span>
-                                    <span th:case="'ForkEvent'">가져오기</span>
-                                    <span th:case="'IssuesEvent'">이슈</span>
-                                    <span th:case="'IssueCommentEvent'">이슈 댓글</span>
-                                    <span th:case="'WatchEvent'">관심 등록</span>
-                                    <span th:case="*" th:text="${event.type}">기타 활동</span>
-                                </span>
+                                </div>
+                                <div th:if="${event.repo != null}" class="repo-info">
+                                    <i class="fas fa-code-branch"></i>
+                                    <span th:text="${event.repo.name}">Repository name</span>
+                                </div>
                             </div>
-                            <!-- PushEvent일 경우 Commits 정보를 event-message 바로 아래에 표시 -->
-                            <!-- <div th:if="${event.type == 'PushEvent'}" style="margin-top: 0rem;">
-                                <b>Commits:</b>
-                                <ul class="commit-list">
-                                    <li th:each="msg : ${event.commitMessages}"
-                                        th:text="${msg.contains('\n\n') ? msg.substring(0, msg.indexOf('\n\n')) : msg}">
-                                        커밋 메시지 제목
-                                    </li>
-                                </ul>
-                            </div> -->
-                            <div th:if="${event.repo != null}" class="repo-info">
-                                <i class="fas fa-code-branch"></i>
-                                <span th:text="${event.repo.name}">Repository name</span>
-                            </div>
-                        </div>
-                    </foreignObject>
-                </g>
-            </svg>
-            <div th:if="${events == null or events.isEmpty()}" class="no-activity">
-                <i class="fas fa-info-circle fa-2x mb-3"></i>
-                <p>No activity found for this user.</p>
+                        </foreignObject>
+                    </g>
+                </svg>
+                <div th:if="${events == null or events.isEmpty()}" class="no-activity">
+                    <i class="fas fa-info-circle fa-2x mb-3"></i>
+                    <p>No activity found for this user.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -121,5 +171,54 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/github-activity.js"></script>
     <script src="/js/commits.js"></script>
+    <script>
+        // 로딩 관련 JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const contentContainer = document.getElementById('content-container');
+            const progressBar = document.getElementById('loading-progress-bar');
+            const loadingMessage = document.getElementById('loading-message');
+            
+            // 로딩 진행 상태 시뮬레이션
+            let progress = 0;
+            const loadingMessages = [
+                "GitHub API에 연결 중...",
+                "사용자 프로필 정보 가져오는 중...",
+                "저장소 정보 수집 중...",
+                "커밋 내역 분석 중...",
+                "데이터 정렬 및 처리 중...",
+                "타임라인 생성 중..."
+            ];
+            
+            const loadingInterval = setInterval(function() {
+                if (progress >= 100) {
+                    clearInterval(loadingInterval);
+                    
+                    // 로딩 완료 후 0.5초 대기 후 화면 전환
+                    setTimeout(function() {
+                        loadingScreen.style.display = 'none';
+                        contentContainer.style.display = 'block';
+                        
+                        // 툴팁 초기화 (Bootstrap)
+                        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                        tooltipTriggerList.map(function (tooltipTriggerEl) {
+                            return new bootstrap.Tooltip(tooltipTriggerEl);
+                        });
+                    }, 500);
+                    
+                    return;
+                }
+                
+                // 진행 상태 및 메시지 업데이트
+                progress += 5;
+                progressBar.style.width = progress + '%';
+                
+                // 진행 단계에 따른 메시지 변경
+                const messageIndex = Math.min(Math.floor(progress / 17), loadingMessages.length - 1);
+                loadingMessage.textContent = loadingMessages[messageIndex];
+                
+            }, 200); // 0.2초마다 진행 상태 업데이트
+        });
+    </script>
 </body>
 </html>
