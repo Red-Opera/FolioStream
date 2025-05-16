@@ -96,9 +96,9 @@
                                  th:if="${event.repo != null}"
                                  th:data-repo="${event.repo.name}"
                                  th:data-commit-sha="${event.type == 'PushEvent' && event.payload != null ? 
-        (event.payload['after'] != null ? event.payload['after'] : 
-        (event.payload['commits'] != null && !#lists.isEmpty(event.payload['commits']) ? event.payload['commits'][0]['sha'] : 
-        (event.payload['head_commit'] != null ? event.payload['head_commit']['id'] : ''))) : ''}"
+(event.payload['after'] != null ? event.payload['after'] : 
+(event.payload['commits'] != null && !#lists.isEmpty(event.payload['commits']) ? event.payload['commits'][0]['sha'] : 
+(event.payload['head_commit'] != null ? event.payload['head_commit']['id'] : ''))) : ''}"
                                  th:attr="data-bs-toggle=${event.type == 'PushEvent' ? 'tooltip' : null},
                                           data-bs-placement=${event.type == 'PushEvent' ? 'top' : null},
                                           data-bs-html=${event.type == 'PushEvent' ? 'true' : null},
@@ -107,14 +107,20 @@
                                                   (
                                                       (event.commitMessages[0].split('\n\n', 2).length > 1 and !#strings.isEmpty(event.commitMessages[0].split('\n\n', 2)[1].trim())) ?
                                                       '&lt;div class=&quot;tooltip-title-custom&quot;&gt;' + #strings.escapeXml(event.commitMessages[0].split('\n\n', 2)[0]) + '&lt;/div&gt;' +
-                                                      '&lt;div class=&quot;tooltip-content-custom&quot;&gt;' + #strings.escapeXml(event.commitMessages[0].split('\n\n', 2)[1]) + '&lt;/div&gt;'
+                                                      '&lt;div class=&quot;tooltip-content-custom&quot;&gt;' + #strings.escapeXml(event.commitMessages[0].split('\n\n', 2)[1]) + '&lt;/div&gt;' +
+                                                      (event['additions'] != null and event['deletions'] != null ? 
+                                                      '&lt;div class=&quot;tooltip-changes-info&quot;&gt;&lt;span class=&quot;additions&quot;&gt;+' + #numbers.formatInteger(event['additions'], 1, 'COMMA') + '&lt;/span&gt; &lt;span class=&quot;deletions&quot;&gt;-' + #numbers.formatInteger(event['deletions'], 1, 'COMMA') + '&lt;/span&gt;&lt;/div&gt;' : '')
                                                       :
-                                                      '&lt;div class=&quot;tooltip-title-custom no-border-if-no-content&quot;&gt;' + #strings.escapeXml(event.commitMessages[0].split('\n\n', 2)[0]) + '&lt;/div&gt;'
+                                                      '&lt;div class=&quot;tooltip-title-custom no-border-if-no-content&quot;&gt;' + #strings.escapeXml(event.commitMessages[0].split('\n\n', 2)[0]) + '&lt;/div&gt;' +
+                                                      (event['additions'] != null and event['deletions'] != null ? 
+                                                      '&lt;div class=&quot;tooltip-changes-info&quot;&gt;&lt;span class=&quot;additions&quot;&gt;+' + #numbers.formatInteger(event['additions'], 1, 'COMMA') + '&lt;/span&gt; &lt;span class=&quot;deletions&quot;&gt;-' + #numbers.formatInteger(event['deletions'], 1, 'COMMA') + '&lt;/span&gt;&lt;/div&gt;' : '')
                                                   )
                                                   :
                                                   '&lt;div class=&quot;tooltip-title-custom&quot;&gt;' + #strings.escapeXml(event.type) + '&lt;/div&gt;&lt;div class=&quot;tooltip-content-custom&quot;&gt;이벤트에 대한 상세 커밋 정보가 없습니다.&lt;/div&gt;'
                                               ) : null
-                                          }">
+                                          }"
+                                          th:data-additions="${event['additions'] != null ? event['additions'] : 0}"
+                                          th:data-deletions="${event['deletions'] != null ? event['deletions'] : 0}">
                                 <div class="date-badge" th:utext="${event.created_at_formatted + (event.created_at_timezone != null && event.created_at_offset != null ? '<br/>(' + event.created_at_timezone + ' ' + event.created_at_offset + ')' : '')}">2025년 05월 08일 09:27<br/>(KST +09:00)</div>
                                 <div class="event-message">
                                     <i class="fas"

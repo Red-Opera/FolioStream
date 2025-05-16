@@ -93,10 +93,30 @@ document.addEventListener('DOMContentLoaded', function()
 
     // 커스텀 툴팁 초기화
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    
+
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) 
     {
-        return new bootstrap.Tooltip(tooltipTriggerEl, { html: true, placement: 'top', trigger: 'hover focus' });
+        // 데이터 속성에서 추가/삭제 값을 가져와 천 단위 구분자 적용
+        var additions = tooltipTriggerEl.getAttribute('data-additions');
+        var deletions = tooltipTriggerEl.getAttribute('data-deletions');
+        
+        if (additions && deletions) {
+            // 숫자 포맷팅 (천 단위 구분자 추가)
+            var formattedAdditions = parseInt(additions).toLocaleString('ko-KR');
+            var formattedDeletions = parseInt(deletions).toLocaleString('ko-KR');
+            
+            // 이미 포맷된 값을 data 속성에 저장 (나중에 사용할 수 있도록)
+            tooltipTriggerEl.setAttribute('data-formatted-additions', formattedAdditions);
+            tooltipTriggerEl.setAttribute('data-formatted-deletions', formattedDeletions);
+        }
+        
+        // 툴팁 옵션 확장 - 더 큰 지연 시간 설정 (사용자가 읽을 시간 확보)
+        return new bootstrap.Tooltip(tooltipTriggerEl, { 
+            html: true, 
+            placement: 'top', 
+            trigger: 'hover focus',
+            delay: { show: 200, hide: 300 } // 툴팁이 닫히는 시간을 약간 늘림
+        });
     });
 
     // 레포지토리 범례 추가

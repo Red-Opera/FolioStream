@@ -49,6 +49,7 @@
     font-weight: 400;
     font-size: 0.85rem;
     color: rgba(255,255,255,0.9);
+    margin-bottom: 0.3rem;
 }
 
 /* 화살표 색상 */
@@ -269,4 +270,27 @@
     border-radius: 4px;
     background-color: #f8f9fa;
     border: 1px solid #eee;
+}
+
+/* 코드 변경 정보를 위한 스타일 */
+.tooltip-changes-info {
+    margin-top: 0.5rem;
+    font-family: monospace;
+    font-size: 0.8rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 0.2rem 0.5rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.additions {
+    color: #10b981; /* 초록색 - 추가된 코드 */
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+.deletions {
+    color: #ef4444; /* 빨간색 - 삭제된 코드 */
+    font-weight: bold;
 }

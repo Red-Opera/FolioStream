@@ -175,55 +175,72 @@ public class GitHubService
             .retrieve()
             .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {}) // API는 커밋 객체의 리스트를 반환
             .flatMapMany(Flux::fromIterable) // 리스트를 개별 커밋 객체의 Flux로 변환
-            .map(rawCommit -> 
-            { // 각 raw 커밋 변환
-                Map<String, Object> commitEvent = new HashMap<>();
-                commitEvent.put("type", "PushEvent");
-                
-                Map<String, Object> repoInfo = new HashMap<>();
-                repoInfo.put("name", repoFullName);
-                commitEvent.put("repo", repoInfo);
-
-                Map<String, Object> commitDetails = (Map<String, Object>) rawCommit.get("commit");
-                String commitMessage = "(No commit message)";
-                
-                if (commitDetails != null && commitDetails.get("message") != null)
-                    commitMessage = (String) commitDetails.get("message");
-                
+            .flatMap(rawCommit -> {
                 String commitSha = (String) rawCommit.get("sha");
+                
+                // 각 커밋에 대해 상세 정보를 추가로 가져옵니다
+                return this.webClient.get()
+                    .uri("/repos/" + owner + "/" + repoName + "/commits/" + commitSha)
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
+                    .map(commitDetail -> {
+                        Map<String, Object> commitEvent = new HashMap<>();
+                        commitEvent.put("type", "PushEvent");
+                        
+                        Map<String, Object> repoInfo = new HashMap<>();
+                        repoInfo.put("name", repoFullName);
+                        commitEvent.put("repo", repoInfo);
 
-                Map<String, Object> authorDetails = (Map<String, Object>) commitDetails.get("author");
-                String commitDate = null;
-                
-                if (authorDetails != null && authorDetails.get("date") != null)
-                    commitDate = (String) authorDetails.get("date");
-                
-                else if (commitDetails != null) 
-                {
-                    Map<String, Object> committerDetails = (Map<String, Object>) commitDetails.get("committer");
-                    
-                    if (committerDetails != null && committerDetails.get("date") != null)
-                        commitDate = (String) committerDetails.get("date");
-                }
-                
-                if (commitDate == null) 
-                    commitDate = Instant.now().toString(); // Fallback
-                
-                commitEvent.put("created_at", commitDate);
+                        Map<String, Object> commitDetails = (Map<String, Object>) rawCommit.get("commit");
+                        String commitMessage = "(No commit message)";
+                        
+                        if (commitDetails != null && commitDetails.get("message") != null)
+                            commitMessage = (String) commitDetails.get("message");
+                        
+                        Map<String, Object> authorDetails = (Map<String, Object>) commitDetails.get("author");
+                        String commitDate = null;
+                        
+                        if (authorDetails != null && authorDetails.get("date") != null)
+                            commitDate = (String) authorDetails.get("date");
+                        
+                        else if (commitDetails != null) 
+                        {
+                            Map<String, Object> committerDetails = (Map<String, Object>) commitDetails.get("committer");
+                            
+                            if (committerDetails != null && committerDetails.get("date") != null)
+                                commitDate = (String) committerDetails.get("date");
+                        }
+                        
+                        if (commitDate == null) 
+                            commitDate = Instant.now().toString();
+                        
+                        commitEvent.put("created_at", commitDate);
 
-                List<Map<String, Object>> commitListPayload = new ArrayList<>();
-                Map<String, Object> commitDataForPayload = new HashMap<>();
-                
-                commitDataForPayload.put("message", commitMessage);
-                commitDataForPayload.put("sha", commitSha);
-                commitListPayload.add(commitDataForPayload);
+                        // 변경된 라인 수 정보 가져오기
+                        Map<String, Object> stats = (Map<String, Object>) commitDetail.get("stats");
+                        if (stats != null) {
+                            Integer additions = (Integer) stats.get("additions");
+                            Integer deletions = (Integer) stats.get("deletions");
+                            
+                            // 변경 라인 정보 저장
+                            commitEvent.put("additions", additions);
+                            commitEvent.put("deletions", deletions);
+                        }
+                        
+                        List<Map<String, Object>> commitListPayload = new ArrayList<>();
+                        Map<String, Object> commitDataForPayload = new HashMap<>();
+                        
+                        commitDataForPayload.put("message", commitMessage);
+                        commitDataForPayload.put("sha", commitSha);
+                        commitListPayload.add(commitDataForPayload);
 
-                Map<String, Object> payload = new HashMap<>();
-                payload.put("commits", commitListPayload);
-                commitEvent.put("payload", payload);
-                
-                return commitEvent;
-            })
+                        Map<String, Object> payload = new HashMap<>();
+                        payload.put("commits", commitListPayload);
+                        commitEvent.put("payload", payload);
+                        
+                        return commitEvent;
+                    });
+            }, Math.min(10, Runtime.getRuntime().availableProcessors()))
             .onErrorResume(e -> {
                 if (e instanceof WebClientResponseException) {
                     WebClientResponseException wcre = (WebClientResponseException) e;
@@ -379,6 +396,13 @@ public class GitHubService
                                 commitMessages.add((String) commit.get("message"));
 
                             event.put("commitMessages", commitMessages);
+                            
+                            // 변경 라인 수 정보가 있으면 포맷팅하여 추가
+                            if (event.containsKey("additions") && event.containsKey("deletions")) {
+                                Integer additions = (Integer) event.get("additions");
+                                Integer deletions = (Integer) event.get("deletions");
+                                event.put("changes_summary", additions + "줄 추가, " + deletions + "줄 제거");
+                            }
                         }
                     }
                 }
