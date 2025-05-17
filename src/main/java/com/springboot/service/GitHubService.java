@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -15,6 +16,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import jakarta.annotation.PostConstruct;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -38,6 +40,9 @@ import java.util.stream.Collectors;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.time.temporal.ChronoUnit;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Collections;
 
 @Service
 public class GitHubService
@@ -47,6 +52,9 @@ public class GitHubService
     private final String githubToken;
     private static final String GITHUB_API_BASE_URL = "https://api.github.com";
     private static final int CACHE_DURATION_MINUTES = 30; // 캐시 유효 시간 30분
+    private static final int MAX_CONCURRENT_REQUESTS = 10; // 동시 요청 수 제한
+    private static final int BATCH_SIZE = 5; // 배치 처리 크기
+    private static final int MAX_EVENT_PAGES = 10; // 최대 이벤트 페이지 수
 
     private final ExecutorService executorService = Executors.newFixedThreadPool(
         Math.min(Runtime.getRuntime().availableProcessors() * 2, 10)
@@ -55,6 +63,12 @@ public class GitHubService
     // 캐시를 위한 Map 추가
     private final Map<String, CacheEntry> userCommitsCache = new ConcurrentHashMap<>();
     private final Map<String, CacheEntry> userReposCache = new ConcurrentHashMap<>();
+
+    // 기본 사용자 목록 (앱 시작 시 캐시할 사용자들)
+    private static final List<String> DEFAULT_USERS = List.of("Red-Opera");
+
+    // 자주 사용되는 사용자 목록을 저장할 Set
+    private final Set<String> activeUsers = Collections.synchronizedSet(new HashSet<>());
 
     // 캐시 엔트리 클래스
     private static class CacheEntry {
@@ -77,14 +91,14 @@ public class GitHubService
         this.restTemplate = restTemplate;
         this.githubToken = githubToken;
         
-        final int bufferSize = 16 * 1024 * 1024; // 16MB로 설정 (필요에 따라 조절)
+        final int bufferSize = 16 * 1024 * 1024;
         ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder()
                 .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(bufferSize))
                 .build();
 
         this.webClient = webClientBuilder
                             .baseUrl(GITHUB_API_BASE_URL)
-                            .exchangeStrategies(exchangeStrategies) // 설정된 ExchangeStrategies 적용
+                            .exchangeStrategies(exchangeStrategies)
                             .defaultHeader(HttpHeaders.ACCEPT, "application/vnd.github.v3+json")
                             .defaultHeader(HttpHeaders.AUTHORIZATION, "token " + this.githubToken)
                             .build();
@@ -192,16 +206,18 @@ public class GitHubService
         }
     }
 
-    // WebClient를 사용하여 저장소의 커밋을 가져오고 변환하는 Helper 메소드 (레이트 리밋 처리 추가)
+    // WebClient를 사용하여 저장소의 커밋을 가져오고 변환하는 Helper 메소드 개선
     private Flux<Map<String, Object>> getCommitsForOwnerRepoReactive(String owner, String repoName, String repoFullName) 
     {
         String path = "/repos/" + owner + "/" + repoName + "/commits";
 
         return this.webClient.get()
-            .uri(uriBuilder -> uriBuilder.path(path).queryParam("per_page", 100).build())
+            .uri(uriBuilder -> uriBuilder.path(path)
+                .queryParam("per_page", 100)
+                .build())
             .retrieve()
-            .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {}) // API는 커밋 객체의 리스트를 반환
-            .flatMapMany(Flux::fromIterable) // 리스트를 개별 커밋 객체의 Flux로 변환
+            .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {})
+            .flatMapMany(Flux::fromIterable)
             .flatMap(rawCommit -> {
                 String commitSha = (String) rawCommit.get("sha");
                 
@@ -229,11 +245,9 @@ public class GitHubService
                         
                         if (authorDetails != null && authorDetails.get("date") != null)
                             commitDate = (String) authorDetails.get("date");
-                        
                         else if (commitDetails != null) 
                         {
                             Map<String, Object> committerDetails = (Map<String, Object>) commitDetails.get("committer");
-                            
                             if (committerDetails != null && committerDetails.get("date") != null)
                                 commitDate = (String) committerDetails.get("date");
                         }
@@ -249,7 +263,6 @@ public class GitHubService
                             Integer additions = (Integer) stats.get("additions");
                             Integer deletions = (Integer) stats.get("deletions");
                             
-                            // 변경 라인 정보 저장
                             commitEvent.put("additions", additions);
                             commitEvent.put("deletions", deletions);
                         }
@@ -267,31 +280,99 @@ public class GitHubService
                         
                         return commitEvent;
                     });
-            }, Math.min(10, Runtime.getRuntime().availableProcessors()))
+            }, MAX_CONCURRENT_REQUESTS)
             .onErrorResume(e -> {
                 if (e instanceof WebClientResponseException) {
                     WebClientResponseException wcre = (WebClientResponseException) e;
                     if (wcre.getStatusCode() == HttpStatus.FORBIDDEN && 
                         wcre.getResponseBodyAsString().contains("API rate limit exceeded")) {
-                        System.err.println("GitHub API 레이트 리밋 초과: " + repoFullName + ", 나중에 재시도합니다.");
-                        // 레이트 리밋 초과 시 재시도 로직 추가
+                        System.err.println("GitHub API 레이트 리밋 초과: " + repoFullName);
                         return Flux.error(new RuntimeException("GitHub API 레이트 리밋 초과"));
                     }
                 }
-                System.err.println("Error fetching commits for " + repoFullName + " reactively: " + e.getMessage());
-                return Flux.empty(); // 실패 시 다른 저장소 처리는 계속
+                System.err.println("Error fetching commits for " + repoFullName + ": " + e.getMessage());
+                return Flux.empty();
             })
-            // 레이트 리밋 초과 시 지수 백오프로 재시도
             .retryWhen(Retry.backoff(3, Duration.ofSeconds(5))
                 .filter(ex -> ex instanceof RuntimeException && 
-                              ex.getMessage().contains("GitHub API 레이트 리밋 초과"))
-                .doBeforeRetry(retrySignal -> 
-                    System.out.println("레이트 리밋으로 인해 재시도: " + retrySignal.totalRetries() + " - " + repoFullName)));
+                              ex.getMessage().contains("GitHub API 레이트 리밋 초과")));
+    }
+
+    /**
+     * 앱 시작 시 초기 캐시 로드
+     */
+    @PostConstruct
+    public void initializeCache() {
+        System.out.println("Initializing GitHub data cache...");
+        
+        // 기본 사용자들의 데이터를 미리 캐시
+        for (String username : DEFAULT_USERS) {
+            try {
+                System.out.println("Pre-loading data for default user: " + username);
+                CompletableFuture.runAsync(() -> {
+                    try {
+                        getUserCommits(username);
+                        System.out.println("Successfully pre-loaded data for user: " + username);
+                    } catch (Exception e) {
+                        System.err.println("Error pre-loading data for user " + username + ": " + e.getMessage());
+                    }
+                }, executorService);
+                
+                // 레이트 리밋을 고려하여 요청 간 약간의 지연 추가
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
+    }
+
+    /**
+     * 사용자 추가 메소드 - 새로운 사용자가 조회될 때 호출됨
+     */
+    public void addActiveUser(String username) {
+        activeUsers.add(username);
+    }
+
+    /**
+     * 30분마다 실행되는 스케줄된 작업
+     * 활성 사용자들의 데이터를 미리 가져와 캐시에 저장
+     */
+    @Scheduled(fixedRate = 1800000) // 30분 = 1800000ms
+    public void scheduledDataFetch() {
+        System.out.println("Starting scheduled data fetch for active users...");
+        
+        // 활성 사용자 목록을 복사하여 사용 (동시성 문제 방지)
+        Set<String> usersToUpdate = new HashSet<>(activeUsers);
+        
+        for (String username : usersToUpdate) {
+            try {
+                System.out.println("Pre-fetching data for user: " + username);
+                // 비동기로 데이터 가져오기
+                CompletableFuture.runAsync(() -> {
+                    try {
+                        getUserCommits(username);
+                        System.out.println("Successfully pre-fetched data for user " + username);
+                    } catch (Exception e) {
+                        System.err.println("Error pre-fetching data for user " + username + ": " + e.getMessage());
+                    }
+                }, executorService);
+                
+                // 레이트 리밋을 고려하여 요청 간 약간의 지연 추가
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
     }
 
     @Cacheable(value = "userCommits", key = "#username")
     public List<Map<String, Object>> getUserCommits(String username)
     {
+        // 활성 사용자 목록에 추가
+        addActiveUser(username);
+
         // 캐시 확인
         CacheEntry cacheEntry = userCommitsCache.get(username);
         if (cacheEntry != null && cacheEntry.isValid()) {
@@ -307,23 +388,21 @@ public class GitHubService
         HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
 
         try {
-            // 1. 공개 저장소에서 직접 커밋 가져오기 (WebClient와 Reactive Streams 사용)
-            List<Map<String, Object>> publicRepos = getUserPublicRepositories(username, entity); 
+            // 1. 공개 저장소 목록 가져오기
+            List<Map<String, Object>> publicRepos = getUserPublicRepositories(username, entity);
 
-            // 저장소를 5개씩 그룹화하여 처리
-            List<List<Map<String, Object>>> repoGroups = new ArrayList<>();
-            for (int i = 0; i < publicRepos.size(); i += 5) {
-                repoGroups.add(publicRepos.subList(i, Math.min(i + 5, publicRepos.size())));
+            // 2. 저장소를 배치로 나누어 병렬 처리
+            List<List<Map<String, Object>>> repoBatches = new ArrayList<>();
+            for (int i = 0; i < publicRepos.size(); i += BATCH_SIZE) {
+                repoBatches.add(publicRepos.subList(i, Math.min(i + BATCH_SIZE, publicRepos.size())));
             }
 
-            // 각 그룹을 순차적으로 처리
-            for (List<Map<String, Object>> repoGroup : repoGroups) {
-                List<Map<String, Object>> groupCommits = Flux.fromIterable(repoGroup)
-                    .flatMap(repoData -> 
-                    {
+            // 3. 각 배치를 병렬로 처리
+            for (List<Map<String, Object>> repoBatch : repoBatches) {
+                List<Map<String, Object>> batchCommits = Flux.fromIterable(repoBatch)
+                    .flatMap(repoData -> {
                         String repoShortName = (String) repoData.get("name");
                         String repoFullName = (String) repoData.get("full_name");
-                        
                         Map<String, Object> ownerMap = (Map<String, Object>) repoData.get("owner");
                         String ownerLogin = (String) ownerMap.get("login");
 
@@ -331,88 +410,51 @@ public class GitHubService
                             return getCommitsForOwnerRepoReactive(ownerLogin, repoShortName, repoFullName);
                         
                         return Flux.empty();
-                    }, 5)
+                    }, MAX_CONCURRENT_REQUESTS)
                     .collectList()
                     .block();
 
-                if (groupCommits != null)
-                    allCollectedEvents.addAll(groupCommits);
+                if (batchCommits != null)
+                    allCollectedEvents.addAll(batchCommits);
 
-                // 각 그룹 처리 후 잠시 대기하여 rate limit 관리
+                // 배치 간 짧은 대기 시간 추가
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;
                 }
             }
 
-            // 2. 사용자 이벤트 엔드포인트에서 다른 이벤트 유형(PushEvent 제외) 가져오기
-            int page = 1;
-            boolean hasMorePages = true;
-            int retryCount = 0;
-            int maxRetries = 3;
-            long retryDelayMs = 5000;
-            
-            while (hasMorePages && retryCount <= maxRetries) {
-                try {
-                    String url = GITHUB_API_BASE_URL + "/users/" + username + "/events?per_page=100&page=" + page;
-                    ResponseEntity<List<Map<String, Object>>> responseEntity = restTemplate.exchange(
-                        url, HttpMethod.GET, entity, new ParameterizedTypeReference<List<Map<String, Object>>>() {}
-                    );
-                    
-                    logRateLimitInfo(responseEntity.getHeaders());
-                    
-                    List<Map<String, Object>> eventsThisPage = responseEntity.getBody();
-                    
-                    if (eventsThisPage != null && !eventsThisPage.isEmpty()) {
-                        for (Map<String, Object> event : eventsThisPage) {
-                            if (!"PushEvent".equals(event.get("type")))
-                                allCollectedEvents.add(event);
-                        }
-                        
-                        if (eventsThisPage.size() < 100) 
-                            hasMorePages = false;
-                        else 
-                            page++;
-                    } else {
-                        hasMorePages = false;
-                    }
-                    
-                    retryCount = 0;
-                } catch (HttpClientErrorException e) {
-                    if (e.getStatusCode() == HttpStatus.FORBIDDEN && 
-                        e.getResponseBodyAsString().contains("API rate limit exceeded")) {
-                        
-                        retryCount++;
-                        if (retryCount > maxRetries) {
-                            System.err.println("최대 재시도 횟수를 초과했습니다. GitHub API 레이트 리밋 한도에 도달했습니다.");
-                            break;
-                        }
-                        
-                        long waitTime = retryDelayMs * (long)Math.pow(2, retryCount - 1);
-                        System.out.println("GitHub API 레이트 리밋 한도에 도달했습니다. " + (waitTime / 1000) + "초 후 재시도합니다...");
-                        
-                        try {
-                            Thread.sleep(waitTime);
-                        } catch (InterruptedException ie) {
-                            Thread.currentThread().interrupt();
-                            break;
-                        }
-                    } else {
-                        System.err.println("GitHub 이벤트 조회 중 오류 발생: " + e.getMessage());
-                        break;
-                    }
-                }
-            }
+            // 4. 사용자 이벤트 가져오기 (병렬 처리)
+            List<Map<String, Object>> userEvents = Flux.range(1, MAX_EVENT_PAGES)
+                .flatMap(page -> 
+                    this.webClient.get()
+                        .uri(uriBuilder -> uriBuilder
+                            .path("/users/{username}/events")
+                            .queryParam("per_page", 100)
+                            .queryParam("page", page)
+                            .build(username))
+                        .retrieve()
+                        .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {})
+                        .flatMapMany(Flux::fromIterable)
+                        .filter(event -> !"PushEvent".equals(event.get("type")))
+                        .onErrorResume(e -> Flux.empty()),
+                    MAX_CONCURRENT_REQUESTS
+                )
+                .collectList()
+                .block();
 
-            // 3. 수집된 모든 이벤트를 날짜순으로 정렬 (내림차순)
+            if (userEvents != null)
+                allCollectedEvents.addAll(userEvents);
+
+            // 5. 이벤트 정렬 및 후처리
             if (!allCollectedEvents.isEmpty()) {
                 allCollectedEvents.sort(Comparator.comparing((Map<String, Object> event) ->
                     Instant.parse((String) event.get("created_at"))
                 ).reversed());
 
-                // 4. 후처리 (날짜 포맷팅, 색상 등)
+                // 날짜 포맷팅 및 색상 적용
                 String[] colors = {"#facc15", "#22d3ee", "#34d399", "#60a5fa", "#f87171"};
                 
                 for (int i = 0; i < allCollectedEvents.size(); i++) {
@@ -501,8 +543,15 @@ public class GitHubService
         if (executorService != null && !executorService.isShutdown()) 
         {
             System.out.println("Shutting down ExecutorService in GitHubService");
-            
             executorService.shutdown();
+            try {
+                if (!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
+                    executorService.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                executorService.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
         }
     }
 }
