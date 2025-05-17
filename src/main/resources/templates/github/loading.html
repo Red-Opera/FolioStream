@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Loading - GitHub Activity</title>
+    <link href="/css/loading.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading-screen" class="loading-container">
+        <div class="loading-title">GitHub 활동 데이터를 가져오는 중...</div>
+        <div class="loading-spinner"></div>
+        <div class="loading-progress">
+            <div id="loading-progress-bar" class="loading-progress-bar"></div>
+        </div>
+        <div id="loading-message" class="loading-message">저장소 정보를 불러오는 중...</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const username = new URLSearchParams(window.location.search).get('username') || 'Red-Opera';
+            const loadingScreen = document.getElementById('loading-screen');
+            const progressBar = document.getElementById('loading-progress-bar');
+            const loadingMessage = document.getElementById('loading-message');
+            
+            let progress = 0;
+            const loadingMessages = [
+                "GitHub API에 연결 중...",
+                "사용자 프로필 정보 가져오는 중...",
+                "저장소 정보 수집 중...",
+                "커밋 내역 분석 중...",
+                "데이터 정렬 및 처리 중...",
+                "타임라인 생성 중..."
+            ];
+            
+            let isLoading = true;
+            
+            // 실제 데이터 로딩 시작
+            fetch(`/github/commits/data?username=${encodeURIComponent(username)}`)
+                .then(response => response.json())
+                .then(data => {
+                    isLoading = false;
+                    if (data.success) {
+                        // 데이터 로드 성공 시 사용자 이름만 가지고 메인 페이지로 이동
+                        window.location.href = `/github/commits/view?username=${encodeURIComponent(username)}`;
+                    } else {
+                        // 에러 발생 시 에러 페이지로 이동
+                        window.location.href = '/error';
+                    }
+                })
+                .catch(error => {
+                    isLoading = false;
+                    console.error('Error:', error);
+                    window.location.href = '/error';
+                });
+
+            // 로딩 진행 상태 시뮬레이션
+            const loadingInterval = setInterval(function() {
+                if (!isLoading || progress >= 100) {
+                    clearInterval(loadingInterval);
+                    return;
+                }
+                
+                progress += 5;
+                progressBar.style.width = progress + '%';
+                
+                const messageIndex = Math.min(Math.floor(progress / 17), loadingMessages.length - 1);
+                loadingMessage.textContent = loadingMessages[messageIndex];
+                
+            }, 200);
+        });
+    </script>
+</body>
+</html> 

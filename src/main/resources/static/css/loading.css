@@ -4,68 +4,65 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #f8f9fa;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     z-index: 9999;
+    transition: opacity 0.5s ease-out;
 }
 
 .loading-title {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    text-align: center;
 }
 
 .loading-spinner {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 20px;
-}
-
-.loading-spinner:after {
-    content: " ";
-    display: block;
-    width: 64px;
-    height: 64px;
-    margin: 8px;
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
     border-radius: 50%;
-    border: 6px solid #3498db;
-    border-color: #3498db transparent #3498db transparent;
-    animation: loading-spinner 1.2s linear infinite;
+    animation: spin 1s linear infinite;
+    margin-bottom: 2rem;
 }
 
 .loading-progress {
     width: 300px;
-    height: 20px;
-    background-color: #e9ecef;
-    border-radius: 10px;
+    height: 6px;
+    background-color: #e2e8f0;
+    border-radius: 3px;
     overflow: hidden;
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
 }
 
 .loading-progress-bar {
     height: 100%;
-    background-color: #3498db;
-    border-radius: 10px;
+    background: linear-gradient(90deg, #3498db, #2ecc71);
     width: 0%;
-    transition: width 0.5s ease-in-out;
+    transition: width 0.2s ease-out;
 }
 
 .loading-message {
-    color: #6c757d;
-    font-size: 16px;
+    color: #4a5568;
+    font-size: 0.9rem;
     text-align: center;
+    margin-top: 1rem;
 }
 
-@keyframes loading-spinner {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 페이드 아웃 애니메이션 */
+.loading-container.fade-out {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .content-container {
