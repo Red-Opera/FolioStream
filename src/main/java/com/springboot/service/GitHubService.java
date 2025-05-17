@@ -35,6 +35,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+import java.time.temporal.ChronoUnit;
 
 @Service
 public class GitHubService
@@ -43,10 +46,30 @@ public class GitHubService
     private final WebClient webClient;			// WebClient 추가
     private final String githubToken;
     private static final String GITHUB_API_BASE_URL = "https://api.github.com";
+    private static final int CACHE_DURATION_MINUTES = 30; // 캐시 유효 시간 30분
 
     private final ExecutorService executorService = Executors.newFixedThreadPool(
         Math.min(Runtime.getRuntime().availableProcessors() * 2, 10)
     );
+
+    // 캐시를 위한 Map 추가
+    private final Map<String, CacheEntry> userCommitsCache = new ConcurrentHashMap<>();
+    private final Map<String, CacheEntry> userReposCache = new ConcurrentHashMap<>();
+
+    // 캐시 엔트리 클래스
+    private static class CacheEntry {
+        private final List<Map<String, Object>> data;
+        private final Instant expiryTime;
+
+        public CacheEntry(List<Map<String, Object>> data, int durationMinutes) {
+            this.data = data;
+            this.expiryTime = Instant.now().plus(durationMinutes, ChronoUnit.MINUTES);
+        }
+
+        public boolean isValid() {
+            return Instant.now().isBefore(expiryTime);
+        }
+    }
 
     @Autowired
     public GitHubService(RestTemplate restTemplate, WebClient.Builder webClientBuilder, @Value("${github.api.token}") String githubToken) 
@@ -70,14 +93,19 @@ public class GitHubService
     // Helper method to get user's public repositories with rate limit handling
     private List<Map<String, Object>> getUserPublicRepositories(String username, HttpEntity<String> entity)
     {
-        // GitHub API에서 사용자의 공개 저장소를 가져오는 메소드
+        // 캐시 확인
+        CacheEntry cacheEntry = userReposCache.get(username);
+        if (cacheEntry != null && cacheEntry.isValid()) {
+            return cacheEntry.data;
+        }
+
         List<Map<String, Object>> allRepositories = new ArrayList<>();
         
         int page = 1;
         boolean hasMorePages = true;
         int retryCount = 0;
         int maxRetries = 3;
-        long retryDelayMs = 5000; // 초기 재시도 지연 시간 (5초)
+        long retryDelayMs = 5000;
 
         while (hasMorePages && retryCount <= maxRetries) {
             try {
@@ -90,7 +118,6 @@ public class GitHubService
                     new ParameterizedTypeReference<List<Map<String, Object>>>() {}
                 );
                 
-                // 헤더에서 레이트 리밋 정보 추출
                 HttpHeaders headers = responseEntity.getHeaders();
                 logRateLimitInfo(headers);
 
@@ -107,7 +134,6 @@ public class GitHubService
                     hasMorePages = false;
                 }
                 
-                // 성공했으므로 재시도 카운터 초기화
                 retryCount = 0;
             } catch (HttpClientErrorException e) {
                 if (e.getStatusCode() == HttpStatus.FORBIDDEN && 
@@ -119,7 +145,6 @@ public class GitHubService
                         throw new RuntimeException("GitHub API 레이트 리밋 한도에 도달했습니다. 나중에 다시 시도해주세요.", e);
                     }
                     
-                    // 지수 백오프 지연 구현
                     long waitTime = retryDelayMs * (long)Math.pow(2, retryCount - 1);
                     System.out.println("GitHub API 레이트 리밋 한도에 도달했습니다. " + (waitTime / 1000) + "초 후 재시도합니다...");
                     
@@ -130,11 +155,13 @@ public class GitHubService
                         throw new RuntimeException("레이트 리밋 대기 중 인터럽트가 발생했습니다.", ie);
                     }
                 } else {
-                    // 다른 종류의 오류는 그대로 전파
                     throw e;
                 }
             }
         }
+        
+        // 결과를 캐시에 저장
+        userReposCache.put(username, new CacheEntry(allRepositories, CACHE_DURATION_MINUTES));
         
         return allRepositories;
     }
@@ -265,9 +292,15 @@ public class GitHubService
     @Cacheable(value = "userCommits", key = "#username")
     public List<Map<String, Object>> getUserCommits(String username)
     {
+        // 캐시 확인
+        CacheEntry cacheEntry = userCommitsCache.get(username);
+        if (cacheEntry != null && cacheEntry.isValid()) {
+            return cacheEntry.data;
+        }
+
         List<Map<String, Object>> allCollectedEvents = new ArrayList<>();
         
-        HttpHeaders httpHeaders = new HttpHeaders(); // getUserPublicRepositories 또는 /events API 호출 시 필요할 수 있음
+        HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Accept", "application/vnd.github.v3+json");
         httpHeaders.set("Authorization", "token " + githubToken);
         
@@ -277,32 +310,49 @@ public class GitHubService
             // 1. 공개 저장소에서 직접 커밋 가져오기 (WebClient와 Reactive Streams 사용)
             List<Map<String, Object>> publicRepos = getUserPublicRepositories(username, entity); 
 
-            List<Map<String, Object>> directCommits = Flux.fromIterable(publicRepos)
-                .flatMap(repoData -> 
-                {
-                    String repoShortName = (String) repoData.get("name");
-                    String repoFullName = (String) repoData.get("full_name");
-                    
-                    Map<String, Object> ownerMap = (Map<String, Object>) repoData.get("owner");
-                    String ownerLogin = (String) ownerMap.get("login");
+            // 저장소를 5개씩 그룹화하여 처리
+            List<List<Map<String, Object>>> repoGroups = new ArrayList<>();
+            for (int i = 0; i < publicRepos.size(); i += 5) {
+                repoGroups.add(publicRepos.subList(i, Math.min(i + 5, publicRepos.size())));
+            }
 
-                    if (repoShortName != null && ownerLogin != null && repoFullName != null)
-                        return getCommitsForOwnerRepoReactive(ownerLogin, repoShortName, repoFullName);
-                    
-                    return Flux.empty();
-                }, Math.min(publicRepos.size(), 5)) // 과도한 동시 요청을 피하기 위해 5로 제한
-                .collectList()
-                .block(); // 결과를 동기적으로 기다림 (전체 파이프라인이 리액티브하면 .block() 없이 처리)
+            // 각 그룹을 순차적으로 처리
+            for (List<Map<String, Object>> repoGroup : repoGroups) {
+                List<Map<String, Object>> groupCommits = Flux.fromIterable(repoGroup)
+                    .flatMap(repoData -> 
+                    {
+                        String repoShortName = (String) repoData.get("name");
+                        String repoFullName = (String) repoData.get("full_name");
+                        
+                        Map<String, Object> ownerMap = (Map<String, Object>) repoData.get("owner");
+                        String ownerLogin = (String) ownerMap.get("login");
 
-            if (directCommits != null)
-                allCollectedEvents.addAll(directCommits);
+                        if (repoShortName != null && ownerLogin != null && repoFullName != null)
+                            return getCommitsForOwnerRepoReactive(ownerLogin, repoShortName, repoFullName);
+                        
+                        return Flux.empty();
+                    }, 5)
+                    .collectList()
+                    .block();
+
+                if (groupCommits != null)
+                    allCollectedEvents.addAll(groupCommits);
+
+                // 각 그룹 처리 후 잠시 대기하여 rate limit 관리
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
 
             // 2. 사용자 이벤트 엔드포인트에서 다른 이벤트 유형(PushEvent 제외) 가져오기
             int page = 1;
             boolean hasMorePages = true;
             int retryCount = 0;
             int maxRetries = 3;
-            long retryDelayMs = 5000; // 초기 재시도 지연 시간 (5초)
+            long retryDelayMs = 5000;
             
             while (hasMorePages && retryCount <= maxRetries) {
                 try {
@@ -311,7 +361,6 @@ public class GitHubService
                         url, HttpMethod.GET, entity, new ParameterizedTypeReference<List<Map<String, Object>>>() {}
                     );
                     
-                    // 레이트 리밋 정보 로깅
                     logRateLimitInfo(responseEntity.getHeaders());
                     
                     List<Map<String, Object>> eventsThisPage = responseEntity.getBody();
@@ -330,7 +379,6 @@ public class GitHubService
                         hasMorePages = false;
                     }
                     
-                    // 성공했으므로 재시도 카운터 초기화
                     retryCount = 0;
                 } catch (HttpClientErrorException e) {
                     if (e.getStatusCode() == HttpStatus.FORBIDDEN && 
@@ -339,10 +387,9 @@ public class GitHubService
                         retryCount++;
                         if (retryCount > maxRetries) {
                             System.err.println("최대 재시도 횟수를 초과했습니다. GitHub API 레이트 리밋 한도에 도달했습니다.");
-                            break; // 일부 이벤트만 가져오더라도 표시하기 위해 종료
+                            break;
                         }
                         
-                        // 지수 백오프 지연 구현
                         long waitTime = retryDelayMs * (long)Math.pow(2, retryCount - 1);
                         System.out.println("GitHub API 레이트 리밋 한도에 도달했습니다. " + (waitTime / 1000) + "초 후 재시도합니다...");
                         
@@ -353,7 +400,6 @@ public class GitHubService
                             break;
                         }
                     } else {
-                        // 다른 종류의 오류는 로깅 후 이벤트 수집 중단
                         System.err.println("GitHub 이벤트 조회 중 오류 발생: " + e.getMessage());
                         break;
                     }
@@ -397,7 +443,6 @@ public class GitHubService
 
                             event.put("commitMessages", commitMessages);
                             
-                            // 변경 라인 수 정보가 있으면 포맷팅하여 추가
                             if (event.containsKey("additions") && event.containsKey("deletions")) {
                                 Integer additions = (Integer) event.get("additions");
                                 Integer deletions = (Integer) event.get("deletions");
@@ -407,13 +452,15 @@ public class GitHubService
                     }
                 }
             }
+
+            // 결과를 캐시에 저장
+            userCommitsCache.put(username, new CacheEntry(allCollectedEvents, CACHE_DURATION_MINUTES));
+            
         } catch (Exception e) {
-            // 모든 예외 상황에서 유저에게 알려줄 메시지 추가
             Map<String, Object> errorEvent = new HashMap<>();
             errorEvent.put("type", "ErrorEvent");
             errorEvent.put("created_at", Instant.now().toString());
             
-            // 날짜 포맷팅
             Instant instant = Instant.now();
             ZoneId zoneId = ZoneId.of("Asia/Seoul");
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm").withZone(zoneId);
@@ -421,7 +468,6 @@ public class GitHubService
             errorEvent.put("created_at_timezone", "KST");
             errorEvent.put("created_at_offset", "+09:00");
             
-            // 에러 정보
             Map<String, Object> repoInfo = new HashMap<>();
             repoInfo.put("name", "GitHub API 오류");
             errorEvent.put("repo", repoInfo);
@@ -441,10 +487,8 @@ public class GitHubService
             payload.put("commits", errorDetails);
             errorEvent.put("payload", payload);
             
-            // 에러 이벤트 색상
             errorEvent.put("color", "#ef4444");
             
-            // 에러 이벤트 추가
             allCollectedEvents.add(errorEvent);
         }
         
