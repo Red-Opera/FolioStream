@@ -86,7 +86,12 @@ public class GitHubService
     }
 
     @Autowired
-    public GitHubService(RestTemplate restTemplate, WebClient.Builder webClientBuilder, @Value("${github.api.token}") String githubToken) 
+    public GitHubService
+    (
+        RestTemplate restTemplate, 
+        WebClient.Builder webClientBuilder, 
+        @Value("${github.api.token}") String githubToken
+    ) 
     {
         this.restTemplate = restTemplate;
         this.githubToken = githubToken;
@@ -465,8 +470,12 @@ public class GitHubService
                         Instant instant = Instant.parse(createdAt);
                         ZoneId zoneId = ZoneId.of("Asia/Seoul");
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm").withZone(zoneId);
+                        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(zoneId);
+                        DateTimeFormatter dateOnlyFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일").withZone(zoneId);
                         
                         event.put("created_at_formatted", formatter.format(instant));
+                        event.put("created_at_date", dateFormatter.format(instant));
+                        event.put("created_at_date_only", dateOnlyFormatter.format(instant));
                         event.put("created_at_timezone", "KST");
                         event.put("created_at_offset", "+09:00");
                     }

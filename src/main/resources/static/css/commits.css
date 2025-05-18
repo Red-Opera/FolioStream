@@ -294,3 +294,54 @@
     color: #ef4444; /* 빨간색 - 삭제된 코드 */
     font-weight: bold;
 }
+
+/* 날짜 구분선 스타일 */
+.timeline-svg-container {
+    position: relative;
+    padding-top: 60px; /* 날짜 표시를 위한 여백 추가 */
+}
+
+.timeline-svg-container svg {
+    overflow: visible;
+}
+
+/* 날짜 구분선 텍스트 스타일 */
+.timeline-svg-container text {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    dominant-baseline: hanging;
+}
+
+/* 날짜 구분선 애니메이션 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.timeline-svg-container line[stroke-dasharray] {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* 날짜 구분선 호버 효과 */
+.timeline-svg-container text:hover {
+    fill: #3b82f6;
+    transition: fill 0.2s ease;
+}
+
+/* 날짜 구분선 배경 */
+.timeline-svg-container text {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 4px 8px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* 반응형 조정 */
+@media (max-width: 768px) {
+    .timeline-svg-container {
+        padding-top: 40px;
+    }
+    
+    .timeline-svg-container text {
+        font-size: 12px;
+    }
+}

@@ -81,6 +81,27 @@
                     <svg id="timeline-svg" th:if="${not #lists.isEmpty(events) and events[0].type != 'ErrorEvent'}" th:attr="width=${events.size() * 220 + 200}, viewBox='0 0 ' + (${events.size() * 220 + 200}) + ' 380'">
                         <path id="timeline-path" th:attr="d='M 100 190 L ' + (${events.size() * 220 + 100}) + ' 190'"
                               fill="none" stroke="#e2e8f0" stroke-width="4"/>
+                        
+                        <!-- 날짜 구분선 (위쪽) -->
+                        <g th:each="event, iterStat : ${events}" th:if="${iterStat.index == 0 or !event.created_at_date.equals(events[iterStat.index - 1].created_at_date)}">
+                            <line th:attr="x1=${100 + iterStat.index * 220}, y1=50, x2=${100 + iterStat.index * 220}, y2=330"
+                                  stroke="#e2e8f0" stroke-width="2" stroke-dasharray="5,5"/>
+                            <text th:attr="x=${100 + iterStat.index * 220}, y=0"
+                                  text-anchor="middle" fill="#64748b" font-size="14" font-weight="bold">
+                                <tspan th:text="${event.created_at_date_only}">2024년 03월 21일</tspan>
+                            </text>
+                        </g>
+
+                        <!-- 날짜 구분선 (아래쪽) -->
+                        <g th:each="event, iterStat : ${events}" th:if="${iterStat.index == 0 or !event.created_at_date.equals(events[iterStat.index - 1].created_at_date)}">
+                            <line th:attr="x1=${100 + iterStat.index * 220}, y1=50, x2=${100 + iterStat.index * 220}, y2=330"
+                                  stroke="#e2e8f0" stroke-width="2" stroke-dasharray="5,5"/>
+                            <text th:attr="x=${100 + iterStat.index * 220}, y=350"
+                                  text-anchor="middle" fill="#64748b" font-size="14" font-weight="bold">
+                                <tspan th:text="${event.created_at_date_only}">2024년 03월 21일</tspan>
+                            </text>
+                        </g>
+
                         <g th:each="event, iterStat : ${events}">
                             <line th:attr="x1=${100 + iterStat.index * 220}, y1=190, x2=${100 + iterStat.index * 220}, y2=${iterStat.index % 2 == 0 ? 100 : 280}"
                                   stroke="#cbd5e1" stroke-width="2"/>

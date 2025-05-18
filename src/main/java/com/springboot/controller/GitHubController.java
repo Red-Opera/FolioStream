@@ -24,10 +24,10 @@ public class GitHubController
     private static final String GITHUB_USERNAME_SESSION_KEY = "github_username";
 
     @GetMapping("/github/commits")
-    public String showLoadingPage(@RequestParam(name = "username", defaultValue = "Red-Opera") String username, Model model) 
+    public String showLoadingPage(@RequestParam(name = "username", defaultValue = "Red-Opera") String username, Model model)
     {
         model.addAttribute("username", username);
-        return "github/loading";  // 먼저 로딩 페이지를 보여줌
+        return "redirect:/github/commits/view?username=" + username;  // 로딩 페이지 대신 commits/view로 리다이렉트
     }
 
     @GetMapping("/github/commits/view")
