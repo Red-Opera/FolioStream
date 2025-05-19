@@ -1,4 +1,0 @@
-/gradlew text eol=lf
-*.bat text eol=crlf
-*.jar binary
-src/main/resources/static/images/Gallery/Legacy-of-Auras/banner.gif filter=lfs diff=lfs merge=lfs -text
