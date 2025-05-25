@@ -43,8 +43,48 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-section"
+    <section class="hero-section" th:if="${bannerType == 'image'}"
         th:style="${bannerImage != null} ? 'background: url(' + @{${bannerImage}} + ') center center / cover no-repeat;' : ''">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1 class="display-3 fw-bold mb-4">K Project</h1>
+                    <p class="lead mb-4">혁신적인 게임 플레이와 독특한 아트 스타일이 결합된 실험적 게임 프로젝트</p>
+                    <div class="d-flex gap-3">
+                        <a href="#overview" class="btn btn-primary btn-lg">더 알아보기</a>
+                        <a href="https://github.com/Red-Opera/K-Project/archive/refs/heads/main.zip" class="btn btn-success btn-lg">
+                            <i class="fas fa-download me-2"></i>프로젝트 다운로드
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Section with Video Background -->
+    <section class="hero-section position-relative" th:if="${bannerType == 'video'}" style="overflow: hidden; min-height: 100vh;">
+        <video autoplay muted loop class="position-absolute top-0 start-0 w-100 h-100" style="object-fit: cover; z-index: -1;">
+            <source th:src="@{${bannerImage}}" type="video/mp4">
+        </video>
+        <!-- 오버레이 완전히 제거 -->
+        <div class="container position-relative" style="z-index: 1;">
+            <div class="row align-items-center" style="min-height: 100vh;">
+                <div class="col-lg-8">
+                    <h1 class="display-3 fw-bold mb-4 text-white" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">K Project</h1>
+                    <p class="lead mb-4 text-white" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">혁신적인 게임 플레이와 독특한 아트 스타일이 결합된 실험적 게임 프로젝트</p>
+                    <div class="d-flex gap-3">
+                        <a href="#overview" class="btn btn-primary btn-lg">더 알아보기</a>
+                        <a href="https://github.com/Red-Opera/K-Project/archive/refs/heads/main.zip" class="btn btn-success btn-lg">
+                            <i class="fas fa-download me-2"></i>프로젝트 다운로드
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Default Hero Section -->
+    <section class="hero-section" th:if="${bannerType == null}">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">

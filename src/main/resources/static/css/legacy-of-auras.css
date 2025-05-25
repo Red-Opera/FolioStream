@@ -112,7 +112,7 @@ body {
     background-color: #3a7bd5;
     color: white;
     border-radius: 50%;
-    display: none;
+    display: none;  
     align-items: center;
     justify-content: center;
     text-decoration: none;
@@ -125,4 +125,21 @@ body {
     background-color: #00d2ff;
     transform: translateY(-5px);
     box-shadow: 0 8px 15px rgba(0, 210, 255, 0.4);
+}
+
+/* 비디오 배너용 스타일 - 기존 코드 아래에 추가 */
+.hero-section.position-relative {
+    background: none !important; /* 비디오 섹션의 어두운 오버레이 제거 */
+}
+
+/* 비디오 배너 오버레이 투명하게 */
+.hero-section .position-relative::before {
+    background: rgba(0, 0, 0, 0) !important;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
 }

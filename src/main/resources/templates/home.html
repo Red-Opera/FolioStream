@@ -169,7 +169,8 @@
                             <div class="portfolio-card-actions">
                                 <a th:if="${item.title} == 'Legacy of Auras'" href="/legacy-of-auras" class="view-btn">자세히 보기</a>
                                 <a th:if="${item.title} == 'K Project'" href="/k-project" class="view-btn">자세히 보기</a>
-                                <a th:if="${item.title} != 'Legacy of Auras' and ${item.title} != 'K Project'" href="#" class="view-btn">자세히 보기</a>
+                                <a th:if="${item.title} == 'Era of Dreams : 1950s Simulation'" href="/era-of-dreams" class="view-btn">자세히 보기</a>
+                                <a th:if="${item.title} != 'Legacy of Auras' and ${item.title} != 'K Project' and ${item.title} != 'Era of Dreams : 1950s Simulation'" href="#" class="view-btn">자세히 보기</a>
                             </div>
                         </div>
                     </div>

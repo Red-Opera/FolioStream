@@ -61,6 +61,28 @@ body {
     background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.1));
 }
 
+/* 비디오 배너용 스타일 - 기존 코드 아래에 추가 */
+.hero-section.position-relative {
+    background: none !important; /* 비디오 섹션의 어두운 오버레이 제거 */
+}
+
+/* 비디오 배너 오버레이 투명하게 */
+.hero-section .position-relative::before {
+    background: rgba(0, 0, 0, 0) !important;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* hero-section::after 스타일도 비디오 섹션에서는 제거 */
+.hero-section.position-relative::after {
+    display: none;
+}
+
 /* 특징 카드 */
 .feature-card {
     transition: transform 0.3s, box-shadow 0.3s;

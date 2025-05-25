@@ -4,7 +4,8 @@ from pathlib import Path
 # 분할할 파일들 (현재 스크립트 기준 상대 경로)
 FILES = [
     'src/main/resources/static/images/Gallery/K-Project/banner.gif',
-    'src/main/resources/static/images/Gallery/Legacy-of-Auras/banner.gif',
+    'src/main/resources/static/images/Gallery/Legacy-of-Auras/banner.mp4',
+    'src/main/resources/static/images/Gallery/Era-of-Dreams/banner.mp4',
 ]
 
 # 청크 크기: 95 MiB
