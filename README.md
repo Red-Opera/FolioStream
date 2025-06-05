@@ -27,6 +27,7 @@
     <li>
         <h3>Development Period</h3>
         <p>시작 일자 : 2025.04.25</p>
+        <p>총 개발 기간 : 1달 </p>
     </li>
     <li>
         <h3>Development Member</h3>
