@@ -306,4 +306,66 @@ public class HomeController
         
         return "eraofdreams-1950ssimulation";
     }
+
+    @GetMapping("/shuttle-bus-defense")
+    public String shuttleBusDefense(Model model) 
+    {
+        String galleryPath = "/images/Gallery/Shuttle-Bus-Defense/";
+        String projectRoot = System.getProperty("user.dir");
+        
+        // FolioStream 경로가 없으면 추가
+        if (!projectRoot.contains("FolioStream"))
+            projectRoot = projectRoot + "/FolioStream";
+        
+        String realPath = projectRoot + "/src/main/resources/static/images/Gallery/Shuttle-Bus-Defense/";
+        model.addAttribute("realPath", realPath);
+
+        // banner 파일 존재 여부 확인 (gif와 mp4 둘 다 체크)
+        String bannerPath = null;
+        String bannerType = null;
+        
+        File bannerMp4 = new File(realPath + "banner.mp4");
+        File bannerGif = new File(realPath + "banner.gif");
+        
+        if (bannerMp4.exists()) {
+            bannerPath = galleryPath + "banner.mp4";
+            bannerType = "video";
+        } else if (bannerGif.exists()) {
+            bannerPath = galleryPath + "banner.gif";
+            bannerType = "image";
+        } else {
+            bannerPath = "/images/Banner/ShuttleBusDefense.jpg";
+            bannerType = "image";
+        }
+        
+        model.addAttribute("bannerImage", bannerPath);
+        model.addAttribute("bannerType", bannerType);
+
+        File folder = new File(realPath);
+        String[] files = folder.list((dir, name) -> name.matches("\\d+\\.png"));
+        
+        if (files == null || files.length == 0)
+            model.addAttribute("filesStatus", "No files found");
+        else
+            model.addAttribute("filesStatus", "Found " + files.length + " files");
+
+        List<String> galleryImages = new ArrayList<>();
+        
+        if (files != null) 
+        {
+            Arrays.sort(files, (a, b) -> 
+            {
+                int numA = Integer.parseInt(a.replace(".png", ""));
+                int numB = Integer.parseInt(b.replace(".png", ""));
+                return Integer.compare(numA, numB);
+            });
+            
+            for (String file : files)
+                galleryImages.add(galleryPath + file);
+        }
+        
+        model.addAttribute("galleryImages", galleryImages);
+
+        return "shuttle-bus-defense";
+    }
 }

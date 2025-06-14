@@ -142,7 +142,8 @@
                             <div class="portfolio-card-actions">
                                 <a th:if="${item.title} == 'Legacy of Auras'" href="/legacy-of-auras" class="view-btn">자세히 보기</a>
                                 <a th:if="${item.title} == 'K Project'" href="/k-project" class="view-btn">자세히 보기</a>
-                                <a th:if="${item.title} != 'Legacy of Auras' and ${item.title} != 'K Project'" href="#" class="view-btn">자세히 보기</a>
+                                <a th:if="${item.title} == '셔틀버스 디펜스 게임'" href="/shuttle-bus-defense" class="view-btn">자세히 보기</a>
+                                <a th:if="${item.title} != 'Legacy of Auras' and ${item.title} != 'K Project' and ${item.title} != '셔틀버스 디펜스 게임'" href="#" class="view-btn">자세히 보기</a>
                             </div>
                         </div>
                     </div>

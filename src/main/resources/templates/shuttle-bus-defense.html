@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EraOfDreams : 1950sSimulation - Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/legacy-of-auras.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">Shuttle Bus Defense</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#overview">Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tech-specs">Tech Specs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#controls">Controls</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#gallery">Gallery</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" th:if="${bannerType == 'image'}"
+        th:style="${bannerImage != null} ? 'background: url(' + @{${bannerImage}} + ') center center / cover no-repeat;' : ''">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1 class="display-3 fw-bold mb-4">VR Shuttle Bus Defense</h1>
+                    <p class="lead mb-4">VR 기반의 셔틀버스 방어 시뮬레이션 게임</p>
+                    <div class="d-flex gap-3">
+                        <a href="#overview" class="btn btn-primary btn-lg">더 알아보기</a>
+                        <a href="https://github.com/Red-Opera/VRDefense/archive/refs/heads/main.zip" class="btn btn-success btn-lg">
+                            <i class="fas fa-download me-2"></i>프로젝트 다운로드
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Section with Video Background -->
+    <section class="hero-section position-relative" th:if="${bannerType == 'video'}" style="overflow: hidden; min-height: 100vh;">
+        <video autoplay muted loop class="position-absolute top-0 start-0 w-100 h-100" style="object-fit: cover; z-index: -1;">
+            <source th:src="@{${bannerImage}}" type="video/mp4">
+        </video>
+        <!-- 오버레이 완전히 제거 -->
+        <div class="container position-relative" style="z-index: 1;">
+            <div class="row align-items-center" style="min-height: 100vh;">
+                <div class="col-lg-8">
+                    <h1 class="display-3 fw-bold mb-4 text-white" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">VR Shuttle Bus Defense</h1>
+                    <p class="lead mb-4 text-white" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">VR 기반의 셔틀버스 방어 시뮬레이션 게임</p>
+                    <div class="d-flex gap-3">
+                        <a href="#overview" class="btn btn-primary btn-lg">더 알아보기</a>
+                        <a href="https://github.com/Red-Opera/VRDefense/archive/refs/heads/main.zip" class="btn btn-success btn-lg">
+                            <i class="fas fa-download me-2"></i>프로젝트 다운로드
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Default Hero Section -->
+    <section class="hero-section" th:if="${bannerType == null}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1 class="display-3 fw-bold mb-4">VR Shuttle Bus Defense</h1>
+                    <p class="lead mb-4">VR 기반의 셔틀버스 방어 시뮬레이션 게임</p>
+                    <div class="d-flex gap-3">
+                        <a href="#overview" class="btn btn-primary btn-lg">더 알아보기</a>
+                        <a href="https://github.com/Red-Opera/VRDefense/archive/refs/heads/main.zip" class="btn btn-success btn-lg">
+                            <i class="fas fa-download me-2"></i>프로젝트 다운로드
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section id="overview" class="py-5">
+        <div class="container">
+            <h2 class="section-title text-start">프로젝트 개요</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <p class="lead mb-4">
+                      VR Shuttle Bus Defense는 팀 프로젝트로 진행된 VR 기반의 셔틀버스 방어 시뮬레이션 게임입니다. 이 프로젝트는 유니티 엔진과 Oculus VR을 기반으로 제작한 게임입니다. 플레이어는 셔틀버스를 방어하며 다양한 적들과 싸워 무사히 셔틀버스에 탑승하는 임무를 수행합니다. VR에 맞는 UI/UX 디자인이 적용하여 몰입감과 편리성을 중심으로 개발되었습니다.
+                    </p>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm h-100 border-0 rounded-4 p-3 d-flex flex-row align-items-center">
+                                <i class="fas fa-gamepad fa-lg text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-bold">장르</div>
+                                    <div class="small text-muted">VR 디펜스</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm h-100 border-0 rounded-4 p-3 d-flex flex-row align-items-center">
+                                <i class="fas fa-code fa-lg text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-bold">개발 언어</div>
+                                    <div class="small text-muted">C#</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm h-100 border-0 rounded-4 p-3 d-flex flex-row align-items-center">
+                                <i class="fas fa-calendar fa-lg text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-bold">개발 기간</div>
+                                    <div class="small text-muted">5개월</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm h-100 border-0 rounded-4 p-3 d-flex flex-row align-items-center">
+                                <i class="fas fa-calendar-day fa-lg text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-bold">시작 일자</div>
+                                    <div class="small text-muted">2023.06.18</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm h-100 border-0 rounded-4 p-3 d-flex flex-row align-items-center">
+                                <i class="fas fa-desktop fa-lg text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-bold">지원 플랫폼</div>
+                                    <div class="small text-muted">PC, Oculus</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm h-100 border-0 rounded-4 p-3 d-flex flex-row align-items-center">
+                                <i class="fas fa-user fa-lg text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-bold">개발자</div>
+                                    <div class="small text-muted">서정현 등 9명</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="ratio ratio-16x9">
+                        <iframe src="https://www.youtube.com/embed/MSd9-d9z58g" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title text-start">주요 특징</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body">
+                            <i class="fas fa-vr-cardboard fa-2x mb-3 text-primary"></i>
+                            <h3 class="h5">VR 몰입형 환경</h3>
+                            <p>기존 PC 게임의 한계를 넘어선 VR 환경에서 플레이어가 직접 몸을 움직이며 게임 세계에 완전히 몰입할 수 있는 경험을 제공합니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body">
+                            <i class="fas fa-hand-paper fa-2x mb-3 text-primary"></i>
+                            <h3 class="h5">직관적인 VR UI/UX</h3>
+                            <p>VR 환경에 특화된 직관적인 인터페이스로 실제 손동작을 통한 자연스러운 상호작용이 가능하며, 멀미를 최소화한 편안한 사용자 경험을 제공합니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body">
+                            <i class="fas fa-shield-alt fa-2x mb-3 text-primary"></i>
+                            <h3 class="h5">전략적 디펜스 게임플레이</h3>
+                            <p>다양한 무기와 스킬을 활용하여 셔틀버스를 방어하는 전략적 게임플레이로, 쉬운 조작법과 높은 전략성을 동시에 만족시키는 중독성 있는 경험을 선사합니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Specifications -->
+    <section id="tech-specs" class="py-5">
+        <div class="container">
+            <h2 class="section-title text-start">기술 사양</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="tech-specs">
+                        <h3 class="h5 mb-4">개발 도구</h3>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check me-2 text-success"></i> Unity 2021.3.20f1</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> Visual Studio</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> Blender</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> Oculus VR</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="tech-specs">
+                        <h3 class="h5 mb-4">기술적 특징</h3>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check me-2 text-success"></i> VR 환경에 최적화된 3D 공간 인터페이스 설계</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> 실시간 손동작 인식 및 물리 기반 상호작용 시스템</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> 다단계 난이도 조절이 가능한 AI 적 시스템</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Controls Section (Modern Card Style) -->
+    <section id="controls" class="py-5 bg-light">
+      <div class="container">
+        <h2 class="section-title text-start mb-4">조작 방법</h2>
+        <div class="row g-4">
+          <!-- Movement Controls -->
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title mb-3"><i class="fas fa-arrows-alt"></i> 이동</h5>
+                <div class="d-flex flex-wrap gap-3 align-items-center">
+                  <div class="text-center">
+                    <img src="/images/Key/etc/ShuttleBus/Move.png" alt="Move" style="height:200px; object-fit:contain;">
+                    <div class="small text-muted mt-1"><b>기본 이동:</b> 컨트롤러 스틱으로 이동</div>
+                  </div>
+                  <div class="text-center">
+                    <img src="/images/Key/etc/ShuttleBus/Move2.png" alt="Move2" style="height:200px; object-fit:contain;">
+                    <div class="small text-muted mt-1"><b>고급 이동:</b> 순간이동 및 점프</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Weapon Controls -->
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title mb-3"><i class="fas fa-crosshairs"></i> 무기 조작</h5>
+                <div class="d-flex flex-wrap gap-3 align-items-center">
+                  <div class="text-center">
+                    <img src="/images/Key/etc/ShuttleBus/WeaphonPick.png" alt="Weapon Pick" style="height:200px; object-fit:contain;">
+                    <div class="small text-muted mt-1"><b>무기 획득:</b> 손으로 잡기</div>
+                  </div>
+                  <div class="text-center">
+                    <img src="/images/Key/etc/ShuttleBus/WeaphonDrop.png" alt="Weapon Drop" style="height:200px; object-fit:contain;">
+                    <div class="small text-muted mt-1"><b>무기 놓기:</b> 잡은 상태에서 놓기</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Item Controls -->
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title mb-3"><i class="fas fa-box"></i> 아이템 사용</h5>
+                <div class="d-flex flex-wrap gap-3 align-items-center">
+                  <div class="text-center">
+                    <img src="/images/Key/etc/ShuttleBus/ItemUse.png" alt="Item Use" style="height:200px; object-fit:contain;">
+                    <div class="small text-muted mt-1"><b>아이템 사용:</b> 트리거 버튼</div>
+                  </div>
+                  <div class="text-center">
+                    <img src="/images/Key/etc/ShuttleBus/ItemUse2.png" alt="Item Use 2" style="height:200px; object-fit:contain;">
+                    <div class="small text-muted mt-1"><b>고급 아이템 사용:</b> 특정 제스처</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Skill Controls -->
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title mb-3"><i class="fas fa-magic"></i> 스킬</h5>
+                <div class="d-flex flex-wrap gap-3 align-items-center">
+                  <div class="text-center">
+                    <img src="/images/Key/etc/ShuttleBus/Skill.png" alt="Skill" style="height:200px; object-fit:contain;">
+                    <div class="small text-muted mt-1"><b>스킬 사용:</b> 메뉴 버튼 + 트리거</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- VR 조작 안내 -->
+        <div class="row mt-4">
+          <div class="col-12">
+            <div class="alert alert-info">
+              <h5><i class="fas fa-vr-cardboard me-2"></i>VR 조작 안내</h5>
+              <p class="mb-0">이 게임은 VR 환경에 최적화되어 있습니다. 위의 조작법은 VR 컨트롤러의 제스처와 버튼을 통해 수행됩니다. 실제 손의 움직임과 컨트롤러의 트리거, 그립 버튼을 활용하여 몰입감 있는 게임플레이를 즐기실 수 있습니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title text-start">갤러리</h2>
+            <div class="row">
+                <div class="col-md-4" th:each="img : ${galleryImages}">
+                    <div class="gallery-item">
+                        <img th:src="@{${img}}" alt="Game Screenshot" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>VR Shuttle Bus Defense</h5>
+                <p>유니티 기반의 VR 개발 기술을 활용한 팀 프로젝트입니다.</p>
+                <a href="https://github.com/Red-Opera/VRDefense/archive/refs/heads/main.zip" class="btn btn-outline-light btn-sm mt-2">
+                    <i class="fas fa-download me-2"></i>프로젝트 다운로드
+                </a>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="https://github.com/Red-Opera/VRDefense" class="text-light me-3">
+                    <i class="fab fa-github fa-2x"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/shuttle-bus-defense.js"></script>
+</body></html>
