@@ -1,0 +1,272 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --text-color: #2c3e50;
+    --light-bg: #f8f9fa;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-top: 76px;
+    color: #333;
+}
+
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://via.placeholder.com/1920x1080') center/cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+/* 섹션 제목 */
+.section-title {
+    position: relative;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+    color: #333;
+    font-weight: 700;
+    font-size: 2.5rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(to right, #3a7bd5, #00d2ff);
+    bottom: 0;
+    left: 0;
+    transform: none;
+    border-radius: 2px;
+}
+
+/* text-start 클래스가 있는 경우 추가 스타일 */
+.section-title.text-start::after {
+    left: 0;
+    transform: none;
+}
+
+.feature-card {
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.tech-specs {
+    background-color: var(--light-bg);
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: 0;
+    padding-top: 56.25%;
+    background: #eee;
+}
+
+.gallery-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+.nav-link {
+    color: var(--text-color);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--secondary-color);
+}
+
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #3a7bd5;
+    color: white;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(58, 123, 213, 0.3);
+}
+
+.back-to-top:hover {
+    background-color: #00d2ff;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 210, 255, 0.4);
+}
+
+/* 비디오 배너용 스타일 - 기존 코드 아래에 추가 */
+.hero-section.position-relative {
+    background: none !important; /* 비디오 섹션의 어두운 오버레이 제거 */
+}
+
+/* 비디오 배너 오버레이 투명하게 */
+.hero-section .position-relative::before {
+    background: rgba(0, 0, 0, 0) !important;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* 키 이미지 스타일 추가 */
+.key-image {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin-bottom: 8px;
+}
+
+.controls-container .card {
+    height: 100%;
+    transition: transform 0.2s;
+}
+
+.controls-container .card:hover {
+    transform: translateY(-5px);
+}
+
+.key-container {
+    display: inline-block;
+    text-align: center;
+    margin: 0.5rem;
+    width: 80px;
+    vertical-align: top;
+}
+
+/* 모바일 화면에서 키 컨테이너 조정 */
+@media (max-width: 576px) {
+    .key-container {
+        width: 70px;
+        margin: 0.25rem;
+    }
+    .key-image {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/* 조작 방법 섹션 스타일 */
+.key-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.key-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70px;
+  margin-bottom: 15px;
+}
+
+.key-btn {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  margin-bottom: 5px;
+}
+
+.key-desc {
+  font-size: 12px;
+  text-align: center;
+  color: #6c757d;
+  line-height: 1.2;
+}
+
+/* 넓은 키 버튼 (스페이스, 엔터 등) */
+.key-btn.wide {
+  width: 100px;
+}
+
+/* 카드 내부 여백 조정 */
+.card-body {
+  padding: 1.5rem;
+}
+
+/* 카드 높이 일관성 */
+.card.h-100 {
+  height: 100% !important;
+}
+
+/* 모바일 반응형 조정 */
+@media (max-width: 576px) {
+  .key-item {
+    width: 60px;
+    margin-bottom: 10px;
+  }
+  
+  .key-btn {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .key-desc {
+    font-size: 11px;
+  }
+}
+
+/* 키 컨트롤 스타일 */
+.card .text-center {
+  width: auto;
+  min-width: 70px;
+  margin-bottom: 10px;
+}
+
+/* 특수 키(넓은 키) 스타일 */
+.wide-key {
+  width: auto;
+  min-width: 100px;
+}
+
+/* 모바일 반응형 조정 */
+@media (max-width: 576px) {
+  .card .text-center {
+    min-width: 60px;
+  }
+  
+  .card .text-center img {
+    height: 40px !important;
+  }
+  
+  .wide-key {
+    min-width: 80px;
+  }
+}

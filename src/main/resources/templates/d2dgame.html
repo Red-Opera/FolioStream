@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D2DGame - Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/d2dgame.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">D2DGame</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#overview">Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tech-specs">Tech Specs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#controls">Controls</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#gallery">Gallery</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" th:if="${bannerType == 'image'}"
+        th:style="${bannerImage != null} ? 'background: url(' + @{${bannerImage}} + ') center center / cover no-repeat;' : ''">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1 class="display-3 fw-bold mb-4">D2DGame</h1>
+                    <p class="lead mb-4">DirectX 11 렌더링 파이프라인의 기초를 다진 2D 게임 엔진 프로젝트</p>
+                    <div class="d-flex gap-3">
+                        <a href="#overview" class="btn btn-primary btn-lg">더 알아보기</a>
+                        <a href="https://github.com/Red-Opera/D2DGame/archive/refs/heads/main.zip" class="btn btn-success btn-lg">
+                            <i class="fas fa-download me-2"></i>프로젝트 다운로드
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Section with Video Background -->
+    <section class="hero-section position-relative" th:if="${bannerType == 'video'}" style="overflow: hidden; min-height: 100vh;">
+        <video autoplay muted loop class="position-absolute top-0 start-0 w-100 h-100" style="object-fit: cover; z-index: -1;">
+            <source th:src="@{${bannerImage}}" type="video/mp4">
+        </video>
+        <!-- 오버레이 완전히 제거 -->
+        <div class="container position-relative" style="z-index: 1;">
+            <div class="row align-items-center" style="min-height: 100vh;">
+                <div class="col-lg-8">
+                    <h1 class="display-3 fw-bold mb-4 text-white" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">D2DGame</h1>
+                    <p class="lead mb-4 text-white" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">DirectX 11 렌더링 파이프라인의 기초를 다진 2D 게임 엔진 프로젝트</p>
+                    <div class="d-flex gap-3">
+                        <a href="#overview" class="btn btn-primary btn-lg">더 알아보기</a>
+                        <a href="https://github.com/Red-Opera/D2DGame/archive/refs/heads/main.zip" class="btn btn-success btn-lg">
+                            <i class="fas fa-download me-2"></i>프로젝트 다운로드
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Default Hero Section -->
+    <section class="hero-section" th:if="${bannerType == null}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1 class="display-3 fw-bold mb-4">D2DGame</h1>
+                    <p class="lead mb-4">DirectX 11 렌더링 파이프라인의 기초를 다진 2D 게임 엔진 프로젝트</p>
+                    <div class="d-flex gap-3">
+                        <a href="#overview" class="btn btn-primary btn-lg">더 알아보기</a>
+                        <a href="https://github.com/Red-Opera/D2DGame/archive/refs/heads/main.zip" class="btn btn-success btn-lg">
+                            <i class="fas fa-download me-2"></i>프로젝트 다운로드
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section id="overview" class="py-5">
+        <div class="container">
+            <h2 class="section-title text-start">프로젝트 개요</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <p class="lead mb-4">
+                      D2DGame은 개인 개발로 진행된 2D 캐주얼 슈팅 장르의 프로젝트로, DirectX 11 API를 기반으로 제작한 클라이언트로 구성되어 있습니다. 씬 이동, 체력 시스템, UI, 캐릭터와 몬스터, 간단한 충돌 처리 등의 기능을 포함하고 있습니다.
+                    </p>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm h-100 border-0 rounded-4 p-3 d-flex flex-row align-items-center">
+                                <i class="fas fa-gamepad fa-lg text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-bold">장르</div>
+                                    <div class="small text-muted">2D Casual Shooting Game</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm h-100 border-0 rounded-4 p-3 d-flex flex-row align-items-center">
+                                <i class="fas fa-code fa-lg text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-bold">개발 언어</div>
+                                    <div class="small text-muted">C, C++, HLSL</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm h-100 border-0 rounded-4 p-3 d-flex flex-row align-items-center">
+                                <i class="fas fa-calendar fa-lg text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-bold">개발 기간</div>
+                                    <div class="small text-muted">6주</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm h-100 border-0 rounded-4 p-3 d-flex flex-row align-items-center">
+                                <i class="fas fa-calendar-day fa-lg text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-bold">시작 일자</div>
+                                    <div class="small text-muted">2023.02.08</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm h-100 border-0 rounded-4 p-3 d-flex flex-row align-items-center">
+                                <i class="fas fa-desktop fa-lg text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-bold">지원 플랫폼</div>
+                                    <div class="small text-muted">PC</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm h-100 border-0 rounded-4 p-3 d-flex flex-row align-items-center">
+                                <i class="fas fa-user fa-lg text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-bold">개발자</div>
+                                    <div class="small text-muted">서정현</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="ratio ratio-16x9">
+                        <iframe src="https://www.youtube.com/embed/qiwBTG6fsT4" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title text-start">주요 특징</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body">
+                            <i class="fas fa-layer-group fa-2x mb-3 text-primary"></i>
+                            <h3 class="h5">간단한 UI와 기능</h3>
+                            <p>간단한 UI와 기능을 통해 게임 개발의 기초를 다질 수 있는 환경을 제공. 씬 이동, 체력 시스템, UI 구성 요소 등 기본적인 게임 요소를 구현</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body">
+                            <i class="fas fa-puzzle-piece fa-2x mb-3 text-primary"></i>
+                            <h3 class="h5">오브젝트와 컴포넌트 기반 아키텍처</h3>
+                            <p>오브젝트와 컴포넌트 기반 아키텍처를 통해 게임 요소의 재사용성과 확장성을 극대화. 다양한 게임 오브젝트를 쉽게 생성하고 관리할 수 있는 환경을 제공</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body">
+                            <i class="fas fa-bolt fa-2x mb-3 text-primary"></i>
+                            <h3 class="h5">이미지 렌더링과 최적화</h3>
+                            <p>중복 이미지 렌더링을 최소화하고, 효율적인 자원 관리를 통해 성능을 최적화. DirectX 11의 파이프라인을 활용하여 고성능 렌더링 구현</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Specifications -->
+    <section id="tech-specs" class="py-5">
+        <div class="container">
+            <h2 class="section-title text-start">기술 사양</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="tech-specs">
+                        <h3 class="h5 mb-4">개발 도구</h3>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check me-2 text-success"></i> DirectX 11 API</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> Visual Studio 2022</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> Imgui (UI)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="tech-specs">
+                        <h3 class="h5 mb-4">기술적 특징</h3>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check me-2 text-success"></i> DirectX 11 파이프라인 중심 개발</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> 컴포넌트 기반 아키텍처</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> 효율적인 렌더링 및 자원 관리</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> 명확한 인스턴스 관리</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Controls Section - 아이콘 변경 -->
+    <section id="controls" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title text-start mb-4">조작 방법</h2>
+    <div class="row g-4">
+      <!-- Movement Controls -->
+      <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-3"><i class="fas fa-arrows-up-down-left-right me-2"></i>이동</h5>
+            <div class="d-flex flex-wrap gap-3 align-items-start">
+              <div class="text-center">
+                <img src="/images/Key/key_w.png" alt="W" style="height:48px; object-fit:contain;">
+                <div class="small text-muted mt-1">위로 이동</div>
+              </div>
+              <div class="text-center">
+                <img src="/images/Key/key_a.png" alt="A" style="height:48px; object-fit:contain;">
+                <div class="small text-muted mt-1">왼쪽으로 이동</div>
+              </div>
+              <div class="text-center">
+                <img src="/images/Key/key_s.png" alt="S" style="height:48px; object-fit:contain;">
+                <div class="small text-muted mt-1">아래로 이동</div>
+              </div>
+              <div class="text-center">
+                <img src="/images/Key/key_d.png" alt="D" style="height:48px; object-fit:contain;">
+                <div class="small text-muted mt-1">오른쪽으로 이동</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- System Controls -->
+      <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-3"><i class="fas fa-gun me-2"></i>무기</h5>
+            <div class="d-flex flex-wrap gap-3 align-items-start">
+              <div class="text-center">
+                <img src="/images/Key/key_1.png" alt="1" style="height:48px; width:auto; min-width:60px; object-fit:contain;">
+                <div class="small text-muted mt-1">단거리 무기 (검)</div>
+              </div>
+              <div class="text-center">
+                <img src="/images/Key/key_2.png" alt="2" style="height:48px; object-fit:contain;">
+                <div class="small text-muted mt-1">장거리 무기 (총)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Scene Loading Controls -->
+      <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-3"><i class="fas fa-bolt-lightning me-2"></i>스킬 사용</h5>
+            <div class="d-flex flex-wrap gap-3 align-items-start">
+              <div class="text-center">
+                <img src="/images/Key/key_c.png" alt="C" style="height:48px; object-fit:contain;">
+                <div class="small text-muted mt-1">스킬 사용</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Mouse Controls -->
+      <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-3"><i class="fas fa-computer-mouse me-2"></i>마우스 조작</h5>
+            <div class="d-flex flex-wrap gap-3 align-items-start">
+              <div class="text-center">
+                <img src="/images/Key/mouse_left.png" alt="Mouse" style="height:48px; object-fit:contain;">
+                <div class="small text-muted mt-1">일반 공격</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title text-start">갤러리</h2>
+            <div class="row">
+                <div class="col-md-4" th:each="img : ${galleryImages}">
+                    <div class="gallery-item">
+                        <img th:src="@{${img}}" alt="Game Screenshot" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>D2DGame</h5>
+                <p>DirectX 11 파이프라인과 심플하지만 2D의 기본적인 기술 중점을 둔 개인 포트폴리오 프로젝트입니다.</p>
+                <a href="https://github.com/Red-Opera/D2DGame/archive/refs/heads/main.zip" class="btn btn-outline-light btn-sm mt-2">
+                    <i class="fas fa-download me-2"></i>프로젝트 다운로드
+                </a>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="https://github.com/Red-Opera/D2DGame" class="text-light me-3">
+                    <i class="fab fa-github fa-2x"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/d2dgame.js"></script>
+</body>
+</html>

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DirectX GameEngine - Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/directx-gameengine.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">DirectX GameEngine</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#overview">Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tech-specs">Tech Specs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#controls">Controls</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#gallery">Gallery</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" th:if="${bannerType == 'image'}"
+        th:style="${bannerImage != null} ? 'background: url(' + @{${bannerImage}} + ') center center / cover no-repeat;' : ''">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1 class="display-3 fw-bold mb-4">DirectX GameEngine</h1>
+                    <p class="lead mb-4">사실적인 3D 그래픽과 다양한 게임 개발 기능을 갖춘 DirectX 기반 게임 엔진</p>
+                    <div class="d-flex gap-3">
+                        <a href="#overview" class="btn btn-primary btn-lg">더 알아보기</a>
+                        <a href="https://github.com/Red-Opera/DirectX_GameEngine/archive/refs/heads/main.zip" class="btn btn-success btn-lg">
+                            <i class="fas fa-download me-2"></i>프로젝트 다운로드
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Section with Video Background -->
+    <section class="hero-section position-relative" th:if="${bannerType == 'video'}" style="overflow: hidden; min-height: 100vh;">
+        <video autoplay muted loop class="position-absolute top-0 start-0 w-100 h-100" style="object-fit: cover; z-index: -1;">
+            <source th:src="@{${bannerImage}}" type="video/mp4">
+        </video>
+        <!-- 오버레이 완전히 제거 -->
+        <div class="container position-relative" style="z-index: 1;">
+            <div class="row align-items-center" style="min-height: 100vh;">
+                <div class="col-lg-8">
+                    <h1 class="display-3 fw-bold mb-4 text-white" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Legacy of Auras</h1>
+                    <p class="lead mb-4 text-white" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">사실적인 3D 그래픽과 다양한 게임 개발 기능을 갖춘 DirectX 기반 게임 엔진</p>
+                    <div class="d-flex gap-3">
+                        <a href="#overview" class="btn btn-primary btn-lg">더 알아보기</a>
+                        <a href="https://github.com/Red-Opera/DirectX_GameEngine/archive/refs/heads/main.zip" class="btn btn-success btn-lg">
+                            <i class="fas fa-download me-2"></i>프로젝트 다운로드
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Default Hero Section -->
+    <section class="hero-section" th:if="${bannerType == null}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1 class="display-3 fw-bold mb-4">DirectX GameEngine</h1>
+                    <p class="lead mb-4">사실적인 3D 그래픽과 다양한 게임 개발 기능을 갖춘 DirectX 기반 게임 엔진</p>
+                    <div class="d-flex gap-3">
+                        <a href="#overview" class="btn btn-primary btn-lg">더 알아보기</a>
+                        <a href="https://github.com/Red-Opera/DirectX_GameEngine/archive/refs/heads/main.zip" class="btn btn-success btn-lg">
+                            <i class="fas fa-download me-2"></i>프로젝트 다운로드
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section id="overview" class="py-5">
+        <div class="container">
+            <h2 class="section-title text-start">프로젝트 개요</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <p class="lead mb-4">
+                      DirectX GameEngine은 개인 개발로 진행된 3D 게임 엔진 프로젝트로, DirectX API를 활용하여 사실적인 3D 그래픽과 다양한 게임 개발 기능을 제공합니다. 이 엔진은 라이트링, 그림자 매핑, 프리즘 컬링과 같은 고급 그래픽 기술과 인스펙터, 씬 관리, 물리 엔진 시스템을 포함하고 있습니다. Unity와 Unreal Engine의 장점을 결합하여 개발자에게 직관적이고 강력한 게임 개발 환경을 제공하는 것이 목표입니다.
+                    </p>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm h-100 border-0 rounded-4 p-3 d-flex flex-row align-items-center">
+                                <i class="fas fa-gamepad fa-lg text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-bold">장르</div>
+                                    <div class="small text-muted">3D Game Engine</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm h-100 border-0 rounded-4 p-3 d-flex flex-row align-items-center">
+                                <i class="fas fa-code fa-lg text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-bold">개발 언어</div>
+                                    <div class="small text-muted">C++, Python, HLSL</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm h-100 border-0 rounded-4 p-3 d-flex flex-row align-items-center">
+                                <i class="fas fa-calendar fa-lg text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-bold">개발 기간</div>
+                                    <div class="small text-muted">개발중</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm h-100 border-0 rounded-4 p-3 d-flex flex-row align-items-center">
+                                <i class="fas fa-calendar-day fa-lg text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-bold">시작 일자</div>
+                                    <div class="small text-muted">2023.12.21</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm h-100 border-0 rounded-4 p-3 d-flex flex-row align-items-center">
+                                <i class="fas fa-desktop fa-lg text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-bold">지원 플랫폼</div>
+                                    <div class="small text-muted">PC</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm h-100 border-0 rounded-4 p-3 d-flex flex-row align-items-center">
+                                <i class="fas fa-user fa-lg text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-bold">개발자</div>
+                                    <div class="small text-muted">서정현</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="ratio ratio-16x9">
+                        <!--<iframe src="https://www.youtube.com/embed/FSupUDrgXiA" allowfullscreen></iframe> -->
+                        <img src="/images/Gallery/DirectX-GameEngine/banner.jpg" alt="DirectX GameEngine Screenshot" class="img-fluid rounded-4">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title text-start">주요 특징</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body">
+                            <i class="fas fa-photo-film fa-2x mb-3 text-primary"></i>
+                            <h3 class="h5">사실적인 그래픽</h3>
+                            <p>DirectX 11 API를 활용한 사실적인 3D 그래픽과 다양한 라이팅 기법과 그림자 매핑으로 몰입감 있는 환경을 제공</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body">
+                            <i class="fas fa-cubes fa-2x mb-3 text-primary"></i>
+                            <h3 class="h5">다양한 컴포넌트 시스템</h3>
+                            <p>컴포넌트 기반 아키텍처로 확장성과 유지보수성 향상. 메시, 물리 엔진, 인스펙터 등 다양한 게임 요소를 모듈식으로 조합하여 개발 가능</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body">
+                            <i class="fas fa-gauge-high fa-2x mb-3 text-primary"></i>
+                            <h3 class="h5">최적화된 퍼포먼스와 명확성</h3>
+                            <p>효율적인 렌더링 파이프라인과 자원 관리, 프리즘 컬링 기법과 최적화된 알고리즘을 통해 높은 프레임 레이트를 보장하며 개발자 친화적인 환경을 제공</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Specifications -->
+    <section id="tech-specs" class="py-5">
+        <div class="container">
+            <h2 class="section-title text-start">기술 사양</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="tech-specs">
+                        <h3 class="h5 mb-4">개발 도구</h3>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check me-2 text-success"></i> DirectX 11 API</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> Visual Studio 2022</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> Imgui (UI)</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> Assimp (모델 로딩)</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> PhysX (물리 엔진)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="tech-specs">
+                        <h3 class="h5 mb-4">기술적 특징</h3>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check me-2 text-success"></i> 고급 렌더링 기술 (라이트링, 그림자 매핑)</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> 프리즘 컬링 및 최적화된 렌더링</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> 다양한 게임 개발 도구 (인스펙터, 씬 관리)</li>
+                            <li><i class="fas fa-check me-2 text-success"></i> 직관적인 메서드와 컴포넌트 기반 설계</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Controls Section -->
+    <section id="controls" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title text-start mb-4">조작 방법</h2>
+    <div class="row g-4">
+      <!-- Movement Controls -->
+      <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-3"><i class="fas fa-arrows-alt me-2"></i>이동</h5>
+            <div class="d-flex flex-wrap gap-3 align-items-start">
+              <div class="text-center">
+                <img src="/images/Key/key_w.png" alt="W" style="height:48px; object-fit:contain;">
+                <div class="small text-muted mt-1">앞으로 이동</div>
+              </div>
+              <div class="text-center">
+                <img src="/images/Key/key_a.png" alt="A" style="height:48px; object-fit:contain;">
+                <div class="small text-muted mt-1">왼쪽으로 이동</div>
+              </div>
+              <div class="text-center">
+                <img src="/images/Key/key_s.png" alt="S" style="height:48px; object-fit:contain;">
+                <div class="small text-muted mt-1">아래로 이동</div>
+              </div>
+              <div class="text-center">
+                <img src="/images/Key/key_d.png" alt="D" style="height:48px; object-fit:contain;">
+                <div class="small text-muted mt-1">오른쪽으로 이동</div>
+              </div>
+              <div class="text-center">
+                <img src="/images/Key/key_q.png" alt="Q" style="height:48px; object-fit:contain;">
+                <div class="small text-muted mt-1">위로 이동</div>
+              </div>
+              <div class="text-center">
+                <img src="/images/Key/key_e.png" alt="E" style="height:48px; object-fit:contain;">
+                <div class="small text-muted mt-1">아래로 이동</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- System Controls -->
+      <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-3"><i class="fas fa-cogs me-2"></i>시스템 제어</h5>
+            <div class="d-flex flex-wrap gap-3 align-items-start">
+              <div class="text-center">
+                <img src="/images/Key/key_esc.png" alt="ESC" style="height:48px; width:auto; min-width:60px; object-fit:contain;">
+                <div class="small text-muted mt-1">커서 활성화/비활성화</div>
+              </div>
+              <div class="text-center">
+                <img src="/images/Key/key_f1.png" alt="F1" style="height:48px; object-fit:contain;">
+                <div class="small text-muted mt-1">Imgui 데모 창 열기</div>
+              </div>
+              <div class="text-center">
+                <img src="/images/Key/key_enter.png" alt="ENTER" style="height:48px; width:auto; min-width:80px; object-fit:contain;">
+                <div class="small text-muted mt-1">Depth 이미지 저장</div>
+              </div>
+              <div class="text-center">
+                <img src="/images/Key/key_space.png" alt="SPACE" style="height:48px; width:auto; min-width:80px; object-fit:contain;">
+                <div class="small text-muted mt-1">일시정지</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Scene Loading Controls -->
+      <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-3"><i class="fas fa-folder-open me-2"></i>씬 열기 테스트</h5>
+            <div class="d-flex flex-wrap gap-3 align-items-start">
+              <div class="text-center">
+                <img src="/images/Key/key_r.png" alt="R" style="height:48px; object-fit:contain;">
+                <div class="small text-muted mt-1">Sponza 씬 열기</div>
+              </div>
+              <div class="text-center">
+                <img src="/images/Key/key_t.png" alt="T" style="height:48px; object-fit:contain;">
+                <div class="small text-muted mt-1">비어 있는 씬 열기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Mouse Controls -->
+      <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-3"><i class="fas fa-mouse me-2"></i>마우스 조작</h5>
+            <div class="d-flex flex-wrap gap-3 align-items-start">
+              <div class="text-center">
+                <img src="/images/Key/mouse_left.png" alt="Mouse" style="height:48px; object-fit:contain;">
+                <div class="small text-muted mt-1">오브젝트 선택 및 UI 상호작용</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title text-start">갤러리</h2>
+            <div class="row">
+                <div class="col-md-4" th:each="img : ${galleryImages}">
+                    <div class="gallery-item">
+                        <img th:src="@{${img}}" alt="Game Screenshot" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>DirectX Game Engine</h5>
+                <p>그래픽스 렌더링 기술과 엔진 개발 및 최적화에 중점을 둔 개인 포트폴리오 프로젝트입니다.</p>
+                <a href="https://github.com/Red-Opera/DirectX_GameEngine/archive/refs/heads/main.zip" class="btn btn-outline-light btn-sm mt-2">
+                    <i class="fas fa-download me-2"></i>프로젝트 다운로드
+                </a>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="https://github.com/Red-Opera/DirectX_GameEngine" class="text-light me-3">
+                    <i class="fab fa-github fa-2x"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/directx-gameengine.js"></script>
+</body>
+</html>

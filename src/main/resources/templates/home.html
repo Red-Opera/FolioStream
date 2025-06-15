@@ -5,7 +5,7 @@
  * 포트폴리오 카드, 카테고리 탐색 및 테마 전환 기능이 포함되어 있습니다.
  * 
  * @author FolioStream Team
- * @version 1.0
+ * @version 0.2.0
  * @since 2025-05-14
 -->
 <!DOCTYPE html>
@@ -198,7 +198,10 @@
                             <div class="portfolio-card-actions">
                                 <a th:if="${item.title} == 'Legacy of Auras'" href="/legacy-of-auras" class="view-btn">자세히 보기</a>
                                 <a th:if="${item.title} == 'K Project'" href="/k-project" class="view-btn">자세히 보기</a>
-                                <a th:if="${item.title} != 'Legacy of Auras' and ${item.title} != 'K Project'" href="#" class="view-btn">자세히 보기</a>
+                                <a th:if="${item.title} == 'DirectX GameEngine'" href="/directx-gameengine" class="view-btn">자세히 보기</a>
+                                <a th:if="${item.title} == 'D2DGame'" href="/d2dgame" class="view-btn">자세히 보기</a>
+                                <a th:if="${item.title} == 'Sokoban'" href="/sokoban" class="view-btn">자세히 보기</a>
+                                <a th:if="${item.title} != 'Legacy of Auras' and ${item.title} != 'K Project' and ${item.title} != 'DirectX GameEngine' and ${item.title} != 'D2DGame' and ${item.title} != 'Sokoban'" href="#" class="view-btn">자세히 보기</a>
                             </div>
                         </div>
                     </div>
