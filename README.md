@@ -3,7 +3,7 @@
 <h3>포트폴리오 배포 주소 : <a href=https://redzoo.kro.kr/>https://redzoo.kro.kr/</a></h3>
  
 <h2 id="Play">실행 이미지 (2025.05.20)</h2>
-<img src="https://github.com/user-attachments/assets/dc2a8389-e448-4b8c-9427-6d40a27e07b2" width="100%" height="100%"/>
+<img src="https://github.com/user-attachments/assets/dc2a8389-e448-4b8c-9427-6d40a27e07b2" width="100%"/>
 
 <h2 id="Outline">프로그램 개요</h2>
 <ul>
