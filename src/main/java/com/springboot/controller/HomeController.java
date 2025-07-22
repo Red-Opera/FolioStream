@@ -31,7 +31,7 @@ public class HomeController
                 "캐릭터 성장 시스템과 몰입도 높은 스토리 중심의 탐험을 즐길 수 있습니다."),
 
             new Project("K Project", 
-                "캐릭터 성장 요소가 가미된 슈팅 게임입니다.<br><br>" +
+                "캐릭터 성장 및 탐험 요소가 가미된 슈팅 게임입니다.<br><br>" +
                 "개발 환경: Unity 2D<br>" +
                 "개발 형태: 팀 프로젝트<br>" +
                 "담당 파트: Client, Server<br><br>" +

@@ -83,6 +83,80 @@ body {
     display: none;
 }
 
+/* Hero Section 버튼 스타일 (legacy-of-auras와 동일) */
+.hero-section .btn {
+    font-size: 1.15rem;
+    font-weight: 600;
+    border-radius: 2.5rem;
+    padding: 0.9rem 2.4rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    letter-spacing: 0.01em;
+    background: rgba(255,255,255,0.22);
+    color: #222;
+    box-shadow: 0 4px 24px rgba(44,62,80,0.08), 0 1.5px 8px rgba(80,120,255,0.08);
+    backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(255,255,255,0.25);
+    transition: all 0.22s cubic-bezier(.4,0,.2,1);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section .btn i {
+    font-size: 1.2em;
+    margin-right: 0.5em;
+}
+
+.hero-section .btn-primary,
+.hero-section .btn-success,
+.hero-section .btn-outline-info {
+    background: rgba(255,255,255,0.22);
+    color: #222;
+    border: 1.5px solid rgba(255,255,255,0.25);
+    box-shadow: 0 4px 24px rgba(44,62,80,0.08), 0 1.5px 8px rgba(80,120,255,0.08);
+}
+.hero-section .btn-primary:hover, .hero-section .btn-primary:focus {
+    background: linear-gradient(90deg, #3a7bd5 0%, #00d2ff 100%);
+    color: #fff;
+    border: none;
+    transform: translateY(-2px) scale(1.045);
+    box-shadow: 0 0 0 4px rgba(79,140,255,0.10), 0 8px 32px rgba(79,140,255,0.22);
+}
+.hero-section .btn-success:hover, .hero-section .btn-success:focus {
+    background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
+    color: #fff;
+    border: none;
+    transform: translateY(-2px) scale(1.045);
+    box-shadow: 0 0 0 4px rgba(67,233,123,0.10), 0 8px 32px rgba(67,233,123,0.22);
+}
+.hero-section .btn-outline-info:hover, .hero-section .btn-outline-info:focus {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border: none;
+    transform: translateY(-2px) scale(1.045);
+    box-shadow: 0 0 0 4px rgba(161,140,209,0.10), 0 8px 32px rgba(161,140,209,0.22);
+}
+.hero-section .btn:active {
+    transform: scale(0.98);
+}
+@media (max-width: 992px) {
+  .hero-section .btn {
+    font-size: 1rem;
+    padding: 0.7rem 1.5rem;
+    border-radius: 2rem;
+    gap: 0.4rem;
+  }
+}
+@media (max-width: 576px) {
+  .hero-section .btn {
+    font-size: 0.95rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 1.5rem;
+    gap: 0.3rem;
+  }
+}
+
 /* 특징 카드 */
 .feature-card {
     transition: transform 0.3s, box-shadow 0.3s;

@@ -308,6 +308,7 @@ public class GitHubService
      */
     @PostConstruct
     public void initializeCache() {
+        /*
         System.out.println("Initializing GitHub data cache...");
         
         // 기본 사용자들의 데이터를 미리 캐시
@@ -330,6 +331,8 @@ public class GitHubService
                 break;
             }
         }
+        */
+        System.out.println("Cache initialization is temporarily disabled.");
     }
 
     /**
@@ -345,6 +348,7 @@ public class GitHubService
      */
     @Scheduled(fixedRate = 1800000) // 30분 = 1800000ms
     public void scheduledDataFetch() {
+        /*
         System.out.println("Starting scheduled data fetch for active users...");
         
         // 활성 사용자 목록을 복사하여 사용 (동시성 문제 방지)
@@ -370,6 +374,8 @@ public class GitHubService
                 break;
             }
         }
+        */
+        System.out.println("Scheduled data fetch is temporarily disabled.");
     }
 
     @Cacheable(value = "userCommits", key = "#username")
