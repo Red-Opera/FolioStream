@@ -1,0 +1,674 @@
+[
+  {
+    "icon": "fas fa-exclamation-triangle",
+    "path": "Assets/Script/UI/Alert.cs",
+    "status": "Active",
+    "description": "전반적인 알림 UI 처리를 위한 클래스",
+    "features": ["Sound", "UI"]
+  },
+  {
+    "icon": "fas fa-film",
+    "path": "Assets/Script/UI/Ani2DRun.cs",
+    "status": "Active",
+    "description": "스프라이트가 아닌 이미지 스프라이트 처리",
+    "features": ["Animation", "Sprite", "UI"]
+  },
+  {
+    "icon": "fas fa-tachometer-alt",
+    "path": "Assets/Script/UI/CameraSpeedDown.cs",
+    "status": "Active",
+    "description": "성능 최적화를 위한 카메라 프레임 다운",
+    "features": ["Camera", "Optimization", "Rendering"]
+  },
+  {
+    "icon": "fas fa-user-ninja",
+    "path": "Assets/Script/UI/ChatNPC.cs",
+    "status": "Active",
+    "description": "NPC와 대화 처리",
+    "features": ["Animation", "Input Event", "Quest", "UI"]
+  },
+  {
+    "icon": "fas fa-crosshairs",
+    "path": "Assets/Script/UI/CrossHair.cs",
+    "status": "Active",
+    "description": "플레이어 화살이 이동할 타켓을 표시할 UI 제어",
+    "features": ["Player", "UI"]
+  },
+  {
+    "icon": "fas fa-layer-group",
+    "path": "Assets/Script/UI/CurrentSceneUI.cs",
+    "status": "Active",
+    "description": "현재 씬의 이름을 표시하는 UI 제어",
+    "features": ["Scene", "UI"]
+  },
+  {
+    "icon": "fas fa-map-marker-alt",
+    "path": "Assets/Script/UI/GoalSpot.cs",
+    "status": "Active",
+    "description": "다음 퀘스트 위치를 표시하기 위한 UI 제어",
+    "features": ["Quest", "UI"]
+  },
+  {
+    "icon": "fas fa-boxes",
+    "path": "Assets/Script/UI/InventroyPosition.cs",
+    "status": "Active",
+    "description": "인벤토리 슬롯 위치 설정, 이동 관리",
+    "features": ["DataBase System", "Input Event", "Inventory", "MySQL", "Singleton", "UI"]
+  },
+  {
+    "icon": "fas fa-store",
+    "path": "Assets/Script/UI/ItemShop.cs",
+    "status": "Active",
+    "description": "아이템 상점의 구매, 구매 효과, UI 관리",
+    "features": ["Animation", "Particle System", "Sound", "UI"]
+  },
+  {
+    "icon": "fas fa-store",
+    "path": "Assets/Script/UI/ItemShopOpenClose.cs",
+    "status": "Active",
+    "description": "아이템 상점의 UI On, Off 관리",
+    "features": ["Input Event", "UI"]
+  },
+  {
+    "icon": "fas fa-text-height",
+    "path": "Assets/Script/UI/LassBossNameEffect.cs",
+    "status": "Active",
+    "description": "최종 보스 이름 UI 클리치 효과",
+    "features": ["Monster", "UI"]
+  },
+  {
+    "icon": "fas fa-sync",
+    "path": "Assets/Script/UI/Loading.cs",
+    "status": "Active",
+    "description": "맵 이동 시 로딩 시스템",
+    "features": ["Async", "Scene", "Singleton", "UI"]
+  },
+  {
+    "icon": "fas fa-map",
+    "path": "Assets/Script/UI/MiniMap.cs",
+    "status": "Active",
+    "description": "플레이어 미니맵 관리, 카메라 렌더링 관리",
+    "features": ["Camera", "Input Event", "Player", "Scene", "UI"]
+  },
+  {
+    "icon": "fas fa-boxes",
+    "path": "Assets/Script/UI/MoveInventory.cs",
+    "status": "Active",
+    "description": "인벤토리 슬롯 처리",
+    "features": ["Action Event", "Input Event", "Inventory", "Player", "UI"]
+  },
+  {
+    "icon": "fas fa-palette",
+    "path": "Assets/Script/UI/PixelateUI.cs",
+    "status": "Active",
+    "description": "최종 보스 화면 픽셀화 공격 UI 관리",
+    "features": ["Camera", "Monster", "UI"]
+  },
+  {
+    "icon": "fas fa-bullseye",
+    "path": "Assets/Script/UI/PlayerGunShotUI.cs",
+    "status": "Active",
+    "description": "플레이어 총 사격시 총 사격 애니메이션",
+    "features": ["Animation", "Player", "UI"]
+  },
+  {
+    "icon": "fas fa-heart",
+    "path": "Assets/Script/UI/PlayerHPBar.cs",
+    "status": "Active",
+    "description": "플레이어 관리",
+    "features": ["Animation", "Input Event", "Player", "PostProcessing", "Singleton", "UI", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-heartbeat",
+    "path": "Assets/Script/UI/PlayerHeartBounce.cs",
+    "status": "Active",
+    "description": "플레이어 체력 UI 관리, 심장 효과 UI",
+    "features": ["Animation", "Material", "Player", "UI"]
+  },
+  {
+    "icon": "fas fa-scroll",
+    "path": "Assets/Script/UI/QuestDetail.cs",
+    "status": "Active",
+    "description": "퀘스트 세부사항 표시",
+    "features": ["Player", "Quest", "UI"]
+  },
+  {
+    "icon": "fas fa-tasks",
+    "path": "Assets/Script/UI/QuestManager.cs",
+    "status": "Active",
+    "description": "퀘스트 목록 표시",
+    "features": ["Input Event", "Player", "Quest", "UI"]
+  },
+  {
+    "icon": "fas fa-redo",
+    "path": "Assets/Script/UI/QuestRepeatFrame.cs",
+    "status": "Active",
+    "description": "반복 퀘스트 정보를 표시할 UI 구성",
+    "features": ["Player", "Quest", "UI"]
+  },
+  {
+    "icon": "fas fa-mouse-pointer",
+    "path": "Assets/Script/UI/QuestSelect.cs",
+    "status": "Active",
+    "description": "퀘스트 클릭 시 처리해야 할 기능",
+    "features": ["Player", "Quest", "UI"]
+  },
+  {
+    "icon": "fas fa-comment-dots",
+    "path": "Assets/Script/UI/TalkOrReadText.cs",
+    "status": "Active",
+    "description": "플레이어 또는 몬스터가 말풍선 없이 말할 때 사용",
+    "features": ["Animation", "Input Event", "NPC", "Player", "Singleton", "UI"]
+  },
+  {
+    "icon": "fas fa-cogs",
+    "path": "Assets/Script/C++DLL/PriorityQueue/PriorityQueueDLL.cpp",
+    "status": "Active",
+    "description": "우선 순위 큐 기능, 각 타입 인스턴스 반환 (cpp)",
+    "features": ["C++", ".cpp", "DLL"]
+  },
+  {
+    "icon": "fas fa-cogs",
+    "path": "Assets/Script/C++DLL/PriorityQueue/PriorityQueueDLL.h",
+    "status": "Active",
+    "description": "우선 순위 큐 기능, 각 타입 인스턴스 반환 (h)",
+    "features": ["C++", ".h", "DLL"]
+  },
+  {
+    "icon": "fas fa-plug",
+    "path": "Assets/Script/C++DLL/PriorityQueue.cs",
+    "status": "Active",
+    "description": "C++ DLL에서 우선 순위 큐 기능 가져옴",
+    "features": ["DLL"]
+  },
+  {
+    "icon": "fas fa-plug",
+    "path": "Assets/Script/C++DLL/ReturnType.h",
+    "status": "Active",
+    "description": "DLL 다중 타입 정의",
+    "features": ["DLL"]
+  },
+  {
+    "icon": "fas fa-fire",
+    "path": "Assets/Script/ETC/CandleFlame.cs",
+    "status": "Active",
+    "description": "양초 애니메이션 효과",
+    "features": ["Animation"]
+  },
+  {
+    "icon": "fas fa-coins",
+    "path": "Assets/Script/ETC/CoinBox.cs",
+    "status": "Active",
+    "description": "몬스터 골드 드랍 박스 애니메이션",
+    "features": ["Animation", "Monster", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-film",
+    "path": "Assets/Script/ETC/FadeInOutEffect.cs",
+    "status": "Active",
+    "description": "씬 이동 시 페이드 인, 페이드 아웃",
+    "features": ["Animation", "Material", "Scene", "UI"]
+  },
+  {
+    "icon": "fas fa-film",
+    "path": "Assets/Script/ETC/SceneFadeOut.cs",
+    "status": "Active",
+    "description": "페이드 아웃 이벤트 처리",
+    "features": ["Action Event", "Scene"]
+  },
+  {
+    "icon": "fas fa-volume-up",
+    "path": "Assets/Script/ETC/StoreSignSound.cs",
+    "status": "Active",
+    "description": "상점 아이템 구매 사운드 처리",
+    "features": ["Animation", "Sound", "UI"]
+  },
+  {
+    "icon": "fas fa-sign-in-alt",
+    "path": "Assets/Script/GameTitle/StartButton.cs",
+    "status": "Active",
+    "description": "메인 타이틀 시작 버튼 처리",
+    "features": ["Animation", "Login", "Scene", "Sound", "UI"]
+  },
+  {
+    "icon": "fas fa-film",
+    "path": "Assets/Script/GameTitle/TouchLabelEffect.cs",
+    "status": "Active",
+    "description": "메인 타이틀 텍스트 깜박임",
+    "features": ["Animation", "UI"]
+  },
+  {
+    "icon": "fas fa-film",
+    "path": "Assets/Script/LastBoss/Film/BossSceneFilm.cs",
+    "status": "Active",
+    "description": "최종 보스 오프닝 전반적 처리",
+    "features": ["Animation", "Camera", "Monster", "Sound"]
+  },
+  {
+    "icon": "fas fa-dragon",
+    "path": "Assets/Script/LastBoss/LastBossAction.cs",
+    "status": "Active",
+    "description": "최종 보스 공격 패턴 관리",
+    "features": ["AI", "Animation", "Camera", "Material", "Monster", "Shader Graph", "Sound", "UI", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-dragon",
+    "path": "Assets/Script/LastBoss/LastBossBurningFlameSlash.cs",
+    "status": "Active",
+    "description": "최종 보스 3단 공격 패턴 애니메이션",
+    "features": ["Animation", "Monster"]
+  },
+  {
+    "icon": "fas fa-dragon",
+    "path": "Assets/Script/LastBoss/LastBossFlyAXE.cs",
+    "status": "Active",
+    "description": "최종 보스 도끼 샏성 공격 패턴 애니메이션",
+    "features": ["Animation", "Monster"]
+  },
+  {
+    "icon": "fas fa-dragon",
+    "path": "Assets/Script/LastBoss/LastBossGroundPound.cs",
+    "status": "Active",
+    "description": "최종 보스 지면 돌격 패턴 애니메이션",
+    "features": ["Animation", "Decal", "Monster", "Sound"]
+  },
+  {
+    "icon": "fas fa-heart",
+    "path": "Assets/Script/LastBoss/LastBossHpBar.cs",
+    "status": "Active",
+    "description": "최종 보스 체력바 관리",
+    "features": ["Animation", "Monster", "UI", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-palette",
+    "path": "Assets/Script/LastBoss/LastBossPixelate.cs",
+    "status": "Active",
+    "description": "최종 보스 화면 픽셀화 공격 패턴 관리",
+    "features": ["Animation", "Camera", "Monster", "UI", "Rendering"]
+  },
+  {
+    "icon": "fas fa-film",
+    "path": "Assets/Script/LastBoss/LastBossReady.cs",
+    "status": "Active",
+    "description": "최종 보스 오프닝 전 인트로 처리",
+    "features": ["Animation", "Monster"]
+  },
+  {
+    "icon": "fas fa-film",
+    "path": "Assets/Script/LastBoss/LastBossWingPosition.cs",
+    "status": "Active",
+    "description": "최종 보스 오프닝 전 인트로 처리",
+    "features": ["Animation", "Monster"]
+  },
+  {
+    "icon": "fas fa-book",
+    "path": "Assets/Script/Library/ReadBookScenario.cs",
+    "status": "Active",
+    "description": "주인공이 책을 읽는 장면을 묘사",
+    "features": ["Animation", "Player", "Quest"]
+  },
+  {
+    "icon": "fas fa-plus-circle",
+    "path": "Assets/Script/Monster/CreateMonster.cs",
+    "status": "Active",
+    "description": "몬스터 스폰",
+    "features": ["Optimization", "Monster"]
+  },
+  {
+    "icon": "fas fa-chart-bar",
+    "path": "Assets/Script/Monster/Damage.cs",
+    "status": "Active",
+    "description": "몬스터 데미지, 데미지 능력치 반영",
+    "features": ["Monster", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-heart",
+    "path": "Assets/Script/Monster/InfoLookAtPlayer.cs",
+    "status": "Active",
+    "description": "몬스터 체력 바 플레이어 향해 바라보도록 설정",
+    "features": ["Monster", "UI"]
+  },
+  {
+    "icon": "fas fa-robot",
+    "path": "Assets/Script/Monster/MonsterControl.cs",
+    "status": "Active",
+    "description": "사막 지형 몬스터의 행동 조작, 행동 정의",
+    "features": ["AI", "Animation", "Monster"]
+  },
+  {
+    "icon": "fas fa-volume-up",
+    "path": "Assets/Script/Monster/MonsterDamageSound.cs",
+    "status": "Active",
+    "description": "몬스터 데미지 시 소리 출력",
+    "features": ["Monster", "Sound"]
+  },
+  {
+    "icon": "fas fa-box",
+    "path": "Assets/Script/Monster/MonsterDropItem.cs",
+    "status": "Active",
+    "description": "몬스터 사망 시 아이템 드랍",
+    "features": ["Monster", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-arrow-down",
+    "path": "Assets/Script/Monster/MonsterGravity.cs",
+    "status": "Active",
+    "description": "몬스터 애니메이션 사용시 강제 중력 작용",
+    "features": ["Monster"]
+  },
+  {
+    "icon": "fas fa-heart",
+    "path": "Assets/Script/Monster/MonsterHPBar.cs",
+    "status": "Active",
+    "description": "몬스터의 체력 바 제어",
+    "features": ["Material", "Monster", "UI", "Variable Statistics", "Sound"]
+  },
+  {
+    "icon": "fas fa-chart-bar",
+    "path": "Assets/Script/Monster/MonsterHPChangeUI.cs",
+    "status": "Active",
+    "description": "몬스터 데미지 시 감소한 데이지 보여주는 UI 출력",
+    "features": ["Animation", "Monster", "UI", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-fist-raised",
+    "path": "Assets/Script/Philosopher/Zombie/ZombieAttack.cs",
+    "status": "Active",
+    "description": "좀비 공격 애니메이션, 공격 관리",
+    "features": ["Animation", "Monster"]
+  },
+  {
+    "icon": "fas fa-robot",
+    "path": "Assets/Script/Philosopher/Zombie/ZombieMove.cs",
+    "status": "Active",
+    "description": "좀비 이동 AI 및 애니메이션 관리",
+    "features": ["AI", "Animation", "Monster"]
+  },
+  {
+    "icon": "fas fa-bullseye",
+    "path": "Assets/Script/Philosopher/ArrowTrace.cs",
+    "status": "Active",
+    "description": "숲 지형 몬스터 화살 공격 이동",
+    "features": ["Monster", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-film",
+    "path": "Assets/Script/Philosopher/MoveAttackLine.cs",
+    "status": "Active",
+    "description": "숲 지형 몬스터 이동 공격 패턴 이동 경로 표시",
+    "features": ["Animation", "Monster"]
+  },
+  {
+    "icon": "fas fa-robot",
+    "path": "Assets/Script/Philosopher/PhilosopherState.cs",
+    "status": "Active",
+    "description": "숲 지형 몬스터 상태 관리, 공격 패턴 관리, 애니메이션 관리",
+    "features": ["AI", "Animation", "Material", "Monster", "Shader Graph", "UI", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-shield-alt",
+    "path": "Assets/Script/Philosopher/ShieldEffect.cs",
+    "status": "Active",
+    "description": "숲 지형 몬스터 쉴드 생성 패턴 관리",
+    "features": ["Action Event", "Animation", "Material", "Monster", "Shader Graph", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-shield-alt",
+    "path": "Assets/Script/Philosopher/ShieldLensEffect.cs",
+    "status": "Active",
+    "description": "숲 지형 몬스터 쉴드 올바르게 보이도록 회전",
+    "features": ["Camera", "Material", "Monster"]
+  },
+  {
+    "icon": "fas fa-times-circle",
+    "path": "Assets/Script/Pirell/AXEActiveFalse.cs",
+    "status": "Active",
+    "description": "사막 지형 몬스터 사망 시 도끼가 뜨지 않도록 설정",
+    "features": ["Monster"]
+  },
+  {
+    "icon": "fas fa-hammer",
+    "path": "Assets/Script/Pirell/AXEEffect.cs",
+    "status": "Active",
+    "description": "사막 지형 몬스터 도끼 생성 패턴시 생성되는 도끼의 애니메이션 관리",
+    "features": ["Animation", "Monster"]
+  },
+  {
+    "icon": "fas fa-location-arrow",
+    "path": "Assets/Script/Pirell/AXETracePlayer.cs",
+    "status": "Active",
+    "description": "사막 지형 몬스터 도끼 생성 패턴시 생성되는 도끼의 플레이어로 이동",
+    "features": ["Monster"]
+  },
+  {
+    "icon": "fas fa-hand-pointer",
+    "path": "Assets/Script/Player/ItemSelect.cs",
+    "status": "Active",
+    "description": "플레이어 키보드 아이템 선택, UI 표시, 사용 관리",
+    "features": ["Animation", "Input Event", "Inventory", "Player", "UI", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-level-up-alt",
+    "path": "Assets/Script/Player/LevelExp.cs",
+    "status": "Active",
+    "description": "플레이어 능력치 관리, 레벨 UI 표시",
+    "features": ["Player", "Quest", "UI", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-bullseye",
+    "path": "Assets/Script/Player/PlayerArrow.cs",
+    "status": "Active",
+    "description": "플레이어 일반 화살 발사, 소리, 이펙트 관리",
+    "features": ["Input Event", "Player", "Shader Graph", "Sound", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-fist-raised",
+    "path": "Assets/Script/Player/PlayerAttack.cs",
+    "status": "Active",
+    "description": "플레이어 모든 무기 관리, 소리, 변경, 애니메이션 관리",
+    "features": ["Animation", "Camera", "DLL", "Input Event", "Particle System", "Player", "Shader Graph", "Sound", "UI", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-magic",
+    "path": "Assets/Script/Player/PlayerAurasArrow.cs",
+    "status": "Active",
+    "description": "플레이어 마법 화살 이동, 타켓 설정",
+    "features": ["Animation", "Player", "Shader Graph", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-circle",
+    "path": "Assets/Script/Player/PlayerBullet.cs",
+    "status": "Active",
+    "description": "플레이어 총알 퀘적 생성, 이동, 소리 관리",
+    "features": ["Animation", "Input Event", "Player", "Shader Graph", "Sound", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-hand-sparkles",
+    "path": "Assets/Script/Player/PlayerGetAurasArrow.cs",
+    "status": "Active",
+    "description": "플레이어 마법 화살 획득 애니메이션, 트리거 관리",
+    "features": ["Animation", "Input Event", "Player"]
+  },
+  {
+    "icon": "fas fa-shield-alt",
+    "path": "Assets/Script/Player/PlayerDamage.cs",
+    "status": "Active",
+    "description": "플레이어 데미지 처리, 몬스터 무기 충돌 시 넉백 효과",
+    "features": ["Player", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-gun",
+    "path": "Assets/Script/Player/PlayerGetGun.cs",
+    "status": "Active",
+    "description": "플레이어 총 획득 상호작용, 애니메이션 및 퀘스트 진행",
+    "features": ["Animation", "Input Event", "Player", "Quest"]
+  },
+  {
+    "icon": "fas fa-redo",
+    "path": "Assets/Script/Player/PlayerGunReLoad.cs",
+    "status": "Active",
+    "description": "플레이어 총 재장전 시스템, 탄약 관리 및 애니메이션",
+    "features": ["Animation", "Input Event", "Player", "UI"]
+  },
+  {
+    "icon": "fas fa-bars",
+    "path": "Assets/Script/Player/PlayerMenu.cs",
+    "status": "Active",
+    "description": "플레이어 메뉴 시스템, 설정 및 게임 메뉴 관리",
+    "features": ["Input Event", "Player", "UI"]
+  },
+  {
+    "icon": "fas fa-running",
+    "path": "Assets/Script/Player/PlayerMove.cs",
+    "status": "Active",
+    "description": "플레이어 이동, 점프, 중력 및 애니메이션 제어",
+    "features": ["Animation", "Input Event", "Player", "Scene"]
+  },
+  {
+    "icon": "fas fa-scroll",
+    "path": "Assets/Script/Player/PlayerQuest.cs",
+    "status": "Active",
+    "description": "플레이어 퀘스트 진행 관리, 순차적 퀘스트 시스템",
+    "features": ["Player", "Quest", "Singleton"]
+  },
+  {
+    "icon": "fas fa-sync-alt",
+    "path": "Assets/Script/Player/PlayerRotate.cs",
+    "status": "Active",
+    "description": "플레이어 마우스 입력 기반 카메라 및 캐릭터 회전",
+    "features": ["Camera", "Input Event", "Player"]
+  },
+  {
+    "icon": "fas fa-magic",
+    "path": "Assets/Script/Player/PlayerTeleport.cs",
+    "status": "Active",
+    "description": "플레이어 씬 간 텔레포트, 로딩 화면 및 위치 설정",
+    "features": ["Animation", "Player", "Scene", "UI"]
+  },
+  {
+    "icon": "fas fa-flask",
+    "path": "Assets/Script/Player/PlayerUseItem.cs",
+    "status": "Active",
+    "description": "플레이어 아이템 사용, 능력치 증가 및 애니메이션",
+    "features": ["Animation", "Input Event", "Inventory", "Player", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-volume-up",
+    "path": "Assets/Script/Player/PlayerWalkSound.cs",
+    "status": "Active",
+    "description": "플레이어 걸음 소리 관리, 씬 및 표면별 사운드 처리",
+    "features": ["Animation", "Player", "Scene", "Sound"]
+  },
+  {
+    "icon": "fas fa-exchange-alt",
+    "path": "Assets/Script/Player/PlayerWeaponChanger.cs",
+    "status": "Active",
+    "description": "플레이어 무기 전환 시스템, 활, 총, 마법 화살 관리",
+    "features": ["Animation", "Input Event", "Player", "UI"]
+  },
+  {
+    "icon": "fas fa-play-circle",
+    "path": "Assets/Script/Prologue/CutSceneManager.cs",
+    "status": "Active",
+    "description": "프롤로그 이미지 및 텍스트 컷씬 관리",
+    "features": ["Animation", "Input Event", "UI"]
+  },
+  {
+    "icon": "fas fa-database",
+    "path": "Assets/Script/Scriptable/MonsterState.cs",
+    "status": "Active",
+    "description": "몬스터 상태 데이터 관리, 드랍 골드 및 경험치 정의",
+    "features": ["Monster", "ScriptableObject", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-user",
+    "path": "Assets/Script/Scriptable/PlayerState.cs",
+    "status": "Active",
+    "description": "플레이어 능력치 관리, 돈, 경험치, 탄약, 플레이 시간 등 통계",
+    "features": ["Player", "ScriptableObject", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-check-square",
+    "path": "Assets/Script/Scriptable/QuestComplete.cs",
+    "status": "Active",
+    "description": "퀘스트 완료 상태 추적, 각종 목표 달성 플래그 관리",
+    "features": ["Quest", "ScriptableObject"]
+  },
+  {
+    "icon": "fas fa-list",
+    "path": "Assets/Script/Scriptable/QuestInfo.cs",
+    "status": "Active",
+    "description": "퀘스트 정보 구조 정의, 제목, 설명, 보상, 조건 관리",
+    "features": ["Quest", "ScriptableObject"]
+  },
+  {
+    "icon": "fas fa-chart-line",
+    "path": "Assets/Script/Scriptable/State.cs",
+    "status": "Active",
+    "description": "기본 캐릭터 능력치 구조 정의, 레벨, HP, 공격력, 방어력",
+    "features": ["ScriptableObject", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-sign-in-alt",
+    "path": "Assets/Script/Server/Login.cs",
+    "status": "Active",
+    "description": "플레이어 로그인 및 회원가입 시스템, MySQL 데이터베이스 연동",
+    "features": ["DataBase System", "Login", "MySQL", "UI"]
+  },
+  {
+    "icon": "fas fa-save",
+    "path": "Assets/Script/Server/SaveSystem.cs",
+    "status": "Active",
+    "description": "플레이어 데이터 저장 시스템, 능력치 및 인벤토리 MySQL 저장",
+    "features": ["DataBase System", "MySQL", "Player", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-music",
+    "path": "Assets/Script/UI/BackgroundBGM.cs",
+    "status": "Active",
+    "description": "배경 음악 관리, BGM 볼륨 제어",
+    "features": ["Sound", "UI"]
+  },
+  {
+    "icon": "fas fa-toggle-on",
+    "path": "Assets/Script/UI/BoolText.cs",
+    "status": "Active",
+    "description": "UI 토글 버튼 텍스트 관리, 전체화면 모드 전환",
+    "features": ["Input Event", "UI"]
+  },
+  {
+    "icon": "fas fa-eye-slash",
+    "path": "Assets/Script/UI/PlayerFilmUIOff.cs",
+    "status": "Active",
+    "description": "특정 씬에서 플레이어 UI 숨김 처리, 보스 컷씬 관리",
+    "features": ["Scene", "UI"]
+  },
+  {
+    "icon": "fas fa-sliders-h",
+    "path": "Assets/Script/UI/SliderText.cs",
+    "status": "Active",
+    "description": "설정 메뉴 슬라이더 값 텍스트 표시, 마우스 감도 및 볼륨 설정",
+    "features": ["Input Event", "UI"]
+  },
+  {
+    "icon": "fas fa-info-circle",
+    "path": "Assets/Script/UI/Status.cs",
+    "status": "Active",
+    "description": "플레이어 상태 정보 UI 표시, 레벨, HP, 골드, 플레이 시간 등",
+    "features": ["Player", "UI", "Variable Statistics"]
+  },
+  {
+    "icon": "fas fa-book-open",
+    "path": "Assets/Script/UI/TypeStory.cs",
+    "status": "Active",
+    "description": "인터랙티브 책 읽기 시스템, 타이핑 효과 및 애니메이션",
+    "features": ["Animation", "Input Event", "Player", "Quest", "Sound", "UI"]
+  },
+  {
+    "icon": "fas fa-eye",
+    "path": "Assets/Script/Village/NPCLookAtPlayer.cs",
+    "status": "Active",
+    "description": "NPC가 플레이어를 바라보도록 하는 시스템",
+    "features": ["AI", "NPC", "Player"]
+  }
+]

@@ -1,0 +1,544 @@
+[
+  {
+    "name": "GameManager",
+    "type": "class",
+    "description": "게임의 전반적인 상태를 관리하는 싱글톤 클래스. 씬 전환, 플레이어 설정, 전역 게임 상태를 담당합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "Awake",
+        "returnType": "void",
+        "description": "싱글톤 패턴을 초기화하고 게임 시작 시 필요한 설정을 진행합니다.",
+        "parameters": [],
+        "example": "// Unity에서 자동 호출됨\n// GameManager.info를 통해 접근"
+      },
+      {
+        "name": "LevelOnLoad",
+        "returnType": "void",
+        "description": "씬 전환 시 호출되어 플레이어 위치와 상태를 관리합니다.",
+        "parameters": [
+          {
+            "name": "scene",
+            "type": "Scene",
+            "description": "로드된 씬 정보",
+            "required": true
+          },
+          {
+            "name": "mode",
+            "type": "LoadSceneMode",
+            "description": "씬 로드 모드",
+            "required": true
+          }
+        ],
+        "example": "// Unity SceneManager에 의해 자동 호출"
+      }
+    ],
+    "properties": [
+      {
+        "name": "info",
+        "type": "GameManager",
+        "description": "GameManager의 싱글톤 인스턴스",
+        "readOnly": true
+      },
+      {
+        "name": "mouseSensitivityX",
+        "type": "float",
+        "description": "마우스 X축 감도 설정",
+        "readOnly": false
+      },
+      {
+        "name": "mouseSensitivityY",
+        "type": "float",
+        "description": "마우스 Y축 감도 설정",
+        "readOnly": false
+      },
+      {
+        "name": "musicVolume",
+        "type": "float",
+        "description": "배경음악 볼륨 설정",
+        "readOnly": false
+      },
+      {
+        "name": "soundVolume",
+        "type": "float",
+        "description": "효과음 볼륨 설정",
+        "readOnly": false
+      },
+      {
+        "name": "playerState",
+        "type": "PlayerState",
+        "description": "플레이어의 상태 정보",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 게임 매니저 접근\nGameManager gameManager = GameManager.info;",
+      "// 마우스 감도 설정\nGameManager.info.mouseSensitivityX = 2.5f;"
+    ]
+  },
+  {
+    "name": "PlayerMove",
+    "type": "class",
+    "description": "플레이어의 이동, 점프, 중력을 관리하는 클래스. 캐릭터 컨트롤러와 애니메이션을 통합 관리합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "Jump",
+        "returnType": "void",
+        "description": "플레이어 점프를 실행하고 점프 애니메이션을 재생합니다.",
+        "parameters": [],
+        "example": "playerMove.Jump();"
+      },
+      {
+        "name": "Move",
+        "returnType": "void",
+        "description": "플레이어를 지정된 방향으로 이동시킵니다.",
+        "parameters": [],
+        "example": "// Update()에서 자동으로 입력을 처리하여 이동"
+      },
+      {
+        "name": "SetGravity",
+        "returnType": "void",
+        "description": "중력을 적용하여 플레이어를 아래로 이동시킵니다.",
+        "parameters": [],
+        "example": "// Update()에서 자동으로 중력 적용"
+      },
+      {
+        "name": "CheckIsGround",
+        "returnType": "bool",
+        "description": "플레이어가 땅에 닿아있는지 확인합니다.",
+        "parameters": [],
+        "example": "if (playerMove.CheckIsGround()) {\n    // 점프 가능\n}"
+      }
+    ],
+    "properties": [
+      {
+        "name": "defaultSpeed",
+        "type": "float",
+        "description": "플레이어의 기본 이동 속도",
+        "readOnly": false
+      },
+      {
+        "name": "runMulti",
+        "type": "float",
+        "description": "달리기 시 적용되는 속도 배수",
+        "readOnly": false
+      },
+      {
+        "name": "jumpPower",
+        "type": "float",
+        "description": "점프 시 적용되는 힘의 크기 (기본값: 10f)",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 이동 속도 설정\nplayerMove.defaultSpeed = 5.0f;\nplayerMove.runMulti = 2.0f;",
+      "// 점프 파워 조정\nplayerMove.jumpPower = 15.0f;"
+    ]
+  },
+  {
+    "name": "PlayerAttack",
+    "type": "class",
+    "description": "플레이어의 공격 시스템을 관리하는 클래스. 다양한 무기 타입과 타겟 시스템을 지원합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "FindClosestMonster",
+        "returnType": "Transform",
+        "description": "가장 가까운 몬스터를 찾아 타겟으로 설정합니다.",
+        "parameters": [],
+        "example": "Transform target = playerAttack.FindClosestMonster();"
+      }
+    ],
+    "properties": [
+      {
+        "name": "targetMonster",
+        "type": "Transform",
+        "description": "현재 타겟으로 설정된 몬스터 (static)",
+        "readOnly": false
+      },
+      {
+        "name": "weaponType",
+        "type": "WeaponType",
+        "description": "현재 장착된 무기의 타입",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 타겟 몬스터 확인\nif (PlayerAttack.targetMonster != null) {\n    // 공격 실행\n}",
+      "// 무기 타입 확인\nif (playerAttack.weaponType == WeaponType.BOW) {\n    // 활 공격 로직\n}"
+    ]
+  },
+  {
+    "name": "PlayerWeaponChanger",
+    "type": "class",
+    "description": "플레이어의 무기 전환을 관리하는 클래스. 다양한 무기 간의 동적 전환을 지원합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "EquidUnEquidBow",
+        "returnType": "void",
+        "description": "활을 장착하거나 해제합니다.",
+        "parameters": [],
+        "example": "weaponChanger.EquidUnEquidBow();"
+      },
+      {
+        "name": "EquidUnEquidGun",
+        "returnType": "void",
+        "description": "총을 장착하거나 해제합니다.",
+        "parameters": [],
+        "example": "weaponChanger.EquidUnEquidGun();"
+      },
+      {
+        "name": "ChangeAurasArrow",
+        "returnType": "void",
+        "description": "마법 화살로 전환하거나 해제합니다.",
+        "parameters": [],
+        "example": "weaponChanger.ChangeAurasArrow();"
+      }
+    ],
+    "properties": [],
+    "examples": [
+      "// 무기 전환 예제\nweaponChanger.EquidUnEquidBow();\nweaponChanger.EquidUnEquidGun();"
+    ]
+  },
+  {
+    "name": "MonsterControl",
+    "type": "class",
+    "description": "몬스터의 AI 행동을 관리하는 클래스. 플레이어 추적, 공격, 대기 상태를 포함합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "AttackCoroutine",
+        "returnType": "IEnumerator",
+        "description": "몬스터의 공격 패턴을 관리하는 코루틴입니다.",
+        "parameters": [],
+        "example": "StartCoroutine(AttackCoroutine());"
+      },
+      {
+        "name": "IdleRotationCoroutine",
+        "returnType": "IEnumerator",
+        "description": "몬스터의 대기 상태에서 회전 행동을 관리하는 코루틴입니다.",
+        "parameters": [
+          {
+            "name": "isHit",
+            "type": "bool",
+            "description": "몬스터가 공격받았는지 여부 (기본값: false)",
+            "required": false
+          }
+        ],
+        "example": "StartCoroutine(IdleRotationCoroutine(true));"
+      }
+    ],
+    "properties": [
+      {
+        "name": "lookAtDis",
+        "type": "float",
+        "description": "플레이어를 감지하는 거리",
+        "readOnly": false
+      },
+      {
+        "name": "maxAngle",
+        "type": "float",
+        "description": "플레이어를 인식하는 최대 각도",
+        "readOnly": false
+      },
+      {
+        "name": "attackDistance",
+        "type": "float",
+        "description": "공격 가능한 거리",
+        "readOnly": false
+      },
+      {
+        "name": "moveSpeed",
+        "type": "float",
+        "description": "몬스터의 이동 속도",
+        "readOnly": false
+      },
+      {
+        "name": "rotationSpeed",
+        "type": "float",
+        "description": "몬스터의 회전 속도",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 몬스터 AI 설정\nmonsterControl.lookAtDis = 10.0f;\nmonsterControl.attackDistance = 2.0f;",
+      "// 공격 코루틴 시작\nStartCoroutine(monsterControl.AttackCoroutine());"
+    ]
+  },
+  {
+    "name": "ItemShop",
+    "type": "class",
+    "description": "아이템 상점 시스템을 관리하는 클래스. 아이템 구매, 선택, UI 관리를 담당합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "ChangeSelected",
+        "returnType": "void",
+        "description": "선택된 아이템을 변경합니다.",
+        "parameters": [
+          {
+            "name": "index",
+            "type": "int",
+            "description": "선택할 아이템의 인덱스",
+            "required": true
+          }
+        ],
+        "example": "itemShop.ChangeSelected(2);"
+      },
+      {
+        "name": "BuyItem",
+        "returnType": "void",
+        "description": "현재 선택된 아이템을 구매합니다.",
+        "parameters": [],
+        "example": "itemShop.BuyItem();"
+      }
+    ],
+    "properties": [
+      {
+        "name": "playerState",
+        "type": "PlayerState",
+        "description": "플레이어의 상태 정보 참조",
+        "readOnly": false
+      },
+      {
+        "name": "costs",
+        "type": "List<int>",
+        "description": "각 아이템의 가격 목록",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 아이템 선택 및 구매\nitemShop.ChangeSelected(0);\nitemShop.BuyItem();",
+      "// 아이템 가격 확인\nint price = itemShop.costs[index];"
+    ]
+  },
+  {
+    "name": "PlayerState",
+    "type": "class",
+    "description": "플레이어의 상태 정보를 저장하는 ScriptableObject 클래스. 레벨, 체력, 돈, 경험치 등을 관리합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "Add",
+        "returnType": "void",
+        "description": "다른 PlayerState의 값을 현재 상태에 추가합니다.",
+        "parameters": [
+          {
+            "name": "otherState",
+            "type": "PlayerState",
+            "description": "추가할 플레이어 상태",
+            "required": true
+          }
+        ],
+        "example": "playerState.Add(bonusState);"
+      },
+      {
+        "name": "ConvertPersent",
+        "returnType": "T",
+        "description": "퍼센트 기반 값 변환을 수행합니다.",
+        "parameters": [
+          {
+            "name": "value",
+            "type": "T",
+            "description": "변환할 값",
+            "required": true
+          },
+          {
+            "name": "left",
+            "type": "T",
+            "description": "기준 값",
+            "required": true
+          }
+        ],
+        "example": "int result = playerState.ConvertPersent(health, maxHealth);"
+      }
+    ],
+    "properties": [
+      {
+        "name": "Level",
+        "type": "int",
+        "description": "플레이어의 현재 레벨",
+        "readOnly": false
+      },
+      {
+        "name": "HP",
+        "type": "int",
+        "description": "플레이어의 현재 체력",
+        "readOnly": false
+      },
+      {
+        "name": "money",
+        "type": "int",
+        "description": "플레이어가 보유한 돈",
+        "readOnly": false
+      },
+      {
+        "name": "exp",
+        "type": "int",
+        "description": "플레이어의 경험치",
+        "readOnly": false
+      },
+      {
+        "name": "bulletCount",
+        "type": "int",
+        "description": "보유한 총알 수",
+        "readOnly": false
+      },
+      {
+        "name": "playTotalTime",
+        "type": "float",
+        "description": "총 플레이 시간 (초)",
+        "readOnly": false
+      },
+      {
+        "name": "kills",
+        "type": "int",
+        "description": "처치한 몬스터 수",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 플레이어 상태 수정\nplayerState.HP += 50;\nplayerState.money -= 100;",
+      "// 상태 합산\nPlayerState bonus = CreateInstance<PlayerState>();\nbonus.exp = 100;\nplayerState.Add(bonus);"
+    ]
+  },
+  {
+    "name": "QuestManager",
+    "type": "class",
+    "description": "퀘스트 UI의 표시/숨김을 관리하는 클래스. 퀘스트 창 토글과 커서 제어를 담당합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "TurnOnOffQusetUI",
+        "returnType": "void",
+        "description": "퀘스트 UI의 표시 상태를 전환합니다.",
+        "parameters": [],
+        "example": "questManager.TurnOnOffQusetUI();"
+      }
+    ],
+    "properties": [
+      {
+        "name": "isQuestUIOn",
+        "type": "bool",
+        "description": "퀘스트 UI가 현재 표시되고 있는지 여부 (static)",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 퀘스트 UI 토글\nquestManager.TurnOnOffQusetUI();",
+      "// UI 상태 확인\nif (QuestManager.isQuestUIOn) {\n    // 퀘스트 UI가 열려있음\n}"
+    ]
+  },
+  {
+    "name": "WeaponType",
+    "type": "enum",
+    "description": "게임에서 사용할 수 있는 무기 타입을 정의하는 열거형. 다양한 무기와 아이템을 포함합니다.",
+    "category": "enums",
+    "methods": [],
+    "properties": [
+      {
+        "name": "NULL",
+        "type": "WeaponType",
+        "description": "무기 없음",
+        "readOnly": true
+      },
+      {
+        "name": "BOW",
+        "type": "WeaponType",
+        "description": "활 무기",
+        "readOnly": true
+      },
+      {
+        "name": "GUN",
+        "type": "WeaponType",
+        "description": "총 무기",
+        "readOnly": true
+      },
+      {
+        "name": "AURAS",
+        "type": "WeaponType",
+        "description": "마법 화살 (아우라스)",
+        "readOnly": true
+      },
+      {
+        "name": "ITEM1",
+        "type": "WeaponType",
+        "description": "아이템 슬롯 1",
+        "readOnly": true
+      },
+      {
+        "name": "ITEM2",
+        "type": "WeaponType",
+        "description": "아이템 슬롯 2",
+        "readOnly": true
+      },
+      {
+        "name": "ITEM3",
+        "type": "WeaponType",
+        "description": "아이템 슬롯 3",
+        "readOnly": true
+      },
+      {
+        "name": "ITEM4",
+        "type": "WeaponType",
+        "description": "아이템 슬롯 4",
+        "readOnly": true
+      },
+      {
+        "name": "ITEM5",
+        "type": "WeaponType",
+        "description": "아이템 슬롯 5",
+        "readOnly": true
+      }
+    ],
+    "examples": [
+      "// 무기 타입 사용\nWeaponType currentWeapon = WeaponType.BOW;",
+      "// switch문에서 사용\nswitch (weaponType) {\n    case WeaponType.BOW:\n        FireArrow();\n        break;\n    case WeaponType.GUN:\n        FireBullet();\n        break;\n    case WeaponType.AURAS:\n        FireMagicArrow();\n        break;\n}"
+    ]
+  },
+  {
+    "name": "QuestTitleContent",
+    "type": "class",
+    "description": "개별 퀘스트의 정보를 저장하는 데이터 클래스. 제목, 내용, 보상 등의 퀘스트 데이터를 포함합니다.",
+    "category": "classes",
+    "methods": [],
+    "properties": [
+      {
+        "name": "questTitle",
+        "type": "string",
+        "description": "퀘스트의 제목",
+        "readOnly": false
+      },
+      {
+        "name": "questContent",
+        "type": "string",
+        "description": "퀘스트의 상세 내용",
+        "readOnly": false
+      },
+      {
+        "name": "rewardCost",
+        "type": "int",
+        "description": "퀘스트 완료 시 받는 금전 보상",
+        "readOnly": false
+      },
+      {
+        "name": "rewardExp",
+        "type": "int",
+        "description": "퀘스트 완료 시 받는 경험치 보상",
+        "readOnly": false
+      },
+      {
+        "name": "clearCondition",
+        "type": "int",
+        "description": "퀘스트 클리어 조건 (최소 달성 수치)",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 퀘스트 데이터 생성\nQuestTitleContent quest = new QuestTitleContent();\nquest.questTitle = \"몬스터 처치\";\nquest.rewardExp = 100;",
+      "// 퀘스트 정보 확인\nif (killCount >= quest.clearCondition) {\n    // 퀘스트 완료\n}"
+    ]
+  }
+]

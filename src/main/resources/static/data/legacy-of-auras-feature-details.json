@@ -1,0 +1,260 @@
+{
+  "player-movement": {
+    "title": "플레이어 이동 시스템",
+    "description": "CharacterController를 활용한 3D 이동 시스템으로, 점프, 중력, 애니메이션이 통합된 플레이어 컨트롤러입니다.",
+    "codeExample": "public class PlayerMove : MonoBehaviour\n{\n    public float defaultSpeed = 5f;\n    public float runMulti = 2f;\n    public float jumpPower = 10f;\n    \n    private CharacterController characterController;\n    private Animator animator;\n    private bool isGrounded;\n    \n    void Update()\n    {\n        Move();\n        SetGravity();\n        \n        if (Input.GetKeyDown(KeyCode.Space) && CheckIsGround())\n        {\n            Jump();\n        }\n    }\n    \n    void Move()\n    {\n        float horizontal = Input.GetAxis(\"Horizontal\");\n        float vertical = Input.GetAxis(\"Vertical\");\n        \n        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;\n        \n        if (direction.magnitude >= 0.1f)\n        {\n            float speed = Input.GetKey(KeyCode.LeftShift) ? \n                         defaultSpeed * runMulti : defaultSpeed;\n            \n            characterController.Move(direction * speed * Time.deltaTime);\n            animator.SetBool(\"isWalking\", true);\n        }\n        else\n        {\n            animator.SetBool(\"isWalking\", false);\n        }\n    }\n}",
+    "implementationSteps": [
+      "CharacterController 컴포넌트 추가 및 설정",
+      "Input System을 통한 이동 입력 처리",
+      "중력 시스템 구현 (SetGravity 메서드)",
+      "지면 감지 시스템 (CheckIsGround 메서드)",
+      "점프 기능 구현 및 애니메이션 연동",
+      "걸음 소리 시스템 (PlayerWalkSound.cs)",
+      "씬별 속도 조절 시스템 적용"
+    ],
+    "relatedFiles": [
+      "Assets/Script/Player/PlayerMove.cs",
+      "Assets/Script/Player/PlayerWalkSound.cs"
+    ]
+  },
+  "weapon-combat": {
+    "title": "다중 무기 전투 시스템",
+    "description": "활, 총, 마법 화살 3가지 무기를 지원하는 통합 전투 시스템으로, 스마트 타겟팅과 카메라 동적 조정을 제공합니다.",
+    "codeExample": "public class PlayerAttack : MonoBehaviour\n{\n    public static Transform targetMonster;\n    public WeaponType weaponType;\n    public float targetRange = 50f;\n    public float targetAngle = 60f;\n    \n    void Update()\n    {\n        if (Input.GetMouseButtonDown(0))\n        {\n            Attack();\n        }\n        \n        if (Input.GetKeyDown(KeyCode.Tab))\n        {\n            FindClosestMonster();\n        }\n    }\n    \n    public Transform FindClosestMonster()\n    {\n        GameObject[] monsters = GameObject.FindGameObjectsWithTag(\"Monster\");\n        Transform closestMonster = null;\n        float closestDistance = targetRange;\n        \n        foreach (GameObject monster in monsters)\n        {\n            float distance = Vector3.Distance(transform.position, monster.transform.position);\n            Vector3 direction = (monster.transform.position - transform.position).normalized;\n            float angle = Vector3.Angle(transform.forward, direction);\n            \n            if (distance < closestDistance && angle < targetAngle / 2)\n            {\n                closestDistance = distance;\n                closestMonster = monster.transform;\n            }\n        }\n        \n        targetMonster = closestMonster;\n        return closestMonster;\n    }\n    \n    void Attack()\n    {\n        switch (weaponType)\n        {\n            case WeaponType.BOW:\n                FireArrow();\n                break;\n            case WeaponType.GUN:\n                FireBullet();\n                break;\n            case WeaponType.AURAS:\n                FireMagicArrow();\n                break;\n        }\n    }\n}",
+    "implementationSteps": [
+      "WeaponType 열거형 정의 (활, 총, 마법 화살)",
+      "스마트 타겟팅 시스템 구현 (50유닛 반경, 60도 시야각)",
+      "무기별 발사체 시스템 구현",
+      "카메라 동적 조정 시스템",
+      "무기 전환 시스템 (PlayerWeaponChanger.cs)",
+      "사운드 및 이펙트 통합",
+      "DLL 연동을 통한 성능 최적화"
+    ],
+    "relatedFiles": [
+      "Assets/Script/Player/PlayerAttack.cs",
+      "Assets/Script/Player/PlayerArrow.cs",
+      "Assets/Script/Player/PlayerBullet.cs",
+      "Assets/Script/Player/PlayerAurasArrow.cs",
+      "Assets/Script/Player/PlayerWeaponChanger.cs"
+    ]
+  },
+  "monster-ai": {
+    "title": "몬스터 AI 시스템",
+    "description": "상태 머신 기반의 지능형 몬스터 AI로, 플레이어 감지, 추적, 공격 패턴을 코루틴으로 관리합니다.",
+    "codeExample": "public class MonsterControl : MonoBehaviour\n{\n    public float lookAtDis = 10f;\n    public float maxAngle = 45f;\n    public float attackDistance = 2f;\n    public float moveSpeed = 3f;\n    public float rotationSpeed = 2f;\n    \n    private Transform player;\n    private enum MonsterState { Idle, Chase, Attack }\n    private MonsterState currentState = MonsterState.Idle;\n    \n    void Start()\n    {\n        player = GameObject.FindGameObjectWithTag(\"Player\").transform;\n        StartCoroutine(IdleRotationCoroutine());\n    }\n    \n    void Update()\n    {\n        float distanceToPlayer = Vector3.Distance(transform.position, player.position);\n        Vector3 directionToPlayer = (player.position - transform.position).normalized;\n        float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);\n        \n        switch (currentState)\n        {\n            case MonsterState.Idle:\n                if (distanceToPlayer <= lookAtDis && angleToPlayer <= maxAngle)\n                {\n                    currentState = MonsterState.Chase;\n                }\n                break;\n                \n            case MonsterState.Chase:\n                ChasePlayer();\n                if (distanceToPlayer <= attackDistance)\n                {\n                    currentState = MonsterState.Attack;\n                    StartCoroutine(AttackCoroutine());\n                }\n                break;\n                \n            case MonsterState.Attack:\n                // 공격 상태는 코루틴에서 관리\n                break;\n        }\n    }\n    \n    public IEnumerator AttackCoroutine()\n    {\n        // 공격 애니메이션 실행\n        GetComponent<Animator>().SetTrigger(\"Attack\");\n        \n        // 공격 딜레이\n        yield return new WaitForSeconds(1.5f);\n        \n        // 상태 복귀\n        currentState = MonsterState.Idle;\n    }\n}",
+    "implementationSteps": [
+      "몬스터 상태 머신 설계 (Idle, Chase, Attack)",
+      "플레이어 감지 시스템 구현 (거리 및 각도 기반)",
+      "추적 AI 로직 구현",
+      "공격 패턴 코루틴 시스템",
+      "랜덤 회전 대기 상태 구현",
+      "애니메이션 컨트롤러 연동",
+      "몬스터별 개별 설정 지원"
+    ],
+    "relatedFiles": [
+      "Assets/Script/Monster/MonsterControl.cs",
+      "Assets/Script/Philosopher/PhilosopherState.cs",
+      "Assets/Script/Philosopher/Zombie/ZombieMove.cs"
+    ]
+  },
+  "boss-system": {
+    "title": "최종 보스 시스템",
+    "description": "다단계 공격 패턴을 가진 복합 보스 시스템으로, 특수 공격과 시각 효과가 통합된 전투 경험을 제공합니다.",
+    "codeExample": "public class LastBossAction : MonoBehaviour\n{\n    public enum BossPhase { Phase1, Phase2, Phase3 }\n    public BossPhase currentPhase = BossPhase.Phase1;\n    \n    public float[] phaseHPThresholds = { 100f, 60f, 30f };\n    private float currentHP = 100f;\n    \n    void Update()\n    {\n        UpdatePhase();\n        ExecutePhasePattern();\n    }\n    \n    void UpdatePhase()\n    {\n        if (currentHP <= phaseHPThresholds[2] && currentPhase != BossPhase.Phase3)\n        {\n            currentPhase = BossPhase.Phase3;\n            StartPhase3();\n        }\n        else if (currentHP <= phaseHPThresholds[1] && currentPhase == BossPhase.Phase1)\n        {\n            currentPhase = BossPhase.Phase2;\n            StartPhase2();\n        }\n    }\n    \n    void ExecutePhasePattern()\n    {\n        switch (currentPhase)\n        {\n            case BossPhase.Phase1:\n                // 기본 공격 패턴\n                if (Random.Range(0f, 1f) < 0.3f)\n                    StartCoroutine(GroundPoundAttack());\n                break;\n                \n            case BossPhase.Phase2:\n                // 도끼 투척 패턴 추가\n                if (Random.Range(0f, 1f) < 0.4f)\n                    StartCoroutine(FlyAxeAttack());\n                break;\n                \n            case BossPhase.Phase3:\n                // 픽셀화 공격 및 화염 베기\n                if (Random.Range(0f, 1f) < 0.5f)\n                    StartCoroutine(PixelateAttack());\n                break;\n        }\n    }\n    \n    IEnumerator PixelateAttack()\n    {\n        // 화면 픽셀화 효과 시작\n        FindObjectOfType<LastBossPixelate>().StartPixelateEffect();\n        \n        yield return new WaitForSeconds(2f);\n        \n        // 플레이어에게 데미지\n        // 픽셀화 효과 종료\n    }\n}",
+    "implementationSteps": [
+      "보스 페이즈 시스템 설계 (3단계 진행)",
+      "체력 기반 페이즈 전환 로직",
+      "지면 강타 공격 패턴 (LastBossGroundPound.cs)",
+      "도끼 투척 공격 패턴 (LastBossFlyAXE.cs)",
+      "화염 베기 공격 패턴 (LastBossBurningFlameSlash.cs)",
+      "픽셀화 공격 시스템 (LastBossPixelate.cs)",
+      "보스 인트로 시네마틱 (BossSceneFilm.cs)",
+      "동적 체력바 시스템 연동"
+    ],
+    "relatedFiles": [
+      "Assets/Script/LastBoss/LastBossAction.cs",
+      "Assets/Script/LastBoss/LastBossGroundPound.cs",
+      "Assets/Script/LastBoss/LastBossFlyAXE.cs",
+      "Assets/Script/LastBoss/LastBossBurningFlameSlash.cs",
+      "Assets/Script/LastBoss/LastBossPixelate.cs",
+      "Assets/Script/LastBoss/Film/BossSceneFilm.cs"
+    ]
+  },
+  "quest-system": {
+    "title": "퀘스트 관리 시스템",
+    "description": "P키 토글 기반의 동적 퀘스트 UI로, 진행 상황 추적과 NPC 상호작용을 지원하는 완전한 퀘스트 시스템입니다.",
+    "codeExample": "public class QuestManager : MonoBehaviour\n{\n    public static bool isQuestUIOn = false;\n    public GameObject questUI;\n    \n    void Update()\n    {\n        if (Input.GetKeyDown(KeyCode.P))\n        {\n            TurnOnOffQusetUI();\n        }\n    }\n    \n    public void TurnOnOffQusetUI()\n    {\n        isQuestUIOn = !isQuestUIOn;\n        questUI.SetActive(isQuestUIOn);\n        \n        // 커서 제어\n        if (isQuestUIOn)\n        {\n            Cursor.lockState = CursorLockMode.None;\n            Cursor.visible = true;\n        }\n        else\n        {\n            Cursor.lockState = CursorLockMode.Locked;\n            Cursor.visible = false;\n        }\n    }\n}\n\n[System.Serializable]\npublic class QuestTitleContent\n{\n    public string questTitle;\n    public string questContent;\n    public int rewardCost;\n    public int rewardExp;\n    public int clearCondition;\n}\n\npublic class PlayerQuest : MonoBehaviour\n{\n    public QuestTitleContent[] quests;\n    public int currentQuestIndex = 0;\n    \n    public void CompleteCurrentQuest()\n    {\n        if (currentQuestIndex < quests.Length)\n        {\n            var quest = quests[currentQuestIndex];\n            \n            // 보상 지급\n            PlayerState playerState = FindObjectOfType<PlayerState>();\n            playerState.money += quest.rewardCost;\n            playerState.exp += quest.rewardExp;\n            \n            currentQuestIndex++;\n            UpdateQuestUI();\n        }\n    }\n}",
+    "implementationSteps": [
+      "QuestTitleContent 데이터 구조 설계",
+      "P키 토글 기반 UI 시스템 구현",
+      "커서 제어 시스템 (잠금/해제)",
+      "퀘스트 진행 상황 추적",
+      "NPC 대화 시스템 연동 (ChatNPC.cs)",
+      "목표 위치 표시 시스템 (GoalSpot.cs)",
+      "반복 퀘스트 지원 (QuestRepeatFrame.cs)",
+      "퀘스트 완료 상태 저장 시스템"
+    ],
+    "relatedFiles": [
+      "Assets/Script/UI/QuestManager.cs",
+      "Assets/Script/UI/QuestDetail.cs",
+      "Assets/Script/UI/QuestSelect.cs",
+      "Assets/Script/UI/QuestRepeatFrame.cs",
+      "Assets/Script/Player/PlayerQuest.cs",
+      "Assets/Script/Scriptable/QuestInfo.cs"
+    ]
+  },
+  "inventory-system": {
+    "title": "인벤토리 시스템",
+    "description": "드래그 앤 드롭 기반의 직관적인 인벤토리 시스템으로, 아이템 관리와 상점 시스템이 통합되어 있습니다.",
+    "codeExample": "public class MoveInventory : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler\n{\n    private RectTransform rectTransform;\n    private Canvas canvas;\n    private Vector2 originalPosition;\n    \n    void Start()\n    {\n        rectTransform = GetComponent<RectTransform>();\n        canvas = GetComponentInParent<Canvas>();\n        originalPosition = rectTransform.anchoredPosition;\n    }\n    \n    public void OnPointerDown(PointerEventData eventData)\n    {\n        // 드래그 시작\n    }\n    \n    public void OnDrag(PointerEventData eventData)\n    {\n        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;\n    }\n    \n    public void OnPointerUp(PointerEventData eventData)\n    {\n        // 유효한 슬롯에 드롭되었는지 확인\n        if (!IsValidDropPosition())\n        {\n            // 원래 위치로 되돌리기\n            rectTransform.anchoredPosition = originalPosition;\n        }\n    }\n}\n\npublic class ItemShop : MonoBehaviour\n{\n    public PlayerState playerState;\n    public List<int> costs;\n    private int selectedIndex = 0;\n    \n    public void ChangeSelected(int index)\n    {\n        selectedIndex = index;\n        UpdateUI();\n    }\n    \n    public void BuyItem()\n    {\n        if (playerState.money >= costs[selectedIndex])\n        {\n            playerState.money -= costs[selectedIndex];\n            \n            // 아이템 효과 적용\n            ApplyItemEffect(selectedIndex);\n            \n            // 구매 효과음 및 파티클\n            PlayPurchaseEffect();\n        }\n    }\n}",
+    "implementationSteps": [
+      "드래그 앤 드롭 인터페이스 구현",
+      "인벤토리 슬롯 시스템 설계",
+      "아이템 데이터 구조 정의",
+      "상점 시스템 구현 (ItemShop.cs)",
+      "아이템 사용 효과 시스템",
+      "키보드 아이템 선택 지원 (ItemSelect.cs)",
+      "MySQL 데이터베이스 연동",
+      "아이템 구매 효과 (파티클, 사운드)"
+    ],
+    "relatedFiles": [
+      "Assets/Script/UI/MoveInventory.cs",
+      "Assets/Script/UI/InventroyPosition.cs",
+      "Assets/Script/UI/ItemShop.cs",
+      "Assets/Script/UI/ItemShopOpenClose.cs",
+      "Assets/Script/Player/ItemSelect.cs",
+      "Assets/Script/Player/PlayerUseItem.cs"
+    ]
+  },
+  "ui-system": {
+    "title": "통합 UI 시스템",
+    "description": "미니맵, HUD, 체력바 등 게임의 모든 UI 요소를 관리하는 통합 시스템으로, 씬별 상태 제어를 지원합니다.",
+    "codeExample": "public class MiniMap : MonoBehaviour\n{\n    public Camera miniMapCamera;\n    public RectTransform mapTransform;\n    private bool isMapVisible = true;\n    \n    void Update()\n    {\n        if (Input.GetKeyDown(KeyCode.M))\n        {\n            ToggleMiniMap();\n        }\n        \n        // 플레이어 위치에 따른 미니맵 업데이트\n        UpdateMiniMapPosition();\n    }\n    \n    void ToggleMiniMap()\n    {\n        isMapVisible = !isMapVisible;\n        miniMapCamera.enabled = isMapVisible;\n        mapTransform.gameObject.SetActive(isMapVisible);\n    }\n}\n\npublic class PlayerHPBar : MonoBehaviour\n{\n    public Slider hpSlider;\n    public Animator heartAnimator;\n    \n    void Update()\n    {\n        PlayerState playerState = GameManager.info.playerState;\n        float hpPercentage = (float)playerState.HP / 100f;\n        \n        hpSlider.value = hpPercentage;\n        \n        // 체력이 낮을 때 심장 애니메이션\n        if (hpPercentage < 0.3f)\n        {\n            heartAnimator.SetBool(\"LowHealth\", true);\n        }\n    }\n}",
+    "implementationSteps": [
+      "미니맵 카메라 렌더링 시스템",
+      "동적 HUD 요소 관리",
+      "플레이어 체력바 및 심장 효과",
+      "크로스헤어 타겟 표시 시스템",
+      "현재 씬 정보 표시",
+      "로딩 화면 시스템 (Loading.cs)",
+      "설정 메뉴 슬라이더 관리",
+      "특정 씬에서 UI 숨김 처리"
+    ],
+    "relatedFiles": [
+      "Assets/Script/UI/MiniMap.cs",
+      "Assets/Script/UI/PlayerHPBar.cs",
+      "Assets/Script/UI/CrossHair.cs",
+      "Assets/Script/UI/CurrentSceneUI.cs",
+      "Assets/Script/UI/Loading.cs",
+      "Assets/Script/UI/SliderText.cs"
+    ]
+  },
+  "data-management": {
+    "title": "데이터 관리 시스템",
+    "description": "ScriptableObject와 MySQL을 활용한 게임 데이터 관리 시스템으로, 플레이어 진행 상황과 설정을 안전하게 저장합니다.",
+    "codeExample": "[CreateAssetMenu(fileName = \"New Player State\", menuName = \"Game Data/Player State\")]\npublic class PlayerState : ScriptableObject\n{\n    [Header(\"기본 정보\")]\n    public int Level = 1;\n    public int HP = 100;\n    public int money = 0;\n    public int exp = 0;\n    \n    [Header(\"전투 정보\")]\n    public int bulletCount = 30;\n    public int kills = 0;\n    \n    [Header(\"통계 정보\")]\n    public float playTotalTime = 0f;\n    \n    public void Add(PlayerState otherState)\n    {\n        this.Level += otherState.Level;\n        this.HP += otherState.HP;\n        this.money += otherState.money;\n        this.exp += otherState.exp;\n        this.bulletCount += otherState.bulletCount;\n    }\n    \n    public T ConvertPersent<T>(T value, T left) where T : IConvertible\n    {\n        // 퍼센트 기반 계산\n        return value;\n    }\n}\n\npublic class SaveSystem : MonoBehaviour\n{\n    private string connectionString = \"Server=localhost;Database=GameDB;\";\n    \n    public async void SavePlayerData(PlayerState playerState)\n    {\n        try\n        {\n            using (MySqlConnection connection = new MySqlConnection(connectionString))\n            {\n                await connection.OpenAsync();\n                \n                string query = @\"UPDATE Players SET \n                               Level = @level, HP = @hp, Money = @money, \n                               Exp = @exp, BulletCount = @bulletCount, \n                               PlayTime = @playTime, Kills = @kills \n                               WHERE PlayerID = @playerID\";\n                \n                using (MySqlCommand command = new MySqlCommand(query, connection))\n                {\n                    command.Parameters.AddWithValue(\"@level\", playerState.Level);\n                    command.Parameters.AddWithValue(\"@hp\", playerState.HP);\n                    // ... 다른 매개변수들\n                    \n                    await command.ExecuteNonQueryAsync();\n                }\n            }\n        }\n        catch (Exception ex)\n        {\n            Debug.LogError($\"Save failed: {ex.Message}\");\n        }\n    }\n}",
+    "implementationSteps": [
+      "ScriptableObject 기반 데이터 구조 설계",
+      "플레이어 상태 데이터 정의 (PlayerState.cs)",
+      "몬스터 상태 데이터 정의 (MonsterState.cs)",
+      "퀘스트 정보 데이터 구조 (QuestInfo.cs)",
+      "MySQL 데이터베이스 연동",
+      "비동기 저장/로드 시스템",
+      "로그인 시스템 구현 (Login.cs)",
+      "데이터 동기화 및 백업 시스템"
+    ],
+    "relatedFiles": [
+      "Assets/Script/Scriptable/PlayerState.cs",
+      "Assets/Script/Scriptable/MonsterState.cs",
+      "Assets/Script/Scriptable/QuestInfo.cs",
+      "Assets/Script/Scriptable/State.cs",
+      "Assets/Script/Server/SaveSystem.cs",
+      "Assets/Script/Server/Login.cs"
+    ]
+  },
+  "level-progression": {
+    "title": "레벨 시스템",
+    "description": "경험치 기반 플레이어 성장 시스템으로, 레벨업 시 능력치 증가와 시각적 피드백을 제공합니다.",
+    "codeExample": "public class LevelExp : MonoBehaviour\n{\n    public PlayerState playerState;\n    public Text levelText;\n    public Text expText;\n    public Slider expSlider;\n    \n    private int[] expRequirements = { 100, 250, 500, 1000, 2000 };\n    \n    void Update()\n    {\n        UpdateUI();\n        CheckLevelUp();\n    }\n    \n    void CheckLevelUp()\n    {\n        if (playerState.Level < expRequirements.Length)\n        {\n            int requiredExp = expRequirements[playerState.Level - 1];\n            \n            if (playerState.exp >= requiredExp)\n            {\n                LevelUp();\n            }\n        }\n    }\n    \n    void LevelUp()\n    {\n        playerState.Level++;\n        playerState.exp -= expRequirements[playerState.Level - 2];\n        \n        // 능력치 증가\n        playerState.HP += 20;\n        \n        // 레벨업 효과\n        ShowLevelUpEffect();\n        \n        Debug.Log($\"레벨업! 현재 레벨: {playerState.Level}\");\n    }\n    \n    void UpdateUI()\n    {\n        levelText.text = $\"Level: {playerState.Level}\";\n        \n        if (playerState.Level < expRequirements.Length)\n        {\n            int requiredExp = expRequirements[playerState.Level - 1];\n            expText.text = $\"EXP: {playerState.exp}/{requiredExp}\";\n            expSlider.value = (float)playerState.exp / requiredExp;\n        }\n        else\n        {\n            expText.text = \"MAX LEVEL\";\n            expSlider.value = 1f;\n        }\n    }\n    \n    public void GainExperience(int amount)\n    {\n        playerState.exp += amount;\n        \n        // 경험치 획득 애니메이션\n        StartCoroutine(ShowExpGainAnimation(amount));\n    }\n}",
+    "implementationSteps": [
+      "경험치 요구량 배열 설계",
+      "레벨업 조건 확인 시스템",
+      "능력치 증가 로직 구현",
+      "레벨업 시각 효과 및 사운드",
+      "경험치 획득 애니메이션",
+      "UI 업데이트 시스템",
+      "최대 레벨 처리",
+      "진행 상황 표시 슬라이더"
+    ],
+    "relatedFiles": [
+      "Assets/Script/Player/LevelExp.cs",
+      "Assets/Script/UI/Status.cs"
+    ]
+  },
+  "visual-effects": {
+    "title": "시각 효과 시스템",
+    "description": "파티클 시스템과 셰이더 효과를 활용한 시각적 피드백으로, 무기 이펙트와 특수 공격을 표현합니다.",
+    "codeExample": "public class PlayerAurasArrow : MonoBehaviour\n{\n    public ParticleSystem magicTrail;\n    public Material aurasShader;\n    public Transform target;\n    \n    void Start()\n    {\n        // 마법 화살 셰이더 효과 적용\n        GetComponent<Renderer>().material = aurasShader;\n        \n        // 파티클 트레일 시작\n        magicTrail.Play();\n        \n        // 타겟을 향한 이동\n        if (PlayerAttack.targetMonster != null)\n        {\n            target = PlayerAttack.targetMonster;\n            StartCoroutine(MoveToTarget());\n        }\n    }\n    \n    IEnumerator MoveToTarget()\n    {\n        float speed = 15f;\n        \n        while (target != null && Vector3.Distance(transform.position, target.position) > 0.5f)\n        {\n            Vector3 direction = (target.position - transform.position).normalized;\n            transform.position += direction * speed * Time.deltaTime;\n            \n            // 회전 효과\n            transform.Rotate(0, 0, 360 * Time.deltaTime);\n            \n            yield return null;\n        }\n        \n        // 충돌 효과\n        CreateImpactEffect();\n        \n        Destroy(gameObject);\n    }\n    \n    void CreateImpactEffect()\n    {\n        // 충돌 파티클 생성\n        GameObject impactEffect = Instantiate(impactParticlePrefab, transform.position, Quaternion.identity);\n        Destroy(impactEffect, 2f);\n    }\n}\n\npublic class LastBossPixelate : MonoBehaviour\n{\n    public Material pixelateMaterial;\n    public Camera mainCamera;\n    \n    public void StartPixelateEffect()\n    {\n        StartCoroutine(PixelateSequence());\n    }\n    \n    IEnumerator PixelateSequence()\n    {\n        // 화면을 점진적으로 픽셀화\n        for (float pixelSize = 1f; pixelSize <= 64f; pixelSize += 2f)\n        {\n            pixelateMaterial.SetFloat(\"_PixelSize\", pixelSize);\n            yield return new WaitForSeconds(0.1f);\n        }\n        \n        // 2초간 유지\n        yield return new WaitForSeconds(2f);\n        \n        // 원상복구\n        for (float pixelSize = 64f; pixelSize >= 1f; pixelSize -= 2f)\n        {\n            pixelateMaterial.SetFloat(\"_PixelSize\", pixelSize);\n            yield return new WaitForSeconds(0.05f);\n        }\n    }\n}",
+    "implementationSteps": [
+      "파티클 시스템 설계 및 구성",
+      "무기별 이펙트 셰이더 제작",
+      "마법 화살 트레일 효과 구현",
+      "보스 픽셀화 공격 셰이더",
+      "충돌 및 폭발 이펙트",
+      "쉴드 렌즈 효과 (ShieldLensEffect.cs)",
+      "양초 화염 애니메이션",
+      "코인 드롭 애니메이션 효과"
+    ],
+    "relatedFiles": [
+      "Assets/Script/Player/PlayerAurasArrow.cs",
+      "Assets/Script/LastBoss/LastBossPixelate.cs",
+      "Assets/Script/Philosopher/ShieldEffect.cs",
+      "Assets/Script/Philosopher/ShieldLensEffect.cs",
+      "Assets/Script/ETC/CandleFlame.cs",
+      "Assets/Script/ETC/CoinBox.cs"
+    ]
+  },
+  "audio-system": {
+    "title": "오디오 시스템",
+    "description": "배경음악, 효과음, 환경 소리를 통합 관리하는 오디오 시스템으로, 볼륨 제어와 상황별 사운드를 지원합니다.",
+    "codeExample": "public class BackgroundBGM : MonoBehaviour\n{\n    public AudioSource bgmSource;\n    public AudioClip[] sceneMusics;\n    private GameManager gameManager;\n    \n    void Start()\n    {\n        gameManager = GameManager.info;\n        UpdateBGMVolume();\n        PlaySceneMusic();\n    }\n    \n    void Update()\n    {\n        // 게임 매니저에서 볼륨 설정 확인\n        if (bgmSource.volume != gameManager.musicVolume)\n        {\n            UpdateBGMVolume();\n        }\n    }\n    \n    void UpdateBGMVolume()\n    {\n        bgmSource.volume = gameManager.musicVolume;\n    }\n    \n    void PlaySceneMusic()\n    {\n        string currentScene = SceneManager.GetActiveScene().name;\n        \n        switch (currentScene)\n        {\n            case \"Village\":\n                bgmSource.clip = sceneMusics[0];\n                break;\n            case \"Forest\":\n                bgmSource.clip = sceneMusics[1];\n                break;\n            case \"Desert\":\n                bgmSource.clip = sceneMusics[2];\n                break;\n            case \"BossRoom\":\n                bgmSource.clip = sceneMusics[3];\n                break;\n        }\n        \n        if (!bgmSource.isPlaying)\n            bgmSource.Play();\n    }\n}\n\npublic class PlayerWalkSound : MonoBehaviour\n{\n    public AudioSource footstepSource;\n    public AudioClip[] grassSounds;\n    public AudioClip[] stoneSounds;\n    public AudioClip[] sandSounds;\n    \n    private PlayerMove playerMove;\n    private string currentSurface = \"grass\";\n    \n    void Start()\n    {\n        playerMove = GetComponent<PlayerMove>();\n    }\n    \n    void Update()\n    {\n        if (playerMove.isMoving && playerMove.CheckIsGround())\n        {\n            PlayFootstepSound();\n        }\n    }\n    \n    void PlayFootstepSound()\n    {\n        AudioClip[] currentSounds = GetCurrentSurfaceSounds();\n        \n        if (currentSounds.Length > 0)\n        {\n            AudioClip randomClip = currentSounds[Random.Range(0, currentSounds.Length)];\n            footstepSource.volume = GameManager.info.soundVolume;\n            footstepSource.PlayOneShot(randomClip);\n        }\n    }\n}",
+    "implementationSteps": [
+      "배경음악 관리 시스템 (BackgroundBGM.cs)",
+      "씬별 음악 자동 전환",
+      "플레이어 걸음 소리 시스템",
+      "표면별 다른 걸음소리 재생",
+      "무기 사운드 효과 통합",
+      "몬스터 피격음 시스템",
+      "상점 구매 효과음",
+      "볼륨 제어 및 설정 연동"
+    ],
+    "relatedFiles": [
+      "Assets/Script/UI/BackgroundBGM.cs",
+      "Assets/Script/Player/PlayerWalkSound.cs",
+      "Assets/Script/Monster/MonsterDamageSound.cs",
+      "Assets/Script/ETC/StoreSignSound.cs"
+    ]
+  },
+  "scene-management": {
+    "title": "장면 관리 시스템",
+    "description": "다중 씬 전환과 상태 관리를 지원하는 시스템으로, 로딩 화면과 페이드 효과를 제공합니다.",
+    "codeExample": "public class PlayerTeleport : MonoBehaviour\n{\n    public string targetSceneName;\n    public Vector3 targetPosition;\n    public bool requiresLoading = true;\n    \n    void OnTriggerEnter(Collider other)\n    {\n        if (other.CompareTag(\"Player\"))\n        {\n            StartCoroutine(TeleportSequence());\n        }\n    }\n    \n    IEnumerator TeleportSequence()\n    {\n        if (requiresLoading)\n        {\n            // 로딩 화면 표시\n            Loading.Instance.ShowLoading();\n        }\n        \n        // 페이드 아웃\n        FadeInOutEffect fadeEffect = FindObjectOfType<FadeInOutEffect>();\n        if (fadeEffect != null)\n        {\n            yield return StartCoroutine(fadeEffect.FadeOut());\n        }\n        \n        // 플레이어 위치 저장\n        GameManager.info.SetPlayerPosition(targetPosition);\n        \n        // 씬 로드\n        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(targetSceneName);\n        \n        while (!asyncLoad.isDone)\n        {\n            // 로딩 진행률 업데이트\n            if (Loading.Instance != null)\n            {\n                Loading.Instance.UpdateProgress(asyncLoad.progress);\n            }\n            yield return null;\n        }\n    }\n}\n\npublic class Loading : MonoBehaviour\n{\n    public static Loading Instance;\n    public GameObject loadingUI;\n    public Slider progressSlider;\n    public Text progressText;\n    \n    void Awake()\n    {\n        if (Instance == null)\n        {\n            Instance = this;\n            DontDestroyOnLoad(gameObject);\n        }\n        else\n        {\n            Destroy(gameObject);\n        }\n    }\n    \n    public void ShowLoading()\n    {\n        loadingUI.SetActive(true);\n        progressSlider.value = 0f;\n        progressText.text = \"0%\";\n    }\n    \n    public void UpdateProgress(float progress)\n    {\n        progressSlider.value = progress;\n        progressText.text = $\"{(int)(progress * 100)}%\";\n    }\n    \n    public void HideLoading()\n    {\n        loadingUI.SetActive(false);\n    }\n}",
+    "implementationSteps": [
+      "텔레포트 트리거 시스템 구현",
+      "비동기 씬 로딩 시스템",
+      "로딩 화면 UI 및 진행률 표시",
+      "페이드 인/아웃 효과 시스템",
+      "플레이어 위치 상태 관리",
+      "씬 간 데이터 유지 시스템",
+      "로딩 싱글톤 패턴 구현",
+      "특정 씬 UI 제어 시스템"
+    ],
+    "relatedFiles": [
+      "Assets/Script/Player/PlayerTeleport.cs",
+      "Assets/Script/UI/Loading.cs",
+      "Assets/Script/ETC/FadeInOutEffect.cs",
+      "Assets/Script/ETC/SceneFadeOut.cs",
+      "Assets/Script/UI/PlayerFilmUIOff.cs"
+    ]
+  }
+}

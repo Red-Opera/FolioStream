@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legacy Of Auras  코드 문서</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/legacy-of-auras-code.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="/legacy-of-auras" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+                    <i class="fab fa-unity"></i>
+                    <span>Legacy Of Auras</span>
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="#overview" class="nav-link">개요</a>
+                <a href="#features" class="nav-link">기능 구현</a>
+                <a href="#codebase" class="nav-link">코드베이스</a>
+                <a href="#architecture" class="nav-link">아키텍처</a>
+                <a href="#api" class="nav-link">API 레퍼런스</a>
+            </div>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="overview">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Legacy Of Auras  코드 문서</h1>
+                <p class="hero-subtitle">체계적이고 직관적인 코드 구조 분석과 구현 가이드</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="97">97</span>
+                        <span class="stat-label">스크립트 파일</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="15">0</span>
+                        <span class="stat-label">주요 기능</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="10">0</span>
+                        <span class="stat-label">API 레퍼런스</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 특정 기능 구현 방법 설명 영역 -->
+    <section class="section features-section" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">특정 기능 구현 방법</h2>
+                <p class="section-subtitle">주요 게임플레이 기능들의 구현 방식과 코드 구조를 상세히 설명합니다</p>
+            </div>
+            
+            <div class="features-grid" id="featuresGrid">
+                <th:block th:each="feature, iterStat : ${features}">
+                    <div class="feature-card" th:attr="data-feature=${feature.id}" th:attrappend="data-index=${iterStat.index}" style="display:none;">
+                        <div class="feature-icon">
+                            <i th:class="${feature.icon}"></i>
+                        </div>
+                        <h3 class="feature-title" th:text="${feature.title}"></h3>
+                        <p class="feature-description" th:text="${feature.description}"></p>
+                        <div class="feature-tech">
+                            <span class="tech-tag" th:each="tag : ${feature.techTags}" th:text="${tag}"></span>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+            <div class="pagination-container" style="text-align:center; margin-top:24px;">
+                <div id="featurePagination"></div>
+            </div>
+
+            <!-- Feature Detail Modal -->
+            <div class="feature-modal" id="featureModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="modalTitle">기능 상세 설명</h3>
+                        <button class="modal-close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="code-example">
+                            <div class="code-header">
+                                <span class="code-filename">PlayerController.cs</span>
+                                <button class="copy-btn" onclick="copyCode()">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <pre><code id="modalCode" class="language-csharp">
+// 코드 예제가 여기에 표시됩니다
+                            </code></pre>
+                        </div>
+                        <div class="implementation-steps">
+                            <h4>구현 단계</h4>
+                            <ol id="modalSteps">
+                                <li>단계별 구현 방법이 표시됩니다</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 코드 파일 설명 영역 -->
+    <section class="section codebase-section" id="codebase">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">코드베이스 구조</h2>
+                <p class="section-subtitle">프로젝트의 모든 코드 파일과 각각의 기능을 체계적으로 정리했습니다</p>
+            </div>
+            
+            <div class="search-filter">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="codeSearch" placeholder="파일명 또는 기능으로 검색...">
+                </div>
+                <div class="filter-tags">
+                    <button class="filter-tag active" data-feature="all">전체</button>
+                    <th:block th:each="feature : ${allFeatures}">
+                        <button class="filter-tag" th:text="${feature}" th:attr="data-feature=${feature}"></button>
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="code-grid" id="codeGrid">
+                <th:block th:each="file, iterStat : ${codeFiles}">
+                    <div class="code-file-card" th:attr="data-feature=${#strings.arrayJoin(file.features, ',')}" th:attrappend="data-index=${iterStat.index}" style="display:none;">
+                        <div class="file-header">
+                            <div class="file-icon">
+                                <i th:class="${file.icon}"></i>
+                            </div>
+                            <div class="file-info">
+                                <h3 class="file-name" th:text="${file.name}"></h3>
+                                <span class="file-path" th:text="${file.path}"></span>
+                            </div>
+                            <div class="file-status">
+                                <span class="status-badge active" th:text="${file.status}"></span>
+                            </div>
+                        </div>
+                        <div class="file-description">
+                            <p><strong>주요 기능:</strong> <span th:text="${file.description}"></span></p>
+                            <div class="file-features">
+                                <span class="feature-badge" th:each="feature : ${file.features}" th:text="${feature}"></span>
+                            </div>
+                        </div>
+                        <div class="file-actions">
+                            <button class="action-btn view-btn" th:attr="onclick='viewCode(\'' + ${file.name} + '\')'">
+                                <i class="fas fa-eye"></i> 코드 보기
+                            </button>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+            <div class="pagination-container" style="text-align:center; margin-top:24px;">
+                <div id="pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 아키텍처 다이어그램 영역 -->
+    <section class="section architecture-section" id="architecture">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">시스템 아키텍처</h2>
+                <p class="section-subtitle">Legacy of Auras 프로젝트 4계층 아키텍처</p>
+            </div>
+            
+            <div class="architecture-diagram">
+                <div class="diagram-container">
+                    <div class="layer presentation-layer">
+                        <h3>UI Layer</h3>
+                        <div class="layer-components">
+                            <div class="component">Quest Manager</div>
+                            <div class="component">Player HP Bar</div>
+                            <div class="component">Inventory System</div>
+                            <div class="component">Item Shop</div>
+                            <div class="component">Mini Map</div>
+                            <div class="component">CrossHair</div>
+                            <div class="component">Alert System</div>
+                            <div class="component">Loading Screen</div>
+                        </div>
+                    </div>
+                    
+                    <div class="layer business-layer">
+                        <h3>Gameplay Layer</h3>
+                        <div class="layer-components">
+                            <div class="component">Game Manager</div>
+                            <div class="component">Player Controller</div>
+                            <div class="component">Monster AI</div>
+                            <div class="component">Boss System</div>
+                            <div class="component">Combat System</div>
+                            <div class="component">Level & EXP</div>
+                            <div class="component">Quest System</div>
+                            <div class="component">Weapon System</div>
+                        </div>
+                    </div>
+                    
+                    <div class="layer data-layer">
+                        <h3>Data & Persistence Layer</h3>
+                        <div class="layer-components">
+                            <div class="component">Save System</div>
+                            <div class="component">Login System</div>
+                            <div class="component">Player State</div>
+                            <div class="component">Monster State</div>
+                            <div class="component">Quest Data</div>
+                            <div class="component">MySQL Database</div>
+                        </div>
+                    </div>
+                    
+                    <div class="layer utility-layer">
+                        <h3>Core & Utility Layer</h3>
+                        <div class="layer-components">
+                            <div class="component">Fade Effects</div>
+                            <div class="component">Sound Manager</div>
+                            <div class="component">Environment Interaction</div>
+                            <div class="component">Visual Effects</div>
+                            <div class="component">Type Story</div>
+                            <div class="component">C++ DLL Interface</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- API 레퍼런스 영역 -->
+    <section class="section api-section" id="api">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">API 레퍼런스</h2>
+                <p class="section-subtitle">주요 클래스와 메서드의 상세한 API 문서</p>
+            </div>
+            
+            <div class="api-tabs">
+                <th:block th:each="category, categoryStat : ${apiByCategory.keySet()}">
+                    <button class="api-tab" th:classappend="${categoryStat.first} ? 'active' : ''" 
+                            th:attr="data-tab=${category}" 
+                            th:text="${category == 'classes' ? '클래스' : 
+                                     category == 'interfaces' ? '인터페이스' : 
+                                     category == 'enums' ? '열거형' : 
+                                     category == 'events' ? '이벤트' : category}"></button>
+                </th:block>
+            </div>
+            
+            <div class="api-content">
+                <th:block th:each="categoryEntry, categoryStat : ${apiByCategory}">
+                    <div class="api-tab-content" th:id="${categoryEntry.key}" 
+                         th:classappend="${categoryStat.first} ? 'active' : ''">
+                        <th:block th:each="api : ${categoryEntry.value}">
+                            <div class="api-item">
+                                <div class="api-header">
+                                    <h3 class="api-name" th:text="${api.name}"></h3>
+                                    <span class="api-type" th:text="${api.type}"></span>
+                                </div>
+                                <p class="api-description" th:text="${api.description}"></p>
+                                
+                                <!-- Methods Section -->
+                                <div class="api-methods" th:if="${api.methods != null and !api.methods.isEmpty()}">
+                                    <h4>메서드</h4>
+                                    <th:block th:each="method : ${api.methods}">
+                                        <div class="method-item">
+                                            <code th:text="${method.signature}"></code>
+                                            <p th:text="${method.description}"></p>
+                                            <div class="method-params" th:if="${method.parameters != null and !method.parameters.isEmpty()}">
+                                                <strong>매개변수:</strong>
+                                                <ul>
+                                                    <li th:each="parameter : ${method.parameters}">
+                                                        <code th:text="${parameter.name}"></code> 
+                                                        (<span th:text="${parameter.type}"></span>)
+                                                        <span th:if="${parameter.required}" class="required">*</span>
+                                                        - <span th:text="${parameter.description}"></span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="method-example" th:if="${method.example != null and !method.example.isEmpty()}">
+                                                <strong>예제:</strong>
+                                                <pre><code th:text="${method.example}"></code></pre>
+                                            </div>
+                                        </div>
+                                    </th:block>
+                                </div>
+                                
+                                <!-- Properties Section -->
+                                <div class="api-properties" th:if="${api.properties != null and !api.properties.isEmpty()}">
+                                    <h4>속성</h4>
+                                    <th:block th:each="property : ${api.properties}">
+                                        <div class="property-item">
+                                            <code th:text="${property.name + ' (' + property.type + ')'}"></code>
+                                            <span th:if="${property.readOnly}" class="readonly">[읽기 전용]</span>
+                                            <p th:text="${property.description}"></p>
+                                        </div>
+                                    </th:block>
+                                </div>
+                                
+                                <!-- Examples Section -->
+                                <div class="api-examples" th:if="${api.examples != null and !api.examples.isEmpty()}">
+                                    <h4>사용 예제</h4>
+                                    <th:block th:each="example : ${api.examples}">
+                                        <div class="example-item">
+                                            <pre><code th:text="${example}"></code></pre>
+                                        </div>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Viewer Modal -->
+    <div class="code-viewer-modal" id="codeViewerModal">
+        <div class="code-viewer-content">
+            <div class="code-viewer-header">
+                <h3 id="codeViewerTitle">코드 뷰어</h3>
+                <div class="code-viewer-actions">
+                    <button class="code-action-btn" onclick="copyFullCode()">
+                        <i class="fas fa-copy"></i> 복사
+                    </button>
+                    <button class="code-action-btn" onclick="downloadCode()">
+                        <i class="fas fa-download"></i> 다운로드
+                    </button>
+                    <button class="modal-close" onclick="closeCodeViewer()">&times;</button>
+                </div>
+            </div>
+            <div class="code-viewer-body">
+                <pre><code id="fullCodeContent" class="language-csharp"></code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/legacy-of-auras-code.js"></script>
+</body>
+</html>

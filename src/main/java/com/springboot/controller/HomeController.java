@@ -4,14 +4,31 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import java.nio.charset.StandardCharsets;
 import com.springboot.model.VisitorCount;
 import com.springboot.model.Project;
+import com.springboot.model.Feature;
+import com.springboot.model.CodeFile;
+import com.springboot.model.ApiReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 import java.io.File;
+import org.mozilla.universalchardet.UniversalDetector;
 
 @Controller
 public class HomeController 
@@ -556,5 +573,99 @@ public class HomeController
         model.addAttribute("galleryImages", galleryImages);
 
         return "sokoban";
+    }
+
+    @GetMapping("/legacy-of-auras/code")
+    public String legacyOfAurasCode(Model model) {
+        String githubAddress = "https://github.com/Red-Opera/Legacy_of_Auras/blob/main/";
+        ObjectMapper mapper = new ObjectMapper();
+        List<Feature> features = new ArrayList<>();
+        List<CodeFile> codeFiles = new ArrayList<>();
+        List<ApiReference> apiReferences = new ArrayList<>();
+        Set<String> allFeatures = new HashSet<>();
+        Map<String, List<ApiReference>> apiByCategory = new HashMap<>();
+
+        try {
+            Path featurePath = Paths.get("src/main/resources/static/data/legacy-of-auras-feature.json");
+            Path codeFilePath = Paths.get("src/main/resources/static/data/legacy-of-auras-codefile.json");
+            Path apiPath = Paths.get("src/main/resources/static/data/legacy-of-auras-api.json");
+            
+            features = Arrays.asList(mapper.readValue(featurePath.toFile(), Feature[].class));
+            codeFiles = Arrays.asList(mapper.readValue(codeFilePath.toFile(), CodeFile[].class));
+            apiReferences = Arrays.asList(mapper.readValue(apiPath.toFile(), ApiReference[].class));
+            
+            for (CodeFile file : codeFiles) {
+                String path = file.getPath();
+                int idx = path.lastIndexOf('/');
+                String name = path.substring(idx + 1);
+                String dir = path.substring(0, idx + 1);
+                file.setName(name);
+                file.setPath(dir);
+                if (file.getFeatures() != null) allFeatures.addAll(file.getFeatures());
+            }
+            
+            // API references를 카테고리별로 그룹화
+            for (ApiReference api : apiReferences) {
+                String category = api.getCategory();
+                apiByCategory.computeIfAbsent(category, k -> new ArrayList<>()).add(api);
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        model.addAttribute("features", features);
+        model.addAttribute("codeFiles", codeFiles);
+        model.addAttribute("allFeatures", allFeatures);
+        model.addAttribute("apiReferences", apiReferences);
+        model.addAttribute("apiByCategory", apiByCategory);
+        return "legacy-of-auras-code";
+    }
+
+    @GetMapping("/code/raw")
+    @ResponseBody
+    public ResponseEntity<String> getRawCode(@RequestParam("path") String path) {
+        String githubRawBase = "https://raw.githubusercontent.com/Red-Opera/Legacy_of_Auras/main/";
+        String fullUrl = githubRawBase + path;
+        RestTemplate restTemplate = new RestTemplate();
+
+        try {
+            byte[] bytes = restTemplate.getForObject(fullUrl, byte[].class);
+
+            UniversalDetector detector = new UniversalDetector(null);
+            detector.handleData(bytes, 0, bytes.length);
+            detector.dataEnd();
+
+            String encoding = detector.getDetectedCharset();
+            detector.reset();
+
+            if (encoding == null) 
+                encoding = "UTF-8";
+
+            String code = new String(bytes, encoding);
+            
+            return ResponseEntity.ok(code);
+        } 
+
+        catch (Exception e) 
+        {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("코드를 불러올 수 없습니다.");
+        }
+    }
+
+    @GetMapping("/data/legacy-of-auras-feature-details.json")
+    @ResponseBody
+    public ResponseEntity<String> getFeatureDetails() {
+        try {
+            Path detailsPath = Paths.get("src/main/resources/static/data/legacy-of-auras-feature-details.json");
+            String content = new String(java.nio.file.Files.readAllBytes(detailsPath), StandardCharsets.UTF_8);
+            
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/json; charset=UTF-8")
+                    .body(content);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\": \"Feature details not found\"}");
+        }
     }
 }
