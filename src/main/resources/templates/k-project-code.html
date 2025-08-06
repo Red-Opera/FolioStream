@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legacy Of Auras  코드 문서</title>
+    <title>K-Project 코드 문서</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -14,9 +14,9 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-brand">
-                <a href="/legacy-of-auras" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+                <a href="/k-project" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
                     <i class="fab fa-unity"></i>
-                    <span>Legacy Of Auras</span>
+                    <span>K-Project</span>
                 </a>
             </div>
             <div class="nav-menu">
@@ -37,20 +37,24 @@
         <div class="hero-background"></div>
         <div class="container">
             <div class="hero-content">
-                <h1 class="hero-title">Legacy Of Auras  코드 문서</h1>
-                <p class="hero-subtitle">체계적이고 직관적인 코드 구조 분석과 구현 가이드</p>
+                <h1 class="hero-title">K-Project 코드 문서</h1>
+                <p class="hero-subtitle">멀티플레이어 어드벤처 RPG의 체계적인 코드 구조 분석</p>
+                <div class="hero-author">
+                    <i class="fas fa-user"></i>
+                    <span>팀 프로젝트 중 본인이 담당하고 직접 작성한 코드만을 선별하여 문서화했습니다</span>
+                </div>
                 <div class="hero-stats">
                     <div class="stat-item">
-                        <span class="stat-number" data-target="97">0</span>
+                        <span class="stat-number" data-target="147">0</span>
                         <span class="stat-label">스크립트 파일</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-number" data-target="15">0</span>
+                        <span class="stat-number" data-target="14">0</span>
                         <span class="stat-label">주요 기능</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-number" data-target="10">0</span>
-                        <span class="stat-label">API 레퍼런스</span>
+                        <span class="stat-number" data-target="15">0</span>
+                        <span class="stat-label">모듈</span>
                     </div>
                 </div>
             </div>
@@ -62,7 +66,7 @@
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">특정 기능 구현 방법</h2>
-                <p class="section-subtitle">주요 게임플레이 기능들의 구현 방식과 코드 구조를 상세히 설명합니다</p>
+                <p class="section-subtitle">멀티플레이어 액션 RPG의 핵심 시스템 구현 방식</p>
             </div>
             
             <div class="features-grid" id="featuresGrid">
@@ -119,7 +123,11 @@
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">코드베이스 구조</h2>
-                <p class="section-subtitle">프로젝트의 모든 코드 파일과 각각의 기능을 체계적으로 정리했습니다</p>
+                <p class="section-subtitle">K-Project의 모든 코드 파일과 각각의 기능을 체계적으로 정리</p>
+                <div class="ownership-notice">
+                    <i class="fas fa-code"></i>
+                    <span><strong>자체 개발 코드:</strong> 아래 모든 스크립트는 처음부터 직접 작성하고 설계한 오리지널 코드입니다</span>
+                </div>
             </div>
             
             <div class="search-filter">
@@ -175,7 +183,11 @@
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">시스템 아키텍처</h2>
-                <p class="section-subtitle">Legacy of Auras 프로젝트 4계층 아키텍처</p>
+                <p class="section-subtitle">K-Project 멀티플레이어 게임의 4계층 아키텍처</p>
+                <div class="architecture-notice">
+                    <i class="fas fa-drafting-compass"></i>
+                    <span><strong>독창적 설계:</strong> 자체 설계한 멀티플레이어 게임 아키텍처 구조</span>
+                </div>
             </div>
             
             <div class="architecture-diagram">
@@ -183,52 +195,51 @@
                     <div class="layer presentation-layer">
                         <h3>UI Layer</h3>
                         <div class="layer-components">
-                            <div class="component">Quest Manager</div>
-                            <div class="component">Player HP Bar</div>
                             <div class="component">Inventory System</div>
-                            <div class="component">Item Shop</div>
-                            <div class="component">Mini Map</div>
-                            <div class="component">CrossHair</div>
-                            <div class="component">Alert System</div>
+                            <div class="component">Equipment Store</div>
+                            <div class="component">Dialog System</div>
+                            <div class="component">Status Display</div>
+                            <div class="component">Map System</div>
                             <div class="component">Loading Screen</div>
+                            <div class="component">Boss HP Manager</div>
+                            <div class="component">Title System</div>
+                            <div class="component">Food Management</div>
                         </div>
                     </div>
                     
                     <div class="layer business-layer">
                         <h3>Gameplay Layer</h3>
                         <div class="layer-components">
-                            <div class="component">Game Manager</div>
                             <div class="component">Player Controller</div>
-                            <div class="component">Monster AI</div>
-                            <div class="component">Boss System</div>
-                            <div class="component">Combat System</div>
-                            <div class="component">Level & EXP</div>
-                            <div class="component">Quest System</div>
-                            <div class="component">Weapon System</div>
+                            <div class="component">Equipment System</div>
+                            <div class="component">Stage Management</div>
+                            <div class="component">Portal System</div>
+                            <div class="component">Animation</div>
+                            <div class="component">Stage Effects</div>
                         </div>
                     </div>
                     
                     <div class="layer data-layer">
-                        <h3>Data & Persistence Layer</h3>
+                        <h3>Data & Network Layer</h3>
                         <div class="layer-components">
+                            <div class="component">User Authentication</div>
                             <div class="component">Save System</div>
-                            <div class="component">Login System</div>
-                            <div class="component">Player State</div>
-                            <div class="component">Monster State</div>
-                            <div class="component">Quest Data</div>
-                            <div class="component">MySQL Database</div>
+                            <div class="component">Multiplayer Network</div>
+                            <div class="component">Thread Management</div>
+                            <div class="component">Multiplayer Server</div>
+                            <div class="component">Database Integration</div>
                         </div>
                     </div>
                     
                     <div class="layer utility-layer">
                         <h3>Core & Utility Layer</h3>
                         <div class="layer-components">
-                            <div class="component">Fade Effects</div>
-                            <div class="component">Sound Manager</div>
-                            <div class="component">Environment Interaction</div>
-                            <div class="component">Visual Effects</div>
-                            <div class="component">Type Story</div>
-                            <div class="component">C++ DLL Interface</div>
+                            <div class="component">C++ DLL System</div>
+                            <div class="component">Security System</div>
+                            <div class="component">Audio Management</div>
+                            <div class="component">Data Structures</div>
+                            <div class="component">Performance Optimization</div>
+                            <div class="component">AES-128 Encryption</div>
                         </div>
                     </div>
                 </div>
@@ -343,6 +354,6 @@
         </div>
     </div>
 
-    <script src="/js/legacy-of-auras-code.js"></script>
+    <script src="/js/k-project-code.js"></script>
 </body>
 </html>

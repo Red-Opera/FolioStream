@@ -1,0 +1,546 @@
+[
+  {
+    "icon": "fas fa-sort-amount-up",
+    "name": "PriorityQueue.cs",
+    "path": "Assets/Scripts/C++DLL/",
+    "status": "Active",
+    "description": "제네릭 우선순위 큐 시스템 구현, C++ DLL과 상호작용하여 다양한 데이터 타입 지원",
+    "features": ["C++", "DLL"]
+  },
+  {
+    "icon": "fas fa-code",
+    "name": "ReturnType.h",
+    "path": "Assets/Scripts/C++DLL/",
+    "status": "Active",
+    "description": "C++ DLL을 위한 사용자 정의 구조체들 정의 (IntInt, FloatInt, IntFloatChar32)",
+    "features": ["C++", "DLL"]
+  },
+  {
+    "icon": "fas fa-tools",
+    "name": "framework.h",
+    "path": "Assets/Scripts/C++DLL/",
+    "status": "Active",
+    "description": "C++ 프로젝트를 위한 표준 헤더 파일",
+    "features": ["C++"]
+  },
+  {
+    "icon": "fas fa-rocket",
+    "name": "pch.h",
+    "path": "Assets/Scripts/C++DLL/",
+    "status": "Active",
+    "description": "컴파일 최적화를 위한 미리 컴파일된 헤더 파일",
+    "features": ["C++"]
+  },
+  {
+    "icon": "fas fa-door-open",
+    "name": "dllmain.cpp",
+    "path": "Assets/Scripts/C++DLL/",
+    "status": "Active",
+    "description": "DLL 초기화 및 진입점 함수들을 포함하는 메인 파일",
+    "features": ["C++", "DLL"]
+  },
+  {
+    "icon": "fas fa-rocket",
+    "name": "pch.cpp",
+    "path": "Assets/Scripts/C++DLL/",
+    "status": "Active",
+    "description": "미리 컴파일된 헤더를 위한 구현 파일",
+    "features": ["C++"]
+  },
+  {
+    "icon": "fas fa-shield-alt",
+    "name": "EquipmentState.cs",
+    "path": "Assets/Scripts/Player/",
+    "status": "Active",
+    "description": "플레이어 장비 유형을 나타내는 플래그 열거형, 비트마스크를 통한 유연한 장비 관리",
+    "features": ["Player"]
+  },
+  {
+    "icon": "fas fa-users",
+    "name": "OnlinePlayer.cs",
+    "path": "Assets/Scripts/Player/",
+    "status": "Active",
+    "description": "멀티플레이어 게임에서 온라인 플레이어 캐릭터 관리, 네트워크 동기화",
+    "features": ["Player", "Network"]
+  },
+  {
+    "icon": "fas fa-cogs",
+    "name": "State.cs",
+    "path": "Assets/Scripts/Player/",
+    "status": "Active",
+    "description": "리플렉션 기반 동적 플레이어 상태 관리 시스템. Dictionary를 통한 필드 정보 캐싱과 런타임 속성 접근 구현",
+    "features": ["Player", "Reflection"]
+  },
+  {
+    "icon": "fas fa-sign-in-alt",
+    "name": "Login.cs",
+    "path": "Assets/Scripts/Server/",
+    "status": "Active",
+    "description": "MySQL 데이터베이스를 통한 사용자 인증 시스템 구현, 로그인 및 회원가입 기능",
+    "features": ["Server", "Database"]
+  },
+  {
+    "icon": "fas fa-sync",
+    "name": "MainTheadAction.cs",
+    "path": "Assets/Scripts/Server/",
+    "status": "Active",
+    "description": "메인 스레드 액션 관리, 동기화 처리",
+    "features": ["Server"]
+  },
+  {
+    "icon": "fas fa-network-wired",
+    "name": "MultiPlay.cs",
+    "path": "Assets/Scripts/Server/",
+    "status": "Active",
+    "description": "TCP 클라이언트를 사용한 멀티플레이어 네트워킹 시스템, 실시간 플레이어 데이터 동기화",
+    "features": ["Server", "Network"]
+  },
+  {
+    "icon": "fas fa-save",
+    "name": "SaveSystem.cs",
+    "path": "Assets/Scripts/Server/",
+    "status": "Active",
+    "description": "게임 데이터 저장 및 로딩 관리 시스템",
+    "features": ["Server"]
+  },
+  {
+    "icon": "fas fa-file-alt",
+    "name": "Log.cpp",
+    "path": "Assets/Scripts/Server/MultiPlaySystem/",
+    "status": "Active",
+    "description": "멀티플레이어 시스템의 로깅 기능 구현",
+    "features": ["C++", "Network"]
+  },
+  {
+    "icon": "fas fa-file-alt",
+    "name": "Log.h",
+    "path": "Assets/Scripts/Server/MultiPlaySystem/",
+    "status": "Active",
+    "description": "로깅 기능을 위한 헤더 파일, 로그 관련 클래스/함수 선언",
+    "features": ["C++", "Network"]
+  },
+  {
+    "icon": "fas fa-server",
+    "name": "MultiSystemAPP.cpp",
+    "path": "Assets/Scripts/Server/MultiPlaySystem/",
+    "status": "Active",
+    "description": "멀티플레이어 시스템의 메인 애플리케이션 구현",
+    "features": ["C++", "Network"]
+  },
+  {
+    "icon": "fas fa-server",
+    "name": "MultiSystemAPP.h",
+    "path": "Assets/Scripts/Server/MultiPlaySystem/",
+    "status": "Active",
+    "description": "멀티플레이어 시스템 애플리케이션을 위한 헤더 파일",
+    "features": ["C++", "Network"]
+  },
+  {
+    "icon": "fas fa-play",
+    "name": "Run.cpp",
+    "path": "Assets/Scripts/Server/MultiPlaySystem/",
+    "status": "Active",
+    "description": "멀티플레이어 시스템의 시작 및 실행 로직",
+    "features": ["C++"]
+  },
+  {
+    "icon": "fas fa-film",
+    "name": "Ani2DRun.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "2D 애니메이션 실행 처리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-heart",
+    "name": "BossHPManager.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "보스 체력 포인트 UI 관리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-shopping-cart",
+    "name": "BuyEffect.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "구매 시 시각적 효과 처리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-check-circle",
+    "name": "CapabilityAgreement.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "사용자 능력 동의 관리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-comment",
+    "name": "ChatNPC.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "NPC 대화 상호작용 처리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-map-marker-alt",
+    "name": "CurrentSceneNameUI.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "현재 씬 이름 표시",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-mouse-pointer",
+    "name": "CustomMouseIndex.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "커스텀 마우스 상호작용 관리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-desktop",
+    "name": "CustomUI.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "일반적인 커스텀 UI 관리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-running",
+    "name": "DashUI.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "대시/스프린트 메커니즘을 위한 UI",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-comments",
+    "name": "Dialog.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "대화 시스템 관리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-cogs",
+    "name": "EquidState.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "장비/아이템 상태 추적",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-store",
+    "name": "EquidStore.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "장비 상점 인터페이스 관리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-shopping-bag",
+    "name": "EquidStoreItem.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "개별 상점 아이템 상호작용 처리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-utensils",
+    "name": "FoodItem.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "게임 내 음식 아이템 표현",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-apple-alt",
+    "name": "FoodManager.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "음식 관련 메커니즘 관리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-leaf",
+    "name": "FoodState.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "음식 관련 상태 추적",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-gift",
+    "name": "GetItemUI.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "아이템 획득을 위한 UI",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-heartbeat",
+    "name": "HpLevelManager.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "체력 레벨 표시 관리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-boxes",
+    "name": "Inventory.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "플레이어 인벤토리 시스템 처리, 장비 관리 및 능력치 업데이트",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-spinner",
+    "name": "Loading.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "로딩 화면 관리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-camera",
+    "name": "LoadingCamera.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "로딩 화면 중 카메라 관리를 담당하는 스크립트",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-map",
+    "name": "MapUI.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "게임 맵 인터페이스 표시",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-map-marked-alt",
+    "name": "Minimap.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "미니맵 생성 및 관리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-trophy",
+    "name": "ResultUI.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "게임 결과 화면 표시",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-tags",
+    "name": "SaleItem.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "아이템 판매 기능과 UI를 처리하는 스크립트",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-info-circle",
+    "name": "Status.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "플레이어 상태 추적",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-save",
+    "name": "AutoSave.cs",
+    "path": "Assets/Scripts/Utill/",
+    "status": "Active",
+    "description": "자동 저장 기능 처리",
+    "features": ["Utility"]
+  },
+  {
+    "icon": "fas fa-volume-up",
+    "name": "BackgroundSound.cs",
+    "path": "Assets/Scripts/Utill/",
+    "status": "Active",
+    "description": "배경 음악 또는 사운드 효과 관리",
+    "features": ["Audio"]
+  },
+  {
+    "icon": "fas fa-arrows-alt-h",
+    "name": "BackgroundScroll.cs",
+    "path": "Assets/Scripts/Title/",
+    "status": "Active",
+    "description": "타이틀/메뉴 화면의 스크롤링 배경 효과 처리",
+    "features": ["UI", "Animation"]
+  },
+  {
+    "icon": "fas fa-eye",
+    "name": "BlinkText.cs",
+    "path": "Assets/Scripts/Title/",
+    "status": "Active",
+    "description": "타이틀 화면의 깜박이는 텍스트 애니메이션 관리",
+    "features": ["UI", "Animation"]
+  },
+  {
+    "icon": "fas fa-play",
+    "name": "StartGame.cs",
+    "path": "Assets/Scripts/Title/",
+    "status": "Active",
+    "description": "타이틀 화면에서 게임 시작 기능 처리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-wave-square",
+    "name": "LightMoving.cs",
+    "path": "Assets/Scripts/Building/",
+    "status": "Active",
+    "description": "사인파 기반 라이트 오브젝트 애니메이션. Transform 위치/회전 조작과 Time.time 동기화를 통한 부드러운 움직임 구현",
+    "features": ["Animation", "Math"]
+  },
+  {
+    "icon": "fas fa-wave-square",
+    "name": "LampMoving.cs",
+    "path": "Assets/Scripts/Building/",
+    "status": "Active",
+    "description": "사인파 기반 램프 회전 애니메이션. localEulerAngles 조작과 진폭/속도 매개변수를 통한 자연스러운 각도 변화",
+    "features": ["Animation", "Math"]
+  },
+  {
+    "icon": "fas fa-adjust",
+    "name": "FadeEffect.cs",
+    "path": "Assets/Scripts/Stage/",
+    "status": "Active",
+    "description": "UI 이미지의 페이드 인/아웃 효과를 구현하는 스크립트. 알파값 조절을 통한 부드러운 화면 전환 효과",
+    "features": ["UI", "Animation"]
+  },
+  {
+    "icon": "fas fa-unlock",
+    "name": "DecodeString.cs",
+    "path": "Assets/Scripts/StringEncrypt/",
+    "status": "Active",
+    "description": "C++ DLL을 통한 문자열 복호화 시스템. 특정 클래스에서만 접근 가능한 보안 기능 구현",
+    "features": ["Security", "DLL"]
+  },
+  {
+    "icon": "fas fa-lock",
+    "name": "StringEncypt.cpp",
+    "path": "Assets/Scripts/StringEncrypt/",
+    "status": "Active",
+    "description": "AES-128 암호화/복호화 알고리즘을 구현한 C++ 스크립트. 키 확장, 바이트 치환, 라운드 키 연산 등의 표준 AES 기능 제공",
+    "features": ["C++", "Security"]
+  },
+  {
+    "icon": "fas fa-magic",
+    "name": "AbilityTempState.cs",
+    "path": "Assets/Scripts/Player/",
+    "status": "Active",
+    "description": "플레이어의 임시 능력치 상태를 관리하는 ScriptableObject. 분노, 성급함, 인내, 신비, 탐욕, 갈망 등의 속성과 효과값 정의",
+    "features": ["Player"]
+  },
+  {
+    "icon": "fas fa-running",
+    "name": "PMove.cs",
+    "path": "Assets/Scripts/Player/",
+    "status": "Active",
+    "description": "플레이어의 이동, 점프, 대시 등 핵심 이동 메커니즘과 상태 관리를 담당하는 종합적인 플레이어 컨트롤러",
+    "features": ["Player", "Physics"]
+  },
+  {
+    "icon": "fas fa-bed",
+    "name": "INNChangeItem.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "여관에서 음식/아이템 선택 인터페이스 관리. 랜덤 아이템 생성, UI 업데이트, 사운드 효과 처리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-shield-alt",
+    "name": "InventableEquipment.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "인벤토리에서 장착 가능한 장비 타입을 정의하는 간단한 컴포넌트",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-th",
+    "name": "InventoryPosition.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "인벤토리 아이템 위치 관리 및 데이터베이스 연동을 통한 아이템 로딩/저장 시스템",
+    "features": ["UI", "Database"]
+  },
+  {
+    "icon": "fas fa-cog",
+    "name": "LoadingProcessing.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "로딩 화면의 포스트 프로세싱 효과 강도를 동적으로 조절하는 스크립트",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-hand-rock",
+    "name": "MoveInventory.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "인벤토리 아이템의 드래그 앤 드롭 기능을 구현하여 아이템 위치 변경 관리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-camera",
+    "name": "OverlayCamera.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "Universal Render Pipeline을 사용하여 메인 카메라의 렌더링 스택에 오버레이 카메라를 추가",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-cash-register",
+    "name": "SaleItemFrame.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "인벤토리 아이템 판매 처리 및 게임 내 화폐 시스템 관리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-map",
+    "name": "SceneMap.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "씬 전환 시 맵 이미지의 UV 렉트 조정을 통한 맵 표시 관리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-store",
+    "name": "StoreSignSound.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "상점 사인 애니메이션과 동기화된 사운드 재생 시스템",
+    "features": ["UI", "Audio"]
+  },
+  {
+    "icon": "fas fa-shield-alt",
+    "name": "UINotDestroyOpen.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "씬 전환 시에도 파괴되지 않는 UI 오브젝트 관리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-keyboard",
+    "name": "UIOpen.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "키보드 입력을 통한 다양한 UI 창(상태, 인벤토리, 맵) 토글 관리",
+    "features": ["UI"]
+  },
+  {
+    "icon": "fas fa-hand-pointer",
+    "name": "UIOpenToKeyBoard.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "트리거 영역에서 키 입력 안내 애니메이션과 UI 상호작용 관리",
+    "features": ["UI", "Animation"]
+  }
+]

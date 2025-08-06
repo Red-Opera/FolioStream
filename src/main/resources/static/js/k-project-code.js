@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Unity Project Documentation JavaScript
+   K-Project Documentation JavaScript
    ========================================================================== */
 
 // Global Variables
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Theme Management
 function initializeTheme() {
-    const savedTheme = localStorage.getItem('unity-docs-theme') || 'light';
+    const savedTheme = localStorage.getItem('k-project-docs-theme') || 'light';
     setTheme(savedTheme);
     
     const themeToggle = document.getElementById('themeToggle');
@@ -40,7 +40,7 @@ function setTheme(theme) {
     }
     
     // Save theme preference
-    localStorage.setItem('unity-docs-theme', theme);
+    localStorage.setItem('k-project-docs-theme', theme);
 }
 
 function toggleTheme() {
@@ -150,7 +150,7 @@ function initializeCodebaseSearch() {
     document.head.appendChild(style);
 })();
 
-// 코드 보기/의존성 버튼 동작 함수 추가 및 글로벌 등록
+// K-Project 코드 보기 함수 - 서버 엔드포인트 사용
 function viewCode(fileName) {
     // fileName으로 code-file-card에서 path를 찾음
     const cards = document.querySelectorAll('.code-file-card');
@@ -163,15 +163,48 @@ function viewCode(fileName) {
         }
     });
     
-    // K-Project의 경우 GitHub에서 직접 가져오기
     if (filePath) {
-        const githubUrl = 'https://raw.githubusercontent.com/Red-Opera/K-Project/main/' + filePath;
-        window.open(githubUrl, '_blank');
+        // 서버 엔드포인트를 통해 코드 로드
+        const serverUrl = '/k-project/code/raw?path=' + encodeURIComponent(filePath);
+        
+        // 코드 뷰어 모달에 코드 로드
+        loadCodeInModal(fileName, serverUrl);
     } else {
         alert('파일 경로를 찾을 수 없습니다.');
     }
 }
 window.viewCode = viewCode;
+
+// 코드를 모달에 로드하는 함수
+async function loadCodeInModal(fileName, url) {
+    const modal = document.getElementById('codeViewerModal');
+    const title = document.getElementById('codeViewerTitle');
+    const codeContent = document.getElementById('fullCodeContent');
+    
+    if (!modal || !title || !codeContent) {
+        // 모달이 없으면 새 탭에서 열기
+        window.open(url, '_blank');
+        return;
+    }
+    
+    title.textContent = fileName;
+    codeContent.textContent = '코드를 로딩 중...';
+    modal.style.display = 'flex';
+    modal.classList.add('active');
+    
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        
+        const code = await response.text();
+        codeContent.innerHTML = highlightCSharpCode(code);
+    } catch (error) {
+        console.error('코드 로딩 실패:', error);
+        codeContent.textContent = '코드를 불러올 수 없습니다. 오류: ' + error.message;
+    }
+}
 
 function showDependencies(fileName) {
     alert(fileName + '의 의존성 정보를 표시합니다.');
@@ -179,9 +212,99 @@ function showDependencies(fileName) {
 window.showDependencies = showDependencies;
 
 function closeCodeViewer() {
-    document.getElementById('codeViewerModal').style.display = 'none';
+    const modal = document.getElementById('codeViewerModal');
+    if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('active');
+    }
 }
 window.closeCodeViewer = closeCodeViewer;
+
+// 코드 복사 기능
+function copyFullCode() {
+    const codeElement = document.getElementById('fullCodeContent');
+    if (codeElement) {
+        const textToCopy = codeElement.textContent || codeElement.innerText || '';
+        
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showCopyFeedback('복사되었습니다!');
+            }).catch(err => {
+                console.error('복사 실패:', err);
+                fallbackCopyCode(textToCopy);
+            });
+        } else {
+            fallbackCopyCode(textToCopy);
+        }
+    }
+}
+window.copyFullCode = copyFullCode;
+
+function downloadCode() {
+    const codeElement = document.getElementById('fullCodeContent');
+    const title = document.getElementById('codeViewerTitle');
+    
+    if (codeElement && title) {
+        const code = codeElement.textContent || codeElement.innerText || '';
+        const fileName = title.textContent;
+        
+        const blob = new Blob([code], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        showCopyFeedback('다운로드 시작!');
+    }
+}
+window.downloadCode = downloadCode;
+
+function fallbackCopyCode(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        document.execCommand('copy');
+        showCopyFeedback('복사되었습니다!');
+    } catch (err) {
+        console.error('복사 실패:', err);
+        showCopyFeedback('복사 실패');
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+function showCopyFeedback(message) {
+    // 피드백 메시지를 잠시 보여줌
+    const feedback = document.createElement('div');
+    feedback.textContent = message;
+    feedback.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 4px;
+        z-index: 10000;
+        font-size: 14px;
+    `;
+    document.body.appendChild(feedback);
+    
+    setTimeout(() => {
+        document.body.removeChild(feedback);
+    }, 2000);
+}
 
 function initializeHeroAnimations() {
     // Hero 섹션 애니메이션이 필요하다면 여기에 구현
@@ -227,7 +350,7 @@ let featureDetailsData = {};
 
 async function loadFeatureDetails() {
     try {
-        const response = await fetch('/data/legacy-of-auras-feature-details.json');
+        const response = await fetch('/data/k-project-feature-details.json');
         featureDetailsData = await response.json();
     } catch (error) {
         console.error('Failed to load feature details:', error);
@@ -331,274 +454,6 @@ function showCopyFeedback() {
 // 전역으로 등록
 window.copyCode = copyCode;
 
-// C# 코드 하이라이팅 함수
-function highlightCSharpCode(code) {
-    // C# 키워드
-    const keywords = [
-        'public', 'private', 'protected', 'internal', 'static', 'virtual', 'override', 'abstract',
-        'class', 'interface', 'struct', 'enum', 'namespace', 'using', 'void', 'int', 'float', 
-        'double', 'bool', 'string', 'char', 'byte', 'short', 'long', 'decimal', 'object',
-        'var', 'const', 'readonly', 'if', 'else', 'for', 'while', 'do', 'foreach', 'in',
-        'switch', 'case', 'default', 'break', 'continue', 'return', 'try', 'catch', 'finally',
-        'throw', 'new', 'this', 'base', 'null', 'true', 'false', 'typeof', 'sizeof', 'is', 'as',
-        'ref', 'out', 'params', 'get', 'set', 'value', 'yield', 'async', 'await', 'lock'
-    ];
-    
-    // C# 타입들
-    const types = [
-        'Transform', 'GameObject', 'MonoBehaviour', 'Component', 'Vector3', 'Vector2', 'Quaternion',
-        'Rigidbody', 'Collider', 'AudioSource', 'AudioClip', 'Camera', 'Light', 'Renderer',
-        'Material', 'Texture', 'Sprite', 'Animation', 'Animator', 'Canvas', 'Button', 'Text',
-        'Image', 'Slider', 'RectTransform', 'EventSystem', 'PlayerState', 'MonsterState',
-        'WeaponType', 'QuestTitleContent', 'CharacterController', 'ParticleSystem',
-        'IEnumerator', 'Coroutine', 'List', 'Dictionary', 'Array', 'ScriptableObject'
-    ];
-    
-    let highlightedCode = code;
-    
-    // HTML 이스케이프
-    highlightedCode = highlightedCode
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    
-    // 주석 하이라이팅 (가장 높은 우선순위로 먼저 처리)
-    highlightedCode = highlightedCode.replace(/\/\/.*$/gm, '<span class="comment">$&</span>');
-    highlightedCode = highlightedCode.replace(/\/\*[\s\S]*?\*\//g, '<span class="comment">$&</span>');
-    
-    // 문자열 하이라이팅 (따옴표 안의 내용) - 주석 제외
-    highlightedCode = highlightedCode.replace(/&quot;([^&]*)&quot;(?![^<]*<\/span>)/g, '<span class="string">&quot;$1&quot;</span>');
-    highlightedCode = highlightedCode.replace(/'([^'\\]*(\\.[^'\\]*)*)'(?![^<]*<\/span>)/g, '<span class="string">\'$1\'</span>');
-    
-    // 제네릭 타입 하이라이팅 (< > 안의 내용을 클래스로 처리) - 주석 제외
-    highlightedCode = highlightedCode.replace(/&lt;([^&]+)&gt;(?![^<]*<\/span>)/g, '&lt;<span class="type">$1</span>&gt;');
-    
-    // 숫자 하이라이팅 - 주석 제외
-    highlightedCode = highlightedCode.replace(/\b(\d+\.?\d*f?)\b(?![^<]*<\/span>)/g, '<span class="number">$1</span>');
-    
-    // 키워드 하이라이팅 - 주석 제외
-    keywords.forEach(keyword => {
-        const regex = new RegExp(`\\b${keyword}\\b(?![^<]*>)(?![^<]*<\/span>)`, 'g');
-        highlightedCode = highlightedCode.replace(regex, `<span class="keyword">${keyword}</span>`);
-    });
-    
-    // 타입 하이라이팅 - 주석 제외
-    types.forEach(type => {
-        const regex = new RegExp(`\\b${type}\\b(?![^<]*>)(?![^<]*<\/span>)`, 'g');
-        highlightedCode = highlightedCode.replace(regex, `<span class="type">${type}</span>`);
-    });
-    
-    // 메서드 호출 하이라이팅 (단어 뒤에 괄호가 오는 경우) - 주석 제외
-    highlightedCode = highlightedCode.replace(/\b([a-zA-Z_][a-zA-Z0-9_]*)\s*(?=\()(?![^<]*<\/span>)/g, '<span class="method">$1</span>');
-    
-    // 속성 하이라이팅 (점 뒤에 오는 단어) - 주석 제외
-    highlightedCode = highlightedCode.replace(/\.([a-zA-Z_][a-zA-Z0-9_]*)\b(?![^<]*>)(?![^<]*<\/span>)/g, '.<span class="property">$1</span>');
-    
-    // 어트리뷰트 하이라이팅 ([...] 형태) - 대괄호는 기본 색상, 속성은 타입 색상 - 주석 제외
-    highlightedCode = highlightedCode.replace(/\[([^\]]+)\](?![^<]*<\/span>)/g, '[<span class="type">$1</span>]');
-    
-    // 클래스명 하이라이팅 (class 키워드 뒤에 오는 단어)
-    highlightedCode = highlightedCode.replace(/(<span class="keyword">class<\/span>)\s+([a-zA-Z_][a-zA-Z0-9_]*)/g, '$1 <span class="class-name">$2</span>');
-    
-    // struct 키워드 뒤에 오는 단어도 클래스와 같은 색깔로 처리
-    highlightedCode = highlightedCode.replace(/(<span class="keyword">struct<\/span>)\s+([a-zA-Z_][a-zA-Z0-9_]*)/g, '$1 <span class="class-name">$2</span>');
-
-    // 대문자로 시작하는 단어 뒤에 점이 오는 경우 클래스로 판별 (예: Transform.position, GameObject.FindWithTag) - 주석 제외
-    highlightedCode = highlightedCode.replace(/\b([A-Z][a-zA-Z0-9_]*)\s*(?=\.)(?![^<]*<\/span>)/g, '<span class="type">$1</span>');
-    
-    // private/public/protected 등 뒤에 오는 대문자로 시작하는 단어를 클래스로 판별 - 주석 제외
-    highlightedCode = highlightedCode.replace(/\b(public|private|protected|internal)\s+([A-Z][a-zA-Z0-9_]*)\b(?![^<]*<\/span>)/g, '$1 <span class="type">$2</span>');
-    
-    // 변수 하이라이팅 (Visual Studio 스타일) - 먼저 처리
-    highlightedCode = highlightVariables(highlightedCode);
-    
-    return highlightedCode;
-}
-
-// Visual Studio 스타일 변수 하이라이팅
-function highlightVariables(code) {
-    const lines = code.split('\n');
-    let result = [];
-    let insideMethod = false;
-    let braceCount = 0;
-    let classVariables = new Set();
-    let parameters = new Set();
-    
-    // 키워드와 타입 배열 (로컬 복사)
-    const keywords = [
-        'public', 'private', 'protected', 'internal', 'static', 'virtual', 'override', 'abstract',
-        'class', 'interface', 'struct', 'enum', 'namespace', 'using', 'void', 'int', 'float', 
-        'double', 'bool', 'string', 'char', 'byte', 'short', 'long', 'decimal', 'object',
-        'var', 'const', 'readonly', 'if', 'else', 'for', 'while', 'do', 'foreach', 'in',
-        'switch', 'case', 'default', 'break', 'continue', 'return', 'try', 'catch', 'finally',
-        'throw', 'new', 'this', 'base', 'null', 'true', 'false', 'typeof', 'sizeof', 'is', 'as',
-        'ref', 'out', 'params', 'get', 'set', 'value', 'yield', 'async', 'await', 'lock'
-    ];
-    
-    const types = [
-        'Transform', 'GameObject', 'MonoBehaviour', 'Component', 'Vector3', 'Vector2', 'Quaternion',
-        'Rigidbody', 'Collider', 'AudioSource', 'AudioClip', 'Camera', 'Light', 'Renderer',
-        'Material', 'Texture', 'Sprite', 'Animation', 'Animator', 'Canvas', 'Button', 'Text',
-        'Image', 'Slider', 'RectTransform', 'EventSystem', 'PlayerState', 'MonsterState',
-        'WeaponType', 'QuestTitleContent', 'CharacterController', 'ParticleSystem',
-        'IEnumerator', 'Coroutine', 'List', 'Dictionary', 'Array', 'ScriptableObject'
-    ];
-    
-    // 1단계: 클래스 변수 및 매개변수 식별
-    for (let line of lines) {
-        // 클래스 레벨에서 변수 선언 찾기 (public, private 등으로 시작)
-        const classVarMatch = line.match(/^\s*(?:public|private|protected|internal)?\s*(?:static)?\s*(?:readonly)?\s*(?:const)?\s*(?:<span class="type">)?(\w+)(?:<\/span>)?\s+([a-zA-Z_][a-zA-Z0-9_]*)/);
-        if (classVarMatch && !insideMethod) {
-            classVariables.add(classVarMatch[2]);
-        }
-        
-        // 메서드 매개변수 찾기
-        const methodMatch = line.match(/(?:void|int|bool|string|float|double|IEnumerator|[A-Z]\w*)\s+\w+\s*\(([^)]*)\)/);
-        if (methodMatch && methodMatch[1]) {
-            const paramString = methodMatch[1];
-            // 매개변수 파싱: type paramName, type paramName2, ...
-            const paramMatches = paramString.match(/\b([a-zA-Z_][a-zA-Z0-9_]*)\s+([a-zA-Z_][a-zA-Z0-9_]*)/g);
-            if (paramMatches) {
-                paramMatches.forEach(param => {
-                    const parts = param.trim().split(/\s+/);
-                    if (parts.length >= 2) {
-                        parameters.add(parts[parts.length - 1]); // 마지막 부분이 매개변수 이름
-                    }
-                });
-            }
-        }
-        
-        // 메서드 시작/종료 추적
-        if (line.includes('void ') || line.includes('int ') || line.includes('bool ') || line.includes('string ') || 
-            line.includes('float ') || line.includes('double ') || line.includes('IEnumerator ')) {
-            if (line.includes('{')) {
-                insideMethod = true;
-                braceCount = 1;
-            } else if (line.includes('(')) {
-                insideMethod = true;
-                braceCount = 0;
-            }
-        }
-        
-        if (insideMethod) {
-            const openBraces = (line.match(/{/g) || []).length;
-            const closeBraces = (line.match(/}/g) || []).length;
-            braceCount += openBraces - closeBraces;
-            
-            if (braceCount <= 0) {
-                insideMethod = false;
-                braceCount = 0;
-                parameters.clear(); // 메서드가 끝나면 매개변수 목록 초기화
-            }
-        }
-    }
-    
-    // 2단계: 변수에 색상 적용
-    insideMethod = false;
-    braceCount = 0;
-    let currentMethodParams = new Set();
-    
-    for (let line of lines) {
-        // 메서드 추적 및 매개변수 재식별
-        const methodMatch = line.match(/(?:void|int|bool|string|float|double|IEnumerator|[A-Z]\w*)\s+\w+\s*\(([^)]*)\)/);
-        if (methodMatch && methodMatch[1]) {
-            currentMethodParams.clear();
-            const paramString = methodMatch[1];
-            // 매개변수 파싱: type paramName, type paramName2, ...
-            const paramMatches = paramString.match(/\b([a-zA-Z_][a-zA-Z0-9_]*)\s+([a-zA-Z_][a-zA-Z0-9_]*)/g);
-            if (paramMatches) {
-                paramMatches.forEach(param => {
-                    const parts = param.trim().split(/\s+/);
-                    if (parts.length >= 2) {
-                        currentMethodParams.add(parts[parts.length - 1]);
-                    }
-                });
-            }
-        }
-        
-        if (line.includes('void ') || line.includes('int ') || line.includes('bool ') || line.includes('string ') || 
-            line.includes('float ') || line.includes('double ') || line.includes('IEnumerator ')) {
-            if (line.includes('{')) {
-                insideMethod = true;
-                braceCount = 1;
-            } else if (line.includes('(')) {
-                insideMethod = true;
-                braceCount = 0;
-            }
-        }
-        
-        if (insideMethod) {
-            const openBraces = (line.match(/{/g) || []).length;
-            const closeBraces = (line.match(/}/g) || []).length;
-            braceCount += openBraces - closeBraces;
-            
-            if (braceCount <= 0) {
-                insideMethod = false;
-                braceCount = 0;
-                currentMethodParams.clear();
-            }
-        }
-        
-        // 매개변수 색상 적용 (먼저 처리)
-        for (let param of currentMethodParams) {
-            const regex = new RegExp(`\\b${param}\\b(?![^<]*>)`, 'g');
-            line = line.replace(regex, `<span class="parameter">${param}</span>`);
-        }
-        
-        // 변수 색상 적용
-        if (insideMethod) {
-            // 메서드 내부 - 로컬 변수는 연파란색
-            // 타입 선언된 변수 찾기
-            line = line.replace(/(?:<span class="type">)?\b(?:int|float|double|bool|string|var|Vector3|Vector2|Transform|GameObject)\b(?:<\/span>)?\s+([a-zA-Z_][a-zA-Z0-9_]*)/g, function(match, varName) {
-                if (!classVariables.has(varName) && !currentMethodParams.has(varName)) {
-                    return match.replace(varName, `<span class="local-variable">${varName}</span>`);
-                }
-                return match;
-            });
-            
-            // 할당문에서 변수 찾기 (이미 선언된 로컬 변수)
-            line = line.replace(/\b([a-zA-Z_][a-zA-Z0-9_]*)\s*=(?![^<]*>)/g, function(match, varName) {
-                if (!classVariables.has(varName) && !currentMethodParams.has(varName) && 
-                    !keywords.includes(varName) && !types.includes(varName) && 
-                    !line.includes(`<span class="parameter">${varName}</span>`)) {
-                    return `<span class="local-variable">${varName}</span> =`;
-                }
-                return match;
-            });
-            
-            // 일반적인 변수 사용 (할당이 아닌 경우)
-            line = line.replace(/\b([a-zA-Z_][a-zA-Z0-9_]*)\b(?![^<]*>)(?!\s*[=\(])/g, function(match, varName) {
-                if (!classVariables.has(varName) && !currentMethodParams.has(varName) && 
-                    !keywords.includes(varName) && !types.includes(varName) && 
-                    !line.includes(`<span class="parameter">${varName}</span>`) &&
-                    !line.includes(`<span class="local-variable">${varName}</span>`) &&
-                    !line.includes(`<span class="method">${varName}</span>`) &&
-                    !line.includes(`<span class="property">${varName}</span>`)) {
-                    // 지역 변수로 추정되는 경우에만 색상 적용
-                    const prevChar = line.charAt(line.indexOf(varName) - 1);
-                    const nextChar = line.charAt(line.indexOf(varName) + varName.length);
-                    if (prevChar !== '.' && nextChar !== '(') {
-                        return `<span class="local-variable">${varName}</span>`;
-                    }
-                }
-                return match;
-            });
-        } else {
-            // 클래스 레벨 - 멤버 변수는 기본 색상
-            for (let classVar of classVariables) {
-                const regex = new RegExp(`(?<!\\.)\\b${classVar}\\b(?![^<]*>)(?!\\s*=)`, 'g');
-                line = line.replace(regex, `<span class="class-variable">${classVar}</span>`);
-            }
-        }
-        
-        result.push(line);
-    }
-    
-    return result.join('\n');
-}
-
 function initializeFeaturePagination() {
     const featureCards = document.querySelectorAll('.feature-card');
     const pagination = document.getElementById('featurePagination');
@@ -687,8 +542,86 @@ function initializeModals() {
     closeBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             codeModal.style.display = 'none';
+            codeModal.classList.remove('active');
         });
     });
+    
+    // 모달 외부 클릭 시 닫기
+    if (codeModal) {
+        codeModal.addEventListener('click', function(e) {
+            if (e.target === codeModal) {
+                codeModal.style.display = 'none';
+                codeModal.classList.remove('active');
+            }
+        });
+    }
+}
+
+// C# 코드 하이라이팅 함수
+function highlightCSharpCode(code) {
+    // C# 키워드
+    const keywords = [
+        'public', 'private', 'protected', 'internal', 'static', 'virtual', 'override', 'abstract',
+        'class', 'interface', 'struct', 'enum', 'namespace', 'using', 'void', 'int', 'float', 
+        'double', 'bool', 'string', 'char', 'byte', 'short', 'long', 'decimal', 'object',
+        'var', 'const', 'readonly', 'if', 'else', 'for', 'while', 'do', 'foreach', 'in',
+        'switch', 'case', 'default', 'break', 'continue', 'return', 'try', 'catch', 'finally',
+        'throw', 'new', 'this', 'base', 'null', 'true', 'false', 'typeof', 'sizeof', 'is', 'as',
+        'ref', 'out', 'params', 'get', 'set', 'value', 'yield', 'async', 'await', 'lock'
+    ];
+    
+    // Unity 및 C# 타입들
+    const types = [
+        'Transform', 'GameObject', 'MonoBehaviour', 'Component', 'Vector3', 'Vector2', 'Quaternion',
+        'Rigidbody', 'Collider', 'AudioSource', 'AudioClip', 'Camera', 'Light', 'Renderer',
+        'Material', 'Texture', 'Sprite', 'Animation', 'Animator', 'Canvas', 'Button', 'Text',
+        'Image', 'Slider', 'RectTransform', 'EventSystem', 'CharacterController', 'ParticleSystem',
+        'IEnumerator', 'Coroutine', 'List', 'Dictionary', 'Array', 'ScriptableObject'
+    ];
+    
+    let highlightedCode = code;
+    
+    // HTML 이스케이프
+    highlightedCode = highlightedCode
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    
+    // 주석 하이라이팅 (가장 높은 우선순위로 먼저 처리)
+    highlightedCode = highlightedCode.replace(/\/\/.*$/gm, '<span class="comment">$&</span>');
+    highlightedCode = highlightedCode.replace(/\/\*[\s\S]*?\*\//g, '<span class="comment">$&</span>');
+    
+    // 문자열 하이라이팅 - 주석 제외
+    highlightedCode = highlightedCode.replace(/&quot;([^&]*)&quot;(?![^<]*<\/span>)/g, '<span class="string">&quot;$1&quot;</span>');
+    highlightedCode = highlightedCode.replace(/'([^'\\]*(\\.[^'\\]*)*)'(?![^<]*<\/span>)/g, '<span class="string">\'$1\'</span>');
+    
+    // 숫자 하이라이팅 - 주석 제외
+    highlightedCode = highlightedCode.replace(/\b(\d+\.?\d*f?)\b(?![^<]*<\/span>)/g, '<span class="number">$1</span>');
+    
+    // 키워드 하이라이팅 - 주석 제외
+    keywords.forEach(keyword => {
+        const regex = new RegExp(`\\b${keyword}\\b(?![^<]*>)(?![^<]*<\/span>)`, 'g');
+        highlightedCode = highlightedCode.replace(regex, `<span class="keyword">${keyword}</span>`);
+    });
+    
+    // 타입 하이라이팅 - 주석 제외
+    types.forEach(type => {
+        const regex = new RegExp(`\\b${type}\\b(?![^<]*>)(?![^<]*<\/span>)`, 'g');
+        highlightedCode = highlightedCode.replace(regex, `<span class="type">${type}</span>`);
+    });
+    
+    // struct 키워드 뒤에 오는 단어를 클래스와 같은 색깔로 처리 - 주석 제외
+    highlightedCode = highlightedCode.replace(/(<span class="keyword">struct<\/span>)\s+([a-zA-Z_][a-zA-Z0-9_]*)(?![^<]*<\/span>)/g, '$1 <span class="type">$2</span>');
+    
+    // 메서드 호출 하이라이팅 - 주석 제외
+    highlightedCode = highlightedCode.replace(/\b([a-zA-Z_][a-zA-Z0-9_]*)\s*(?=\()(?![^<]*<\/span>)/g, '<span class="method">$1</span>');
+    
+    // 속성 하이라이팅 - 주석 제외
+    highlightedCode = highlightedCode.replace(/\.([a-zA-Z_][a-zA-Z0-9_]*)\b(?![^<]*>)(?![^<]*<\/span>)/g, '.<span class="property">$1</span>');
+    
+    return highlightedCode;
 }
 
 // 숫자 애니메이션 (스크립트 파일)
@@ -723,6 +656,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const pageSize = 10;
     let currentPage = 1;
     let filteredIndexes = Array.from(cards.keys());
+    
     function showPage(page) {
         currentPage = page;
         cards.forEach((card, i) => {
@@ -733,7 +667,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         renderPagination();
     }
+    
     function renderPagination() {
+        if (!pagination) return;
         pagination.innerHTML = '';
         const totalPages = Math.ceil(filteredIndexes.length / pageSize);
         for (let i = 1; i <= totalPages; i++) {
@@ -748,6 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
             pagination.appendChild(btn);
         }
     }
+    
     function filterCards() {
         const keyword = document.getElementById('codeSearch').value.trim().toLowerCase();
         const activeTag = document.querySelector('.filter-tag.active');
@@ -766,9 +703,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         showPage(1);
     }
+    
     document.getElementById('codeSearch').addEventListener('input', function() {
         filterCards();
     });
+    
     document.querySelectorAll('.filter-tag').forEach(tag => {
         tag.addEventListener('click', function() {
             document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
@@ -776,5 +715,6 @@ document.addEventListener('DOMContentLoaded', function() {
             filterCards();
         });
     });
+    
     filterCards();
 });

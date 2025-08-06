@@ -668,4 +668,93 @@ public class HomeController
                     .body("{\"error\": \"Feature details not found\"}");
         }
     }
+
+    @GetMapping("/k-project/code")
+    public String kProjectCode(Model model) {
+        String githubAddress = "https://github.com/Red-Opera/K-Project/blob/main/";
+        ObjectMapper mapper = new ObjectMapper();
+        List<Feature> features = new ArrayList<>();
+        List<CodeFile> codeFiles = new ArrayList<>();
+        List<ApiReference> apiReferences = new ArrayList<>();
+        Set<String> allFeatures = new HashSet<>();
+        Map<String, List<ApiReference>> apiByCategory = new HashMap<>();
+
+        try {
+            Path featurePath = Paths.get("src/main/resources/static/data/k-project-feature.json");
+            Path codeFilePath = Paths.get("src/main/resources/static/data/k-project-codefile.json");
+            Path apiPath = Paths.get("src/main/resources/static/data/k-project-api.json");
+            
+            features = Arrays.asList(mapper.readValue(featurePath.toFile(), Feature[].class));
+            codeFiles = Arrays.asList(mapper.readValue(codeFilePath.toFile(), CodeFile[].class));
+            apiReferences = Arrays.asList(mapper.readValue(apiPath.toFile(), ApiReference[].class));
+            
+            // K-Project JSON 구조에 맞게 처리 (name과 path가 이미 분리되어 있음)
+            for (CodeFile file : codeFiles) {
+                if (file.getFeatures() != null) allFeatures.addAll(file.getFeatures());
+            }
+            
+            // API references를 카테고리별로 그룹화
+            for (ApiReference api : apiReferences) {
+                String category = api.getCategory();
+                apiByCategory.computeIfAbsent(category, k -> new ArrayList<>()).add(api);
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        model.addAttribute("features", features);
+        model.addAttribute("codeFiles", codeFiles);
+        model.addAttribute("allFeatures", allFeatures);
+        model.addAttribute("apiReferences", apiReferences);
+        model.addAttribute("apiByCategory", apiByCategory);
+        return "k-project-code";
+    }
+
+    @GetMapping("/k-project/code/raw")
+    @ResponseBody
+    public ResponseEntity<String> getKProjectRawCode(@RequestParam("path") String path) {
+        String githubRawBase = "https://raw.githubusercontent.com/Red-Opera/K-Project/main/";
+        String fullUrl = githubRawBase + path;
+        RestTemplate restTemplate = new RestTemplate();
+
+        try {
+            byte[] bytes = restTemplate.getForObject(fullUrl, byte[].class);
+
+            UniversalDetector detector = new UniversalDetector(null);
+            detector.handleData(bytes, 0, bytes.length);
+            detector.dataEnd();
+
+            String encoding = detector.getDetectedCharset();
+            detector.reset();
+
+            if (encoding == null) 
+                encoding = "UTF-8";
+
+            String code = new String(bytes, encoding);
+            
+            return ResponseEntity.ok(code);
+        } 
+
+        catch (Exception e) 
+        {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("코드를 불러올 수 없습니다.");
+        }
+    }
+
+    @GetMapping("/data/k-project-feature-details.json")
+    @ResponseBody
+    public ResponseEntity<String> getKProjectFeatureDetails() {
+        try {
+            Path detailsPath = Paths.get("src/main/resources/static/data/k-project-feature-details.json");
+            String content = new String(java.nio.file.Files.readAllBytes(detailsPath), StandardCharsets.UTF_8);
+            
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/json; charset=UTF-8")
+                    .body(content);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\": \"Feature details not found\"}");
+        }
+    }
 }

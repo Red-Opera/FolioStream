@@ -1,0 +1,914 @@
+[
+  {
+    "name": "OnlinePlayer",
+    "type": "class",
+    "description": "온라인 멀티플레이어 환경에서 다른 플레이어의 상태를 관리하는 클래스. 네트워크를 통한 애니메이션 및 스프라이트 동기화를 담당합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "Start",
+        "returnType": "void",
+        "description": "애니메이터와 스프라이트 렌더러 컴포넌트를 초기화합니다.",
+        "parameters": [],
+        "example": ""
+      },
+      {
+        "name": "Update",
+        "returnType": "void",
+        "description": "서버 데이터를 기반으로 스프라이트 방향과 애니메이션을 동기화합니다.",
+        "parameters": [],
+        "example": ""
+      },
+      {
+        "name": "SetPlayerAnimation",
+        "returnType": "void",
+        "description": "서버에서 받은 애니메이션 데이터를 플레이어에게 적용합니다.",
+        "parameters": [],
+        "example": "onlinePlayer.SetPlayerAnimation();"
+      }
+    ],
+    "properties": [
+      {
+        "name": "playerName",
+        "type": "string",
+        "description": "온라인 플레이어의 이름",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 온라인 플레이어 이름 설정\nonlinePlayer.playerName = \"Player123\";",
+      "// 애니메이션 동기화\nonlinePlayer.SetPlayerAnimation();"
+    ]
+  },
+  {
+    "name": "State",
+    "type": "class",
+    "description": "플레이어의 상태 정보를 저장하는 ScriptableObject 클래스. 레벨, 체력, 경험치, 장비 상태 등을 동적으로 관리합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "Awake",
+        "returnType": "void",
+        "description": "리플렉션을 사용하여 모든 공개 필드를 동적으로 딕셔너리에 저장합니다.",
+        "parameters": [],
+        "example": ""
+      }
+    ],
+    "properties": [
+      {
+        "name": "nickName",
+        "type": "string",
+        "description": "플레이어의 닉네임",
+        "readOnly": false
+      },
+      {
+        "name": "level",
+        "type": "int",
+        "description": "플레이어의 현재 레벨",
+        "readOnly": false
+      },
+      {
+        "name": "maxHP",
+        "type": "int",
+        "description": "플레이어의 최대 체력",
+        "readOnly": false
+      },
+      {
+        "name": "currentHp",
+        "type": "int",
+        "description": "플레이어의 현재 체력",
+        "readOnly": false
+      },
+      {
+        "name": "currentExp",
+        "type": "int",
+        "description": "플레이어의 현재 경험치",
+        "readOnly": false
+      },
+      {
+        "name": "damage",
+        "type": "int",
+        "description": "플레이어의 공격력",
+        "readOnly": false
+      },
+      {
+        "name": "defense",
+        "type": "int",
+        "description": "플레이어의 방어력",
+        "readOnly": false
+      },
+      {
+        "name": "critical",
+        "type": "float",
+        "description": "크리티컬 확률",
+        "readOnly": false
+      },
+      {
+        "name": "moveSpeed",
+        "type": "float",
+        "description": "플레이어의 이동 속도",
+        "readOnly": false
+      },
+      {
+        "name": "jumpPower",
+        "type": "float",
+        "description": "플레이어의 점프력",
+        "readOnly": false
+      },
+      {
+        "name": "jumpCount",
+        "type": "int",
+        "description": "현재 점프 횟수",
+        "readOnly": false
+      },
+      {
+        "name": "maxJump",
+        "type": "int",
+        "description": "최대 점프 횟수",
+        "readOnly": false
+      },
+      {
+        "name": "dashDamage",
+        "type": "float",
+        "description": "대시 공격 데미지",
+        "readOnly": false
+      },
+      {
+        "name": "strong",
+        "type": "int",
+        "description": "강인함 수치",
+        "readOnly": false
+      },
+      {
+        "name": "criticalDamage",
+        "type": "float",
+        "description": "크리티컬 데미지 배율",
+        "readOnly": false
+      },
+      {
+        "name": "attackSpeed",
+        "type": "float",
+        "description": "공격 속도",
+        "readOnly": false
+      },
+      {
+        "name": "fixedDamage",
+        "type": "int",
+        "description": "고정 추가 데미지",
+        "readOnly": false
+      },
+      {
+        "name": "defensePersent",
+        "type": "float",
+        "description": "방어 확률 (백분율)",
+        "readOnly": false
+      },
+      {
+        "name": "avoidPersent",
+        "type": "float",
+        "description": "회피 확률 (백분율)",
+        "readOnly": false
+      },
+      {
+        "name": "reloadTime",
+        "type": "float",
+        "description": "재장전 시간",
+        "readOnly": false
+      },
+      {
+        "name": "dashBarCount",
+        "type": "int",
+        "description": "대시 바 개수",
+        "readOnly": false
+      },
+      {
+        "name": "food",
+        "type": "int",
+        "description": "음식 수치",
+        "readOnly": false
+      },
+      {
+        "name": "money",
+        "type": "int",
+        "description": "플레이어 보유 금액",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 플레이어 상태 수정\nstate.currentHp = 100;\nstate.level = 5;",
+      "// 상태 정보 확인\nif (state.currentHp <= 0) {\n    // 플레이어 사망 처리\n}"
+    ]
+  },
+  {
+    "name": "EquipmentState",
+    "type": "enum",
+    "description": "플레이어 장비의 타입과 카테고리를 정의하는 플래그 열거형. 비트마스크를 사용하여 다양한 장비 조합을 지원합니다.",
+    "category": "enums",
+    "methods": [],
+    "properties": [
+      {
+        "name": "EQUIPMENT_ALL",
+        "type": "uint",
+        "description": "모든 장비 타입을 나타내는 플래그 (0xFFFFFFFF)",
+        "readOnly": true
+      },
+      {
+        "name": "EQUIPMENT_WEAPON_ONEHANDED_SHORT_RANGE",
+        "type": "uint",
+        "description": "한손 단거리 무기 (0xF0000000)",
+        "readOnly": true
+      },
+      {
+        "name": "EQUIPMENT_WEAPON_ONEHANDED_LARGE_RANGE",
+        "type": "uint",
+        "description": "한손 장거리 무기 (0x0F000000)",
+        "readOnly": true
+      },
+      {
+        "name": "EQUIPMENT_WEAPON_TWOHANDED_SHORT_RANGE",
+        "type": "uint",
+        "description": "양손 단거리 무기 (0x00F00000)",
+        "readOnly": true
+      },
+      {
+        "name": "EQUIPMENT_WEAPON_TWOHANDED_LARGE_RANGE",
+        "type": "uint",
+        "description": "양손 장거리 무기 (0x000F0000)",
+        "readOnly": true
+      },
+      {
+        "name": "EQUIPMENT_ACCESSORY",
+        "type": "uint",
+        "description": "액세서리 장비 (0x0000F000)",
+        "readOnly": true
+      }
+    ],
+    "examples": [
+      "// 장비 타입 확인\nif ((equipmentType & EquipmentState.EQUIPMENT_WEAPON_ONEHANDED_SHORT_RANGE) != 0) {\n    // 한손 단거리 무기 장착됨\n}",
+      "// 장비 조합 설정\nEquipmentState combined = EquipmentState.EQUIPMENT_WEAPON_ONEHANDED_SHORT_RANGE | EquipmentState.EQUIPMENT_ACCESSORY;"
+    ]
+  },
+  {
+    "name": "FadeEffect",
+    "type": "class",
+    "description": "UI 이미지의 페이드 인/아웃 효과를 관리하는 클래스. 부드러운 알파 전환 애니메이션을 제공합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "FadeOut",
+        "returnType": "IEnumerator",
+        "description": "이미지를 점진적으로 불투명하게 만드는 페이드 아웃 코루틴입니다.",
+        "parameters": [],
+        "example": "StartCoroutine(fadeEffect.FadeOut());"
+      },
+      {
+        "name": "FadeIn",
+        "returnType": "IEnumerator",
+        "description": "이미지를 점진적으로 투명하게 만드는 페이드 인 코루틴입니다.",
+        "parameters": [],
+        "example": "StartCoroutine(fadeEffect.FadeIn());"
+      }
+    ],
+    "properties": [
+      {
+        "name": "imageToFade",
+        "type": "Image",
+        "description": "페이드 효과를 적용할 UI 이미지",
+        "readOnly": false
+      },
+      {
+        "name": "fadeDuration",
+        "type": "float",
+        "description": "페이드 애니메이션 지속 시간 (초, 기본값: 1.0f)",
+        "readOnly": false
+      },
+      {
+        "name": "isFadeOut",
+        "type": "bool",
+        "description": "현재 페이드 아웃 상태인지 여부",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 페이드 아웃 실행\nStartCoroutine(fadeEffect.FadeOut());",
+      "// 페이드 지속 시간 설정\nfadeEffect.fadeDuration = 2.0f;"
+    ]
+  },
+  {
+    "name": "LightMoving",
+    "type": "class",
+    "description": "조명 오브젝트의 부드러운 진동 움직임을 관리하는 클래스. 사인파를 이용한 자연스러운 흔들림 효과를 제공합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "Start",
+        "returnType": "void",
+        "description": "시작 시간을 초기화합니다.",
+        "parameters": [],
+        "example": ""
+      },
+      {
+        "name": "Update",
+        "returnType": "void",
+        "description": "사인파를 이용한 위치 및 회전 업데이트를 수행합니다.",
+        "parameters": [],
+        "example": ""
+      }
+    ],
+    "properties": [
+      {
+        "name": "speed",
+        "type": "float",
+        "description": "움직임의 속도 (기본값: 1.0f)",
+        "readOnly": false
+      },
+      {
+        "name": "amplitude",
+        "type": "float",
+        "description": "사인파의 진폭 크기 (기본값: 0.15f)",
+        "readOnly": false
+      },
+      {
+        "name": "rotationSpeed",
+        "type": "float",
+        "description": "회전 움직임의 속도 (기본값: 15.0f)",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 조명 움직임 설정\nlightMoving.speed = 2.0f;\nlightMoving.amplitude = 0.3f;",
+      "// 회전 속도 조정\nlightMoving.rotationSpeed = 20.0f;"
+    ]
+  },
+  {
+    "name": "LampMoving",
+    "type": "class",
+    "description": "램프 오브젝트의 흔들림 회전 움직임을 관리하는 클래스. 사인파를 이용한 자연스러운 좌우 흔들림을 제공합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "Start",
+        "returnType": "void",
+        "description": "시작 시간을 초기화합니다.",
+        "parameters": [],
+        "example": ""
+      },
+      {
+        "name": "Update",
+        "returnType": "void",
+        "description": "사인파를 이용한 Z축 회전 업데이트를 수행합니다.",
+        "parameters": [],
+        "example": ""
+      }
+    ],
+    "properties": [
+      {
+        "name": "speed",
+        "type": "float",
+        "description": "회전 움직임의 속도 (기본값: 5.0f)",
+        "readOnly": false
+      },
+      {
+        "name": "amplitude",
+        "type": "float",
+        "description": "회전 사인파의 진폭 크기 (기본값: 5.0f)",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 램프 흔들림 설정\nlampMoving.speed = 3.0f;\nlampMoving.amplitude = 8.0f;",
+      "// 부드러운 흔들림으로 설정\nlampMoving.speed = 1.0f;\nlampMoving.amplitude = 2.0f;"
+    ]
+  },
+  {
+    "name": "MultiPlay",
+    "type": "class",
+    "description": "멀티플레이어 시스템의 핵심 관리 클래스. 네트워크 통신, 플레이어 동기화, 서버 연결을 담당합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "ConnectToServer",
+        "returnType": "void",
+        "description": "서버에 TCP 연결을 설정합니다.",
+        "parameters": [],
+        "example": "multiPlay.ConnectToServer();"
+      },
+      {
+        "name": "Disconnect",
+        "returnType": "void",
+        "description": "서버 연결을 해제하고 모든 클라이언트 데이터를 정리합니다.",
+        "parameters": [],
+        "example": "multiPlay.Disconnect();"
+      },
+      {
+        "name": "UpdateClientCharacterPositions",
+        "returnType": "void",
+        "description": "다른 클라이언트들의 캐릭터 위치를 업데이트합니다.",
+        "parameters": [],
+        "example": "multiPlay.UpdateClientCharacterPositions();"
+      },
+      {
+        "name": "UpdateClientCharacterFlip",
+        "returnType": "void",
+        "description": "다른 클라이언트들의 캐릭터 스프라이트 방향을 업데이트합니다.",
+        "parameters": [],
+        "example": "multiPlay.UpdateClientCharacterFlip();"
+      },
+      {
+        "name": "UpdateClientAnimationName",
+        "returnType": "void",
+        "description": "다른 클라이언트들의 애니메이션 상태를 동기화합니다.",
+        "parameters": [],
+        "example": "multiPlay.UpdateClientAnimationName();"
+      },
+      {
+        "name": "IsCorrectData",
+        "returnType": "bool",
+        "description": "받은 네트워크 데이터의 유효성을 검증합니다.",
+        "parameters": [
+          {
+            "name": "data",
+            "type": "string",
+            "description": "검증할 네트워크 데이터"
+          }
+        ],
+        "example": "bool isValid = multiPlay.IsCorrectData(networkData);"
+      }
+    ],
+    "properties": [
+      {
+        "name": "isConnected",
+        "type": "bool",
+        "description": "서버 연결 상태 (static)",
+        "readOnly": true
+      },
+      {
+        "name": "clients",
+        "type": "Dictionary<string, ClientData>",
+        "description": "연결된 클라이언트들의 데이터 딕셔너리 (static)",
+        "readOnly": true
+      },
+      {
+        "name": "currentClientSpriteFlip",
+        "type": "List<string>",
+        "description": "현재 클라이언트들의 스프라이트 플립 상태 리스트 (static)",
+        "readOnly": false
+      },
+      {
+        "name": "currentClientAnimationName",
+        "type": "Dictionary<string, AnimatorClientData>",
+        "description": "현재 클라이언트들의 애니메이션 데이터 딕셔너리 (static)",
+        "readOnly": false
+      },
+      {
+        "name": "currentServerFrame",
+        "type": "int",
+        "description": "현재 서버 프레임 번호 (static)",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 스프라이트 플립 상태 확인\nif (MultiPlay.currentClientSpriteFlip.IndexOf(playerName) != -1) {\n    // 플레이어 스프라이트가 플립된 상태\n}",
+      "// 애니메이션 데이터 확인\nif (MultiPlay.currentClientAnimationName.ContainsKey(playerName)) {\n    var animData = MultiPlay.currentClientAnimationName[playerName];\n}"
+    ]
+  },
+  {
+    "name": "Inventory",
+    "type": "class",
+    "description": "플레이어의 인벤토리 시스템을 관리하는 UI 클래스. 아이템 추가, 제거, 정렬 기능을 제공합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "UpdateCoin",
+        "returnType": "void",
+        "description": "현재 플레이어 보유 금액을 UI에 업데이트합니다.",
+        "parameters": [],
+        "example": "inventory.UpdateCoin();"
+      },
+      {
+        "name": "GetCurrentWeaphonSprite",
+        "returnType": "Sprite",
+        "description": "현재 장착된 무기의 스프라이트를 반환합니다.",
+        "parameters": [],
+        "example": "Sprite weaponSprite = inventory.GetCurrentWeaphonSprite();"
+      },
+      {
+        "name": "EquidSlotStateUpdate",
+        "returnType": "void",
+        "description": "장비 슬롯 상태를 업데이트하고 플레이어 능력치를 재계산합니다.",
+        "parameters": [],
+        "example": "inventory.EquidSlotStateUpdate();"
+      }
+    ],
+    "properties": [
+      {
+        "name": "inventory",
+        "type": "GameObject",
+        "description": "인벤토리 UI 게임오브젝트",
+        "readOnly": false
+      },
+      {
+        "name": "coinText",
+        "type": "Text",
+        "description": "플레이어 보유 금액을 표시하는 UI 텍스트",
+        "readOnly": false
+      },
+      {
+        "name": "slots",
+        "type": "Transform",
+        "description": "장비 슬롯들의 부모 트랜스폼",
+        "readOnly": false
+      },
+      {
+        "name": "inventorySlotItem",
+        "type": "Dictionary<Transform, GameObject>",
+        "description": "인벤토리 슬롯과 아이템의 매핑 딕셔너리",
+        "readOnly": false
+      },
+      {
+        "name": "isLeft",
+        "type": "bool",
+        "description": "현재 왼쪽 무기 슬롯 활성화 상태",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 인벤토리 금액 업데이트\ninventory.UpdateCoin();",
+      "// 장비 슬롯 상태 갱신\ninventory.EquidSlotStateUpdate();",
+      "// 현재 무기 스프라이트 가져오기\nSprite currentWeapon = inventory.GetCurrentWeaphonSprite();"
+    ]
+  },
+  {
+    "name": "HpLevelManager",
+    "type": "class",
+    "description": "플레이어와 보스의 체력바 및 레벨 UI를 관리하는 클래스. 실시간으로 체력과 보호막 상태를 표시합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "UpdatePlayerHP",
+        "returnType": "void",
+        "description": "플레이어의 체력바와 보호막 UI를 업데이트합니다.",
+        "parameters": [],
+        "example": "hpLevelManager.UpdatePlayerHP();"
+      },
+      {
+        "name": "BossSliderReset",
+        "returnType": "void",
+        "description": "보스의 체력바 UI를 업데이트합니다.",
+        "parameters": [],
+        "example": "hpLevelManager.BossSliderReset();"
+      },
+      {
+        "name": "SetLevel",
+        "returnType": "void",
+        "description": "레벨 텍스트를 설정합니다.",
+        "parameters": [
+          {
+            "name": "level",
+            "type": "int",
+            "description": "설정할 레벨 값"
+          }
+        ],
+        "example": "hpLevelManager.SetLevel(5);"
+      }
+    ],
+    "properties": [
+      {
+        "name": "maxHpText",
+        "type": "TextMeshProUGUI",
+        "description": "최대 체력을 표시하는 텍스트 UI",
+        "readOnly": false
+      },
+      {
+        "name": "currentHpText",
+        "type": "TextMeshProUGUI",
+        "description": "현재 체력을 표시하는 텍스트 UI",
+        "readOnly": false
+      },
+      {
+        "name": "hpSlider",
+        "type": "Slider",
+        "description": "체력바 슬라이더 UI",
+        "readOnly": false
+      },
+      {
+        "name": "ShieldSlider",
+        "type": "Slider",
+        "description": "보호막 슬라이더 UI",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 플레이어 체력 UI 업데이트\nhpLevelManager.UpdatePlayerHP();",
+      "// 보스 체력 UI 업데이트\nhpLevelManager.BossSliderReset();",
+      "// 레벨 설정\nhpLevelManager.SetLevel(10);"
+    ]
+  },
+  {
+    "name": "Loading",
+    "type": "class",
+    "description": "게임의 로딩 화면을 관리하는 클래스. 씬 전환 시 로딩 상태를 표시하고 관리합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "StartLoading",
+        "returnType": "void",
+        "description": "로딩 화면을 시작하고 초기화합니다.",
+        "parameters": [],
+        "example": "loading.StartLoading();"
+      },
+      {
+        "name": "UpdateProgress",
+        "returnType": "void",
+        "description": "로딩 진행률을 업데이트합니다.",
+        "parameters": [
+          {
+            "name": "progress",
+            "type": "float",
+            "description": "로딩 진행률 (0.0f ~ 1.0f)"
+          }
+        ],
+        "example": "loading.UpdateProgress(0.5f);"
+      },
+      {
+        "name": "CompleteLoading",
+        "returnType": "void",
+        "description": "로딩을 완료하고 다음 씬으로 전환합니다.",
+        "parameters": [],
+        "example": "loading.CompleteLoading();"
+      }
+    ],
+    "properties": [
+      {
+        "name": "loadingSlider",
+        "type": "Slider",
+        "description": "로딩 진행률을 표시하는 슬라이더",
+        "readOnly": false
+      },
+      {
+        "name": "loadingText",
+        "type": "Text",
+        "description": "로딩 상태를 표시하는 텍스트",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 로딩 시작\nloading.StartLoading();",
+      "// 진행률 업데이트\nloading.UpdateProgress(0.75f);",
+      "// 로딩 완료\nloading.CompleteLoading();"
+    ]
+  },
+  {
+    "name": "AutoSave",
+    "type": "class",
+    "description": "게임의 자동 저장 기능을 관리하는 유틸리티 클래스. 정기적으로 게임 상태를 저장합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "SaveCurrentScene",
+        "returnType": "void",
+        "description": "현재 활성 씬을 자동으로 저장합니다. (Unity Editor 전용, static)",
+        "parameters": [
+          {
+            "name": "state",
+            "type": "PlayModeStateChange",
+            "description": "플레이 모드 상태 변경 정보"
+          }
+        ],
+        "example": "// Unity Editor에서 자동으로 호출됨\n// EditorApplication.playModeStateChanged += AutoSave.SaveCurrentScene;"
+      }
+    ],
+    "properties": [],
+    "examples": [
+      "// Unity Editor에서 플레이 모드 변경 시 자동 저장\n// 개발자가 직접 호출할 필요 없음",
+      "// Debug 로그: '[씬이름] 에 자동 저장 완료!'"
+    ]
+  },
+  {
+    "name": "BackgroundSound",
+    "type": "class",
+    "description": "배경음악과 효과음을 관리하는 오디오 시스템 클래스. 사운드 재생, 볼륨 조절, 페이드 효과를 지원합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "StartBackground",
+        "returnType": "void",
+        "description": "배경음악을 시작합니다. (static)",
+        "parameters": [],
+        "example": "BackgroundSound.StartBackground();"
+      },
+      {
+        "name": "StartBossClip",
+        "returnType": "void",
+        "description": "보스 스테이지 음악으로 전환합니다. (static)",
+        "parameters": [],
+        "example": "BackgroundSound.StartBossClip();"
+      },
+      {
+        "name": "NoBossClip",
+        "returnType": "void",
+        "description": "보스 스테이지 음악에서 일반 음악으로 복귀합니다. (static)",
+        "parameters": [],
+        "example": "BackgroundSound.NoBossClip();"
+      },
+      {
+        "name": "StartOtherCilp",
+        "returnType": "void",
+        "description": "다른 음악 재생 시 현재 배경음악을 중지합니다. (static)",
+        "parameters": [],
+        "example": "BackgroundSound.StartOtherCilp();"
+      },
+      {
+        "name": "StopOtherCilp",
+        "returnType": "void",
+        "description": "다른 음악 재생 종료 후 원래 배경음악을 재개합니다. (static)",
+        "parameters": [],
+        "example": "BackgroundSound.StopOtherCilp();"
+      }
+    ],
+    "properties": [
+      {
+        "name": "startClip",
+        "type": "AudioClip",
+        "description": "일반 스테이지 시작 음악 클립",
+        "readOnly": false
+      },
+      {
+        "name": "whileClip",
+        "type": "AudioClip",
+        "description": "일반 스테이지 진행 중 음악 클립",
+        "readOnly": false
+      },
+      {
+        "name": "startBossClip",
+        "type": "AudioClip",
+        "description": "보스 스테이지 시작 음악 클립",
+        "readOnly": false
+      },
+      {
+        "name": "whileBossClip",
+        "type": "AudioClip",
+        "description": "보스 스테이지 진행 중 음악 클립",
+        "readOnly": false
+      },
+      {
+        "name": "isBossStage",
+        "type": "bool",
+        "description": "현재 보스 스테이지인지 여부 (static)",
+        "readOnly": false
+      },
+      {
+        "name": "isOtherSound",
+        "type": "bool",
+        "description": "다른 배경음악 재생 중인지 여부 (static)",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 게임 시작 시 배경음 재생\nBackgroundSound.StartBackground();",
+      "// 보스전 시작\nBackgroundSound.StartBossClip();",
+      "// 보스전 종료\nBackgroundSound.NoBossClip();",
+      "// 컷씬 등 특별한 음악 재생\nBackgroundSound.StartOtherCilp();"
+    ]
+  },
+  {
+    "name": "BackgroundScroll",
+    "type": "class",
+    "description": "타이틀 화면의 배경 스크롤 효과를 관리하는 클래스. 무한 스크롤링 배경을 제공합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "Start",
+        "returnType": "void",
+        "description": "배경 스크롤 시스템을 초기화합니다.",
+        "parameters": [],
+        "example": ""
+      },
+      {
+        "name": "Update",
+        "returnType": "void",
+        "description": "배경 스크롤 위치를 업데이트합니다.",
+        "parameters": [],
+        "example": ""
+      },
+      {
+        "name": "SetScrollSpeed",
+        "returnType": "void",
+        "description": "스크롤 속도를 설정합니다.",
+        "parameters": [
+          {
+            "name": "speed",
+            "type": "float",
+            "description": "스크롤 속도"
+          }
+        ],
+        "example": "backgroundScroll.SetScrollSpeed(2.0f);"
+      }
+    ],
+    "properties": [
+      {
+        "name": "scrollSpeed",
+        "type": "float",
+        "description": "배경 스크롤 속도",
+        "readOnly": false
+      },
+      {
+        "name": "backgroundImages",
+        "type": "Transform[]",
+        "description": "스크롤할 배경 이미지들",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 스크롤 속도 설정\nbackgroundScroll.scrollSpeed = 1.5f;",
+      "// 스크롤 시작\nbackgroundScroll.SetScrollSpeed(2.0f);"
+    ]
+  },
+  {
+    "name": "BlinkText",
+    "type": "class",
+    "description": "텍스트의 깜빡임 효과를 관리하는 클래스. 메뉴나 프롬프트에서 사용되는 시각적 효과를 제공합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "StartBlink",
+        "returnType": "void",
+        "description": "텍스트 깜빡임 효과를 시작합니다.",
+        "parameters": [],
+        "example": "blinkText.StartBlink();"
+      },
+      {
+        "name": "StopBlink",
+        "returnType": "void",
+        "description": "텍스트 깜빡임 효과를 중지합니다.",
+        "parameters": [],
+        "example": "blinkText.StopBlink();"
+      },
+      {
+        "name": "SetBlinkSpeed",
+        "returnType": "void",
+        "description": "깜빡임 속도를 설정합니다.",
+        "parameters": [
+          {
+            "name": "speed",
+            "type": "float",
+            "description": "깜빡임 간격 (초)"
+          }
+        ],
+        "example": "blinkText.SetBlinkSpeed(0.5f);"
+      }
+    ],
+    "properties": [
+      {
+        "name": "targetText",
+        "type": "Text",
+        "description": "깜빡임 효과를 적용할 텍스트",
+        "readOnly": false
+      },
+      {
+        "name": "blinkInterval",
+        "type": "float",
+        "description": "깜빡임 간격 (기본값: 1.0f)",
+        "readOnly": false
+      },
+      {
+        "name": "isBlinking",
+        "type": "bool",
+        "description": "현재 깜빡이고 있는지 여부",
+        "readOnly": true
+      }
+    ],
+    "examples": [
+      "// 깜빡임 시작\nblinkText.StartBlink();",
+      "// 깜빡임 속도 설정\nblinkText.SetBlinkSpeed(0.3f);",
+      "// 깜빡임 중지\nblinkText.StopBlink();"
+    ]
+  },
+  {
+    "name": "StartGame",
+    "type": "class",
+    "description": "게임 시작과 초기화를 관리하는 클래스. 타이틀 화면에서 메인 게임으로의 전환을 담당합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "Update",
+        "returnType": "void",
+        "description": "사용자 입력을 감지하여 로그인 화면을 활성화합니다.",
+        "parameters": [],
+        "example": ""
+      }
+    ],
+    "properties": [
+      {
+        "name": "loginObject",
+        "type": "GameObject",
+        "description": "로그인 UI 게임오브젝트 (직렬화된 비공개 필드)",
+        "readOnly": false
+      }
+    ],
+    "examples": [
+      "// 아무 키나 누르면 로그인 화면 활성화\n// Input.anyKeyDown 감지 시 loginObject.SetActive(true)",
+      "// 로그인 프로세스 시작\n// Login.GameLogin() 자동 호출"
+    ]
+  }
+]

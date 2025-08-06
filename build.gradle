@@ -39,8 +39,8 @@ dependencies {
     implementation 'org.kohsuke:github-api:1.301'
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.0'
     implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.2'
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
     
     
     // MySQL Driver
