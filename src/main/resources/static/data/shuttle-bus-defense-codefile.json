@@ -1,0 +1,114 @@
+[
+  {
+    "icon": "fas fa-bug",
+    "name": "Monster.cs",
+    "path": "Assets/Scripts/Monster/",
+    "status": "Active",
+    "description": "몬스터 체력, 상태 효과(트랩/수면), 피해 처리, 랜덤 외형 생성, 아이템 드롭을 관리하는 종합적 몬스터 시스템",
+    "features": ["Monster", "Health Bar"]
+  },
+  {
+    "icon": "fas fa-layer-group",
+    "name": "MonsterSpawner.cs",
+    "path": "Assets/Scripts/Monster/",
+    "status": "Active",
+    "description": "웨이브 기반 몬스터 스폰, 다중 스폰 포인트, 랜덤 몬스터 선택, 스폰 추적을 통한 유연한 몬스터 생성 시스템",
+    "features": ["Monster"]
+  },
+  {
+    "icon": "fas fa-gamepad",
+    "name": "GameManager.cs",
+    "path": "Assets/Scripts/Monster/",
+    "status": "Active",
+    "description": "플레이어 체력, 화폐 시스템, 웨이브 및 몬스터 추적, 스테이지/게임 클리어 조건을 관리하는 핵심 게임 매니저",
+    "features": ["UI", "Shop"]
+  },
+  {
+    "icon": "fas fa-shopping-cart",
+    "name": "ItemSelect.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "아이템 목록 관리, 선택 상태 추적, 구매 가능성 확인, 시각적 피드백을 통한 인터랙티브 아이템 선택 UI",
+    "features": ["Shop", "UI"]
+  },
+  {
+    "icon": "fas fa-box",
+    "name": "ItemSlot.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "인벤토리 슬롯 초기화, 아이템 획득, 수량 추적, 중복 아이템 관리를 통한 효율적 인벤토리 시스템",
+    "features": ["Shop", "UI"]
+  },
+  {
+    "icon": "fas fa-coins",
+    "name": "PurchaseEffect.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "구매 처리, 화폐 확인, 시각적 코인 애니메이션, 오디오 피드백을 통한 포괄적 구매 경험 시스템",
+    "features": ["Shop", "Sound"]
+  },
+  {
+    "icon": "fas fa-cash-register",
+    "name": "ShopButton.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "아이템 구매 처리, 무기 업그레이드(레벨 3 제한), 업그레이드 비용 관리를 통한 상점 및 강화 시스템",
+    "features": ["Shop"]
+  },
+  {
+    "icon": "fas fa-desktop",
+    "name": "UiManager.cs",
+    "path": "Assets/Scripts/UI/",
+    "status": "Active",
+    "description": "싱글톤 패턴 기반 UI 매니저, 체력 및 화폐 텍스트 업데이트를 통한 중앙집중식 UI 관리 시스템",
+    "features": ["Singleton", "UI"]
+  },
+  {
+    "icon": "fas fa-database",
+    "name": "MonsterScriptable.cs",
+    "path": "Assets/Prefabs/Monster/MonsterScriptable/",
+    "status": "Active",
+    "description": "아이템 드롭 배열, 코인, 체력, 이동속도, 데미지, 스턴 속성을 정의하는 구성 가능한 몬스터 데이터 시스템",
+    "features": ["ScriptableObject", "Monster"]
+  },
+  {
+    "icon": "fas fa-magic",
+    "name": "SkillState.cs",
+    "path": "Assets/Prefabs/Skill/Scriptable/",
+    "status": "Active",
+    "description": "쿨다운, 힘, 데미지, 넉백, 객체 크기 속성을 정의하는 유연한 스킬 상태 관리 ScriptableObject 시스템",
+    "features": ["Skill", "ScriptableObject"]
+  },
+  {
+    "icon": "fas fa-fist-raised",
+    "name": "LogCollision.cs",
+    "path": "Assets/Scripts/Skill/",
+    "status": "Active",
+    "description": "통나무 스킬의 몬스터 충돌 감지, 동적 데미지 적용, 넉백 효과, 중복 충돌 방지를 통한 물리 기반 충돌 시스템",
+    "features": ["Skill"]
+  },
+  {
+    "icon": "fas fa-clock",
+    "name": "SkillCooldown.cs",
+    "path": "Assets/Scripts/Skill/",
+    "status": "Active",
+    "description": "다중 스킬 쿨다운 추적, 동적 UI 업데이트, 웨이브 기반 쿨다운 조정, 수동 감소 기능을 통한 종합적 스킬 관리",
+    "features": ["Skill", "UI"]
+  },
+  {
+    "icon": "fas fa-paper-plane",
+    "name": "SkillPaperTowel.cs",
+    "path": "Assets/Scripts/Skill/",
+    "status": "Active",
+    "description": "플레이어 위치 기반 페이퍼 타올 프리팹 생성, 물리적 힘 적용, 자동 파괴 타이머를 통한 발사체 스킬 시스템",
+    "features": ["Skill"]
+  },
+  {
+    "icon": "fas fa-wave-square",
+    "name": "GoalSpot.cs",
+    "path": "Assets/Prefabs/UI/Arrow/",
+    "status": "Active",
+    "description": "진폭, 주파수, 속도 매개변수를 사용한 사인파 기반 수직 부유 애니메이션을 통한 목표 지점 UI 시각 효과",
+    "features": ["UI"]
+  }
+]

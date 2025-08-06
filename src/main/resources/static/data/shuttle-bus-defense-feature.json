@@ -1,0 +1,44 @@
+[
+  {
+    "id": "monster-ai-state-system",
+    "title": "몬스터 AI 상태 관리 시스템",
+    "description": "몬스터의 체력, 상태 효과(트랩/수면), 피해 처리, 랜덤 외형을 관리하는 포괄적 시스템",
+    "icon": "fas fa-bug",
+    "techTags": ["Monster", "Health Bar"]
+  },
+  {
+    "id": "wave-spawn-system",
+    "title": "웨이브 기반 몬스터 스폰 시스템",
+    "description": "다중 스폰 포인트와 랜덤 몬스터 선택을 통한 유연한 웨이브 기반 몬스터 생성 시스템",
+    "icon": "fas fa-layer-group",
+    "techTags": ["Monster"]
+  },
+  {
+    "id": "game-state-management",
+    "title": "게임 상태 및 진행 관리 시스템",
+    "description": "플레이어 체력, 화폐, 웨이브 추적 및 스테이지 클리어 조건을 관리하는 종합적 게임 진행 시스템",
+    "icon": "fas fa-gamepad",
+    "techTags": ["UI", "Shop"]
+  },
+  {
+    "id": "item-shop-system",
+    "title": "아이템 선택 및 상점 시스템",
+    "description": "아이템 선택, 구매 가능성 확인, 시각적 피드백을 통한 인터랙티브 상점 인터페이스",
+    "icon": "fas fa-shopping-cart",
+    "techTags": ["Shop", "UI"]
+  },
+  {
+    "id": "skill-cooldown-system",
+    "title": "스킬 쿨다운 관리 시스템",
+    "description": "다중 스킬 쿨다운 추적, UI 업데이트, 동적 시간 감소를 통한 종합적 스킬 관리",
+    "icon": "fas fa-clock",
+    "techTags": ["Skill", "UI"]
+  },
+  {
+    "id": "projectile-skill-system",
+    "title": "발사체 스킬 시스템",
+    "description": "플레이어 위치 기반 페이퍼 타올 발사 및 자동 파괴를 통한 발사체 스킬 구현",
+    "icon": "fas fa-paper-plane",
+    "techTags": ["Skill"]
+  }
+]

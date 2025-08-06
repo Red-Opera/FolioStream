@@ -1,0 +1,469 @@
+[
+  {
+    "name": "Monster",
+    "type": "MonoBehaviour",
+    "description": "몬스터의 행동, 상태, 생명주기를 관리하는 핵심 클래스. 랜덤 외형 생성, 체력 관리, 상태 효과 적용 등을 담당합니다.",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "SetTrapped",
+        "returnType": "void",
+        "description": "몬스터를 지정된 시간 동안 움직이지 못하게 함. 이동 컴포넌트를 비활성화합니다.",
+        "parameters": [
+          {
+            "name": "duration",
+            "type": "float",
+            "required": true,
+            "description": "함정 지속 시간"
+          }
+        ]
+      },
+      {
+        "name": "SetLullaby",
+        "returnType": "void",
+        "description": "몬스터의 이동 속도를 30%로 감소시킴",
+        "parameters": [
+          {
+            "name": "duration",
+            "type": "float",
+            "required": true,
+            "description": "자장가 지속 시간"
+          }
+        ]
+      },
+      {
+        "name": "TakeDamage",
+        "returnType": "void",
+        "description": "몬스터에게 데미지를 주고 넉백 효과를 적용. HP 슬라이더를 업데이트하고 체력이 0 이하가 되면 Die() 호출",
+        "parameters": [
+          {
+            "name": "damage",
+            "type": "int",
+            "required": true,
+            "description": "적용할 데미지"
+          },
+          {
+            "name": "weaponpos",
+            "type": "Vector3",
+            "required": true,
+            "description": "무기 위치"
+          },
+          {
+            "name": "knockback",
+            "type": "float",
+            "required": true,
+            "description": "넉백 강도"
+          },
+          {
+            "name": "isHitByLog",
+            "type": "bool",
+            "required": true,
+            "description": "통나무에 맞았는지 여부"
+          }
+        ]
+      },
+      {
+        "name": "HitByPaperTowel",
+        "returnType": "void",
+        "description": "페이퍼 타올 공격에 맞았을 때의 특수 처리",
+        "parameters": []
+      },
+      {
+        "name": "Die",
+        "returnType": "void",
+        "description": "몬스터 사망 처리. OnMonsterDeath 이벤트 발생, 화폐 및 점수 지급 후 오브젝트 파괴",
+        "parameters": []
+      },
+      {
+        "name": "SetRandomAppearance",
+        "returnType": "void",
+        "description": "헤어, 상의, 하의, 신발을 랜덤으로 선택하여 외형 설정",
+        "parameters": []
+      }
+    ],
+    "properties": [
+      {
+        "name": "currentHealth",
+        "type": "int",
+        "readOnly": true,
+        "description": "몬스터의 현재 체력"
+      },
+      {
+        "name": "score",
+        "type": "int",
+        "readOnly": false,
+        "description": "몬스터 처치 시 획득하는 점수 (기본값: 100)"
+      },
+      {
+        "name": "monsterType",
+        "type": "string",
+        "readOnly": false,
+        "description": "몬스터의 타입을 나타내는 문자열"
+      },
+      {
+        "name": "monsterData",
+        "type": "MonsterScriptable",
+        "readOnly": false,
+        "description": "몬스터 데이터를 담고 있는 ScriptableObject"
+      },
+      {
+        "name": "isTrapped",
+        "type": "bool",
+        "readOnly": false,
+        "description": "몬스터가 함정에 걸렸는지 여부"
+      },
+      {
+        "name": "isLullaby",
+        "type": "bool",
+        "readOnly": false,
+        "description": "몬스터가 자장가 효과에 영향받고 있는지 여부"
+      }
+    ]
+  },
+  {
+    "name": "MonsterSpawner",
+    "type": "MonoBehaviour",
+    "description": "웨이브 기반으로 몬스터 생성을 관리하는 클래스. 랜덤 몬스터 타입과 위치 선택을 통한 다양성 제공",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "StartWave",
+        "returnType": "void",
+        "description": "웨이브를 시작하고 몬스터 생성 프로세스를 개시합니다",
+        "parameters": [
+          {
+            "name": "wave",
+            "type": "Wave",
+            "required": true,
+            "description": "시작할 웨이브 데이터"
+          }
+        ]
+      }
+    ],
+    "properties": [
+      {
+        "name": "spawner",
+        "type": "GameObject",
+        "readOnly": false,
+        "description": "몬스터 생성 위치를 나타내는 게임오브젝트"
+      }
+    ]
+  },
+  {
+    "name": "GameManager",
+    "type": "MonoBehaviour",
+    "description": "게임의 전반적인 상태와 진행을 관리하는 중앙 관리자 클래스. 싱글톤 패턴으로 구현되어 전역 접근 가능",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "DecreaseHealth",
+        "returnType": "void",
+        "description": "플레이어 체력을 감소시키고 UI를 업데이트. 체력이 0 이하가 되면 게임 오버 처리",
+        "parameters": [
+          {
+            "name": "amount",
+            "type": "int",
+            "required": true,
+            "description": "감소시킬 체력량"
+          }
+        ]
+      },
+      {
+        "name": "AddCurrency",
+        "returnType": "void",
+        "description": "플레이어에게 화폐를 추가하고 UI 업데이트",
+        "parameters": [
+          {
+            "name": "amount",
+            "type": "int",
+            "required": true,
+            "description": "추가할 화폐량"
+          }
+        ]
+      },
+      {
+        "name": "SpendCurrency",
+        "returnType": "bool",
+        "description": "화폐 사용 가능 여부를 확인하고 차감. 성공 시 true 반환",
+        "parameters": [
+          {
+            "name": "amount",
+            "type": "int",
+            "required": true,
+            "description": "소비할 화폐량"
+          }
+        ]
+      },
+      {
+        "name": "AddMonster",
+        "returnType": "void",
+        "description": "현재 몬스터 수를 증가시킵니다",
+        "parameters": []
+      },
+      {
+        "name": "DieMonster",
+        "returnType": "void",
+        "description": "몬스터 수를 감소시키고 스테이지/게임 완료 조건 확인",
+        "parameters": []
+      },
+      {
+        "name": "StageClear",
+        "returnType": "void",
+        "description": "스테이지 클리어 처리 및 UI 표시",
+        "parameters": []
+      },
+      {
+        "name": "GameClear",
+        "returnType": "void",
+        "description": "플레이어 체력에 따라 엔딩 결정 (50 이상: 굿엔딩, 미만: 노말엔딩)",
+        "parameters": [
+          {
+            "name": "health",
+            "type": "int",
+            "required": true,
+            "description": "플레이어 체력"
+          }
+        ]
+      }
+    ],
+    "properties": [
+      {
+        "name": "gameManager",
+        "type": "GameManager",
+        "readOnly": true,
+        "description": "싱글톤 인스턴스 (static)"
+      },
+      {
+        "name": "maxHealth",
+        "type": "int",
+        "readOnly": false,
+        "description": "플레이어의 최대 체력"
+      },
+      {
+        "name": "currentHealth",
+        "type": "int",
+        "readOnly": false,
+        "description": "플레이어의 현재 체력"
+      },
+      {
+        "name": "currency",
+        "type": "int",
+        "readOnly": false,
+        "description": "플레이어의 게임 내 화폐"
+      },
+      {
+        "name": "weaponLevel",
+        "type": "int",
+        "readOnly": false,
+        "description": "현재 무기 레벨"
+      }
+    ]
+  },
+  {
+    "name": "ItemSelect",
+    "type": "MonoBehaviour",
+    "description": "게임 내 아이템 선택 및 UI 관리를 담당하는 클래스. 동적 아이템 목록 생성과 구매 가능성 확인 제공",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "Awake",
+        "returnType": "void",
+        "description": "아이템 목록 초기화. itemDisplay 하위의 모든 오브젝트를 items 리스트에 추가",
+        "parameters": []
+      },
+      {
+        "name": "Start",
+        "returnType": "void",
+        "description": "초기 UI 설정 및 첫 번째 아이템 선택",
+        "parameters": []
+      },
+      {
+        "name": "ClickOn",
+        "returnType": "void",
+        "description": "아이템 클릭 시 호출. 이전 아이템 비활성화 후 새 아이템 활성화 및 UI 업데이트",
+        "parameters": [
+          {
+            "name": "itemName",
+            "type": "string",
+            "required": true,
+            "description": "클릭한 아이템 이름"
+          }
+        ]
+      }
+    ],
+    "properties": [
+      {
+        "name": "itemDisplay",
+        "type": "GameObject",
+        "readOnly": false,
+        "description": "아이템을 전시할 목록 부모 오브젝트"
+      },
+      {
+        "name": "nowOn",
+        "type": "string",
+        "readOnly": false,
+        "description": "현재 선택된 아이템 이름 (static)"
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "readOnly": false,
+        "description": "이 아이템의 설명"
+      },
+      {
+        "name": "cost",
+        "type": "int",
+        "readOnly": false,
+        "description": "아이템 구매 비용"
+      }
+    ]
+  },
+  {
+    "name": "UiManager",
+    "type": "MonoBehaviour",
+    "description": "UI 요소들을 중앙에서 관리하는 싱글톤 클래스. 체력과 화폐 표시를 실시간 업데이트",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "UpdateHealthText",
+        "returnType": "void",
+        "description": "체력 텍스트를 '현재체력/최대체력' 형태로 업데이트",
+        "parameters": [
+          {
+            "name": "currentHealth",
+            "type": "int",
+            "required": true,
+            "description": "현재 체력"
+          },
+          {
+            "name": "maxHealth",
+            "type": "int",
+            "required": true,
+            "description": "최대 체력"
+          }
+        ]
+      },
+      {
+        "name": "UpdateCurrencyText",
+        "returnType": "void",
+        "description": "화폐 텍스트를 현재 화폐 값으로 업데이트",
+        "parameters": [
+          {
+            "name": "currency",
+            "type": "int",
+            "required": true,
+            "description": "현재 화폐"
+          }
+        ]
+      }
+    ],
+    "properties": [
+      {
+        "name": "uiManager",
+        "type": "UiManager",
+        "readOnly": true,
+        "description": "UiManager 싱글톤 인스턴스 (static)"
+      },
+      {
+        "name": "healthText",
+        "type": "TextMeshProUGUI",
+        "readOnly": false,
+        "description": "체력을 표시하는 UI 텍스트"
+      },
+      {
+        "name": "currencyText",
+        "type": "TextMeshProUGUI",
+        "readOnly": false,
+        "description": "화폐를 표시하는 UI 텍스트"
+      }
+    ]
+  },
+  {
+    "name": "SkillPaperTowel",
+    "type": "MonoBehaviour",
+    "description": "페이퍼 타올 스킬을 관리하는 클래스. 플레이어 위치에서 페이퍼 타올을 생성하고 발사",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "Awake",
+        "returnType": "void",
+        "description": "플레이어 Transform 초기화 및 컴포넌트 설정",
+        "parameters": []
+      },
+      {
+        "name": "PaperTowel",
+        "returnType": "IEnumerator",
+        "description": "페이퍼 타올 생성, 물리적 힘 적용, 크기 설정을 수행하는 코루틴",
+        "parameters": []
+      },
+      {
+        "name": "DestroyPrefab",
+        "returnType": "IEnumerator",
+        "description": "3초 후 페이퍼 타올 오브젝트를 파괴하는 코루틴",
+        "parameters": []
+      }
+    ],
+    "properties": [
+      {
+        "name": "isCooldown",
+        "type": "bool",
+        "readOnly": false,
+        "description": "현재 스킬이 쿨다운 중인지 여부"
+      }
+    ]
+  },
+  {
+    "name": "SkillCooldown",
+    "type": "MonoBehaviour", 
+    "description": "스킬 쿨다운 시스템을 관리하는 클래스. 다중 스킬의 쿨다운 타이머와 UI 업데이트 담당",
+    "category": "classes",
+    "methods": [
+      {
+        "name": "HideSkillSetting",
+        "returnType": "void",
+        "description": "특정 스킬의 쿨다운을 시작하고 UI 업데이트",
+        "parameters": [
+          {
+            "name": "num",
+            "type": "int",
+            "required": true,
+            "description": "스킬 인덱스"
+          }
+        ]
+      },
+      {
+        "name": "ReduceCooldown",
+        "returnType": "void",
+        "description": "모든 스킬의 쿨다운 시간을 지정된 양만큼 감소",
+        "parameters": [
+          {
+            "name": "reductionAmount",
+            "type": "float",
+            "required": true,
+            "description": "감소시킬 쿨다운 시간"
+          }
+        ]
+      }
+    ],
+    "properties": [
+      {
+        "name": "hideSkillButton",
+        "type": "GameObject[]",
+        "readOnly": false,
+        "description": "스킬 버튼 게임오브젝트들의 배열"
+      },
+      {
+        "name": "skillCooldownText",
+        "type": "TextMeshProUGUI[]",
+        "readOnly": false,
+        "description": "스킬 쿨다운 시간을 표시하는 텍스트들"
+      },
+      {
+        "name": "skillImage",
+        "type": "Image[]",
+        "readOnly": false,
+        "description": "스킬 아이콘 이미지들의 배열"
+      }
+    ]
+  }
+]

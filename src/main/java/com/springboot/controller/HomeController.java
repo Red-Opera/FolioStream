@@ -17,6 +17,7 @@ import com.springboot.model.Feature;
 import com.springboot.model.CodeFile;
 import com.springboot.model.ApiReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.io.IOException;
@@ -755,6 +756,95 @@ public class HomeController
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("{\"error\": \"Feature details not found\"}");
+        }
+    }
+
+    @GetMapping("/shuttle-bus-defense/code")
+    public String shuttleBusDefenseCode(Model model) {
+        String githubAddress = "https://github.com/Red-Opera/VRDefense/blob/main/";
+        ObjectMapper mapper = new ObjectMapper();
+        List<Feature> features = new ArrayList<>();
+        List<CodeFile> codeFiles = new ArrayList<>();
+        List<ApiReference> apiReferences = new ArrayList<>();
+        Set<String> allFeatures = new HashSet<>();
+        Map<String, List<ApiReference>> apiByCategory = new HashMap<>();
+
+        try {
+            Path featurePath = Paths.get("src/main/resources/static/data/shuttle-bus-defense-feature.json");
+            Path codeFilePath = Paths.get("src/main/resources/static/data/shuttle-bus-defense-codefile.json");
+            Path apiPath = Paths.get("src/main/resources/static/data/shuttle-bus-defense-api.json");
+            
+            features = Arrays.asList(mapper.readValue(featurePath.toFile(), Feature[].class));
+            codeFiles = Arrays.asList(mapper.readValue(codeFilePath.toFile(), CodeFile[].class));
+            apiReferences = Arrays.asList(mapper.readValue(apiPath.toFile(), ApiReference[].class));
+            
+            // Shuttle-bus-defense JSON 구조에 맞게 처리
+            for (CodeFile file : codeFiles) {
+                if (file.getFeatures() != null) allFeatures.addAll(file.getFeatures());
+            }
+            
+            // API references를 카테고리별로 그룹화
+            for (ApiReference api : apiReferences) {
+                String category = api.getCategory();
+                apiByCategory.computeIfAbsent(category, k -> new ArrayList<>()).add(api);
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        model.addAttribute("features", features);
+        model.addAttribute("codeFiles", codeFiles);
+        model.addAttribute("allFeatures", allFeatures);
+        model.addAttribute("apiReferences", apiReferences);
+        model.addAttribute("apiByCategory", apiByCategory);
+        return "shuttle-bus-defense-code";
+    }
+
+    @GetMapping("/shuttle-bus-defense/code/raw")
+    @ResponseBody
+    public ResponseEntity<String> getShuttleBusDefenseRawCode(@RequestParam("path") String path) {
+        String githubRawBase = "https://raw.githubusercontent.com/Red-Opera/VRDefense/main/";
+        String fullUrl = githubRawBase + path;
+        RestTemplate restTemplate = new RestTemplate();
+
+        try {
+            byte[] bytes = restTemplate.getForObject(fullUrl, byte[].class);
+
+            UniversalDetector detector = new UniversalDetector(null);
+            detector.handleData(bytes, 0, bytes.length);
+            detector.dataEnd();
+
+            String encoding = detector.getDetectedCharset();
+            detector.reset();
+
+            if (encoding == null) 
+                encoding = "UTF-8";
+
+            String code = new String(bytes, encoding);
+            
+            return ResponseEntity.ok(code);
+        } 
+
+        catch (Exception e) 
+        {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("VR 코드를 불러올 수 없습니다.");
+        }
+    }
+
+    @GetMapping("/data/shuttle-bus-defense-feature-details.json")
+    @ResponseBody
+    public ResponseEntity<String> getShuttleBusDefenseFeatureDetails() {
+        try {
+            Path detailsPath = Paths.get("src/main/resources/static/data/shuttle-bus-defense-feature-details.json");
+            String content = new String(java.nio.file.Files.readAllBytes(detailsPath), StandardCharsets.UTF_8);
+            
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/json; charset=UTF-8")
+                    .body(content);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\": \"Shuttle Bus Defense feature details not found\"}");
         }
     }
 }
