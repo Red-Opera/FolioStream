@@ -7,60 +7,11 @@
     "techTags": ["Inventory", "Drag&Drop", "Database", "Equipment"]
   },
   {
-    "id": "player-boss-healthbar-ui",
-    "title": "플레이어 및 보스 체력바 UI 시스템",
-    "description": "실시간 체력 상태 표시와 애니메이션 효과를 통한 체력바 UI 관리 시스템",
-    "icon": "fas fa-heart",
-    "techTags": ["Health Bar", "UI Animation", "Real-time Update", "Visual Feedback"]
-  },
-  {
     "id": "bitwise-equipment-flags",
     "title": "비트 플래그 장비 시스템",
     "description": "uint 기반 플래그 열거형으로 무기 타입 및 장비 상태의 효율적 관리",
     "icon": "fas fa-chess-board",
     "techTags": ["Bitwise", "Flags", "Enum", "Equipment"]
-  },
-  {
-    "id": "reflection-state-system",
-    "title": "리플렉션 기반 동적 상태 관리",
-    "description": "ScriptableObject와 리플렉션을 활용한 확장 가능한 플레이어 데이터 시스템",
-    "icon": "fas fa-cogs",
-    "techTags": ["Reflection", "ScriptableObject", "Dynamic", "Data-driven"]
-  },
-  {
-    "id": "game-result-system",
-    "title": "게임 결과 및 씬 전환 시스템",
-    "description": "게임 완료 후 결과 표시와 페이드 효과를 통한 부드러운 맵 씬 전환",
-    "icon": "fas fa-trophy",
-    "techTags": ["Result UI", "Scene Transition", "Fade Effects", "Game State"]
-  },
-  {
-    "id": "modular-ui-architecture",
-    "title": "모듈형 UI 아키텍처",
-    "description": "인벤토리, 상점, 대화창 등 독립적 UI 컴포넌트의 체계적 관리 시스템",
-    "icon": "fas fa-th-large",
-    "techTags": ["Modular", "UI Components", "Separation", "Management"]
-  },
-  {
-    "id": "map-ui-system",
-    "title": "맵 UI 및 미니맵 시스템",
-    "description": "스테이지별 맵 UI와 스케일 조절 가능한 미니맵 표시 시스템",
-    "icon": "fas fa-map",
-    "techTags": ["Minimap", "Map UI", "Stage Management", "Camera Control"]
-  },
-  {
-    "id": "shop-trading-system",
-    "title": "상점 거래 시스템",
-    "description": "아이템 구매/판매, 골드 관리, 인벤토리 연동을 통한 상점 거래 시스템",
-    "icon": "fas fa-shopping-cart",
-    "techTags": ["Shop", "Trading", "Gold Management", "Inventory Sync"]
-  },
-  {
-    "id": "player-dash-bar-system",
-    "title": "플레이어 대쉬 바 시스템",
-    "description": "스태미나 기반 대쉬 사용량 표시와 실시간 회복 상태 관리 UI 시스템",
-    "icon": "fas fa-bolt",
-    "techTags": ["Stamina", "Dash System", "Real-time UI", "Resource Management"]
   },
   {
     "id": "fade-transition-system",
@@ -70,11 +21,60 @@
     "techTags": ["UI", "Animation", "Coroutine", "Transition"]
   },
   {
-    "id": "tcp-multiplayer-sync",
-    "title": "TCP 멀티플레이어 동기화",
-    "description": "프레임 기반 업데이트 최적화와 스레드 안전 네트워킹 구현",
-    "icon": "fas fa-users",
-    "techTags": ["TCP", "Frame Sync", "Threading", "Multiplayer"]
+    "id": "game-result-system",
+    "title": "게임 결과 및 씬 전환 시스템",
+    "description": "게임 완료 후 결과 표시와 페이드 효과를 통한 부드러운 맵 씬 전환",
+    "icon": "fas fa-trophy",
+    "techTags": ["Result UI", "Scene Transition", "Fade Effects", "Game State"]
+  },
+  {
+    "id": "map-ui-system",
+    "title": "맵 UI 및 미니맵 시스템",
+    "description": "스테이지별 맵 UI와 스케일 조절 가능한 미니맵 표시 시스템",
+    "icon": "fas fa-map",
+    "techTags": ["Minimap", "Map UI", "Stage Management", "Camera Control"]
+  },
+  {
+    "id": "modular-ui-architecture",
+    "title": "모듈형 UI 아키텍처",
+    "description": "인벤토리, 상점, 대화창 등 독립적 UI 컴포넌트의 체계적 관리 시스템",
+    "icon": "fas fa-th-large",
+    "techTags": ["Modular", "UI Components", "Separation", "Management"]
+  },
+  {
+    "id": "player-boss-healthbar-ui",
+    "title": "플레이어 및 보스 체력바 UI 시스템",
+    "description": "실시간 체력 상태 표시와 애니메이션 효과를 통한 체력바 UI 관리 시스템",
+    "icon": "fas fa-heart",
+    "techTags": ["Health Bar", "UI Animation", "Real-time Update", "Visual Feedback"]
+  },
+  {
+    "id": "player-dash-bar-system",
+    "title": "플레이어 대쉬 바 시스템",
+    "description": "스태미나 기반 대쉬 사용량 표시와 실시간 회복 상태 관리 UI 시스템",
+    "icon": "fas fa-bolt",
+    "techTags": ["Stamina", "Dash System", "Real-time UI", "Resource Management"]
+  },
+  {
+    "id": "reflection-state-system",
+    "title": "리플렉션 기반 동적 상태 관리",
+    "description": "ScriptableObject와 리플렉션을 활용한 확장 가능한 플레이어 데이터 시스템",
+    "icon": "fas fa-cogs",
+    "techTags": ["Reflection", "ScriptableObject", "Dynamic", "Data-driven"]
+  },
+  {
+    "id": "shop-trading-system",
+    "title": "상점 거래 시스템",
+    "description": "아이템 구매/판매, 골드 관리, 인벤토리 연동을 통한 상점 거래 시스템",
+    "icon": "fas fa-shopping-cart",
+    "techTags": ["Shop", "Trading", "Gold Management", "Inventory Sync"]
+  },
+  {
+    "id": "authentication-system",
+    "title": "사용자 인증 시스템",
+    "description": "로그인 및 사용자 세션 관리를 위한 보안 인증 프로세스 구현",
+    "icon": "fas fa-key",
+    "techTags": ["Authentication", "Login", "Session", "Security"]
   },
   {
     "id": "database-save-system",
@@ -84,11 +84,11 @@
     "techTags": ["MySQL", "Database", "Auto Save", "Editor Tools"]
   },
   {
-    "id": "authentication-system",
-    "title": "사용자 인증 시스템",
-    "description": "로그인 및 사용자 세션 관리를 위한 보안 인증 프로세스 구현",
-    "icon": "fas fa-key",
-    "techTags": ["Authentication", "Login", "Session", "Security"]
+    "id": "tcp-multiplayer-sync",
+    "title": "TCP 멀티플레이어 동기화",
+    "description": "프레임 기반 업데이트 최적화와 스레드 안전 네트워킹 구현",
+    "icon": "fas fa-users",
+    "techTags": ["TCP", "Frame Sync", "Threading", "Multiplayer"]
   },
   {
     "id": "priority-queue-dll",

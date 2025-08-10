@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>K Project - Portfolio</title>
+    <link rel="icon" type="image/png" href="/images/logo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
@@ -13,7 +14,11 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="/">K Project</a>
+            <!-- FolioStream 스타일 로고 영역 추가 -->
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="/images/logo.png" alt="FolioStream Logo" style="height:32px; margin-right:8px;">
+                <span class="fw-bold">K Project</span>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -33,6 +38,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#controls">Controls</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#implementation">Implementation Features</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#gallery">Gallery</a>
@@ -294,7 +302,7 @@
                 <div class="d-flex flex-wrap gap-3 align-items-center">
                   <div class="text-center">
                     <img src="/images/Key/key_e.png" alt="E" style="height:48px; object-fit:contain;">
-                    <div class="small text-muted mt-1">능력치 확인</div>
+                    <div class="small text-muted mt-1">플레이어 능력치 확인</div>
                   </div>
                   <div class="text-center">
                     <img src="/images/Key/key_f.png" alt="F" style="height:48px; object-fit:contain;">
@@ -302,11 +310,11 @@
                   </div>
                   <div class="text-center">
                     <img src="/images/Key/key_i.png" alt="I" style="height:48px; object-fit:contain;">
-                    <div class="small text-muted mt-1">지도 열기</div>
+                    <div class="small text-muted mt-1">지도 (맵) 열기</div>
                   </div>
                   <div class="text-center">
                     <img src="/images/Key/key_v.png" alt="V" style="height:48px; object-fit:contain;">
-                    <div class="small text-muted mt-1">인벤토리 열기</div>
+                    <div class="small text-muted mt-1">인벤토리 열기/닫기</div>
                   </div>
                 </div>
               </div>
@@ -356,6 +364,492 @@
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- Implementation Features Section -->
+    <section id="implementation" class="py-5">
+        <div class="container">
+            <h2 class="section-title text-start">
+            구현 기능
+            <span class="badge bg-primary ms-2" style="font-size:1rem;">직접 구현</span>
+        </h2>
+        <p class="text-muted mb-4" style="font-size:1.05rem;">
+            아래의 모든 기능은 본인이 직접 설계 및 개발한 주요 시스템입니다.
+        </p>
+            
+            <!-- Authentication & User Systems -->
+            <div class="mb-5">
+                <h3 class="h4 mb-4 text-primary">🔐 인증 & 사용자 시스템</h3>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                </div>
+                                <h4 class="h6 mb-0">로그인 & 계정 관리</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• 게임 시작 후 아무 키로 로그인창 진입</li>
+                                <li>• ID 존재하지 않음: "Enter ID..." 메시지</li>
+                                <li>• 비밀번호 불일치: "Password does not match..." 메시지</li>
+                                <li>• Register 버튼으로 계정 등록</li>
+                                <li>• 비밀번호 확인 검증 시스템</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <h4 class="h6 mb-0">멀티플레이어 시스템</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• 실시간 다른 플레이어 위치 표시</li>
+                                <li>• 상대 플레이어 반투명 렌더링</li>
+                                <li>• 직업 변경 실시간 동기화</li>
+                                <li>• 스테이지별 플레이어 분리 시스템</li>
+                                <li>• 보스전 시 다른 플레이어 숨김</li>
+                                <li>• 서버에서 다른 플레이어의 모습 실시간 표시 (외부 플레이어 동기화)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Character & Job Systems -->
+            <div class="mb-5">
+                <h3 class="h4 mb-4 text-danger">👤 캐릭터 & 직업 시스템</h3>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-user-ninja"></i>
+                                </div>
+                                <h4 class="h6 mb-0">직업 선택 & 변경</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• Costume 직업 선택 기능</li>
+                                <li>• 좌클릭으로 직업 선택</li>
+                                <li>• 스페이스바로 직업 변경</li>
+                                <li>• 3가지 직업: 무투가, 검사, 마법사</li>
+                                <li>• 각 직업별 고유 공격방식 & 능력치</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-info text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <h4 class="h6 mb-0">능력치 & 스탯 시스템</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• F키로 스탯 설정 UI 진입 (마을 왼쪽 끝)</li>
+                                <li>• 마우스 스크롤로 UI 탐색</li>
+                                <li>• 레벨당 6개 능력치 중 3개 선택 가능</li>
+                                <li>• Sign 버튼: 사인 이펙트 + 포스트프로세싱 깃털 파티클</li>
+                                <li>• 왼쪽 버튼으로 설정 취소</li>
+                                <li>• 설정 시 즉시 능력치 반영 (체력바 증가 등)</li>
+                                <li>• 스탯 UI 수평 스크롤 기능 (좌우 이동으로 능력치 탐색)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="implementation-item p-4 border rounded-3">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+                                <h4 class="h6 mb-0">6개 핵심 능력치 시스템</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="stat-group">
+                                        <h6 class="text-danger"><i class="fas fa-fire"></i> Anger</h6>
+                                        <p class="small text-muted mb-2">공격력 증가</p>
+                                        
+                                        <h6 class="text-success"><i class="fas fa-running"></i> Haste</h6>
+                                        <p class="small text-muted mb-2">이동 속도, 공격 속도 증가</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="stat-group">
+                                        <h6 class="text-primary"><i class="fas fa-shield-alt"></i> Patient</h6>
+                                        <p class="small text-muted mb-2">방어력, 쉴드 (체력바 회색 보호막)</p>
+                                        
+                                        <h6 class="text-purple"><i class="fas fa-star"></i> Mystery</h6>
+                                        <p class="small text-muted mb-2">치명타 확률, 회피 확률</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="stat-group">
+                                        <h6 class="text-warning"><i class="fas fa-heart"></i> Greed</h6>
+                                        <p class="small text-muted mb-2">최대 체력 증가</p>
+                                        
+                                        <h6 class="text-info"><i class="fas fa-fist-raised"></i> Craving</h6>
+                                        <p class="small text-muted mb-2">강인함</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3 p-3 bg-light rounded">
+                                <h6 class="small fw-bold">기존 세부 능력치</h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <ul class="list-unstyled small mb-0">
+                                            <li>• 대쉬시 추가 데미지</li>
+                                            <li>• 치명타시 추가 데미지</li>
+                                            <li>• 장전 감소 시간</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul class="list-unstyled small mb-0">
+                                            <li>• 방어 확률</li>
+                                            <li>• 추가 고정 피해</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventory & Equipment Systems -->
+            <div class="mb-5">
+                <h3 class="h4 mb-4 text-success">🎒 인벤토리 & 장비 시스템</h3>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-boxes"></i>
+                                </div>
+                                <h4 class="h6 mb-0">인벤토리 관리</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• V키로 인벤토리 열기/닫기 토글</li>
+                                <li>• I키로 지도 (맵) 열기</li>
+                                <li>• E키로 플레이어 능력치 상세 확인</li>
+                                <li>• 12가지 세부 능력치 실시간 표시</li>
+                                <li>• 장비 간 위치 자유 교환</li>
+                                <li>• 빈 공간으로 자유 이동</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <h4 class="h6 mb-0">장비 제한 시스템</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• 두손검/지팡이 소지 시 한손검 제한</li>
+                                <li>• 반지 등 액세서리 교환 시스템</li>
+                                <li>• 능력치 실시간 반영</li>
+                                <li>• 장착된 장비 판매 제한</li>
+                                <li>• 자동 장착 vs 인벤토리 이동</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shop & Trading Systems -->
+            <div class="mb-5">
+                <h3 class="h4 mb-4 text-info">🛒 상점 & 거래 시스템</h3>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-store"></i>
+                                </div>
+                                <h4 class="h6 mb-0">장비 상점</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• F키로 NPC 대화창 진입</li>
+                                <li>• 스페이스바로 대화 스킵/진행</li>
+                                <li>• 장비 상점 UI + 인벤토리 동시 표시</li>
+                                <li>• 아이템 클릭 시 정보 & 가격 표시</li>
+                                <li>• 돈 부족 시 구매 불가</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-danger text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-coins"></i>
+                                </div>
+                                <h4 class="h6 mb-0">구매 & 판매</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• 구매 성공 시 코인 UI & 소비 금액 표시</li>
+                                <li>• 구매 후 즉시 장착 또는 인벤토리 이동</li>
+                                <li>• 우클릭으로 아이템 판매창 표시</li>
+                                <li>• 판매 버튼으로 아이템 판매</li>
+                                <li>• 장착된 장비는 판매 불가</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="implementation-item p-4 border rounded-3">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-utensils"></i>
+                                </div>
+                                <h4 class="h6 mb-0">음식 상점 시스템</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• 랜덤 5가지 음식 중 선택</li>
+                                <li>• 좌클릭 선택, 우클릭 구매</li>
+                                <li>• 허기량에 따른 구매 제한</li>
+                                <li>• 음식 섭취 시 능력치 상승</li>
+                                <li>• 다음 전투 진행 시 허기량 5 감소</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progression Systems -->
+            <div class="mb-5">
+                <h3 class="h4 mb-4 text-success">🏆 진행 시스템</h3>
+                <div class="row g-4">
+                    <div class="col-md-12">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <h4 class="h6 mb-0">보상 & 진행</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• 보스전 승리 시 상자 생성</li>
+                                <li>• 노말~레전더리 등급 무기 랜덤 획득</li>
+                                <li>• 탐험 시간, 경험치, 장비 획득 결과</li>
+                                <li>• Enter키로 마을 복귀</li>
+                                <li>• 1~3 스테이지 동일 방식 진행</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UI & Navigation Systems -->
+            <div class="mb-5">
+                <h3 class="h4 mb-4 text-dark">🗺️ 종합 UI 시스템</h3>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-info text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-map"></i>
+                                </div>
+                                <h4 class="h6 mb-0">내비게이션 UI</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• Minimap.cs: 미니맵 시스템</li>
+                                <li>• SceneMap.cs: 씬 맵 관리</li>
+                                <li>• CurrentSceneNameUI.cs: 현재 씬 표시</li>
+                                <li>• 마우스 휠 배율 조절</li>
+                                <li>• 실시간 위치 추적</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-boxes"></i>
+                                </div>
+                                <h4 class="h6 mb-0">인벤토리 UI 시스템</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• Inventory.cs: 메인 인벤토리 관리</li>
+                                <li>• InventoryPosition.cs: 아이템 위치 관리</li>
+                                <li>• MoveInventory.cs: 아이템 이동 로직</li>
+                                <li>• 드래그 앤 드롭 상호작용</li>
+                                <li>• 실시간 위치 교환 시스템</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-store"></i>
+                                </div>
+                                <h4 class="h6 mb-0">상점 UI 시스템</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• EquidStore.cs: 장비 상점 메인</li>
+                                <li>• EquidStoreItem.cs: 상점 아이템 관리</li>
+                                <li>• SaleItem.cs: 아이템 판매 시스템</li>
+                                <li>• 가격 표시 및 구매 확인</li>
+                                <li>• 코인 UI 및 거래 피드백</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <h4 class="h6 mb-0">대화 & 상호작용 UI</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• Dialog.cs: 대화 시스템</li>
+                                <li>• ChatNPC.cs: NPC 채팅 관리</li>
+                                <li>• UIOpen.cs: UI 요소 활성화</li>
+                                <li>• UIOpenToKeyBoard.cs: 키보드 기반 UI</li>
+                                <li>• Status.cs: 상태 추적 시스템</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="implementation-item p-4 border rounded-3">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-dark text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-spinner"></i>
+                                </div>
+                                <h4 class="h6 mb-0">로딩 & 씬 전환 시스템</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• Loading.cs: 메인 로딩 화면 관리</li>
+                                <li>• LoadingProcessing.cs: 로딩 프로세스 처리</li>
+                                <li>• 비동기 씬 로딩 UI</li>
+                                <li>• 포스트 프로세싱 시각 효과</li>
+                                <li>• God Ray 파티클 시스템</li>
+                                <li>• 스테이지별 분리 로딩 최적화</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Technical Systems -->
+            <div class="mb-5">
+                <h3 class="h4 mb-4 text-purple">🔧 고급 기술 시스템</h3>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-cogs"></i>
+                                </div>
+                                <h4 class="h6 mb-0">플레이어 상태 관리</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• OnlinePlayer.cs: 멀티플레이어 상태 관리</li>
+                                <li>• PMove.cs: 플레이어 이동 메커니즘</li>
+                                <li>• State.cs: 플레이어 상태 머신</li>
+                                <li>• EquipmentState.cs: 장비 상태 추적</li>
+                                <li>• AbilityTempState.cs: 임시 능력 상태</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-info text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <h4 class="h6 mb-0">보안 & 암호화</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• StringEncrypt 폴더: 문자열 암호화 시스템</li>
+                                <li>• 플레이어 데이터 보호</li>
+                                <li>• 네트워크 통신 보안</li>
+                                <li>• 치팅 방지 메커니즘</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-hammer"></i>
+                                </div>
+                                <h4 class="h6 mb-0">Unity Editor 확장</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• Editor 폴더: 커스텀 Unity 에디터 도구</li>
+                                <li>• 개발 생산성 향상 도구</li>
+                                <li>• 자동화된 게임 데이터 관리</li>
+                                <li>• 디버깅 및 테스팅 지원</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-dark text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-cubes"></i>
+                                </div>
+                                <h4 class="h6 mb-0">모듈식 아키텍처</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• Building: 건물/구조물 시스템</li>
+                                <li>• Monster: 적 AI 및 행동 패턴</li>
+                                <li>• Stage: 스테이지 관리 시스템</li>
+                                <li>• Utill: 유틸리티 및 헬퍼 클래스</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Server & Database Systems -->
+            <div class="mb-5">
+                <h3 class="h4 mb-4 text-secondary">🖥️ 서버 & 데이터베이스</h3>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-dark text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <h4 class="h6 mb-0">서버 핵심 시스템</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• Login.cs: 사용자 인증 및 로그인 처리</li>
+                                <li>• MultiPlay.cs: 멀티플레이어 로직 관리</li>
+                                <li>• SaveSystem.cs: 데이터 영속성 및 저장</li>
+                                <li>• MainTheadAction.cs: 메인 스레드 작업 관리</li>
+                                <li>• Oracle 데이터베이스 연동</li>
+                                <li>• TCP/IP 기반 서버 통신</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-server"></i>
+                                </div>
+                                <h4 class="h6 mb-0">서버 최적화</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• 스테이지별 플레이어 데이터 전송</li>
+                                <li>• 다른 스테이지 플레이어 숨김</li>
+                                <li>• 보스전 시 다른 플레이어 비표시</li>
+                                <li>• 실시간 위치 & 행동 동기
+                                    화</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- Gallery Section -->

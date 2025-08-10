@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Legacy of Auras - Portfolio</title>
+    <link rel="icon" type="image/png" href="/images/logo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="/css/legacy-of-auras.css">
@@ -12,7 +13,11 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="/">Legacy of Auras</a>
+            <!-- FolioStream 스타일 로고 영역 추가 -->
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="/images/logo.png" alt="FolioStream Logo" style="height:32px; margin-right:8px;">
+                <span class="fw-bold">Legacy of Auras</span>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -32,6 +37,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#controls">Controls</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#implementation">Implementation Features</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#gallery">Gallery</a>
@@ -405,6 +413,416 @@
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- Implementation Features Section -->
+    <section id="implementation" class="py-5">
+        <div class="container">
+            <h2 class="section-title text-start">
+            구현 기능
+            <span class="badge bg-primary ms-2" style="font-size:1rem;">직접 구현</span>
+        </h2>
+        <p class="text-muted mb-4" style="font-size:1.05rem;">
+            아래의 모든 기능은 본인이 직접 설계 및 개발한 주요 시스템입니다.
+        </p>
+            
+            <!-- Player Systems -->
+            <div class="mb-5">
+                <h3 class="h4 mb-4 text-primary">🎮 플레이어 시스템</h3>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-running"></i>
+                                </div>
+                                <h4 class="h6 mb-0">이동 & 회전 시스템</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• WASD 키를 통한 플레이어 이동 제어</li>
+                                <li>• Shift 키로 달리기 (총 제외 무기는 달리기 제한)</li>
+                                <li>• 마우스 회전: 좌우(플레이어), 상하(상체)</li>
+                                <li>• 플레이어가 항상 카메라 방향을 바라봄</li>
+                                <li>• 스페이스바 점프 및 CharacterController 물리 이동</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-danger text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-crosshairs"></i>
+                                </div>
+                                <h4 class="h6 mb-0">다중 무기 전투 시스템</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• 활: 마우스 차징 + 사거리 내 조준 UI/물리 발사</li>
+                                <li>• 총: R키 재장전, 탄약 UI (장전수/보유수)</li>
+                                <li>• 마법 화살: 3개 생성 후 몬스터 자동 추적</li>
+                                <li>• C++ DLL 타겟팅: 체력 낮은 순→거리 순</li>
+                                <li>• 1,2,3키 무기 토글 (재입력시 해제)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-heartbeat"></i>
+                                </div>
+                                <h4 class="h6 mb-0">체력 & 생존 시스템</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• 심박수 스타일 체력바 (하트 안 레벨 표시)</li>
+                                <li>• 체력 감소 시 심박수 가속화 + UI 검은색 변화</li>
+                                <li>• 화면 노이즈 효과 + 주변 어두워짐</li>
+                                <li>• 사망 시 회색화면 + 마을 자동 복귀</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-info text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <h4 class="h6 mb-0">미니맵 & 내비게이션</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• 실시간 플레이어 위치 표시</li>
+                                <li>• 마우스 휠로 미니맵 확대/축소</li>
+                                <li>• 성능 최적화: 낮은 프레임 업데이트</li>
+                                <li>• 현재 맵 이름 표시 (왼쪽 상단)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monster & AI Systems -->
+            <div class="mb-5">
+                <h3 class="h4 mb-4 text-danger">🤖 몬스터 & AI 시스템</h3>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-info text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <h4 class="h6 mb-0">기본 몬스터 AI</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• 상태 머신: Idle (몇초 간격 주변 살핌) → Chase → Attack</li>
+                                <li>• 거리 기반 감지: 가까우면 추격, 멀어지면 포기</li>
+                                <li>• 4가지 공격 패턴: 양손도끼, 3연타, 점프, 도끼 투척</li>
+                                <li>• 플레이어 범위 벗어나면 랜덤 지점 이동</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-dragon"></i>
+                                </div>
+                                <h4 class="h6 mb-0">중간보스 시스템</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• 진입 즉시 전투 시작</li>
+                                <li>• 추적 화살, 돌진, 좀비 3마리 소환</li>
+                                <li>• 쉴드 생성 + 체력 회복 패턴</li>
+                                <li>• 쉴드 데미지 누적 시 균열 및 파괴</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-dark text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-crown"></i>
+                                </div>
+                                <h4 class="h6 mb-0">최종 보스 시스템</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• 보스전 진입 시 전용 시네마틱 연출</li>
+                                <li>• 픽셀화 공격: 화면 가시성 저하 효과</li>
+                                <li>• 내려찍기: 데미지 영역 사전 표시 (Decal)</li>
+                                <li>• 날개 별도 애니메이션 + 체력 천천히 감소</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+                                <h4 class="h6 mb-0">체력 & 보상 시스템</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• 몬스터 위 체력바 + 피해량 표시 (노랑/빨강)</li>
+                                <li>• 사망 시 골드 드랍 (양에 따라 다른 박스)</li>
+                                <li>• 골드 획득 UI 및 애니메이션</li>
+                                <li>• 오클루전 컬링을 통한 성능 최적화</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UI & Interaction Systems -->
+            <div class="mb-5">
+                <h3 class="h4 mb-4 text-success">🖥️ UI & 상호작용 시스템</h3>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-scroll"></i>
+                                </div>
+                                <h4 class="h6 mb-0">퀘스트 & 대화 시스템</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• P키 퀘스트 UI: 좌측 목록, 우측 세부 정보</li>
+                                <li>• 퀘스트 제목, 내용, 보상, 완료 여부 표시</li>
+                                <li>• 반복/일회성 퀘스트 지원 + 완료 팝업</li>
+                                <li>• NPC 대화: E키 상호작용, 마우스/스페이스바 진행</li>
+                                <li>• 플레이어 자동 회전 (NPC 바라보기)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                                <h4 class="h6 mb-0">인벤토리 & 상점</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• Q키 인벤토리, Z-B키 아이템 선택</li>
+                                <li>• 물약상점: E키 진입, 클릭→세부정보→구매</li>
+                                <li>• 빨간 물약(+10), 파란 물약(+10%) 효과</li>
+                                <li>• ESC로 상점 종료, 아이템 교체 시스템</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-info text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                                <h4 class="h6 mb-0">상호작용 오브젝트</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• E키 기반 상호작용 시스템</li>
+                                <li>• 책 읽기: 타이핑 완료 후 페이지 전환</li>
+                                <li>• 마지막 페이지까지 자동 UI 종료</li>
+                                <li>• 장비 상자: 획득 애니메이션 + 총 해금</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-cog"></i>
+                                </div>
+                                <h4 class="h6 mb-0">게임 시스템 & 설정</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• 타이틀: 클릭 진행, 좌하단 종료 버튼</li>
+                                <li>• 계정: 등록/로그인 검증, ID 중복 체크</li>
+                                <li>• 프롤로그: 스페이스바/엔터/마우스 진행</li>
+                                <li>• ESC키 게임 설정 메뉴</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- World & Environment Systems -->
+            <div class="mb-5">
+                <h3 class="h4 mb-4 text-info">🌍 월드 & 환경 시스템</h3>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-map-marked-alt"></i>
+                                </div>
+                                <h4 class="h6 mb-0">3개 지역 시스템</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• 마을: NPC, 상점, 도서관, 포탈</li>
+                                <li>• 사막: 일반 몬스터 + 장비 획득 상자</li>
+                                <li>• 숲: 중간보스 + 좀비 소환 + 마법화살 획득</li>
+                                <li>• 포탈을 통한 지역 이동 시스템</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="implementation-item p-4 border rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="implementation-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-route"></i>
+                                </div>
+                                <h4 class="h6 mb-0">장면 관리 & 최적화</h4>
+                            </div>
+                            <ul class="list-unstyled small">
+                                <li>• 비동기 맵 로딩 UI 시스템</li>
+                                <li>• 오클루전 컬링을 통한 성능 최적화</li>
+                                <li>• 페이드 효과 및 위치 관리</li>
+                                <li>• 텔레포트 트리거 시스템</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual & Audio Effects -->
+            <div class="mb-5">
+                <h3 class="h4 mb-4 text-warning">🎨 시각 & 오디오 효과</h3>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="text-center p-4 border rounded-3 h-100">
+                            <div class="mb-3">
+                                <i class="fas fa-magic text-warning fa-3x"></i>
+                            </div>
+                            <h4 class="h6 mb-3">시각 효과 시스템</h4>
+                            <div class="small text-start">
+                                <span class="badge bg-light text-dark me-1 mb-1">파티클 시스템</span>
+                                <span class="badge bg-light text-dark me-1 mb-1">무기 이펙트</span>
+                                <span class="badge bg-light text-dark me-1 mb-1">픽셀화 셰이더</span>
+                                <span class="badge bg-light text-dark me-1 mb-1">쉴드 렌즈</span>
+                                <span class="badge bg-light text-dark me-1 mb-1">화면 노이즈</span>
+                                <span class="badge bg-light text-dark me-1 mb-1">데미지 데칼</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-center p-4 border rounded-3 h-100">
+                            <div class="mb-3">
+                                <i class="fas fa-volume-up text-success fa-3x"></i>
+                            </div>
+                            <h4 class="h6 mb-3">오디오 시스템</h4>
+                            <div class="small text-start">
+                                <span class="badge bg-light text-dark me-1 mb-1">배경음악 전환</span>
+                                <span class="badge bg-light text-dark me-1 mb-1">표면별 걸음소리</span>
+                                <span class="badge bg-light text-dark me-1 mb-1">무기 사운드</span>
+                                <span class="badge bg-light text-dark me-1 mb-1">몬스터 피해음</span>
+                                <span class="badge bg-light text-dark me-1 mb-1">볼륨 제어</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Flow Timeline -->
+            <div class="mb-5">
+                <h3 class="h4 mb-4 text-purple">🎮 게임 플레이 타임라인</h3>
+                <div class="timeline-container">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="implementation-item p-4 border rounded-3 h-100 bg-primary bg-opacity-10">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="implementation-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                        <span class="fw-bold">1</span>
+                                    </div>
+                                    <h4 class="h6 mb-0">게임 시작 - 타이틀 & 로그인</h4>
+                                </div>
+                                <ul class="list-unstyled small">
+                                    <li>• 타이틀 화면 (좌하단 종료 버튼, 클릭으로 진행)</li>
+                                    <li>• 계정 등록/로그인 시스템</li>
+                                    <li>• 입력 검증 및 오류 메시지 출력</li>
+                                    <li>• 기존 계정 검사 시스템</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="implementation-item p-4 border rounded-3 h-100 bg-success bg-opacity-10">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="implementation-icon bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                        <span class="fw-bold">2</span>
+                                    </div>
+                                    <h4 class="h6 mb-0">프롤로그</h4>
+                                </div>
+                                <ul class="list-unstyled small">
+                                    <li>• 스토리 컷신 (스페이스바/엔터/마우스 진행)</li>
+                                    <li>• 비동기 맵 로딩 UI 시스템</li>
+                                    <li>• 첫 게임 진입 시 자동 실행</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="implementation-item p-4 border rounded-3 h-100 bg-info bg-opacity-10">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="implementation-icon bg-info text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                        <span class="fw-bold">3</span>
+                                    </div>
+                                    <h4 class="h6 mb-0">마을 탐험</h4>
+                                </div>
+                                <ul class="list-unstyled small">
+                                    <li>• NPC 상호작용 (E키, 자동 회전)</li>
+                                    <li>• 물약 상점: 빨간 물약(+10), 파란 물약(+10%)</li>
+                                    <li>• 도서관: 책 읽기 상호작용 오브젝트</li>
+                                    <li>• 포탈을 통한 다음 지역 이동</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="implementation-item p-4 border rounded-3 h-100 bg-warning bg-opacity-10">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="implementation-icon bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                        <span class="fw-bold">4</span>
+                                    </div>
+                                    <h4 class="h6 mb-0">사막 지역 - 일반 전투</h4>
+                                </div>
+                                <ul class="list-unstyled small">
+                                    <li>• 일반 몬스터 4가지 공격 패턴</li>
+                                    <li>• 장비 상자에서 총 획득</li>
+                                    <li>• 몬스터 AI: Idle → 감지 → 추격 → 공격</li>
+                                    <li>• 골드 드랍 시스템 (박스별 다른 양)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="implementation-item p-4 border rounded-3 h-100 bg-danger bg-opacity-10">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="implementation-icon bg-danger text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                        <span class="fw-bold">5</span>
+                                    </div>
+                                    <h4 class="h6 mb-0">숲 지역 - 중간보스</h4>
+                                </div>
+                                <ul class="list-unstyled small">
+                                    <li>• 진입 즉시 전투 시작</li>
+                                    <li>• 추적 화살, 돌진, 좀비 소환 패턴</li>
+                                    <li>• 쉴드 생성 + 체력 회복 시스템</li>
+                                    <li>• 비석에서 마법 화살 획득</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="implementation-item p-4 border rounded-3 h-100 bg-dark bg-opacity-10">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="implementation-icon bg-dark text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                        <span class="fw-bold">6</span>
+                                    </div>
+                                    <h4 class="h6 mb-0">최종 보스전 & 클리어</h4>
+                                </div>
+                                <ul class="list-unstyled small">
+                                    <li>• 진입 시네마틱 → 카메라 전환</li>
+                                    <li>• 픽셀화 공격, 내려찍기, 날개 애니메이션</li>
+                                    <li>• 체력 천천히 감소 시스템</li>
+                                    <li>• 보스 처치 시 골드 드랍 + 게임 클리어</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- Gallery Section -->
