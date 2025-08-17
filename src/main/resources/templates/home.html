@@ -131,7 +131,7 @@
                 <!-- Unity 포트폴리오 그리드 -->
                 <div class="portfolio-grid">
                     <!-- 각 포트폴리오 카드 -->
-                    <div class="portfolio-card" th:each="item : ${portfolios?.get('unity')}">
+                    <div class="portfolio-card" th:each="item : ${portfolios?.get('unity')}" th:classappend="${item.releaseStatus == 'coming-soon'} ? 'coming-soon' : ''">
                         <div class="portfolio-card-image">
                             <img th:src="@{'/images/Main/' + ${#strings.replace(#strings.replace(item.title, ' ', ''), ':', '')} + '.png'}" 
                                  th:alt="${item.title} + ' Screenshot'"
@@ -144,7 +144,8 @@
                                 <a th:if="${item.title} == 'Legacy of Auras'" href="/legacy-of-auras" class="view-btn">자세히 보기</a>
                                 <a th:if="${item.title} == 'K Project'" href="/k-project" class="view-btn">자세히 보기</a>
                                 <a th:if="${item.title} == '셔틀버스 디펜스 게임'" href="/shuttle-bus-defense" class="view-btn">자세히 보기</a>
-                                <a th:if="${item.title} != 'Legacy of Auras' and ${item.title} != 'K Project' and ${item.title} != '셔틀버스 디펜스 게임'" href="#" class="view-btn">자세히 보기</a>
+                                <span th:if="${item.releaseStatus == 'coming-soon'}" class="view-btn disabled">🔒 준비 중</span>
+                                <a th:if="${item.title} != 'Legacy of Auras' and ${item.title} != 'K Project' and ${item.title} != '셔틀버스 디펜스 게임' and ${item.releaseStatus != 'coming-soon'}" href="#" class="view-btn">자세히 보기</a>
                             </div>
                         </div>
                     </div>
