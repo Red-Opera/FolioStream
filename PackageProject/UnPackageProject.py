@@ -3,9 +3,9 @@ import re
 
 # 병합할 .part01 경로들
 FILES = [
-    'src/main/resources/static/images/Gallery/K-Project/banner.gif.part01',
-    'src/main/resources/static/images/Gallery/Legacy-of-Auras/banner.mp4.part01',
-    'src/main/resources/static/images/Gallery/Era-of-Dreams/banner.mp4.part01',
+    #'src/main/resources/static/images/Gallery/K-Project/banner.mp4.part01',
+    #'src/main/resources/static/images/Gallery/Legacy-of-Auras/banner.mp4.part01',
+    #'src/main/resources/static/images/Gallery/Era-of-Dreams/banner.mp4.part01',
 ]
 
 def merge_file(part01_path: Path) -> None:
