@@ -1,0 +1,702 @@
+/* 전체 레이아웃 리셋 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Pretendard-Regular, Arial, "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", "Nanum Gothic", Dotum, '돋움', Helvetica, sans-serif;
+    line-height: 1.6;
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+/* 상단 바 */
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    z-index: 1000;
+}
+
+.top-bar .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.top-bar .logo:hover {
+    opacity: 0.8;
+}
+
+.top-bar .logo img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.top-bar .logo span {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+/* 컨테이너 */
+.container {
+    display: flex;
+    margin-top: 70px; /* 상단 바 높이만큼 */
+    min-height: calc(100vh - 70px);
+}
+
+/* 네비게이션 (고정) */
+.navigation {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 300px; /* 확장된 너비 */
+    height: calc(100vh - 70px);
+    background-color: #ffffff;
+    border-right: 1px solid #e9ecef;
+    padding: 20px 18px;
+    overflow-y: auto;
+    z-index: 900; /* 이미지보다 위에 표시 */
+}
+
+.nav-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nav-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #1a1a1a;
+    color: #1a1a1a;
+    letter-spacing: 0.5px;
+}
+
+.nav-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.18s ease;
+    font-size: 14px;
+    color: #495057;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-item:hover {
+    background-color: #f8fafb;
+    color: #1a1a1a;
+    transform: translateX(3px);
+}
+
+.nav-item.active {
+    background-color: #e9ecef;
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+/* grouped subitems (collapsed by default) */
+.nav-group .nav-subitem {
+    display: block; /* 항상 보이도록 변경 */
+    padding: 8px 12px 8px 26px;
+    color: #5c636a;
+    font-size: 13px;
+    margin-bottom: 6px;
+    border-radius: 6px;
+}
+
+.nav-parent {
+    user-select: none;
+}
+
+/* deeper level subitems (1.1, 1.2 등) */
+.nav-group .nav-subsubitem {
+    padding-left: 44px; /* 한 번 더 들여쓰기 */
+    color: #6b7178;
+    font-size: 13px;
+    background: transparent;
+}
+
+/* hover / active tweaks for subsubitems */
+.nav-group .nav-subsubitem:hover {
+    transform: translateX(3px);
+    background-color: #f8fafb;
+    color: #1a1a1a;
+}
+
+.nav-group .nav-subsubitem.active {
+    background-color: #e9ecef;
+    color: #1a1a1a;
+}
+
+/* 메인 콘텐츠 */
+.main-content {
+    margin-left: 300px; /* 네비게이션 확장 너비에 맞춤 */
+    flex: 1;
+    padding: 40px 0; /* 전체 패딩 약간 축소 */
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Feature 컨테이너 */
+.feature-container {
+    padding: 35px 48px; /* 패딩 소폭 조정 */
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* 기술 스택 전용 카드 스타일 (모던 카드형 디자인) */
+.tech-stack-container {
+    background: #ffffff;
+    color: #212529;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e9ecef;
+    padding: 48px 40px !important;
+}
+
+.tech-stack-container .section-title {
+    color: #161616;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+/* 개요 설명 */
+.tech-overview {
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+.overview-description {
+    color: #495057;
+    font-size: 16px;
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* 기술 그리드 레이아웃 */
+.tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+/* 카테고리 카드 */
+.tech-category {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #dee2e6;
+}
+
+.tech-category:hover {
+    background: #e9ecef;
+}
+
+.category-title {
+    color: #212529;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.category-title i {
+    font-size: 20px;
+    color: #495057;
+}
+
+/* 기술 항목 */
+.tech-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.tech-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    transition: background 0.2s ease;
+}
+
+.tech-item:hover {
+    background: #f1f3f5;
+}
+
+.tech-label {
+    color: #6c757d;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tech-value {
+    color: #212529;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: right;
+}
+
+/* 프로젝트 정보 카테고리 강조 */
+.project-info {
+    grid-column: 1 / -1;
+}
+
+/* 하단 설명 */
+.tech-description {
+    text-align: left;
+    padding: 24px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 1px solid #dee2e6;
+}
+
+.tech-description p {
+    color: #495057;
+    font-size: 15px;
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* 반응형: 모바일 */
+@media (max-width: 768px) {
+    .tech-stack-container {
+        padding: 32px 24px !important;
+    }
+
+    .tech-stack-container .section-title {
+        font-size: 26px;
+    }
+
+    .tech-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .tech-category {
+        padding: 20px;
+    }
+
+    .category-title {
+        font-size: 16px;
+    }
+
+    .project-info {
+        grid-column: 1;
+    }
+
+    .tech-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .tech-value {
+        text-align: left;
+    }
+}
+
+/* 각 기능 그룹별 고정 배경색: 같은 기능에 속한 컨테이너는 같은 색을 가집니다 */
+/* feature-1 계열 (UI 시스템) */
+.feature-container[id^="feature-1"] {
+    background-color: #f8f9fa;
+}
+
+/* feature-2 계열 (기본 엔진 기능) */
+.feature-container[id^="feature-2"] {
+    background-color: #f1f3f5;
+}
+
+/* feature-3 ~ feature-5 계열 (렌더링/메쉬/텍스처 등) */
+.feature-container[id^="feature-3"],
+.feature-container[id^="feature-4"],
+.feature-container[id^="feature-5"] {
+    background-color: #f8f9fa;
+}
+
+/* 기타 섹션은 기본 흰색 배경 유지 */
+.feature-container:not([id^="feature-"]) {
+    background-color: #ffffff;
+}
+
+.feature-container .content-placeholder {
+    min-height: 300px; /* 플레이스홀더 높이 축소로 불필요한 여백 제거 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    font-size: 18px;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+/* 가로 레이아웃: 그림 40% 텍스트 60% */
+.feature-row {
+    display: flex;
+    gap: 36px; /* 텍스트와 이미지 사이 간격 소폭 확대 */
+    align-items: flex-start; /* 전체 상단 정렬 유지 */
+}
+
+.feature-pic {
+    flex: 0 0 540px; /* 더 넓게: 이미지가 왼쪽 영역을 충분히 차지하도록 확대 */
+    display: flex;
+    align-items: flex-start; /* 이미지가 컬럼 상단에 정렬되도록 유지 */
+    justify-content: center;
+    position: relative;
+    padding: 0;
+}
+
+.feature-text {
+    flex: 1 1 60%;
+    display: flex;
+    flex-direction: column; /* 제목이 문단 위에 오도록 세로 정렬 */
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-left: 18px;
+    max-width: 960px; /* 가독성을 위해 텍스트 폭 제한 */
+}
+
+/* 각 feature의 하단 전체 너비 추가 설명 박스 */
+.feature-additional {
+    width: 100%;
+}
+
+.feature-row .content-placeholder {
+    min-height: 220px; /* top boxes height */
+}
+
+.feature-additional .content-placeholder {
+    min-height: 140px; /* additional box height */
+}
+
+/* 이미지가 찌그러지는 문제 방지: 이미지 박스 내부 처리 */
+.feature-pic .content-placeholder {
+    padding: 12px;
+}
+
+.feature-pic img {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* intro 텍스트 스타일 (배너 옆 설명) */
+.intro-text {
+    background: transparent;
+    border: none;
+    color: #2b2b2b;
+    font-size: 18px; /* 텍스트를 더 키워 가독성 향상 (기본) */
+    line-height: 1.75;
+    text-align: left;
+    padding: 6px 0;
+}
+.intro-text p {
+    margin: 0 0 10px 0;
+}
+
+/* 섹션 제목 스타일 */
+.section-title {
+    font-size: 28px;
+    margin: 0 0 12px 0;
+    color: #161616;
+    font-weight: 700;
+}
+
+/* 배너 이미지가 없을 때 표시되는 파일 플레이스홀더 */
+.feature-pic .content-placeholder {
+    min-height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-size: 14px;
+    border-style: dashed;
+}
+
+/* 실제 배너 이미지 스타일 */
+.intro-banner {
+    width: 100%;
+    height: auto;
+    max-height: 420px; /* 배너 최대 높이 증가로 시각적 비중 확대 */
+    object-fit: cover;
+    display: block;
+    border-radius: 6px;
+}
+
+
+/* 이미지 위에 표시되는 타이틀 오버레이 */
+/* overlay removed: title is now placed above the image */
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .navigation {
+        width: 100%;
+        position: relative;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 60px 0;
+    }
+
+    .feature-container {
+        padding: 30px 20px;
+    }
+
+    .feature-row {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* 모바일에서 타이포그래피 조정 */
+    .section-title {
+        font-size: 22px;
+    }
+
+    .intro-text {
+        font-size: 16px;
+    }
+
+    /* 모바일에서는 상단 바 높이를 고려해 앵커 마진을 소폭 줄입니다 */
+    .anchor-section,
+    .feature-container[id] {
+        scroll-margin-top: 90px;
+    }
+
+    /* 모바일에서 이미지가 상단에 쌓였을 때 중앙정렬이 더 자연스러우므로 override */
+    .feature-pic {
+        align-items: center;
+        justify-content: center;
+    }
+
+    .container {
+        flex-direction: column;
+    }
+}
+
+/* Tablet breakpoint: 화면이 좁아지면 이미지 위, 텍스트 아래로 쌓이도록 처리 (데스크탑->태블릿 전환) */
+@media (max-width: 1100px) {
+    .feature-row {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .feature-pic {
+        flex: 0 0 auto; /* 고정 픽셀 너비 해제 */
+        width: 100%;
+        align-items: center; /* 이미지가 중앙에 오도록 */
+    }
+
+    .feature-text {
+        padding-left: 0;
+        max-width: none;
+    }
+
+    .intro-banner {
+        max-height: 420px; /* 큰 화면에서 이미 증가된 값 유지 */
+    }
+
+    /* 태블릿에서 타이포그래피 조정 */
+    .section-title {
+        font-size: 24px;
+    }
+
+    .intro-text {
+        font-size: 17px;
+    }
+}
+
+/* 스크롤바 스타일링 */
+.navigation::-webkit-scrollbar {
+    width: 6px;
+}
+
+.navigation::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.navigation::-webkit-scrollbar-thumb {
+    background: #dee2e6;
+    border-radius: 3px;
+}
+
+.navigation::-webkit-scrollbar-thumb:hover {
+    background: #adb5bd;
+}
+
+/* 데모 영상 스타일 */
+#demo .ratio {
+    width: 100%;
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 비율 */
+}
+
+#demo iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 8px;
+}
+
+/* 서브섹션 타이틀 */
+.subsection-title {
+    font-size: 22px;
+    margin: 0 0 12px 0;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Gizmo 이미지 그리드 */
+.gizmo-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.gizmo-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.gizmo-item img {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* 정사각형 유지 */
+    height: auto;
+    object-fit: cover; /* 비율과 관계없이 잘라서 채움 */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: block;
+}
+
+/* Light Component 등 원본 비율 유지가 필요한 이미지 */
+#feature-3-5 .gizmo-item img {
+    aspect-ratio: auto; /* 원본 비율 유지 */
+    object-fit: contain; /* 이미지를 잘라내지 않고 전체 표시 */
+}
+
+.image-caption {
+    font-size: 14px;
+    color: #6c757d;
+    font-weight: 500;
+    text-align: center;
+    margin: 0;
+}
+
+/* Feature 텍스트만 있을 때 */
+.feature-container > .feature-text {
+    width: 100%;
+}
+
+.feature-container > .feature-text p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #2b2b2b;
+    margin: 0;
+}
+
+/* 반응형: Gizmo 이미지 */
+@media (max-width: 768px) {
+    .gizmo-images {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .subsection-title {
+        font-size: 20px;
+    }
+}
+
+/* 비디오 스타일 */
+.feature-pic video {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 컨트롤 테이블 스타일 */
+.controls-table {
+    width: 100%;
+    margin-top: 16px;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.controls-table thead {
+    background-color: #f8f9fa;
+}
+
+.controls-table th {
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    color: #2c3e50;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.controls-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e9ecef;
+    color: #495057;
+}
+
+.controls-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.controls-table kbd {
+    display: inline-block;
+    padding: 4px 8px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #2c3e50;
+    background-color: #f1f3f5;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}

@@ -398,6 +398,12 @@ public class HomeController
     @GetMapping("/directx-gameengine")
     public String directXGameEngine(Model model) 
     {
+        return "redirect:/directx-gameengine/code";
+    }
+
+    @GetMapping("/directx-gameengine/gallery")
+    public String directXGameEngineGallery(Model model) 
+    {
         String galleryPath = "/images/Gallery/DirectX-GameEngine/";
         String projectRoot = System.getProperty("user.dir");
         
@@ -854,5 +860,10 @@ public class HomeController
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("{\"error\": \"Shuttle Bus Defense feature details not found\"}");
         }
+    }
+
+    @GetMapping("/directx-gameengine/code")
+    public String directXGameEngineCode(Model model) {
+        return "directx-gameengine-code";
     }
 }

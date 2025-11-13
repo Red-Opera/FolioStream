@@ -1,0 +1,2642 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DirectX GameEngine - 코드 상세</title>
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="stylesheet" href="/css/directx-gameengine-code.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 상단 바 -->
+    <div class="top-bar">
+        <a class="logo" href="/">
+            <img src="/images/logo.png" alt="FolioStream Logo">
+            <span>DirectX GameEngine</span>
+        </a>
+    </div>
+
+    <div class="container">
+        <!-- 네비게이션 (스크롤해도 고정) -->
+        <nav class="navigation">
+            <div class="nav-section">
+                <div class="nav-title">목차</div>
+                <div class="nav-item" data-target="intro">프로젝트 소개</div>
+                <div class="nav-item" data-target="tech-stack">프로젝트 개요 및 기술 스택</div>
+                <div class="nav-item" data-target="demo">데모 영상</div>
+
+                <div class="nav-group">
+                    <div class="nav-item nav-parent" data-target="feature-1">기능 설명</div>
+                    <div class="nav-subitem" data-target="feature-1">기능 1 (UI 시스템)</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-1-1">1.1 Folder View</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-1-2">1.2 Scene Graph</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-1-3">1.3 Gizmo Control</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-1-4">1.4 Inspector</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-1-5">1.5 Other Settings</div>
+                    <div class="nav-subitem" data-target="feature-2">기능 2 (기본 엔진 기능)</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-2-1">2.1 마우스 Lock 모드</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-2-2">2.2 키보드 이동</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-2-3">2.3 오브젝트 선택</div>
+                    <div class="nav-subitem" data-target="feature-3">기능 3 (Component)</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-3-1">3.1 Transform</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-3-2">3.2 Model / Mesh Component</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-3-3">3.3 ColorXXObject Component</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-3-4">3.4 Camera Component</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-3-5">3.5 Light Component</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-3-6">3.6 Physics Component</div>
+                    <div class="nav-subitem" data-target="feature-4">기능 4 (엔진 스크립팅 메뉴얼)</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-4-1">4.1 씬(Scene) 생성</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-4-2">4.2 이벤트 메소드 실행 순서</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-4-3">4.3 오브젝트(Object) 생성</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-4-4">4.4 컴포넌트(Component) 시스템</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-4-5">4.5 키보드 및 마우스 입력</div>
+                    <div class="nav-item nav-parent" data-target="problem-1">문제 해결 사례</div>
+                    <div class="nav-subitem" data-target="problem-1">ImGui Gizmo 회전 문제</div>
+                    <div class="nav-subitem" data-target="problem-2">NVIDIA PhysX 연동 문제</div>
+                    <div class="nav-item nav-parent" data-target="optimization-1">최적화 기법</div>
+                    <div class="nav-subitem" data-target="optimization-1">최적화 1 (Camera View Frustum Culling)</div>
+                    <div class="nav-subitem" data-target="optimization-2">최적화 2 (Component-Based Architecture)</div>
+                    <div class="nav-subitem" data-target="optimization-3">최적화 3 (Shader Compile Caching)</div>
+                    <div class="nav-subitem" data-target="optimization-4">최적화 4 (Texture Caching)</div>
+                    <div class="nav-subitem" data-target="optimization-5">최적화 5 (Exception 메시지 버퍼화)</div>
+                    <div class="nav-item" data-target="code-style">코드 스타일 / 개발 철학</div>
+                    <div class="nav-item" data-target="unresolved">해결하지 못한 구현 및 문제</div>
+                    <div class="nav-item nav-parent" data-target="closing-github">마무리</div>
+                    <div class="nav-subitem" data-target="closing-github">포트폴리오 GitHub 주소</div>
+                    <div class="nav-subitem" data-target="closing-contact">연락처 및 이메일</div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- 메인 콘텐츠 영역 -->
+        <!-- 실제 feature 목록 -->
+        <main class="main-content">
+            <!-- 섹션 앵커들: 네비게이션 항목과 매칭될 빈 섹션(간단한 소개 등) -->
+            <section id="intro" class="anchor-section">
+                <div class="feature-container">
+                        <h2 class="section-title">프로젝트 소개</h2>
+                        <div class="feature-row">
+                            <div class="feature-pic">
+                                <img id="intro-banner" class="intro-banner" src="/images/Gallery/DirectX-GameEngine/banner.jpg" alt="DirectX GameEngine Banner" onerror="this.style.display='none'">
+                            </div>
+                            <div class="feature-text">
+                                <div class="intro-text">
+                                    <p>이 프로젝트는 DirectX 11을 기반으로 한 자체 게임 엔진 개발 프로젝트입니다. 엔진은 렌더링, 메쉬 가져오기, 오브젝트 및 컴포넌트 관리 등 게임 엔진에 필요한 기본적인 핵심 기능들을 탑재하고 있습니다. 씬 그래프와 인스펙터를 제공하여 사용자가 모델을 직관적으로 조절할 수 있도록 구성되었으며, Mesh, Physics, Camera 등 다양한 컴포넌트를 자유롭게 추가하고 삭제할 수 있는 유연한 구조를 갖추고 있습니다. 또한 Unity와 Unreal Engine의 내부 메소드를 참고하여 엔진의 성능을 최적화하고 사용자 친화적인 인터페이스를 구현하는 데 중점을 두었습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </section>
+
+            <section id="tech-stack" class="anchor-section">
+                <div class="feature-container tech-stack-container">
+                    <h2 class="section-title">프로젝트 개요 및 기술 스택</h2>
+
+                    <div class="tech-grid">
+                        <div class="tech-category">
+                            <h3 class="category-title"><i class="fas fa-code"></i> 개발 환경</h3>
+                            <div class="tech-items">
+                                <div class="tech-item">
+                                    <span class="tech-label">IDE</span>
+                                    <span class="tech-value">Visual Studio</span>
+                                </div>
+                                <div class="tech-item">
+                                    <span class="tech-label">언어</span>
+                                    <span class="tech-value">C++, Python, HLSL</span>
+                                </div>
+                                <div class="tech-item">
+                                    <span class="tech-label">플랫폼</span>
+                                    <span class="tech-value">Windows</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tech-category">
+                            <h3 class="category-title"><i class="fas fa-cube"></i> 그래픽스 & 렌더링</h3>
+                            <div class="tech-items">
+                                <div class="tech-item">
+                                    <span class="tech-label">렌더링 API</span>
+                                    <span class="tech-value">DirectX 11</span>
+                                </div>
+                                <div class="tech-item">
+                                    <span class="tech-label">셰이더</span>
+                                    <span class="tech-value">HLSL</span>
+                                </div>
+                                <div class="tech-item">
+                                    <span class="tech-label">텍스처 처리</span>
+                                    <span class="tech-value">DirectXTex</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tech-category">
+                            <h3 class="category-title"><i class="fas fa-rocket"></i> 물리 & 3D 리소스</h3>
+                            <div class="tech-items">
+                                <div class="tech-item">
+                                    <span class="tech-label">물리 엔진</span>
+                                    <span class="tech-value">NVIDIA PhysX</span>
+                                </div>
+                                <div class="tech-item">
+                                    <span class="tech-label">모델 로더</span>
+                                    <span class="tech-value">Assimp</span>
+                                </div>
+                                <div class="tech-item">
+                                    <span class="tech-label">데이터 입출력</span>
+                                    <span class="tech-value">Cnpy</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tech-category">
+                            <h3 class="category-title"><i class="fas fa-tools"></i> UI & 유틸리티</h3>
+                            <div class="tech-items">
+                                <div class="tech-item">
+                                    <span class="tech-label">GUI</span>
+                                    <span class="tech-value">ImGui</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tech-category project-info">
+                            <h3 class="category-title"><i class="fas fa-info-circle"></i> 프로젝트 정보</h3>
+                            <div class="tech-items">
+                                <div class="tech-item">
+                                    <span class="tech-label">개발 기간</span>
+                                    <span class="tech-value">2023.12.21 ~</span>
+                                </div>
+                                <div class="tech-item">
+                                    <span class="tech-label">개발 인원</span>
+                                    <span class="tech-value">1명 (서정현)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="demo" class="anchor-section">
+                <div class="feature-container">
+                    <h2 class="section-title">데모 영상</h2>
+                    <div class="ratio ratio-16x9">
+                        <iframe src="https://www.youtube.com/embed/FSupUDrgXiA" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Feature 1: UI 시스템 개요 -->
+            <div class="feature-container" id="feature-1">
+                <h2 class="section-title">기능 1 (UI 시스템)</h2>
+                <div class="feature-text">
+                    <p>이 게임 엔진은 Scene Graph, Folder View, Gizmo Control, Inspector, Other 등 5가지 UI를 지원합니다.</p>
+                </div>
+            </div>
+
+            <!-- Feature 1-1: Folder View -->
+            <div class="feature-container" id="feature-1-1">
+                <h3 class="subsection-title">1.1 Folder View</h3>
+                <div class="feature-row">
+                    <div class="feature-pic">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/FolderView.png" alt="Folder View">
+                    </div>
+                    <div class="feature-text">
+                        <p>Folder View는 하단에 위치하며, 프로젝트 루트 폴더를 기준으로 파일을 탐색하고 수정할 수 있는 영역이 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 1-2: Scene Graph -->
+            <div class="feature-container" id="feature-1-2">
+                <h3 class="subsection-title">1.2 Scene Graph</h3>
+                <div class="feature-row">
+                    <div class="feature-pic">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/SceneGraph.png" alt="Scene Graph">
+                    </div>
+                    <div class="feature-text">
+                        <p>왼쪽을 보면 Scene Graph가 있습니다. 씬에 있는 모든 오브젝트를 확인할 수 있으며, 자식 오브젝트도 탐색할 수 있습니다. 오브젝트를 선택하면 기즈모로 표시되며 인스펙터에서 그 오브젝트의 정보를 표시합니다.</p>
+                    </div>
+                </div>
+                
+                <!-- Scene Graph 키보드 네비게이션 -->
+                <div class="feature-row">
+                    <div class="feature-pic">
+                        <video autoplay loop muted playsinline>
+                            <source src="/images/Gallery/DirectX-GameEngine/Description/EngineMove.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="feature-text">
+                        <p>인스펙터의 하나의 오브젝트를 누르고 다른 오브젝트를 옮길 수 있습니다. 아래 테이블은 이동 키입니다.</p>
+                        <table class="controls-table">
+                            <thead>
+                                <tr>
+                                    <th>키</th>
+                                    <th>기능</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><kbd>←</kbd></td>
+                                    <td>상위 오브젝트로 이동</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>→</kbd></td>
+                                    <td>하위 오브젝트 열기</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>↑</kbd></td>
+                                    <td>같은 레벨 기준으로 이전 오브젝트로 이동</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>↓</kbd></td>
+                                    <td>같은 레벨 기준으로 다음 오브젝트로 이동</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 1-3: Gizmo Control -->
+            <div class="feature-container" id="feature-1-3">
+                <h3 class="subsection-title">1.3 Gizmo Control</h3>
+                <div class="feature-text">
+                    <p>Gizmo Control에서는 Gizmo Mode, Coordinate System, Snap Setting을 설정할 수 있습니다. Gizmo Mode를 변경하면 그에 맞춰 기즈모 UI가 변경됩니다. Coordinate System에서는 World 좌표계와 Local 좌표계 간 전환이 가능하며, Snap Setting에서는 스냅 기능을 설정할 수 있습니다.</p>
+                </div>
+                <div class="gizmo-images">
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/GizmoControlTranslate.png" alt="Gizmo Translate Mode">
+                        <p class="image-caption">Translate Mode</p>
+                    </div>
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/GizmoControlRotate.png" alt="Gizmo Rotate Mode">
+                        <p class="image-caption">Rotate Mode</p>
+                    </div>
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/GizmoControlScale.png" alt="Gizmo Scale Mode">
+                        <p class="image-caption">Scale Mode</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 1-4: Inspector -->
+            <div class="feature-container" id="feature-1-4">
+                <h3 class="subsection-title">1.4 Inspector</h3>
+                <div class="feature-row">
+                    <div class="feature-pic">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/Inspector.png" alt="Inspector">
+                    </div>
+                    <div class="feature-text">
+                        <p>Inspector는 상단에 Position, Rotation, Scale을 설정하는 Transform 영역이 있고, 중단에는 오브젝트에 포함된 Component 목록 및 각 컴포넌트의 설정 영역이 있습니다. 하단에는 오브젝트의 활성화 여부와 이름을 설정하는 영역이 위치합니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 1-5: Other Settings -->
+            <div class="feature-container" id="feature-1-5">
+                <h3 class="subsection-title">1.5 Other Settings</h3>
+                <div class="feature-row">
+                    <div class="feature-pic">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/SimulationSpeedTab.png" alt="Simulation Speed and Settings">
+                    </div>
+                    <div class="feature-text">
+                        <p>기타 설정에는 게임 실행 속도를 조절하는 기능, 오브젝트 선택 시 표시되는 glow 효과의 강도 설정, 그리고 SkyBox 설정이 포함되어 있습니다. SkyBox에서는 스카이박스의 형태를 Sphere 또는 Cube 중에서 선택할 수 있습니다. 마지막으로 Shadow 탭에서는 그림자 렌더링을 확인하기 위한 디버그(Dump) 기능을 제공합니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2: 기본 엔진 기능 -->
+            <div class="feature-container" id="feature-2">
+                <h2 class="section-title">기능 2 (기본 엔진 기능)</h2>
+                <div class="feature-text">
+                    <p>엔진의 기본 조작 방식과 오브젝트 선택 기능을 설명합니다.</p>
+                </div>
+            </div>
+
+            <!-- Feature 2-1: 마우스 Lock 기능 -->
+            <div class="feature-container" id="feature-2-1">
+                <h3 class="subsection-title">2.1 마우스 Lock 모드</h3>
+                <div class="feature-row">
+                    <div class="feature-pic">
+                        <video autoplay loop muted playsinline>
+                            <source src="/images/Gallery/DirectX-GameEngine/Description/EngineModeAndMoudeLock.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="feature-text">
+                        <p>ESC 키를 누르면 마우스 Lock 기능이 활성화됩니다. 마우스 Lock 상태에서는 커서가 고정되지만, 마우스 움직임을 통해 카메라를 회전하고 시점을 이동할 수 있습니다. ESC 키를 다시 누르면 마우스 Lock이 해제되어 커서를 자유롭게 움직이며 엔진의 UI를 조작할 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2-2: 키보드 이동 -->
+            <div class="feature-container" id="feature-2-2">
+                <h3 class="subsection-title">2.2 키보드 이동</h3>
+                <div class="feature-row">
+                    <div class="feature-pic">
+                        <video autoplay loop muted playsinline>
+                            <source src="/images/Gallery/DirectX-GameEngine/Description/EngineMove.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="feature-text">
+                        <p>키보드 이동 조작
+마우스 Lock 상태에서는 키보드 입력을 통해 월드를 이동할 수 있습니다. 아래는 각 키에 대한 이동 방향입니다. SHIFT 키를 함께 누르면 이동 속도가 2배로 증가합니다.</p>
+                        <table class="controls-table">
+                            <thead>
+                                <tr>
+                                    <th>키</th>
+                                    <th>이동 방향</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><kbd>Q</kbd></td>
+                                    <td>위로 이동</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>W</kbd></td>
+                                    <td>앞으로 이동</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>E</kbd></td>
+                                    <td>아래로 이동</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>A</kbd></td>
+                                    <td>왼쪽으로 이동</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>S</kbd></td>
+                                    <td>뒤로 이동</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>D</kbd></td>
+                                    <td>오른쪽으로 이동</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2-3: 오브젝트 선택 -->
+            <div class="feature-container" id="feature-2-3">
+                <h3 class="subsection-title">2.3 오브젝트 선택</h3>
+                <div class="feature-row">
+                    <div class="feature-pic">
+                        <video autoplay loop muted playsinline>
+                            <source src="/images/Gallery/DirectX-GameEngine/Description/ObjectPick.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="feature-text">
+                        <p>오브젝트 선택
+마우스 Lock이 해제된 상태에서는 오브젝트를 클릭하여 선택할 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Feature 3: Components -->
+            <div class="feature-container" id="feature-3">
+                <h2 class="section-title">기능 3 (Component)</h2>
+                <div class="feature-text">
+                    <p><strong>Transform</strong>은 모든 오브젝트에 대해 항상 존재하며, Inspector에서 조절할 수 있습니다. Unity나 Unreal의 Transform과 동일한 방식으로 동작합니다.</p>
+                </div>
+            </div>
+
+            <!-- Feature 3-1: Transform -->
+            <div class="feature-container" id="feature-3-1">
+                <h3 class="subsection-title">3.1 Transform</h3>
+                <div class="feature-row">
+                    <div class="feature-pic">
+                        <video autoplay loop muted playsinline>
+                            <source src="/images/Gallery/DirectX-GameEngine/Description/GizmoControl.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="feature-text">
+                        <p>오브젝트는 Gizmo를 이용해 이동, 회전, 크기 조절이 가능하며, 회전은 내부적으로 쿼터니언을 사용해 짐벌락이 발생하지 않도록 구현되어 있습니다.</p>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <div class="feature-pic">
+                        <video autoplay loop muted playsinline>
+                            <source src="/images/Gallery/DirectX-GameEngine/Description/InspectorTransformControl.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="feature-text">
+                        <p>Inspector에서도 Transform을 직접 조절할 수 있습니다. Inspector 방식은 직관적이지만 회전 값은 오일러 방식으로 표시되기 때문에 특정 상황에서는 짐벌락이 발생할 수 있습니다.</p>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <div class="feature-pic">
+                        <video autoplay loop muted playsinline>
+                            <source src="/images/Gallery/DirectX-GameEngine/Description/TransformChildControl.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="feature-text">
+                        <p>Transform은 부모/자식 관계를 가질 수 있습니다. 부모 Transform이 변경되면 자식의 World Transform도 함께 변경됩니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3-2: Model / Mesh Component -->
+            <div class="feature-container" id="feature-3-2">
+                <h3 class="subsection-title">3.2 Model / Mesh Component</h3>
+                <div class="feature-row">
+                    <div class="feature-pic">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/ModelComponentInspector.png" alt="Model Component Inspector">
+                    </div>
+                    <div class="feature-text">
+                        <p>Model 컴포넌트는 FBX나 OBJ 등 3D 모델 파일을 가져오는 컴포넌트입니다. Mesh Component는 모델의 자식 오브젝트에 포함된 머티리얼과 메시 정보를 담당하며, 필요한 경우 엔진이 자동으로 Mesh 컴포넌트를 추가합니다.</p>
+                        <p>Model Component에는 기본적으로 Component 활성화 토글이 있으며, <strong>Model Hierarchy</strong>에서 Mesh가 포함된 모든 자식 오브젝트를 나열합니다. Hierarchy에서 자식 오브젝트를 선택하면 해당 Mesh Component의 상세 설정이 표시됩니다.</p>
+                    </div>
+                </div>
+
+                <div class="feature-text">
+                    <p>Mesh 설정 항목 예시: Mesh 활성화/비활성화, 빛 반사 색상, Specular 사용 여부 및 강도, Normal 맵 사용 여부 및 강도, Shadow 사용 여부 등.</p>
+                </div>
+
+                <div class="gizmo-images" style="margin-top:18px;">
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/ModelAll.png" alt="Model - all features">
+                        <p class="image-caption">기본 설정 (All)</p>
+                    </div>
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/ModelNoSpecular.png" alt="Model - no specular">
+                        <p class="image-caption">Specular 비활성화</p>
+                    </div>
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/ModelNoNormal.png" alt="Model - no normal">
+                        <p class="image-caption">Normal 맵 비활성화</p>
+                    </div>
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/ModelNoShadow.png" alt="Model - no shadow">
+                        <p class="image-caption">Shadow 비활성화</p>
+                    </div>
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/ModelSpecularPower50.png" alt="Model - specular power 50">
+                        <p class="image-caption">Specular Power = 50</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3-3: ColorXXObject Component -->
+            <div class="feature-container" id="feature-3-3">
+                <h3 class="subsection-title">3.3 ColorXXObject Component (Geometric Primitives)</h3>
+                <div class="feature-row">
+                    <div class="feature-pic">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/ColorXXObjectComponent.png" alt="ColorXXObject Component Inspector">
+                    </div>
+                    <div class="feature-text">
+                        <p>ColorXXObject는 텍스처가 없고 단일 색상만 가지는 기하학적 기본 도형 오브젝트입니다. 모델 파일을 불러오는 대신, 코드를 통해 정점과 인덱스를 조립하여 화면에 표시하는 컴포넌트입니다.</p>
+                        <p>기본적으로 Mesh Component와 마찬가지로 선택 시 나타나는 Outline의 색상과 Shadow 사용 여부를 설정할 수 있습니다. ColorXXObject만의 고유한 기능으로는 오브젝트의 색상을 직접 지정할 수 있습니다.</p>
+                    </div>
+                </div>
+
+                <div class="feature-text">
+                    <h4 style="margin-top:24px;  font-size:18px; font-weight:600; color:#2c3e50;">지원되는 기하학적 도형</h4>
+                    <p>ColorXXObject는 총 5가지의 기본 도형 모델을 지원합니다:</p>
+                </div>
+
+                <div class="gizmo-images" style="margin-top:18px;">
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/ColorCubeObjectModel.png" alt="Color Cube Object">
+                        <p class="image-caption">Cube (정육면체)</p>
+                    </div>
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/ColorConeObjectModel.png" alt="Color Cone Object">
+                        <p class="image-caption">Cone (원뿔)</p>
+                    </div>
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/ColorCylinderObjectModel.png" alt="Color Cylinder Object">
+                        <p class="image-caption">Cylinder (원기둥)</p>
+                    </div>
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/ColorPlaneObjectModel.png" alt="Color Plane Object">
+                        <p class="image-caption">Plane (평면)</p>
+                    </div>
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/ColorShphereObjectModel.png" alt="Color Sphere Object">
+                        <p class="image-caption">Sphere (구)</p>
+                    </div>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">Lit / UnLit 모드</h4>
+                    <p>ColorXXObject는 Lit과 UnLit 두 가지 렌더링 모드를 지원합니다. Lit 모드에서는 조명의 영향을 받아 음영이 표현되며, UnLit 모드에서는 조명과 무관하게 순수한 색상만 표시됩니다.</p>
+                </div>
+
+                <div class="gizmo-images" style="margin-top:18px; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));">
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/Lit.png" alt="Lit Mode" style="aspect-ratio: 16/9;">
+                        <p class="image-caption">Lit 모드 (조명 영향 O)</p>
+                    </div>
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/UnLit.png" alt="UnLit Mode" style="aspect-ratio: 16/9;">
+                        <p class="image-caption">UnLit 모드 (조명 영향 X)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3-4: Camera Component -->
+            <div class="feature-container" id="feature-3-4">
+                <h3 class="subsection-title">3.4 Camera Component</h3>
+                <div class="feature-text">
+                    <p>Camera Component는 Unity와 Unreal Engine의 Camera Component와 유사하게 동작하며, 씬을 렌더링할 시점과 투영 방식을 제어하는 컴포넌트입니다.</p>
+                </div>
+
+                <div class="feature-row">
+                    <div class="feature-pic">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/CameraInspector.png" alt="Camera Component Inspector">
+                    </div>
+                    <div class="feature-text">
+                        <p>Camera Component는 크게 <strong>Camera Selection</strong>과 <strong>Camera Properties</strong> 두 가지 주요 기능을 제공합니다.</p>
+                        <p><strong>Camera Selection</strong>은 현재 활성화된 카메라를 설정하는 기능입니다. 드롭다운 메뉴에는 씬에 존재하는 모든 카메라의 이름이 표시되며, 선택하면 해당 카메라 시점으로 전환됩니다. 이 값은 static으로 구현되어 모든 Camera Component 인스턴스에서 공유됩니다.</p>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <div class="feature-pic">
+                        <video autoplay loop muted playsinline>
+                            <source src="/images/Gallery/DirectX-GameEngine/Description/CameraChange.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="feature-text">
+                        <p>드롭다운에서 다른 카메라를 선택하면 즉시 해당 카메라의 시점으로 화면이 전환됩니다.</p>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <div class="feature-pic">
+                        <video autoplay loop muted playsinline>
+                            <source src="/images/Gallery/DirectX-GameEngine/Description/CameraSetting.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="feature-text">
+                        <p><strong>Camera Properties</strong>에서는 카메라의 프로젝션(Projection) 설정과 카메라 인디케이터(Indicator)를 조정할 수 있습니다.</p>
+                        <ul style="margin-top:12px; line-height:1.8;">
+                            <li><strong>Enable Camera Indicator</strong>: 활성화하면 현재 카메라의 위치를 프레임으로 표시합니다.</li>
+                            <li><strong>Enable Frustum Indicator</strong>: 활성화하면 카메라의 시야(View Frustum)를 프레임으로 시각화하여 표시합니다.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3-5: Light Component -->
+            <div class="feature-container" id="feature-3-5">
+                <h3 class="subsection-title">3.5 Light Component</h3>
+                <div class="feature-text">
+                    <p>Light Component는 현재 <strong>Point Light</strong> 컴포넌트만 지원합니다. Point Light는 특정 지점에서 모든 방향으로 빛을 방출하며, Intensity(밝기), Diffuse(확산 색상), Ambient(환경광), Falloff(감쇠) 설정을 통해 조명 효과를 조절할 수 있습니다.</p>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">Intensity (밝기)</h4>
+                    <p>Intensity 값을 조정하여 빛의 밝기를 제어할 수 있습니다. 값이 클수록 더 밝은 빛이 방출됩니다.</p>
+                </div>
+
+                <div class="gizmo-images" style="margin-top:18px;">
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/PointLightIntensity1.png" alt="Point Light Intensity 1">
+                        <p class="image-caption">Intensity = 1</p>
+                    </div>
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/PointLightIntensity3.png" alt="Point Light Intensity 3">
+                        <p class="image-caption">Intensity = 3</p>
+                    </div>
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/PointLightIntensity5.png" alt="Point Light Intensity 5">
+                        <p class="image-caption">Intensity = 5</p>
+                    </div>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">Diffuse Color (확산 색상)</h4>
+                    <p>Diffuse Color를 설정하여 빛의 색상을 변경할 수 있습니다. 이 색상은 물체 표면에 반사되어 전체적인 조명 분위기를 결정합니다.</p>
+                </div>
+
+                <div class="gizmo-images" style="margin-top:18px; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));">
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/PointLightDiffuseColorGreen.png" alt="Point Light Diffuse Color Green">
+                        <p class="image-caption">Diffuse Color = Green</p>
+                    </div>
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/PointLightDiffuseColorRed.png" alt="Point Light Diffuse Color Red">
+                        <p class="image-caption">Diffuse Color = Red</p>
+                    </div>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">Ambient (환경광)</h4>
+                    <p>Ambient 값을 조정하여 그림자 영역에서도 빛이 닿는 기본 밝기를 설정할 수 있습니다. 이를 통해 지나치게 어두운 그림자를 방지하고 자연스러운 조명을 구현할 수 있습니다.</p>
+                </div>
+
+                <div class="gizmo-images" style="margin-top:18px; grid-template-columns: 1fr;">
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/PointLightAmbientChange.png" alt="Point Light Ambient Change">
+                        <p class="image-caption">Ambient 값 변화 비교</p>
+                    </div>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">Falloff (감쇠)</h4>
+                    <p>Falloff 값을 설정하여 광원으로부터 거리에 따른 빛의 감쇠율을 조정할 수 있습니다. 높은 값은 빠른 감쇠를, 낮은 값은 먼 거리까지 빛이 도달하도록 합니다.</p>
+                </div>
+
+                <div class="gizmo-images" style="margin-top:18px; grid-template-columns: 1fr;">
+                    <div class="gizmo-item">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/PointLightFalloff.png" alt="Point Light Falloff">
+                        <p class="image-caption">Falloff 값에 따른 빛의 범위 변화</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3-6: Physics Component -->
+            <div class="feature-container" id="feature-3-6">
+                <h3 class="subsection-title">3.6 Physics Component</h3>
+                <div class="feature-row">
+                    <div class="feature-pic">
+                        <img src="/images/Gallery/DirectX-GameEngine/Description/PhysicsComponentInspector.png" alt="Physics Component Inspector">
+                    </div>
+                    <div class="feature-text">
+                        <p>Physics Component는 충돌 및 물리 작용 기능을 담당하는 컴포넌트입니다. ColorXXObject 또는 Model 컴포넌트를 가진 오브젝트에 Physics Component를 추가하면, 해당 오브젝트의 Vertex 데이터를 기반으로 콜라이더가 자동으로 생성됩니다.</p>
+                        
+                        <h4 style="margin-top:24px;  font-size:18px; font-weight:600; color:#2c3e50;">인스펙터 설정 기능</h4>
+                        
+                        <p style="margin-top:16px;"><strong>Base Settings</strong></p>
+                        <ul style="margin-top:8px; line-height:1.8; padding-left:20px;">
+                            <li><strong>Is Kinematic</strong>: 활성화하면 물리 엔진의 힘을 받지 않고 스크립트나 애니메이션으로만 이동하는 Kinematic 모드로 설정됩니다.</li>
+                            <li><strong>Use Gravity</strong>: 중력 작용 여부를 설정합니다.</li>
+                            <li><strong>Mass</strong>: 오브젝트의 질량을 설정합니다.</li>
+                            <li><strong>Collision Detection Mode</strong>: 충돌 감지 방식을 선택합니다 (Discrete, Continuous 등).</li>
+                        </ul>
+
+                        <p style="margin-top:16px;"><strong>Material Properties</strong></p>
+                        <ul style="margin-top:8px; line-height:1.8; padding-left:20px;">
+                            <li><strong>Static Friction</strong>: 정지 마찰력을 설정합니다.</li>
+                            <li><strong>Dynamic Friction</strong>: 동적 마찰력을 설정합니다.</li>
+                            <li><strong>Bounciness</strong>: 탄성(반발력)을 설정합니다.</li>
+                        </ul>
+
+                        <p style="margin-top:16px;"><strong>Material Presets</strong></p>
+                        <ul style="margin-top:8px; line-height:1.8; padding-left:20px;">
+                            <li><strong>Linear Damping</strong>: 선형 감쇠를 설정하여 이동 속도를 점차 감소시킵니다.</li>
+                            <li><strong>Angular Damping</strong>: 각속도 감쇠를 설정하여 회전 속도를 점차 감소시킵니다.</li>
+                            <li><strong>Drag Coefficient</strong>: 공기 저항 계수를 설정합니다.</li>
+                        </ul>
+
+                        <p style="margin-top:16px;"><strong>Constraints</strong></p>
+                        <p style="margin-top:8px;">위치와 회전을 각 축별로 고정(Freeze)시킬 수 있습니다. 이를 통해 특정 축에서만 이동하거나 회전하도록 제한할 수 있습니다.</p>
+                    </div>
+                </div>
+
+                <div class="feature-row" style="margin-top:24px;">
+                    <div class="feature-pic">
+                        <video autoplay loop muted playsinline>
+                            <source src="/images/Gallery/DirectX-GameEngine/Description/PhysicComponentChangeGlobalGravity.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="feature-text">
+                        <p><strong>Global Gravity</strong></p>
+                        <p>Global Gravity를 설정하면 모든 오브젝트에 대해 중력을 설정할 수 있습니다. 이 설정은 static으로 구현되어 모든 Physics Component 인스턴스에서 공유됩니다. 중력의 방향과 강도를 설정할 수 있습니다.</p>
+                    </div>
+                </div>
+
+                <div class="feature-row" style="margin-top:24px;">
+                    <div class="feature-pic">
+                        <video autoplay loop muted playsinline>
+                            <source src="/images/Gallery/DirectX-GameEngine/Description/PhysicComponentDifferntSetting.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="feature-text">
+                        <p><strong>다양한 설정 예시</strong></p>
+                        <p>각 Material Properties, Material Presets, Constraints를 설정한 결과는 다음과 같습니다:</p>
+                        <ul style="margin-top:8px; line-height:1.8; padding-left:20px;">
+                            <li><strong>Cube</strong>: X, Y, Z 축 이동 Freeze</li>
+                            <li><strong>Cone</strong>: X, Y, Z 축 회전 Freeze</li>
+                            <li><strong>Plane</strong>: Damping & Drag 설정</li>
+                            <li><strong>Sphere</strong>: Material Properties 설정</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 4: 엔진 스크립팅 메뉴얼 -->
+            <div class="feature-container" id="feature-4">
+                <h2 class="section-title">기능 4 (엔진 스크립팅 메뉴얼)</h2>
+                <div class="feature-text">
+                    <p>DirectX GameEngine의 스크립팅 시스템을 활용하여 게임 로직과 씬을 구성하는 방법을 안내합니다. 이 메뉴얼을 통해 개발자는 엔진의 핵심 기능을 확장하고 커스터마이징할 수 있습니다.</p>
+                </div>
+            </div>
+
+            <!-- Feature 4-1: 씬(Scene) 생성 -->
+            <div class="feature-container" id="feature-4-1">
+                <h3 class="subsection-title">4.1 씬(Scene) 생성</h3>
+                <div class="feature-text">
+                    <p>씬(Scene)은 게임의 각 장면이나 레벨을 나타내는 기본 단위입니다. 새로운 씬을 만들려면 <code>Scene</code> 클래스를 상속받아 커스텀 씬 클래스를 작성해야 합니다.</p>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">씬 클래스 선언</h4>
+                    <p>먼저 헤더 파일에서 <code>Scene</code> 클래스를 상속받는 새로운 씬 클래스를 선언합니다.</p>
+                </div>
+
+                <div class="code-block" style="margin-top:16px;">
+                    <pre><code class="language-cpp">#include "Core/Scene/Base/Scene.h"
+
+class EmptyScene : public Scene
+{
+public:
+    EmptyScene(std::string sceneName);
+
+    static std::shared_ptr&lt;Scene&gt; Create(std::string sceneName);
+
+    void Initialize() override;
+};</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <p><strong>필수 구성 요소:</strong></p>
+                    <ul style="margin-top:8px; line-height:1.8; padding-left:20px;">
+                        <li><strong>생성자</strong>: 씬 이름을 받아 부모 클래스 <code>Scene</code>을 초기화합니다.</li>
+                        <li><strong>Create 메서드</strong>: 씬 인스턴스를 생성하고 <code>shared_ptr</code>로 반환하는 정적 팩토리 메서드입니다.</li>
+                        <li><strong>Initialize 메서드</strong>: 씬에 필요한 오브젝트, 카메라, 라이트 등을 초기화하는 메서드입니다.</li>
+                    </ul>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">씬 클래스 구현</h4>
+                    <p>구현 파일(.cpp)에서 각 메서드를 정의합니다.</p>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <h5 style="margin-bottom:8px; font-size:16px; font-weight:600; color:#34495e;">생성자 구현</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">EmptyScene::EmptyScene(std::string sceneName) : Scene(sceneName)
+{
+    // 씬별 초기 설정이 필요한 경우 여기에 작성
+}</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:12px;">
+                    <p>생성자는 씬 이름(<code>sceneName</code>)을 부모 클래스 <code>Scene</code>의 생성자에 전달하여 초기화합니다.</p>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <h5 style="margin-bottom:8px; font-size:16px; font-weight:600; color:#34495e;">Create 메서드 구현</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">std::shared_ptr&lt;Scene&gt; EmptyScene::Create(std::string sceneName)
+{
+    activeScene = std::make_shared&lt;EmptyScene&gt;(sceneName);
+
+    return activeScene;
+}</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:12px;">
+                    <p><code>Create</code> 메서드는 씬의 인스턴스를 생성하고, 이를 <code>activeScene</code>(현재 활성 씬)으로 설정한 후 반환합니다. 이 패턴을 통해 씬 생성과 관리를 일관되게 처리할 수 있습니다.</p>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <h5 style="margin-bottom:8px; font-size:16px; font-weight:600; color:#34495e;">Initialize 메서드 구현</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">void EmptyScene::Initialize()
+{
+    Scene::Initialize();
+
+    // 씬에 필요한 오브젝트, 카메라, 라이트 등을 여기서 생성 및 설정
+    // 예: CreateGameObject("Player");
+    //     AddCamera(...);
+    //     AddLight(...);
+}</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:12px;">
+                    <p><code>Initialize</code> 메서드에서는 먼저 부모 클래스의 <code>Initialize()</code>를 호출하여 기본 초기화를 수행한 후, 씬에 필요한 게임 오브젝트, 카메라, 조명 등을 생성하고 설정합니다.</p>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">씬 사용 예제</h4>
+                    <p>생성한 씬을 실제로 사용하는 방법:</p>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">// 씬 생성 및 활성화
+LoadScene(EmptyScene::Create("MyGameScene"));</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:12px;">
+                    <p><code>LoadScene</code> 함수에 씬 클래스의 <code>Create</code> 메서드를 호출하여 생성한 씬을 전달하면, 해당 씬이 로드되고 활성화됩니다. 씬 이름은 디버깅이나 씬 전환 시 식별 용도로 사용됩니다.</p>
+                </div>
+
+                <div class="feature-text" style="margin-top:20px; padding:20px; background-color:#f0f9ff; border-left:4px solid #3b82f6; border-radius:4px;">
+                    <p style="margin:0; line-height:1.8;"><strong>💡 팁</strong><br>
+                    씬을 설계할 때는 <code>Initialize</code> 메서드에서 모든 게임 오브젝트와 컴포넌트를 생성하고 설정하는 것이 좋습니다. 이렇게 하면 씬의 초기 상태를 명확하게 관리할 수 있으며, 씬 전환 시 일관된 동작을 보장할 수 있습니다.</p>
+                </div>
+            </div>
+
+            <!-- Feature 4-2: 이벤트 메소드 실행 순서 -->
+            <div class="feature-container" id="feature-4-2">
+                <h3 class="subsection-title">4.2 이벤트 메소드의 실행 순서</h3>
+                <div class="feature-text">
+                    <p>본 엔진은 Unity 엔진에서 사용하는 이벤트 메소드를 기반으로 하되, 더욱 세분화된 제어를 위해 추가 메소드를 제공합니다. 모든 씬(Scene), 오브젝트(Object), 컴포넌트(Component)는 <code>EngineLoop</code> 인터페이스를 상속받아 동일한 생명주기 메소드를 사용합니다.</p>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">이벤트 메소드 목록</h4>
+                    <p><code>EngineLoop</code> 인터페이스는 다음과 같은 가상 메소드들을 정의합니다:</p>
+                </div>
+
+                <div class="code-block" style="margin-top:16px;">
+                    <pre><code class="language-cpp">class EngineLoop
+{
+public:
+    virtual void Initialize() = 0;      // 초기화 - 씬/오브젝트 생성 직후 1회 실행
+    virtual void BeforeFrame() = 0;     // 첫 프레임 시작 전 1회 실행
+    virtual void Start() = 0;           // 첫 Update 전 1회 실행
+    virtual void LateStart() = 0;       // Start 이후 1회 실행
+    virtual void Update(float deltaTime) = 0;      // 매 프레임 실행 (메인 로직)
+    virtual void LateUpdate() = 0;      // Update 이후 매 프레임 실행
+    virtual void Finalize() = 0;        // 씬 종료 시 정리 작업
+    virtual void Destroy() = 0;         // 오브젝트 파괴 시 실행
+    
+    virtual void OnEnable() = 0;        // 오브젝트/컴포넌트 활성화 시 실행
+    virtual void OnDisable() = 0;       // 오브젝트/컴포넌트 비활성화 시 실행
+    virtual void Reset() = 0;           // 리셋 요청 시 실행
+};</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <p><strong>주요 메소드 설명:</strong></p>
+                    <ul style="margin-top:8px; line-height:1.8; padding-left:20px;">
+                        <li><strong>Initialize</strong>: 씬이나 오브젝트가 생성된 직후 1회 호출되며, 초기 설정 및 자원 할당에 사용됩니다.</li>
+                        <li><strong>BeforeFrame</strong>: 게임 루프의 첫 프레임이 시작되기 전 1회 호출됩니다.</li>
+                        <li><strong>Start / LateStart</strong>: Update가 시작되기 전 1회 호출되며, 초기 상태 설정에 사용됩니다.</li>
+                        <li><strong>Update</strong>: 매 프레임마다 호출되는 메인 게임 로직 메소드입니다. <code>deltaTime</code> 파라미터로 프레임 간 시간을 받습니다.</li>
+                        <li><strong>LateUpdate</strong>: Update 이후에 호출되며, Update에서 변경된 값을 기반으로 추가 작업을 수행할 때 사용됩니다.</li>
+                        <li><strong>Finalize</strong>: 씬이 종료되거나 전환될 때 호출되어 정리 작업을 수행합니다.</li>
+                        <li><strong>Destroy</strong>: 오브젝트가 파괴될 때 호출되어 자원을 해제합니다.</li>
+                        <li><strong>OnEnable / OnDisable</strong>: 오브젝트나 컴포넌트가 활성화/비활성화될 때마다 호출됩니다.</li>
+                    </ul>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">씬(Scene) 로드 시 실행 순서</h4>
+                    <p>씬이 처음 로드되거나 전환될 때 다음 순서로 메소드가 호출됩니다:</p>
+                </div>
+
+                <div class="code-block" style="margin-top:16px;">
+                    <pre><code class="language-plaintext">[씬 로드 단계]
+1. Scene::Create()          // 씬 인스턴스 생성
+2. Scene::Initialize()      // 씬 초기화
+   └─> Object::Initialize() (모든 오브젝트)
+       └─> Component::Initialize() (활성화된 컴포넌트)
+3. Scene::BeforeFrame()     // 첫 프레임 전 준비
+   └─> Object::BeforeFrame()
+       └─> Component::BeforeFrame()
+4. Scene::Start()           // 씬 시작
+   └─> Object::Start()
+       └─> Component::Start()
+5. Scene::LateStart()       // 시작 후처리
+   └─> Object::LateStart()
+       └─> Component::LateStart()
+
+[게임 루프 시작]
+6. Scene::Update(deltaTime)      // 매 프레임 반복
+   └─> Object::Update(deltaTime)
+       └─> Component::Update(deltaTime)
+7. Scene::LateUpdate()           // 매 프레임 반복
+   └─> Object::LateUpdate()
+       └─> Component::LateUpdate()
+
+[씬 종료 단계]
+8. Scene::Finalize()        // 씬 종료 정리
+   └─> Object::Finalize()
+       └─> Component::Finalize()
+9. Scene::Destroy()         // 씬 파괴
+   └─> Object::Destroy()
+       └─> Component::Destroy()</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">코드 예시 (App.cpp)</h4>
+                    <p>씬 로드 시퀀스를 명시적으로 호출하는 예제:</p>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">// 씬 로드 시퀀스
+currentScene = SponzaScene::Create("Sponza");
+currentScene->Initialize();
+currentScene->BeforeFrame();
+currentScene->Start();
+currentScene->LateStart();
+
+// 게임 루프
+while (isRunning)
+{
+    float deltaTime = CalculateDeltaTime();
+    
+    currentScene->Update(deltaTime);
+    currentScene->LateUpdate();
+    
+    Render();
+}
+
+// 씬 종료
+currentScene->Finalize();
+currentScene->Destroy();</code></pre>
+                </div>
+            </div>
+
+            <!-- Feature 4-3: 오브젝트(Object) 생성 -->
+            <div class="feature-container" id="feature-4-3">
+                <h3 class="subsection-title">4.3 오브젝트(Object) 생성</h3>
+                <div class="feature-text">
+                    <p>오브젝트는 게임 세계에 존재하는 모든 개체(캐릭터, 건물, 카메라, 라이트 등)를 나타냅니다. 오브젝트는 씬(Scene) 내의 모든 이벤트 메소드에서 자유롭게 생성할 수 있으며, 생성된 오브젝트는 자동으로 씬의 생명주기에 포함됩니다.</p>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">기본 오브젝트 생성 방법</h4>
+                    <p>오브젝트를 생성하려면 <code>Object::Create()</code> 정적 메소드를 사용하여 오브젝트 인스턴스를 만들고, <code>AddObject()</code> 메소드를 통해 씬에 추가합니다.</p>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <p><strong>기본 문법:</strong></p>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">std::shared_ptr&lt;Object&gt; 변수이름 = AddObject(Object::Create("오브젝트 이름"));</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <p><strong>설명:</strong></p>
+                    <ul style="margin-top:8px; line-height:1.8; padding-left:20px;">
+                        <li><code>Object::Create("오브젝트 이름")</code>: 지정한 이름으로 새로운 오브젝트 인스턴스를 생성합니다.</li>
+                        <li><code>AddObject(...)</code>: 생성된 오브젝트를 현재 씬에 추가하고, 해당 오브젝트의 <code>shared_ptr</code>를 반환합니다.</li>
+                        <li>반환된 <code>shared_ptr&lt;Object&gt;</code>를 통해 생성된 오브젝트를 조작할 수 있습니다.</li>
+                    </ul>
+                </div>
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">AddObject() 메소드의 역할</h4>
+                    <p><code>AddObject()</code> 메소드는 <code>Scene</code> 클래스의 멤버 함수로, 생성된 오브젝트를 씬에 등록하는 역할을 합니다. 씬에 등록된 오브젝트는 자동으로 생명주기 이벤트(Initialize, Start, Update 등)를 받게 됩니다.</p>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">실전 예제</h4>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <h5 style="margin-bottom:8px; font-size:16px; font-weight:600; color:#34495e;">예제 1: 빈 오브젝트 생성</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">void MyScene::Initialize()
+{
+    Scene::Initialize();
+    
+    // 빈 오브젝트 생성 (TransformComponent만 가짐)
+    std::shared_ptr&lt;Object&gt; emptyObject = AddObject(Object::Create("Empty GameObject"));
+}</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h5 style="margin-bottom:8px; font-size:16px; font-weight:600; color:#34495e;">예제 2: 컴포넌트가 있는 오브젝트 생성</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">void MyScene::Initialize()
+{
+    Scene::Initialize();
+    
+    // 플레이어 오브젝트 생성 및 컴포넌트 추가
+    std::shared_ptr&lt;Object&gt; player = AddObject(Object::Create("Player"));
+    player-&gt;AddComponent&lt;Model&gt;("Model/Player.fbx");
+    player-&gt;AddComponent&lt;PhysicsComponent&gt;();
+    player-&gt;transform-&gt;SetPosition(0.0f, 5.0f, 0.0f);
+}</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">생성된 오브젝트 참조 저장</h4>
+                    <p>자주 접근해야 하는 오브젝트는 멤버 변수로 저장하여 사용할 수 있습니다.</p>
+                </div>
+
+                <div class="code-block" style="margin-top:16px;">
+                    <pre><code class="language-cpp">class MyScene : public Scene
+{
+public:
+    void Initialize() override
+    {
+        Scene::Initialize();
+        
+        // 플레이어 오브젝트 생성 및 참조 저장
+        player = AddObject(Object::Create("Player"));
+        player-&gt;AddComponent&lt;Model&gt;("Model/Player.fbx");
+        
+        // 적 오브젝트 생성
+        enemy = AddObject(Object::Create("Enemy"));
+        enemy-&gt;AddComponent&lt;Model&gt;("Model/Enemy.fbx");
+    }
+};</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">오브젝트 검색</h4>
+                    <p>씬에 추가된 오브젝트는 이름 또는 인덱스를 통해 검색할 수 있습니다.</p>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <h5 style="font-size:16px; font-weight:600; color:#34495e;">이름으로 검색</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">// 이름으로 오브젝트 검색
+std::shared_ptr&lt;Object&gt; player = GetObject("Player");
+
+if (player != nullptr)
+{
+    // 오브젝트가 존재할 때만 실행
+    player-&gt;transform-&gt;SetPosition(0.0f, 5.0f, 0.0f);
+}</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <h5 style="margin-bottom:8px; font-size:16px; font-weight:600; color:#34495e;">인덱스로 검색</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">// 인덱스로 오브젝트 검색 (0부터 시작)
+std::shared_ptr&lt;Object&gt; firstObject = GetObject(0);
+
+// 모든 오브젝트 순회
+std::vector&lt;std::shared_ptr&lt;Object&gt;&gt; allObjects = GetObjects();
+
+for (auto& obj : allObjects)
+    std::cout &lt;&lt; "Object Name: " &lt;&lt; obj-&gt;GetName() &lt;&lt; std::endl;</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <h5 style="margin-bottom:8px; font-size:16px; font-weight:600; color:#34495e;">오브젝트 존재 확인</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">// 특정 이름의 오브젝트가 씬에 있는지 확인
+if (HasObject("Enemy"))
+{
+    // Enemy 오브젝트가 존재하는 경우
+    auto enemy = GetObject("Enemy");
+    // ...
+}</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">오브젝트 제거</h4>
+                    <p>씬에서 오브젝트를 제거하려면 <code>RemoveObject()</code> 메소드를 사용합니다.</p>
+                </div>
+
+                <div class="code-block" style="margin-top:16px;">
+                    <pre><code class="language-cpp">// 이름으로 제거
+std::shared_ptr&lt;Object&gt; removed = RemoveObject("Enemy");
+
+// 인덱스로 제거
+std::shared_ptr&lt;Object&gt; removed = RemoveObject(0);
+
+// 제거된 오브젝트는 더 이상 씬의 업데이트 루프에서 호출되지 않음</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">오브젝트 활성화/비활성화</h4>
+                    <p>오브젝트를 제거하지 않고 일시적으로 비활성화할 수 있습니다.</p>
+                </div>
+
+                <div class="code-block" style="margin-top:16px;">
+                    <pre><code class="language-cpp">// 오브젝트 비활성화 (업데이트 루프에서 제외됨)
+myObject-&gt;SetActive(false);
+
+// 오브젝트 활성화
+myObject-&gt;SetActive(true);
+
+// 활성화 상태 확인
+bool isActive = myObject-&gt;GetActive();</code></pre>
+                </div>
+            </div>
+
+            <!-- Feature 4-4: 컴포넌트(Component) 시스템 -->
+            <div class="feature-container" id="feature-4-4">
+                <h3 class="subsection-title">4.4 컴포넌트(Component) 시스템</h3>
+                <div class="feature-text">
+                    <p>컴포넌트는 오브젝트에 기능을 추가하는 모듈형 시스템입니다. Unity의 컴포넌트 시스템과 유사하게 설계되어 있으며, 오브젝트에 원하는 컴포넌트를 추가하여 다양한 기능을 구현할 수 있습니다.</p>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">컴포넌트 기본 개념</h4>
+                    <p>컴포넌트는 <code>Component</code> 클래스를 상속받아 구현되며, 모든 컴포넌트는 <code>EngineLoop</code> 인터페이스의 이벤트 메소드를 사용합니다.</p>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <p><strong>컴포넌트의 특징:</strong></p>
+                    <ul style="margin-top:8px; line-height:1.8; padding-left:20px;">
+                        <li>오브젝트에 종속되어 동작합니다.</li>
+                        <li>여러 컴포넌트를 조합하여 복잡한 기능을 구현할 수 있습니다.</li>
+                        <li>컴포넌트 간 <code>transform</code> 포인터를 공유하여 위치/회전/크기 정보에 접근합니다.</li>
+                        <li>활성화/비활성화가 가능합니다.</li>
+                    </ul>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">컴포넌트 추가 (AddComponent)</h4>
+                    <p>오브젝트에 컴포넌트를 추가하려면 <code>AddComponent&lt;&gt;()</code> 템플릿 메소드를 사용합니다.</p>
+                </div>
+
+                <div class="code-block" style="margin-top:16px;">
+                    <pre><code class="language-cpp">// 기본 문법
+std::shared_ptr&lt;컴포넌트클래스&gt; 변수이름 = 오브젝트-&gt;AddComponent&lt;컴포넌트클래스&gt;();
+
+// 예제: Model 컴포넌트 추가
+std::shared_ptr&lt;Model&gt; modelComponent = player-&gt;AddComponent&lt;Model&gt;("Model/Player.fbx", 2.0f);
+
+// 예제: PhysicsComponent 추가
+auto physics = box-&gt;AddComponent&lt;PhysicsComponent&gt;(10.0f, true);
+physics-&gt;SetMaterial(0.6f, 0.4f, 0.5f);</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <p><strong>AddComponent의 특징:</strong></p>
+                    <ul style="margin-top:8px; line-height:1.8; padding-left:20px;">
+                        <li>생성된 컴포넌트의 <code>shared_ptr</code>를 반환합니다.</li>
+                        <li>이미 동일한 타입의 컴포넌트가 존재하면 기존 컴포넌트를 반환합니다 (중복 방지).</li>
+                        <li>컴포넌트 생성 시 필요한 매개변수를 전달할 수 있습니다.</li>
+                        <li>추가된 컴포넌트는 오브젝트의 생명주기에 자동으로 포함됩니다.</li>
+                    </ul>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">컴포넌트 가져오기 (GetComponent)</h4>
+                    <p>이미 추가된 컴포넌트를 가져오려면 <code>GetComponent&lt;&gt;()</code> 템플릿 메소드를 사용합니다.</p>
+                </div>
+
+                <div class="code-block" style="margin-top:16px;">
+                    <pre><code class="language-cpp">// TransformComponent 가져오기
+auto transform = player-&gt;GetComponent&lt;TransformComponent&gt;();
+transform-&gt;SetPosition(0.0f, 5.0f, 0.0f);
+
+// 컴포넌트 존재 확인 후 사용
+auto model = enemy-&gt;GetComponent&lt;Model&gt;();
+if (model != nullptr)
+{
+    model-&gt;Submit(RenderingChannel::main);
+}
+
+// transform은 모든 오브젝트가 기본으로 가지므로 직접 접근 가능
+player-&gt;transform-&gt;SetRotationFromEuler(0.0f, Math::PI, 0.0f);</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">기본 제공 컴포넌트</h4>
+                    <p>본 엔진은 다음과 같은 컴포넌트를 기본 제공합니다:</p>
+                </div>
+
+                <div style="margin-top:16px; overflow-x:auto;">
+                    <table style="width:100%; border-collapse:collapse; border:1px solid #ddd;">
+                        <thead>
+                            <tr style="background-color:#f8f9fa;">
+                                <th style="padding:12px; border:1px solid #ddd; text-align:left;">컴포넌트</th>
+                                <th style="padding:12px; border:1px solid #ddd; text-align:left;">설명</th>
+                                <th style="padding:12px; border:1px solid #ddd; text-align:left;">주요 용도</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding:12px; border:1px solid #ddd;"><strong>TransformComponent</strong></td>
+                                <td style="padding:12px; border:1px solid #ddd;">위치, 회전, 크기 관리</td>
+                                <td style="padding:12px; border:1px solid #ddd;">모든 오브젝트의 변환 정보</td>
+                            </tr>
+                            <tr style="background-color:#f8f9fa;">
+                                <td style="padding:12px; border:1px solid #ddd;"><strong>Camera</strong></td>
+                                <td style="padding:12px; border:1px solid #ddd;">카메라 뷰 및 투영</td>
+                                <td style="padding:12px; border:1px solid #ddd;">씬 렌더링, 시점 제어</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px; border:1px solid #ddd;"><strong>Model</strong></td>
+                                <td style="padding:12px; border:1px solid #ddd;">3D 모델 렌더링</td>
+                                <td style="padding:12px; border:1px solid #ddd;">FBX, OBJ 등 외부 모델 로드</td>
+                            </tr>
+                            <tr style="background-color:#f8f9fa;">
+                                <td style="padding:12px; border:1px solid #ddd;"><strong>PhysicsComponent</strong></td>
+                                <td style="padding:12px; border:1px solid #ddd;">물리 시뮬레이션</td>
+                                <td style="padding:12px; border:1px solid #ddd;">중력, 충돌, 강체 동역학</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px; border:1px solid #ddd;"><strong>PointLight</strong></td>
+                                <td style="padding:12px; border:1px solid #ddd;">포인트 라이트</td>
+                                <td style="padding:12px; border:1px solid #ddd;">조명 효과, 그림자</td>
+                            </tr>
+                            <tr style="background-color:#f8f9fa;">
+                                <td style="padding:12px; border:1px solid #ddd;"><strong>Color Objects</strong></td>
+                                <td style="padding:12px; border:1px solid #ddd;">프리미티브 렌더링</td>
+                                <td style="padding:12px; border:1px solid #ddd;">큐브, 구, 원뿔, 원통, 평면</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">주요 컴포넌트 사용 예제</h4>
+                </div>
+
+                <div class="feature-text">
+                    <h5 style="font-size:16px; font-weight:600; color:#34495e;">TransformComponent</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">// 위치 설정
+player-&gt;transform-&gt;SetPosition(0.0f, 5.0f, 10.0f);
+
+// 회전 설정 (오일러 각도, 라디안)
+player-&gt;transform-&gt;SetRotationFromEuler(0.0f, Math::PI / 2.0f, 0.0f);
+
+// 크기 설정
+player-&gt;transform-&gt;SetScale(2.0f, 2.0f, 2.0f);
+
+// 방향 벡터 가져오기
+Vector3 forward = player-&gt;transform-&gt;GetForward();
+Vector3 right = player-&gt;transform-&gt;GetRight();
+
+// 부모-자식 관계 설정
+child-&gt;transform-&gt;SetParent(parent-&gt;transform);</code></pre>
+                </div>
+
+                <div class="feature-text">
+                    <h5 style="font-size:16px; font-weight:600; color:#34495e;">Camera 컴포넌트</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">// 카메라 생성 및 등록
+std::shared_ptr&lt;Object&gt; camera = AddObject(Object::Create("Main Camera"));
+cameras.AddCamera(camera-&gt;AddComponent&lt;Camera&gt;());
+
+// 카메라 위치 및 회전 설정
+camera-&gt;transform-&gt;SetPosition(-22.0f, 4.0f, 0.0f);
+camera-&gt;transform-&gt;SetRotationFromEuler(0.0f, Math::PI / 2.0f, 0.0f);
+
+// 활성 카메라 전환
+cameras.SetActiveCamera(0);</code></pre>
+                </div>
+
+                <div class="feature-text">
+                    <h5 style="font-size:16px; font-weight:600; color:#34495e;">Model 컴포넌트</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">// 모델 로드 (기본 스케일 1.0)
+player-&gt;AddComponent&lt;Model&gt;("Model/Character.fbx");
+
+// 모델 로드 (스케일 2배)
+enemy-&gt;AddComponent&lt;Model&gt;("Model/Enemy.obj", 2.0f);
+
+// 모델 로드 (스케일 0.05배 축소)
+building-&gt;AddComponent&lt;Model&gt;("Model/Building.gltf", 0.05f);</code></pre>
+                </div>
+
+                <div class="feature-text">
+                    <h5 style="font-size:16px; font-weight:600; color:#34495e;">PhysicsComponent</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">// 동적 객체 (질량 10kg)
+auto physics = box-&gt;AddComponent&lt;PhysicsComponent&gt;(10.0f, true);
+
+// 물리 재질 설정 (정적마찰, 동적마찰, 반발계수)
+physics-&gt;SetMaterial(0.6f, 0.4f, 0.5f);
+
+// 중력 설정
+physics-&gt;SetGravity(true);
+
+// 힘 적용
+physics-&gt;AddForce(physx::PxVec3(100.0f, 0.0f, 0.0f));
+
+// 제약 조건 설정 (X, Z축 위치 고정)
+physics-&gt;SetPositionConstraint(true, false, true);</code></pre>
+                </div>
+
+                <div class="feature-text">
+                    <h5 style="font-size:16px; font-weight:600; color:#34495e;">프리미티브 오브젝트</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">// 큐브 생성
+std::shared_ptr&lt;Object&gt; cube = AddObject(Object::Create("Cube"));
+auto cubeComp = cube-&gt;AddComponent&lt;ColorCubeObject&gt;();
+cubeComp-&gt;SetColor(GraphicResource::Image::Color(255, 0, 0));  // 빨강
+cubeComp-&gt;SetLit(true);  // 라이팅 적용
+
+// 구 생성
+std::shared_ptr&lt;Object&gt; sphere = AddObject(Object::Create("Sphere"));
+sphere-&gt;AddComponent&lt;ColorSphereObject&gt;();</code></pre>
+                </div>
+
+                <div class="feature-text">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">컴포넌트 관리</h4>
+                </div>
+
+                <div class="feature-text">
+                    <h5 style="font-size:16px; font-weight:600; color:#34495e;">컴포넌트 존재 확인</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">// 템플릿 방식
+if (player-&gt;HasComponent&lt;Model&gt;())
+{
+    auto model = player-&gt;GetComponent&lt;Model&gt;();
+    // 모델 관련 작업
+}
+
+// 문자열 방식
+if (player-&gt;HasComponent("PhysicsComponent"))
+{
+    // 물리 관련 작업
+}</code></pre>
+                </div>
+
+                <div class="feature-text">
+                    <h5 style="font-size:16px; font-weight:600; color:#34495e;">컴포넌트 활성화/비활성화</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">// 컴포넌트 비활성화
+auto model = player-&gt;GetComponent&lt;Model&gt;();
+model-&gt;SetEnable(false);  // 렌더링 중지
+
+// 컴포넌트 활성화
+model-&gt;SetEnable(true);   // 렌더링 재개
+
+// 활성화 상태 확인
+bool isActive = model-&gt;GetEnable();</code></pre>
+                </div>
+
+                <div class="feature-text">
+                    <h5 style="font-size:16px; font-weight:600; color:#34495e;">컴포넌트 제거</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">// 컴포넌트 제거 (클래스 이름 사용)
+player-&gt;RemoveComponent("Model");
+player-&gt;RemoveComponent("PhysicsComponent");
+
+// TransformComponent는 제거할 수 없음 (필수 컴포넌트)</code></pre>
+                </div>
+
+                <div class="feature-text">
+                    <h5 style="font-size:16px; font-weight:600; color:#34495e;">모든 컴포넌트 가져오기</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">// 모든 컴포넌트 순회
+std::vector&lt;std::shared_ptr&lt;Component&gt;&gt; allComponents = player-&gt;GetAllComponents();
+
+for (auto& component : allComponents)
+{
+    std::cout &lt;&lt; "Component: " &lt;&lt; component-&gt;GetClassName() &lt;&lt; std::endl;
+}</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:20px; padding:20px; background-color:#fff7ed; border-left:4px solid #f59e0b; border-radius:4px;">
+                    <p style="margin:0; line-height:1.8;"><strong>⚠️ 주의사항</strong><br>
+                    <code>GetComponent</code>는 컴포넌트가 없으면 <code>nullptr</code>를 반환하므로, 사용 전 반드시 <code>nullptr</code> 체크를 해야 합니다. 또한 <code>TransformComponent</code>는 모든 오브젝트의 필수 컴포넌트이므로 제거할 수 없습니다.</p>
+                </div>
+            </div>
+
+            <!-- Feature 4-5: 키보드 및 마우스 입력 처리 -->
+            <div class="feature-container" id="feature-4-5">
+                <h3 class="subsection-title">4.5 키보드 및 마우스 입력 처리</h3>
+                <div class="feature-text">
+                    <p>이 엔진은 이벤트 기반 입력 시스템을 제공합니다. Windows 메시지를 통해 입력을 받아 큐에 저장하고, 사용자 코드에서 필요할 때 이벤트를 가져와 처리합니다.</p>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">키보드 입력</h4>
+                    <p>키보드 입력은 <code>Keyboard</code> 클래스를 통해 처리됩니다.</p>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <p><strong>주요 메소드:</strong></p>
+                    <ul style="margin-top:8px; line-height:1.8; padding-left:20px;">
+                        <li><code>IsPressed(unsigned char keycode)</code>: 특정 키가 현재 누려있는지 확인</li>
+                        <li><code>ReadKey()</code>: 키보드 이벤트 큐에서 다음 이벤트를 가져옴 (optional&lt;Event&gt; 반환)</li>
+                        <li><code>KeyIsEmpty()</code>: 이벤트 큐가 비어있는지 확인</li>
+                        <li><code>FlushKey()</code>: 이벤트 큐 비우기</li>
+                        <li><code>EnableAutorepeat()</code>: 키를 누르고 있을 때 연속 이벤트 발생 활성화</li>
+                        <li><code>DisableAutorepeat()</code>: 키를 누르고 있을 때 연속 이벤트 발생 비활성화</li>
+                    </ul>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <p><strong>키보드 이벤트 종류:</strong></p>
+                    <ul style="margin-top:8px; line-height:1.8; padding-left:20px;">
+                        <li><strong>Press</strong>: 키를 누렀을 때</li>
+                        <li><strong>Release</strong>: 키를 떼을 때</li>
+                        <li><strong>Invalid</strong>: 유효하지 않은 이벤트</li>
+                    </ul>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h5 style="margin-bottom:8px; font-size:16px; font-weight:600; color:#34495e;">사용 예시</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">// App.cpp의 KeyBoardInput() 메소드 예시
+void App::KeyBoardInput()
+{
+    KeyBoard& keyBoard = GetKeyBoard();
+
+    // ESC 키를 누르면 커서 표시 토글
+    if (keyBoard.IsPressed(VK_ESCAPE))
+        GetWindow().ToggleCursorShow();
+
+    // F1 키를 누르면 ImGui 데모 표시
+    if (keyBoard.IsPressed(VK_F1))
+        GetWindow().ToggleImGuiDemoShow();
+
+    // R 키를 누르면 첫 번째 씬으로 전환
+    if (keyBoard.IsPressed('R'))
+        GetWindow().ChangeActiveScene("ShadowMapTest");
+
+    // T 키를 누르면 두 번째 씬으로 전환
+    if (keyBoard.IsPressed('T'))
+        GetWindow().ChangeActiveScene("NormalOffsetTest");
+
+    // 이벤트 큐에서 모든 키보드 이벤트를 처리
+    while (auto keyEvent = keyBoard.ReadKey())
+    {
+        if (keyEvent-&gt;GetType() == KeyBoard::Event::Type::Press)
+        {
+            unsigned char keyCode = keyEvent-&gt;GetCode();
+            // 키 Press 이벤트 처리
+        }
+        else if (keyEvent-&gt;GetType() == KeyBoard::Event::Type::Release)
+        {
+            unsigned char keyCode = keyEvent-&gt;GetCode();
+            // 키 Release 이벤트 처리
+        }
+    }
+}</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <p><strong>Windows 가상 키 코드:</strong></p>
+                    <ul style="margin-top:8px; line-height:1.8; padding-left:20px;">
+                        <li><code>VK_ESCAPE</code>: ESC 키</li>
+                        <li><code>VK_F1, VK_F2, ...</code>: F1, F2, ... 기능 키</li>
+                        <li><code>'A' ~ 'Z'</code>: 알파벳 키 (대문자로 표현)</li>
+                        <li><code>'0' ~ '9'</code>: 숫자 키</li>
+                        <li><code>VK_SPACE</code>: 스페이스 바</li>
+                        <li><code>VK_RETURN</code>: Enter 키</li>
+                        <li><code>VK_SHIFT, VK_CONTROL, VK_MENU</code>: Shift, Ctrl, Alt 키</li>
+                        <li><code>VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN</code>: 방향키</li>
+                    </ul>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">마우스 입력</h4>
+                    <p>마우스 입력은 <code>Mouse</code> 클래스를 통해 처리됩니다.</p>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <p><strong>주요 메소드:</strong></p>
+                    <ul style="margin-top:8px; line-height:1.8; padding-left:20px;">
+                        <li><code>GetPos()</code>: 마우스 위치 (pair&lt;int, int&gt;) 반환</li>
+                        <li><code>GetPosX()</code>: 마우스 X 좌표 반환</li>
+                        <li><code>GetPosY()</code>: 마우스 Y 좌표 반환</li>
+                        <li><code>LeftIsPressed()</code>: 왼쪽 버튼이 누려있는지 확인</li>
+                        <li><code>RightIsPressed()</code>: 오른쪽 버튼이 누려있는지 확인</li>
+                        <li><code>Read()</code>: 마우스 이벤트 큐에서 다음 이벤트를 가져옴 (optional&lt;Event&gt; 반환)</li>
+                        <li><code>IsEmpty()</code>: 이벤트 큐가 비어있는지 확인</li>
+                        <li><code>Flush()</code>: 이벤트 큐 비우기</li>
+                        <li><code>IsInWindow()</code>: 마우스가 창 안에 있는지 확인</li>
+                        <li><code>EnableRaw()</code>: Raw 입력 활성화 (FPS 카메라 등에 사용)</li>
+                        <li><code>DisableRaw()</code>: Raw 입력 비활성화</li>
+                        <li><code>ReadRawDelta()</code>: Raw 마우스 이동량 읽기 (optional&lt;pair&lt;int, int&gt;&gt; 반환)</li>
+                    </ul>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <p><strong>마우스 이벤트 종류:</strong></p>
+                    <ul style="margin-top:8px; line-height:1.8; padding-left:20px;">
+                        <li><strong>LPress</strong>: 왼쪽 버튼 누름</li>
+                        <li><strong>LRelease</strong>: 왼쪽 버튼 떨</li>
+                        <li><strong>RPress</strong>: 오른쪽 버튼 누름</li>
+                        <li><strong>RRelease</strong>: 오른쪽 버튼 떨</li>
+                        <li><strong>WheelUp</strong>: 마우스 휠 위로</li>
+                        <li><strong>WheelDown</strong>: 마우스 휠 아래로</li>
+                        <li><strong>Move</strong>: 마우스 이동</li>
+                        <li><strong>Enter</strong>: 마우스가 창 안으로 들어옴</li>
+                        <li><strong>Leave</strong>: 마우스가 창 밖으로 나감</li>
+                    </ul>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h5 style="margin-bottom:8px; font-size:16px; font-weight:600; color:#34495e;">사용 예시</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">// 마우스 위치 확인
+Mouse& mouse = GetMouse();
+std::pair&lt;int, int&gt; pos = mouse.GetPos();  // [x, y]
+
+// 마우스 버튼 상태 확인
+if (mouse.LeftIsPressed())
+{
+    // 왼쪽 버튼이 누려있을 때의 처리
+}
+
+if (mouse.RightIsPressed())
+{
+    // 오른쪽 버튼이 누려있을 때의 처리
+}
+
+// 마우스 이벤트 처리
+while (auto mouseEvent = mouse.Read())
+{
+    switch (mouseEvent-&gt;GetType())
+    {
+    case Mouse::Event::Type::LPress:
+        // 왼쪽 버튼 클릭 처리
+        break;
+    case Mouse::Event::Type::Move:
+        std::pair&lt;int, int&gt; pos = mouseEvent-&gt;GetPos();
+        // 마우스 이동 처리
+        break;
+    case Mouse::Event::Type::WheelUp:
+        // 휠 업 처리 (예: 줌 인)
+        break;
+    case Mouse::Event::Type::WheelDown:
+        // 휠 다운 처리 (예: 줌 아웃)
+        break;
+    }
+}
+
+// FPS 카메라를 위한 Raw 입력 사용
+mouse.EnableRaw();
+while (auto delta = mouse.ReadRawDelta())
+{
+    auto d = *delta;
+    // 마우스 델타 값으로 카메라 회전 처리
+    camera.Rotate(d.first * sensitivity, d.second * sensitivity);
+}</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px; padding:16px; background-color:#f0f9ff; border-left:4px solid #3b82f6; border-radius:4px;">
+                    <p style="margin:0; line-height:1.8;"><strong>📝 Raw 입력</strong><br>
+                    Raw 입력은 마우스의 실제 하드웨어 이동량을 제공합니다. 화면 해상도나 마우스 가속도의 영향을 받지 않습니다. FPS 게임의 카메라 제어에 적합하며, <code>EnableRaw()</code>로 활성화하고 <code>ReadRawDelta()</code>로 읽습니다.</p>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">입력 처리 흐름</h4>
+                    <p><code>Window</code> 클래스의 <code>HandleMsg()</code> 메소드가 Windows 메시지를 받아 Keyboard/Mouse 클래스로 전달합니다.</p>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <p><strong>Windows 메시지 흐름:</strong></p>
+                    <ul style="margin-top:8px; line-height:1.8; padding-left:20px;">
+                        <li><code>WM_KEYDOWN</code> → <code>keyBoard.OnKeyPressed(wParam)</code></li>
+                        <li><code>WM_KEYUP</code> → <code>keyBoard.OnKeyReleased(wParam)</code></li>
+                        <li><code>WM_MOUSEMOVE</code> → <code>mouse.OnMouseMove(...)</code></li>
+                        <li><code>WM_LBUTTONDOWN</code> → <code>mouse.OnLeftPressed(...)</code></li>
+                        <li><code>WM_LBUTTONUP</code> → <code>mouse.OnLeftReleased(...)</code></li>
+                        <li><code>WM_MOUSEWHEEL</code> → <code>mouse.OnWheelUp()</code> / <code>mouse.OnWheelDown()</code></li>
+                        <li><code>WM_INPUT</code> → raw input 처리</li>
+                    </ul>
+                </div>
+
+                <div class="feature-text" style="margin-top:24px;">
+                    <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">입력 처리 권장 패턴</h4>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <h5 style="margin-bottom:8px; font-size:16px; font-weight:600; color:#34495e;">1. 이벤트 루프: 매 프레임 모든 이벤트를 처리</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">while (auto event = keyboard.ReadKey()) 
+{ 
+    // 이벤트 처리 
+}</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <h5 style="margin-bottom:8px; font-size:16px; font-weight:600; color:#34495e;">2. 상태 체크: 현재 누려있는지 확인</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">if (keyboard.IsPressed('W')) 
+{ 
+    // 이동 처리 
+}</code></pre>
+                </div>
+
+                <div class="feature-text" style="margin-top:16px;">
+                    <h5 style="margin-bottom:8px; font-size:16px; font-weight:600; color:#34495e;">3. 혼합 사용: 상태 체크로 연속 동작, 이벤트로 단발성 동작</h5>
+                </div>
+
+                <div class="code-block">
+                    <pre><code class="language-cpp">// 연속 이동
+if (keyboard.IsPressed('W')) MoveForward();
+
+// 단발성 점프
+while (auto event = keyboard.ReadKey())
+{
+    if (event-&gt;GetType() == KeyBoard::Event::Type::Press && 
+        event-&gt;GetCode() == VK_SPACE)
+        Jump();
+}</code></pre>
+                </div>
+            </div>
+
+            <section id="problems" class="anchor-section">
+                <div class="feature-container">
+                    <h2 class="section-title">핵심 문제 해결 사례</h2>
+                    <div class="feature-text">
+                        <p style="color:#6c757d; line-height:1.8;">
+                            프로젝트 개발 과정에서 마주한 기술적 문제와 해결 과정을 소개하겠습니다.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="problem-1" class="anchor-section">
+                <div class="feature-container">
+                    <h3 class="subsection-title">사례 1: ImGui Gizmo 회전 문제 (짐벌락 현상)</h3>
+                    
+                    <div class="feature-text">
+                        <h4 style="font-size:18px; font-weight:600; color:#2c3e50;">문제 상황</h4>
+                        <p style="line-height:1.8; color:#6c757d;">
+                            ImGui Gizmo를 활용하여 오브젝트를 회전시킬 때, 특정 각도에서 갑자기 회전이 되지 않거나 예상과 다른 이상한 방향으로 움직이는 문제가 발생했습니다.
+                        </p>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">초기 접근 및 오해</h4>
+                        <p style="line-height:1.8; color:#6c757d;">
+                            처음에는 <strong>오일러(Euler) 방식의 회전</strong>을 사용했습니다. 오일러 각도는 직관적이고 짐벌락(Gimbal Lock) 현상이 그렇게 자주 발생하지 않을 것이라고 생각했습니다.
+                        </p>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">해결 방법</h4>
+                        <p style="line-height:1.8; color:#6c757d;">
+                            <strong>쿼터니언(Quaternion) 방식으로 바꾸니</strong> 문제가 완전히 해결되었습니다.
+                        </p>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">구현 세부 사항</h4>
+                        <ul style="margin-top:12px; line-height:1.8; padding-left:20px; color:#6c757d;">
+                            <li>DirectX Math 라이브러리의 <code>XMVECTOR</code>와 <code>XMQuaternion*</code> 함수들을 활용</li>
+                            <li>Gizmo로부터 받은 회전 입력을 쿼터니언으로 변환</li>
+                            <li>Inspector에서는 직관적인 표시를 위해 오일러 각도로 변환하여 표시</li>
+                            <li>내부적으로는 모든 회전 연산을 쿼터니언으로 처리하여 짐벌락 완전 방지</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">결과</h4>
+                        <div style="padding:16px; background-color:#ecfdf5; border-left:4px solid #10b981; border-radius:4px;">
+                            <p style="margin:0; line-height:1.8; color:#6c757d;">
+                                <i class="fas fa-check-circle" style="color:#10b981; margin-right:8px;"></i>
+                                쿼터니언 방식을 도입한 후, 모든 각도에서 안정적으로 회전이 동작하며 Gizmo를 통한 직관적인 조작이 가능해졌습니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px; padding:20px; background-color:#f0f9ff; border-left:4px solid #10b981; border-radius:4px;">
+                        <p style="margin:0; line-height:1.8;"><strong>📌 참고 커밋</strong><br>
+                        <a href="https://github.com/Red-Opera/DirectX_GameEngine/commit/27112e4b7df50869a3f8ef45a8afc33989d5c7d8" target="_blank">https://github.com/Red-Opera/DirectX_GameEngine/commit/27112e4b7df50869a3f8ef45a8afc33989d5c7d8</a></p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="problem-2" class="anchor-section">
+                <div class="feature-container">
+                    <h3 class="subsection-title">사례 2: NVIDIA PhysX 연동 문제</h3>
+                    
+                    <div class="feature-text">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">문제 상황</h4>
+                        <p style="line-height:1.8; color:#6c757d;">
+                            NVIDIA PhysX 물리 엔진을 프로젝트에 연동하는 과정에서 매우 많은 종속성과 빌드 오류가 발생했습니다. PhysX는 강력한 물리 엔진이지만, Visual Studio 프로젝트에 통합하기 위해서는 수많은 라이브러리 파일, 헤더 파일, 그리고 적절한 빌드 설정이 필요했습니다.
+                        </p>
+                    </div>
+
+                    <div class="feature-text">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">주요 난관 사항</h4>
+                        <ul style="margin-top:12px; line-height:1.8; padding-left:20px; color:#6c757d;">
+                            <li><strong>배포 파일 문제</strong>: PhysX SDK는 NVIDIA 공식 사이트와 GitHub 두 곳에서 모두 Release 버전을 제공하고 있었습니다. GitHub 버전으로 빌드를 시도했을 때 지속적으로 실패가 발생했으며, 최종적으로 NVIDIA 공식 사이트의 버전을 사용하여 문제를 해결할 수 있었습니다.</li>
+                            <li><strong>불명확한 컴파일 오류</strong>: Python 및 CMake 관련 오류 발생 시, 에러 메시지가 명확하게 표시되지 않아 근본 원인을 파악하는 데 많은 시간이 소요되었습니다. 특히 의존성 체인에서 발생하는 오류의 경우 디버깅이 더욱 어려웠습니다.</li>
+                            <li><strong>플랫폼 및 하드웨어 제약</strong>: PhysX는 컴파일 과정에서 GPU 호환성을 검증하기 때문에, NVIDIA GPU를 사용하는 환경에서만 정상적으로 빌드가 가능했습니다. 다른 그래픽 카드 제조사의 하드웨어에서는 컴파일 자체가 불가능한 제약이 있었습니다.</li>
+                            <li><strong>복잡한 의존성 관리</strong>: 하드웨어 제약 외에도 Python과 CMake를 필수적으로 설치해야 했으며, 특히 Python 버전 호환성 문제가 심각했습니다. 최신 버전을 포함하여 PhysX가 지원하지 않는 Python 버전을 사용할 경우 런타임 에러가 발생했고, 이를 해결하기 위해 여러 버전을 테스트해야 했습니다.</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-text">
+                        <h4 style="margin-top:12px; font-size:18px; font-weight:600; color:#2c3e50;">해결 과정</h4>
+                        <p style="margin-top:12px; line-height:1.8; color:#6c757d;">
+                            각 오류를 <strong>하나씩 차근차근 해결</strong>하는 데 상당한 시간이 소요되었습니다. PhysX 공식 문서, 커뮤니티 포럼, 그리고 스택 오버플로우를 참고하며 빌드 설정을 미세 조정했습니다.
+                        </p>
+                    </div>
+
+                    <div class="feature-text">
+                        <h4 style="margin-top:12px; font-size:18px; font-weight:600; color:#2c3e50;">프로젝트 설정 단계</h4>
+                        <div style="padding:20px; background-color:#f8f9fa; border-radius:8px;">
+                            <p style="margin:0 0 16px 0; font-weight:600; color:#2c3e50;">1. PhysX SDK 다운로드 및 준비</p>
+                            <ul style="margin:0 0 20px 0; line-height:1.8; padding-left:20px; color:#6c757d;">
+                                <li><strong>NVIDIA 공식 소스 사용</strong>: GitHub의 PhysX가 아닌 <a href="https://developer.nvidia.com/physx-sdk" target="_blank" style="color:#3b82f6;">NVIDIA 공식 사이트</a>에서 PhysX SDK를 다운로드해야 합니다.</li>
+                                <li><strong>필수 도구 설치</strong>: Python (3.x 버전)과 CMake (최신 버전)를 다운로드하여 설치합니다.</li>
+                            </ul>
+
+                            <p style="margin:0 0 16px 0; font-weight:600; color:#2c3e50;">2. Visual Studio에서 컴파일</p>
+                            <ul style="margin:0 0 20px 0; line-height:1.8; padding-left:20px; color:#6c757d;">
+                                <li>CMake를 사용하여 Visual Studio 솔루션 파일을 생성합니다.</li>
+                                <li>Visual Studio에서 PhysX 솔루션을 열고 빌드를 시작합니다.</li>
+                                <li><strong>버전 호환성 확인</strong>: 컴파일 과정에서 일부 라이브러리나 SDK 버전이 맞지 않을 경우, 오류 메시지를 확인한 후 올바른 버전을 설치합니다 (예: Windows SDK 버전, Visual Studio 툴셋 버전).</li>
+                            </ul>
+
+                            <p style="margin:0 0 16px 0; font-weight:600; color:#2c3e50;">3. 플랫폼 빌드 설정</p>
+                            <ul style="margin:0 0 20px 0; line-height:1.8; padding-left:20px; color:#6c757d;">
+                                <li><strong>x64만 빌드</strong>: PhysX는 x86(32비트)을 지원하지 않으므로, <strong>x64 Debug</strong>와 <strong>x64 Release</strong> 구성만 빌드합니다.</li>
+                                <li>x86 구성은 빌드에서 제외하거나 삭제합니다.</li>
+                            </ul>
+
+                            <p style="margin:0 0 16px 0; font-weight:600; color:#2c3e50;">4. 프로젝트 연결</p>
+                            <ul style="margin:0; line-height:1.8; padding-left:20px; color:#6c757d;">
+                                <li><strong>추가 포함 디렉토리</strong>: PhysX SDK의 <code>include</code> 폴더 경로를 추가합니다.</li>
+                                <li><strong>추가 라이브러리 디렉토리</strong>: PhysX의 <code>lib</code> 폴더 경로를 추가합니다 (Debug/Release 각각 별도 설정).</li>
+                                <li><strong>추가 종속성</strong>: <code>PhysX_64.lib</code>, <code>PhysXCommon_64.lib</code>, <code>PhysXFoundation_64.lib</code>, <code>PhysXExtensions_static_64.lib</code> 등의 .lib 파일을 링커 입력에 추가합니다.</li>
+                                <li><strong>헤더 파일 (.h)</strong>: PhysX SDK의 include 폴더에서 필요한 헤더 파일들을 참조할 수 있도록 경로를 설정합니다.</li>
+                                <li><strong>DLL 파일 복사</strong>: PhysX의 런타임 DLL 파일들(<code>PhysX_64.dll</code>, <code>PhysXCommon_64.dll</code> 등)을 실행 파일이 있는 폴더에 복사하거나, Post-Build 이벤트로 자동 복사하도록 설정합니다.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style="margin-top:12px; font-size:18px; font-weight:600; color:#2c3e50;">결과</h4>
+                        <div style="margin-top:12px; padding:16px; background-color:#ecfdf5; border-left:4px solid #10b981; border-radius:4px;">
+                            <p style="margin:0 0 12px 0; line-height:1.8; color:#6c757d;">
+                                <i class="fas fa-check-circle" style="color:#10b981; margin-right:8px;"></i>
+                                모든 빌드 오류를 해결하고 PhysX가 정상적으로 작동하게 되었습니다. 결과적으로 충돌 감지, 중력, 물리 재질 등의 기능을 성공적으로 구현할 수 있었습니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="optimization" class="anchor-section">
+                <div class="feature-container">
+                    <h2 class="section-title">최적화 기법</h2>
+                    
+                    <!-- 최적화 성능 개선 요약 테이블 -->
+                    <div class="feature-text">
+                        <h3 style="margin-bottom:20px; font-size:20px; font-weight:600; color:#2c3e50;">📊 최적화별 성능 개선 요약</h3>
+                        <table style="width:100%; margin-top:16px; border-collapse: collapse; font-size:14px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <thead>
+                                <tr style="background-color:#4a5568; color: white;">
+                                    <th style="padding:16px; text-align:left; border:1px solid #dee2e6; font-weight:600;">최적화 기법</th>
+                                    <th style="padding:16px; text-align:center; border:1px solid #dee2e6; font-weight:600;">성능 개선</th>
+                                    <th style="padding:16px; text-align:left; border:1px solid #dee2e6; font-weight:600;">핵심 기술</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom:1px solid #dee2e6; background-color:#ffffff;">
+                                    <td style="padding:14px; border:1px solid #dee2e6;"><strong>최적화 1</strong><br><span style="font-size:13px; color:#6c757d;">Camera View Frustum Culling</span></td>
+                                    <td style="padding:14px; border:1px solid #dee2e6; text-align:center;"><span style="color:#10b981; font-weight:600; font-size:16px;">56 → 80 FPS<br>(평균 +42.9%)</span><br><span style="font-size:12px; color:#6c757d;">최대 350 FPS</span></td>
+                                    <td style="padding:14px; border:1px solid #dee2e6;">Gribb-Hartmann 알고리즘, 조기 종료, 보수적 컬링</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid #dee2e6; background-color:#f8f9fa;">
+                                    <td style="padding:14px; border:1px solid #dee2e6;"><strong>최적화 2</strong><br><span style="font-size:13px; color:#6c757d;">Component-Based Architecture</span></td>
+                                    <td style="padding:14px; border:1px solid #dee2e6; text-align:center;"><span style="color:#10b981; font-weight:600; font-size:16px;">O(n) → O(1)</span><br><span style="font-size:12px; color:#6c757d;">컴포넌트 검색</span></td>
+                                    <td style="padding:14px; border:1px solid #dee2e6;">Hash Map, C++20 Concepts, Perfect Forwarding, Factory Pattern</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid #dee2e6; background-color:#ffffff;">
+                                    <td style="padding:14px; border:1px solid #dee2e6;"><strong>최적화 3 & 4</strong><br><span style="font-size:13px; color:#6c757d;">Shader & Texture Caching</span></td>
+                                    <td style="padding:14px; border:1px solid #dee2e6; text-align:center;"><span style="color:#10b981; font-weight:600; font-size:16px;">8초 → 2.5초</span><br><span style="font-size:12px; color:#6c757d;">로딩 시간 -68.75%</span></td>
+                                    <td style="padding:14px; border:1px solid #dee2e6;">타임스탬프 기반 캐싱, DDS 변환, 메모리 매핑 (CreateFileMapping)</td>
+                                </tr>
+                                <tr style="background-color:#f8f9fa;">
+                                    <td style="padding:14px; border:1px solid #dee2e6;"><strong>최적화 5</strong><br><span style="font-size:13px; color:#6c757d;">Exception 메시지 버퍼화</span></td>
+                                    <td style="padding:14px; border:1px solid #dee2e6; text-align:center;"><span style="color:#10b981; font-weight:600; font-size:16px;">30 → 56 FPS</span><br><span style="font-size:12px; color:#6c757d;">런타임 +86.7%</span></td>
+                                    <td style="padding:14px; border:1px solid #dee2e6;">고정 크기 버퍼 (char[100][128]), 동적 할당 제거</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 최적화 1: Camera View Frustum Culling -->
+            <div class="feature-container" id="optimization-1">
+                <h3 class="subsection-title">최적화 1 (Camera View Frustum Culling)</h3>
+                    <div class="feature-text">
+                        <h4 style="margin-top:24px; margin-bottom:16px; font-size:20px; font-weight:600; color:#2c3e50;">개요</h4>
+                        <p>Camera View Frustum Culling은 카메라의 시야 절두체(View Frustum) 밖에 있는 객체를 렌더링 파이프라인에서 조기에 제외시켜 GPU 부하를 크게 줄이는 핵심 최적화 기법입니다.</p>
+                        <p style="margin-top:12px;">이 구현은 <strong>Gribb-Hartmann 알고리즘</strong>을 사용하여 View-Projection 행렬로부터 6개의 절두체 평면(Near, Far, Left, Right, Top, Bottom)을 추출합니다.</p>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">핵심 구조</h4>
+                    </div>
+
+                    <div class="code-block" style="margin-top:16px;">
+                        <pre><code class="language-cpp">class CameraViewFrustumCulling
+{
+private:
+    enum Plane { Near, Far, Left, Right, Top, Bottom, Count };
+    DirectX::XMFLOAT4 frustumPlanes[Plane::Count];  // 6개의 평면 방정식
+    DirectX::XMMATRIX viewProjection;
+};</code></pre>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">1. Frustum 평면 추출</h4>
+                        <p>View-Projection 행렬을 전치(Transpose)한 후 각 행을 분해하여 6개의 평면 방정식을 계산합니다. 각 평면은 <code>Ax + By + Cz + D = 0</code> 형태로 저장됩니다.</p>
+                    </div>
+
+                    <div class="code-block" style="margin-top:16px;">
+                        <pre><code class="language-cpp">void CameraViewFrustumCulling::UpdateFromViewProjection(const XMMATRIX& viewProjection)
+{
+    XMMATRIX viewProjT = XMMatrixTranspose(viewProjection);
+    
+    // 행렬을 행별로 분해
+    rowX = viewProjT.r[0];
+    rowY = viewProjT.r[1];
+    rowZ = viewProjT.r[2];
+    rowW = viewProjT.r[3];
+
+    // Gribb-Hartmann 방법으로 평면 추출
+    frustumPlanes[Left]   = Normalize(rowW + rowX);
+    frustumPlanes[Right]  = Normalize(rowW - rowX);
+    frustumPlanes[Bottom] = Normalize(rowW + rowY);
+    frustumPlanes[Top]    = Normalize(rowW - rowY);
+    frustumPlanes[Near]   = Normalize(rowW + rowZ);
+    frustumPlanes[Far]    = Normalize(rowW - rowZ);
+}</code></pre>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">2. Sphere Culling (구 바운딩 볼륨)</h4>
+                        <p>바운딩 스피어의 중심과 각 평면 사이의 <strong>부호 거리(Signed Distance)</strong>를 계산합니다. 구의 중심이 평면으로부터 반지름보다 먼 거리에 있으면 해당 객체는 절두체 외부에 있다고 판정합니다.</p>
+                    </div>
+
+                    <div class="code-block" style="margin-top:16px;">
+                        <pre><code class="language-cpp">bool CameraViewFrustumCulling::CheckSphere(const XMFLOAT3& center, float radius) const
+{
+    for (int i = 0; i < Plane::Count; i++)
+    {
+        // 점과 평면 사이의 거리 계산
+        float distance = frustumPlanes[i].x * center.x +
+                        frustumPlanes[i].y * center.y +
+                        frustumPlanes[i].z * center.z +
+                        frustumPlanes[i].w;
+
+        // 구의 중심이 평면으로부터 반지름보다 멀면 외부
+        if (distance < -radius)
+            return false;
+    }
+    return true;  // 모든 평면 테스트 통과 → 내부 또는 교차
+}</code></pre>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">3. Box Culling (AABB 바운딩 박스)</h4>
+                        <p>AABB(Axis-Aligned Bounding Box)의 경우, 평면 법선 방향으로 가장 먼 꼭지점(Positive Vertex)을 계산하여 해당 꼭지점이 평면 바깥에 있는지 확인합니다. 가장 먼 꼭지점도 평면 바깥이면 박스 전체가 절두체 외부에 있다고 판정합니다.</p>
+                    </div>
+
+                    <div class="code-block" style="margin-top:16px;">
+                        <pre><code class="language-cpp">bool CameraViewFrustumCulling::CheckBox(const XMFLOAT3& center, const XMFLOAT3& extents) const
+{
+    for (int i = 0; i < Plane::Count; i++)
+    {
+        XMVECTOR plane = XMLoadFloat4(&frustumPlanes[i]);
+        XMVECTOR centerVec = XMLoadFloat3(&center);
+        
+        float nx = frustumPlanes[i].x;
+        float ny = frustumPlanes[i].y;
+        float nz = frustumPlanes[i].z;
+
+        // 평면 법선 방향으로 가장 먼 꼭지점까지의 거리
+        float ex = extents.x * fabs(nx) + 
+                   extents.y * fabs(ny) + 
+                   extents.z * fabs(nz);
+
+        // 중심에서 평면까지의 거리
+        float distance = XMVectorGetX(XMPlaneDotCoord(plane, centerVec));
+
+        // 가장 먼 꼭지점도 평면 바깥이면 외부
+        if (distance < -ex)
+            return false;
+    }
+    return true;  // 모든 평면 테스트 통과 → 내부 또는 교차
+}</code></pre>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">성능 최적화 특징</h4>
+                        <ul style="margin-top:12px; line-height:1.8; padding-left:20px;">
+                            <li><strong>조기 종료(Early Exit)</strong>: 6개의 평면 중 하나에서라도 외부로 판정되면 즉시 <code>false</code>를 반환하여 불필요한 연산을 생략합니다.</li>
+                            <li><strong>보수적 컬링(Conservative Culling)</strong>: 절두체와 교차하는 객체는 내부로 판정하여 렌더링합니다. False positive는 허용하지만 false negative는 방지하여 시각적 오류를 완전히 차단합니다.</li>
+                            <li><strong>간단한 수학 연산</strong>: 내적과 비교 연산만으로 컬링 판정을 수행하여 CPU 오버헤드를 최소화합니다.</li>
+                            <li><strong>두 가지 바운딩 볼륨 지원</strong>: Sphere와 AABB 두 가지 방식을 지원하여 객체의 형태에 따라 최적의 컬링 방식을 선택할 수 있습니다.</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">알고리즘 요약</h4>
+                        <ol style="margin-top:12px; line-height:1.8; padding-left:20px;">
+                            <li><strong>평면 추출</strong>: View-Projection 행렬로부터 6개 평면 방정식 계산</li>
+                            <li><strong>컬링 테스트</strong>: 각 객체의 바운딩 볼륨(구/박스)이 모든 평면의 안쪽에 있는지 확인</li>
+                            <li><strong>조기 종료</strong>: 하나의 평면에서라도 완전히 외부에 있으면 즉시 <code>false</code> 반환</li>
+                            <li><strong>렌더링 제외</strong>: 컬링된 객체는 렌더링 파이프라인에서 제외되어 GPU 부하 감소</li>
+                        </ol>
+                    </div>
+                    <div class="feature-text" style="margin-top:24px; padding:20px; background-color:#eef6ff; border-left:4px solid #3b82f6; border-radius:4px;">
+                        <p style="margin:0; line-height:1.8;"><strong>📈 성능 결과</strong><br>
+                        프러스트럼 컬링 추가로 FPS 분포가 기존 약 <strong>56 FPS</strong>에서 변경 후 <strong>56 ~ 350 FPS</strong> (평균 <strong>80 FPS</strong>)로 개선되었습니다. 평균 FPS는 <strong>56 → 80</strong>으로 약 <strong>+24 FPS</strong> (약 <strong>+42.9%</strong>) 향상되었습니다. 최저 프레임은 유지되었으나, 장면 복잡도에 따라 최대 프레임이 크게 증가하면서 전체 평균 성능이 상승했습니다.<br><br>
+                        <a href="https://github.com/Red-Opera/DirectX_GameEngine/commit/f262a1ff79697aa165a1095a8609c13af6808ae0" target="_blank">https://github.com/Red-Opera/DirectX_GameEngine/commit/f262a1ff79697aa165a1095a8609c13af6808ae0</a><br>
+                         커밋을 통해서 작성했습니다.</p>
+                    </div>
+            </div>
+
+            <!-- 최적화 2: Component-Based Architecture -->
+            <div class="feature-container" id="optimization-2">
+                <h3 class="subsection-title">최적화 2 (Component-Based Architecture)</h3>
+                    <div class="feature-text" style="margin-top:24px;">
+                        <p>객체 지향 설계와 현대 C++ 기법을 결합하여 높은 성능과 유지보수성을 동시에 달성했습니다.</p>
+                    </div>
+
+            <!-- 1-1: Hash Map 기반 컴포넌트 관리 -->
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">1. Hash Map 기반 컴포넌트 관리</h4>
+                        <p><code>Object</code> 클래스는 컴포넌트들을 <code>unordered_map</code>으로 관리하여 O(1) 시간 복잡도로 빠른 검색을 제공합니다.</p>
+                    </div>
+
+                    <div class="code-block" style="margin-top:16px;">
+                        <pre><code class="language-cpp">class Object : public EngineLoop
+{
+protected:
+    // 컴포넌트 이름을 키로, 컴포넌트 포인터를 값으로 저장
+    std::unordered_map&lt;std::string, std::shared_ptr&lt;Component&gt;&gt; components;
+
+public:
+    // O(1) 컴포넌트 검색
+    template &lt;ComponentChild ComponentClass&gt;
+    std::shared_ptr&lt;ComponentClass&gt; GetComponent()
+    {
+        for (auto& component : components)
+        {
+            if (component.second-&gt;GetClassName() == ComponentClass::GetStaticClassName())
+                return std::dynamic_pointer_cast&lt;ComponentClass&gt;(component.second);
+        }
+        return nullptr;
+    }
+    
+    // 문자열 키로 직접 접근 (가장 빠름)
+    const std::shared_ptr&lt;Component&gt; GetComponent(std::string componentName)
+    {
+        if (components.find(componentName) == components.end())
+            return nullptr;
+        return components[componentName];
+    }
+};</code></pre>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:16px;">
+                        <p><strong>장점:</strong></p>
+                        <ul style="margin-top:8px; line-height:1.8; padding-left:20px;">
+                            <li><strong>빠른 검색</strong>: Vector 기반(O(n))보다 Hash Map(O(1))으로 수백 배 빠른 컴포넌트 조회</li>
+                            <li><strong>중복 방지</strong>: 같은 타입의 컴포넌트 자동 중복 방지</li>
+                            <li><strong>메모리 효율</strong>: 필요한 컴포넌트만 동적 할당</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:12px;">
+                        <h4 style="font-size:16px; font-weight:600; color:#2c3e50;">성능 특성</h4>
+                        <ul style="margin-top:6px; line-height:1.8; padding-left:20px;">
+                            <li><strong>검색</strong>: O(1)</li>
+                            <li><strong>삽입</strong>: O(1)</li>
+                            <li><strong>삭제</strong>: O(n) — 하지만 컴포넌트 삭제는 드문 작업이므로 전체 성능에 미치는 영향은 크지 않습니다.</li>
+                        </ul>
+                    </div>
+
+                    <!-- 1-2: C++20 Concepts -->
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">2. C++20 Concepts를 활용한 타입 안정성</h4>
+                        <p>템플릿 제약 조건을 통해 컴파일 타임에 타입 검증을 수행합니다.</p>
+                    </div>
+
+                    <div class="code-block" style="margin-top:16px;">
+                        <pre><code class="language-cpp">// Component를 상속받은 클래스만 허용하는 Concept
+template&lt;typename T&gt;
+concept ComponentChild = std::is_base_of_v&lt;Component, T&gt;;
+
+// Concept를 사용한 타입 안전 메서드
+template &lt;ComponentChild ComponentClass&gt;
+std::shared_ptr&lt;ComponentClass&gt; GetComponent() { /* ... */ }
+
+template &lt;ComponentChild ComponentClass, typename... Args&gt;
+std::shared_ptr&lt;ComponentClass&gt; AddComponent(Args&&... args) { /* ... */ }</code></pre>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:16px;">
+                        <p><strong>장점:</strong></p>
+                        <ul style="margin-top:8px; line-height:1.8; padding-left:20px;">
+                            <li><strong>컴파일 타임 검증</strong>: 잘못된 타입 사용 시 명확한 컴파일 에러</li>
+                            <li><strong>실행 시간 오버헤드 제로</strong>: 런타임 타입 체크 불필요</li>
+                            <li><strong>인텔리센스 개선</strong>: IDE에서 정확한 자동 완성 제공</li>
+                        </ul>
+                    </div>
+
+                    <!-- 1-3: Perfect Forwarding -->
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">3. Perfect Forwarding으로 임시 객체 생성 최소화</h4>
+                        <p>가변 인자 템플릿과 완벽한 전달을 사용하여 불필요한 복사 제거</p>
+                    </div>
+
+                    <div class="code-block" style="margin-top:16px;">
+                        <pre><code class="language-cpp">template &lt;ComponentChild ComponentClass, typename... Args&gt;
+std::shared_ptr&lt;ComponentClass&gt; AddComponent(Args&&... args)
+{
+    // 중복 확인
+    std::string componentName = ComponentClass::GetStaticClassName();
+    if (components.find(componentName) != components.end())
+        return std::dynamic_pointer_cast&lt;ComponentClass&gt;(components[componentName]);
+
+    // Perfect Forwarding으로 인자 전달 (복사 없음)
+    auto component = std::make_shared&lt;ComponentClass&gt;(
+        shared_from_this(), 
+        std::forward&lt;Args&gt;(args)...
+    );
+
+    component-&gt;SetObject(shared_from_this());
+    component-&gt;transform = this-&gt;transform;
+    
+    components[component-&gt;GetClassName()] = component;
+    return component;
+}</code></pre>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:16px;">
+                        <p><strong>장점:</strong></p>
+                        <ul style="margin-top:8px; line-height:1.8; padding-left:20px;">
+                            <li><strong>제로 오버헤드</strong>: 인자의 lvalue/rvalue를 보존하여 불필요한 복사 제거</li>
+                            <li><strong>유연성</strong>: 다양한 생성자 매개변수 조합 지원</li>
+                            <li><strong>타입 안전성</strong>: 컴파일 타임에 모든 타입 검증</li>
+                        </ul>
+                    </div>
+
+                    <!-- 1-4: Factory Pattern -->
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">4. Factory Pattern과 Smart Pointer 조합</h4>
+                        <p>객체 생성 시 안전한 메모리 관리와 참조 순환 방지</p>
+                    </div>
+
+                    <div class="code-block" style="margin-top:16px;">
+                        <pre><code class="language-cpp">class Object : public std::enable_shared_from_this&lt;Object&gt;
+{
+public:
+    // Factory Method로 생성 강제
+    static std::shared_ptr&lt;Object&gt; Create(std::string name)
+    {
+        std::shared_ptr&lt;Object&gt; newObject = std::make_shared&lt;Object&gt;(name);
+        
+        // TransformComponent 자동 생성
+        auto transformComponent = std::make_shared&lt;TransformComponent&gt;(newObject);
+        newObject-&gt;components[transformComponent-&gt;GetClassName()] = transformComponent;
+        transformComponent-&gt;SetObject(newObject);
+        newObject-&gt;transform = transformComponent;
+        transformComponent-&gt;transform = transformComponent;
+
+        return newObject;
+    }
+};</code></pre>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:16px;">
+                        <p><strong>장점:</strong></p>
+                        <ul style="margin-top:8px; line-height:1.8; padding-left:20px;">
+                            <li><strong>자동 메모리 관리</strong>: <code>shared_ptr</code>로 메모리 누수 방지</li>
+                            <li><strong>참조 순환 안전</strong>: <code>enable_shared_from_this</code>로 안전한 self 참조</li>
+                            <li><strong>초기화 일관성</strong>: 모든 Object는 항상 TransformComponent 보유</li>
+                        </ul>
+                    </div>
+
+                    <!-- 최적화 기법 요약 테이블 -->
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">최적화 기법 요약</h4>
+                        <table style="width:100%; margin-top:16px; border-collapse: collapse; font-size:14px;">
+                            <thead>
+                                <tr style="background-color:#f8f9fa; border-bottom:2px solid #dee2e6;">
+                                    <th style="padding:12px; text-align:left; border:1px solid #dee2e6;">기법</th>
+                                    <th style="padding:12px; text-align:left; border:1px solid #dee2e6;">성능 향상</th>
+                                    <th style="padding:12px; text-align:left; border:1px solid #dee2e6;">적용 위치</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom:1px solid #dee2e6;">
+                                    <td style="padding:12px; border:1px solid #dee2e6;"><strong>Hash Map 컴포넌트 관리</strong></td>
+                                    <td style="padding:12px; border:1px solid #dee2e6;">O(n) → O(1)</td>
+                                    <td style="padding:12px; border:1px solid #dee2e6;"><code>Object::GetComponent()</code></td>
+                                </tr>
+                                <tr style="border-bottom:1px solid #dee2e6; background-color:#f8f9fa;">
+                                    <td style="padding:12px; border:1px solid #dee2e6;"><strong>C++20 Concepts</strong></td>
+                                    <td style="padding:12px; border:1px solid #dee2e6;">컴파일 타임 검증</td>
+                                    <td style="padding:12px; border:1px solid #dee2e6;">모든 템플릿 메서드</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid #dee2e6; background-color:#f8f9fa;">
+                                    <td style="padding:12px; border:1px solid #dee2e6;"><strong>Perfect Forwarding</strong></td>
+                                    <td style="padding:12px; border:1px solid #dee2e6;">제로 복사 오버헤드</td>
+                                    <td style="padding:12px; border:1px solid #dee2e6;"><code>AddComponent()</code></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:12px; border:1px solid #dee2e6;"><strong>Factory + Smart Pointer</strong></td>
+                                    <td style="padding:12px; border:1px solid #dee2e6;">메모리 누수 제로</td>
+                                    <td style="padding:12px; border:1px solid #dee2e6;"><code>Object::Create()</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+
+                    
+
+            <!-- 최적화 3: Shader Compile Caching -->
+            <div class="feature-container" id="optimization-3">
+                <h3 class="subsection-title">최적화 3 (쉐이더 컴파일 캐싱)</h3>
+                    <div class="feature-text" style="margin-top:24px;">
+                        <p>쉐이더 파일을 매번 컴파일하는 대신, 타임스탬프 기반 캐싱 시스템을 통해 로딩 속도를 대폭 개선했습니다. 또한 동일 커밋에서 이미지 로딩 파이프라인(Image.cpp)의 DDS 캐싱 및 메모리 매핑 개선도 함께 적용되어, 쉐이더와 텍스처 양 쪽에서 초기화 성능이 향상되었습니다.</p>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">구현 방식</h4>
+                        <ul style="margin-top:12px; line-height:1.8; padding-left:20px;">
+                            <li><strong>DDS 변환 캐싱</strong>: PNG/JPG 등을 DDS로 변환 후 <code>Temp/TextureCache/</code> 폴더에 저장</li>
+                            <li><strong>자동 캐시 검증</strong>: 캐시 파일 존재 시 즉시 로드, 없으면 변환 후 저장</li>
+                            <li><strong>DirectXTex 활용</strong>: Microsoft의 DirectXTex 라이브러리 사용</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:12px;">
+                        <h4 style="margin-bottom:8px; font-size:16px; font-weight:600; color:#2c3e50;">DDS 캐시 생성 규칙</h4>
+                        <p style="margin-top:8px; line-height:1.6;">씬에 존재하는 모든 오브젝트의 Material을 로드할 때, 해당 Material이 참조하는 Texture마다 DDS 캐시 파일이 생성됩니다. 예를 들어 씬에 오브젝트가 5개 있고 각 오브젝트가 서로 다른 2개의 Material을 사용한다면 총 <strong>10개의 DDS 캐시 파일</strong>이 생성됩니다. 생성된 캐시 파일은 기본적으로 <code>Temp/TextureCache/</code>에 저장됩니다.</p>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:18px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">커밋 반영 내용 요약</h4>
+                        <ul style="margin-top:12px; line-height:1.8; padding-left:20px;">
+                            <li><strong>Image.cpp 개선</strong>: DDS 캐시 파일을 우선 로드하고, 파일을 메모리 맵으로 매핑(MapViewOfFile)하여 I/O 및 복사 비용을 줄임.</li>
+                            <li><strong>파일 검증</strong>: 파일 크기와 매핑 실패를 검사해 안전하게 예외 처리하도록 변경.</li>
+                            <li><strong>쉐이더 재활용</strong>: 쉐이더 캐시(.cso) 전략과 함께 적용되어 전체 초기화 시간이 크게 단축됨(커밋 메시지: 로딩 8초 → 2.5초).</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">핵심 코드 (Image.cpp)</h4>
+                    </div>
+
+                    <div class="code-block" style="margin-top:16px;">
+                        <pre><code class="language-cpp">Image Image::FromFile(const std::string& name)
+{
+    std::wstring tempDDSFolder = L"Temp/TextureCache/";
+    std::wstring tempDDSPath = tempDDSFolder + fileName + L".dds";
+    
+    DirectX::ScratchImage scratch;
+    HRESULT hr;
+    
+    // 캐시 폴더 생성
+    if (!std::filesystem::exists(tempDDSFolder))
+        std::filesystem::create_directories(tempDDSFolder);
+    else
+        hr = LoadTempDDSTexture(tempDDSPath, scratch);  // 캐시 로드
+    
+    // 캐시 미존재 시 원본 로드 후 DDS 저장
+    if (FAILED(hr))
+    {
+        hr = DirectX::LoadFromWICFile(name.c_str(), ...);
+        
+        if (SUCCEEDED(hr))
+            SaveToDDSFile(..., tempDDSPath.c_str());  // 캐시 저장
+    }
+    
+    return Image(scratch);
+}</code></pre>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">장점</h4>
+                        <ul style="margin-top:12px; line-height:1.8; padding-left:20px;">
+                            <li><strong>로딩 속도</strong>: PNG/JPG 디코딩 생략, DDS는 GPU에 직접 업로드 가능</li>
+                            <li><strong>메모리 효율</strong>: DDS는 압축 포맷(BC1-BC7) 지원으로 VRAM 절약</li>
+                            <li><strong>일관성</strong>: 모든 텍스처를 동일한 포맷으로 처리</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px; padding:20px; background-color:#f0f9ff; border-left:4px solid #10b981; border-radius:4px;">
+                        <p style="margin:0; line-height:1.8;"><strong>📊 캐시 통계</strong><br>
+                        현재 프로젝트의 <code>Temp/TextureCache/</code> 폴더에는 <strong>83개의 DDS 캐시 파일</strong>이 저장되어 있어, 반복 실행 시 빠른 텍스처 로딩이 가능합니다.</p>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px; padding:20px; background-color:#fffaf0; border-left:4px solid #f59e0b; border-radius:4px;">
+                        <p style="margin:0; line-height:1.8;"><strong>📌 참고 커밋</strong><br>
+                        본 설명과 개선점은 아래 커밋에서 적용된 변경사항을 반영합니다:<br>
+                        <a href="https://github.com/Red-Opera/DirectX_GameEngine/commit/ef76f00fac71da934e63589afbc9f8aab469c354" target="_blank">https://github.com/Red-Opera/DirectX_GameEngine/commit/ef76f00fac71da934e63589afbc9f8aab469c354</a></p>
+                    </div>
+            </div>
+
+            <!-- 최적화 4: Texture Caching -->
+            <div class="feature-container" id="optimization-4">
+                <h3 class="subsection-title">최적화 4 (텍스처 캐싱 & 빠른 이미지 로딩)</h3>
+                    <div class="feature-text" style="margin-top:24px;">
+                        <p>다양한 포맷(PNG, JPG 등)의 이미지를 DirectX DDS 포맷으로 변환해 디스크에 캐시하고, 필요 시 빠르게 메모리로 매핑하여 로딩 시간을 크게 단축했습니다. 이 변경은 이미지 로드 관련 주요 리팩터링과 캐시 전략(임시 DDS 저장, 메모리 맵핑, 검증)을 포함합니다.</p>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">구현 요약</h4>
+                        <ul style="margin-top:12px; line-height:1.8; padding-left:20px;">
+                            <li><strong>DDS 변환 캐시</strong>: 원본 이미지가 있으면 DirectX::LoadFromWICFile로 읽어 <code>.dds</code>로 변환 후 <code>Temp/TextureCache/[FileName].dds</code>에 저장.</li>
+                            <li><strong>임시 캐시 우선 사용</strong>: 캐시가 존재하면 직접 로드(메모리 매핑)하여 변환 비용을 회피.</li>
+                            <li><strong>메모리 매핑 로드</strong>: <code>CreateFileMapping</code> + <code>MapViewOfFile</code>로 DDS를 로드해 I/O와 복사 오버헤드를 줄임.</li>
+                            <li><strong>검증과 예외 처리</strong>: 파일 크기, 맵핑 실패 등 에러를 검사하고 예외를 던져 호출 측에서 처리하도록 구현.</li>
+                            <li><strong>성능 개선</strong>: 초기화(로딩) 시간 단축(예: 8초 → 2.5초) — 커밋 메시지에 기록된 개선 결과.</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">핵심 코드 (요약)</h4>
+                    </div>
+
+                    <div class="code-block" style="margin-top:16px;">
+                        <pre><code class="language-cpp">Image Image::FromFile(const std::string& name)
+{
+    std::wstring tempDDSFolder = L"Temp/TextureCache/";
+    std::wstring tempDDSPath = tempDDSFolder + StringConverter::GetFileName(name) + L".dds";
+
+    DirectX::ScratchImage scratch;
+    HRESULT hr;
+
+    // 캐시 폴더 생성
+    if (!std::filesystem::exists(tempDDSFolder))
+    {
+        std::filesystem::create_directories(tempDDSFolder);
+        hr = S_FALSE; // 캐시 없음
+    }
+    else
+        hr = LoadTempDDSTexture(tempDDSPath, scratch); // 메모리 매핑으로 DDS 로드 시도
+
+    // 캐시 미존재 또는 로드 실패 시 원본 로드 후 DDS 저장
+    if (FAILED(hr))
+    {
+        hr = DirectX::LoadFromWICFile(StringConverter::ToWide(name).c_str(), DirectX::WIC_FLAGS_IGNORE_SRGB, nullptr, scratch);
+
+        if (SUCCEEDED(hr))
+            SaveToDDSFile(scratch.GetImages(), scratch.GetImageCount(), scratch.GetMetadata(), DDS_FLAGS_NONE, tempDDSPath.c_str());
+    }
+
+    return Image(std::move(scratch));
+}</code></pre>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">구현 상세</h4>
+                        <ul style="margin-top:12px; line-height:1.8; padding-left:20px;">
+                            <li><strong>LoadTempDDSTexture</strong>: DDS 파일을 파일 매핑으로 빠르게 읽어 DirectX::ScratchImage로 변환.</li>
+                            <li><strong>메모리 맵핑 안전성</strong>: 파일 열기/맵핑 실패 시 적절한 예외를 던지고 핸들을 안전하게 닫음.</li>
+                            <li><strong>호환성</strong>: WIC로 읽은 이미지를 DDS로 저장하면 GPU 업로드 시 바로 사용할 수 있어 디코딩 오버헤드 제거.</li>
+                            <li><strong>디스크 사용 관리</strong>: 불필요한 캐시 파일 정리는 별도의 유틸리티(또는 애플리케이션 시작 시 정책)로 수행 가능.</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px; padding:20px; background-color:#f0f9ff; border-left:4px solid #10b981; border-radius:4px;">
+                        <p style="margin:0; line-height:1.8;"><strong>📌 참고 커밋</strong><br>
+                        본 설명은 아래 커밋의 변경사항을 반영합니다:<br>
+                        <a href="https://github.com/Red-Opera/DirectX_GameEngine/commit/ef76f00fac71da934e63589afbc9f8aab469c354" target="_blank">https://github.com/Red-Opera/DirectX_GameEngine/commit/ef76f00fac71da934e63589afbc9f8aab469c354</a></p>
+                    </div>
+            </div>
+
+            <!-- 최적화 5: Exception 메시지 최적화 -->
+            <div class="feature-container" id="optimization-5">
+                <h3 class="subsection-title">최적화 5 (Exception 메시지 버퍼화)</h3>
+                    <div class="feature-text" style="margin-top:24px;">
+                        <p><strong>기능 설명</strong>: <code>ExceptionInfo::GetMessages()</code>는 DirectX의 <code>IDXGIInfoQueue</code>에서 수집된 디버그/오류 메시지를 읽어 호출자에게 반환합니다. 이 루틴은 그래픽스 예외 발생 시 디버그 로그를 수집해 예외 객체(<code>HRException</code>, <code>InfoException</code>)에 전달하거나 로그용으로 사용됩니다.</p>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:16px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">변경 전(문제점)</h4>
+                        <p>이전 구현은 호출마다 <code>std::vector&lt;std::string&gt;</code>을 생성하고 메시지를 복사해 벡터에 추가했습니다. 메시지 수·길이에 따라 빈번한 힙 할당과 문자열 복사가 발생해 프레임 성능에 악영향을 주었습니다.</p>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:12px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">변경 후(최적화 내용)</h4>
+                        <ul style="margin-top:12px; line-height:1.8; padding-left:20px;">
+                            <li>동적 컨테이너 대신 고정 크 버퍼를 도입: <code>char messages[100][128];</code>와 카운터 <code>UINT messageCount</code>.</li>
+                            <li><code>GetMessages()</code>의 반환형을 <code>std::vector&lt;std::string&gt;</code>에서 <code>const char*</code> (또는 내부 버퍼 포인터)로 변경하여 호출 시 힙 할당/문자열 생성/해제를 제거.</li>
+                            <li>메시지 복사에는 <code>strncpy_s</code>를 사용해 각 메시지를 고정 버퍼의 다음 슬롯에 저장하고 <code>messageCount</code>를 증가시킴.</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block" style="margin-top:16px;">
+                        <pre><code class="language-cpp">// ExceptionInfo.h - 고정 버퍼 구조
+class ExceptionInfo
+{
+private:
+    char message[100][128];  // 고정 크기 버퍼
+    UINT messageCount = 0;
+
+public:
+    const char* GetMessages()
+    {
+        messageCount = 0;
+        // IDXGIInfoQueue에서 메시지 수집 후 버퍼에 복사
+        // strncpy_s(message[messageCount++], msg, sizeof(message[0])-1);
+        return reinterpret_cast&lt;const char*&gt;(message);
+    }
+};</code></pre>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:16px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">GraphicsException.h - 오류 검출 및 출력</h4>
+                        <p>이 최적화의 핵심은 <code>GraphicsException.h</code>의 매크로에서 <code>GetMessages()</code>를 호출할 때 발생합니다. 오류 발생 시 디버그 메시지를 수집하여 예외 객체에 전달하는 과정에서, 기존 <code>vector&lt;string&gt;</code> 반환 방식 대신 고정 버퍼 포인터를 사용하여 힙 할당을 완전히 제거했습니다.</p>
+                    </div>
+
+                    <div class="code-block">
+                        <pre><code class="language-cpp">// GraphicsException.h - 매크로 정의 (변경 후)
+#ifndef NDEBUG
+    // 오류 검출 시 GetMessages() 호출하여 예외 생성
+    #define GRAPHIC_EXCEPT(hr) DxGraphic::HRException{ __LINE__, __FILE__, (hr), infoManager.GetMessages() }
+    
+    // 디버그 정보만 있는 경우 처리
+    #define GRAPHIC_THROW_INFO_ONLY(hr) \
+        infoManager.Set(); (hr); { \
+            auto v = infoManager.GetMessages(); \
+            if(v[0] != '\0') { \
+                throw DxGraphic::InfoException{ __LINE__, __FILE__, v }; \
+            } \
+        }
+#else
+    #define GRAPHIC_EXCEPT(hr) DxGraphic::HRException(__LINE__, __FILE__, (hr))
+#endif</code></pre>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:12px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">효과 & 결과</h4>
+                        <ul style="margin-top:12px; line-height:1.8; padding-left:20px;">
+                            <li>플레이타임 성능이 약 <strong>30 FPS → 56 FPS</strong>로 개선되는 등 실시간 성능에 큰 영향을 줌.</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:12px;">
+                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">추가 설명 (초기화 비용)</h4>
+                        <p style="margin-top:8px; line-height:1.6;">업데이트마다 해당 메소드가 호출되어, 메소드 내부에서 생성되는 <code>vector</code> 및 <code>string</code>의 초기화로 발생하는 런타임 시간을 줄이기 위해 이 최적화를 적용했습니다. 아래 벤치마크는 스택 배열과 동적 컨테이너 초기화의 차이를 극명하게 보여줍니다.</p>
+
+                        <div class="code-block">
+                            <pre><code class="language-cpp">// 예시 벤치마크
+// 약 8ms
+for (int i = 0; i &lt; 10000000; i++) 
+    int a[1000];      
+
+// 약 3662ms
+for (int i = 0; i &lt; 10000000; i++) 
+    std::vector<int> a;
+                            </code></pre>
+                        </div>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:12px; padding:16px; background-color:#fff7ed; border-left:4px solid #f97316; border-radius:4px;">
+                        <p style="margin:0; line-height:1.6;"><strong>단점</strong>: 고정 배열 사용으로 인해 메시지가 길 경우 잘릴 수 있고, 필요한 것보다 더 큰 고정 메모리를 사용하는 상황(메모리 낭비)이 발생할 수 있습니다. 다만 충분한 크기를 확보하면 실제 메모리 증가는 생각보다 크지 않으며, 동적 할당을 제거한 효과로 성능 측면에서 유리합니다.</p>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:16px; padding:20px; background-color:#f0f9ff; border-left:4px solid #10b981; border-radius:4px;">
+                        <p style="margin:0; line-height:1.8;"><strong>📌 참고 커밋</strong><br>
+                        이 최적화는 다음 커밋의 변경사항을 요약한 것입니다:<br>
+                        <a href="https://github.com/Red-Opera/DirectX_GameEngine/commit/77081fa4e334daed4e815623faf093fb8ad2ddf7" target="_blank">https://github.com/Red-Opera/DirectX_GameEngine/commit/77081fa4e334daed4e815623faf093fb8ad2ddf7</a></p>
+                    </div>
+
+            </div>
+
+            <section id="code-style" class="anchor-section">
+                <div class="feature-container">
+                    <h2 class="section-title">코드 스타일 / 개발 철학</h2>
+
+                    <div class="feature-text" style="margin-top:20px;">
+                        <h3 style="margin-bottom:12px; font-size:18px; font-weight:600; color:#2c3e50;">코드 스타일</h3>
+                        <p style="line-height:1.8; color:#6c757d;">이 프로젝트에서는 가독성과 유지보수성, 그리고 실무에서의 사용성을 기준으로 아래와 같은 규칙을 적용합니다.</p>
+
+                        <ul style="margin-top:12px; line-height:1.8; padding-left:20px; color:#6c757d;">
+                            <li><strong>전역 접근성 우선</strong>: 엔진 개발 도중 특정 변수나 메서드에 접근하기 어렵다는 경험으로 인해 싱글톤 패턴 또는 <code>static</code> 메서드/변수를 필요한 곳에 사용했습니다. 남발을 방지하기 위해 최대한 캡슐화를 중시했습니다.</li>
+                            <li><strong>명명 규칙</strong>: 클래스와 메서드는 <code>PascalCase</code> (첫 글자 대문자)로, 변수는 <code>camelCase</code> (첫 글자 소문자)로 표기합니다. 상수는 <code>UPPER_SNAKE_CASE</code>로 구분하여 한눈에 구별되도록 합니다.</li>
+                            <li><strong>스마트 포인터와 RAII</strong>: 소유권이 명확하지 않은 포인터는 사용하지 않으며, `std::unique_ptr`, `std::shared_ptr` 등을 활용해 자원 관리를 자동화합니다. 예외 안전성과 리소스 누수를 방지하기 위한 RAII 스타일을 권장합니다.</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px;">
+                        <h3 style="margin-bottom:12px; font-size:18px; font-weight:600; color:#2c3e50;">개발 철학</h3>
+                        <p style="line-height:1.8; color:#6c757d;">이 엔진은 '조금만 배우하면 곧장 만들 수 있는 엔진'을 목표로 삼았습니다. Unity에서 영감을 얻되, 불편했던 점은 개선하고, 성능과 사용성을 균형 있게 유지하는 데 중점을 두었습니다.</p>
+
+                        <ul style="margin-top:12px; line-height:1.8; padding-left:20px; color:#6c757d;">
+                            <li><strong>사용자 친화성 우선</strong>: 외부에서 사용할 때는 최대한 단순하도록 제작헸습니다. 빠르게 프로토타입을 만들 수 있도록 씬/오브젝트/컴포넌트 흐름을 직관적으로 설계했습니다.</li>
+                            <li><strong>불편한 부분은 확장</strong>: Unity에서 불편하다고 느낀 점은 보완 기능을 추가하여 더 나은 작업 흐름을 제공합니다(예: 더 직관적인 씬 초기화 패턴, 편리한 컴포넌트 추가/검색 API 등).</li>
+                            <li><strong>품질과 최적화의 균형</strong>: 그래픽·물리·로직의 품질을 유지하면서도, 실사용에서 요구되는 성능을 확보하기 위해 프로파일링 기반의 최적화를 우선했습니다. 구현 시 항상 비용(시간/메모리)을 고려했습니다.</li>
+                            <li><strong>엔진처럼 설계하기</strong>: 단편적인 툴이 아닌 재사용 가능한 엔진을 목표로 하여 모듈화, 확장성, 명확한 생명주기(Initialize/Start/Update/Finalize)를 중심으로 설계했습니다. 이를 통해 향후 기능 추가나 리팩터링이 용이하도록 했습니다.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="unresolved" class="anchor-section">
+                <div class="feature-container">
+                    <h2 class="section-title">해결하지 못했거나 구현 예정</h2>
+                    
+                    <div class="feature-text" style="margin-top:24px;">
+                        <p style="margin-bottom:24px; color:#6c757d; line-height:1.8;">
+                            현재 프로젝트에서 시도했으나 완료하지 못한 기능들과 향후 구현 예정인 기능들입니다.
+                        </p>
+
+                        <!-- 1. 포스트 프로세싱 효과 -->
+                        <div style="margin-bottom:32px; padding:24px; background-color:#fff7ed; border-left:4px solid #f59e0b; border-radius:4px;">
+                            <h3 style="margin-top:0; margin-bottom:16px; font-size:20px; font-weight:600; color:#2c3e50;">
+                                <i class="fas fa-times-circle" style="color:#f59e0b; margin-right:8px;"></i>
+                                1. 포스트 프로세싱 효과
+                            </h3>
+                            <p style="margin:0; color:#6c757d; line-height:1.8;">
+                                <strong>시도 기간:</strong> 며칠 동안 시도했지만 실패<br>
+                                <strong>목표:</strong> ImGui를 제외한 전체 화면을 Texture로 가져와 프로세싱을 적용한 후 전체 화면에 표시<br>
+                                <strong>문제점:</strong> 전체 화면을 Texture로 가져오는 과정에서 실패. 각 Pass 별 또는 back buffer에서 dump를 사용했지만 전체 화면을 얻는 데 실패했으며, Render Target 설정 및 렌더링 파이프라인 구성에서 기술적 어려움 발생.
+                            </p>
+                        </div>
+
+                        <!-- 2. UI -->
+                        <div style="margin-bottom:32px; padding:24px; background-color:#e0f2fe; border-left:4px solid #3b82f6; border-radius:4px;">
+                            <h3 style="margin-top:0; margin-bottom:16px; font-size:20px; font-weight:600; color:#2c3e50;">
+                                <i class="fas fa-clock" style="color:#3b82f6; margin-right:8px;"></i>
+                                2. UI 시스템
+                            </h3>
+                            <p style="margin:0; color:#6c757d; line-height:1.8;">
+                                <strong>상태:</strong> 구현 예정<br>
+                                <strong>내용:</strong> 게임 내 커스텀 UI 시스템 구현 (버튼, 텍스트, 이미지 등 기본 UI 요소). 현재는 ImGui를 통한 에디터 UI만 구현되어 있으며, 런타임 게임 UI는 미구현 상태.
+                            </p>
+                        </div>
+
+                        <!-- 3. 애니메이션 -->
+                        <div style="margin-bottom:32px; padding:24px; background-color:#e0f2fe; border-left:4px solid #3b82f6; border-radius:4px;">
+                            <h3 style="margin-top:0; margin-bottom:16px; font-size:20px; font-weight:600; color:#2c3e50;">
+                                <i class="fas fa-clock" style="color:#3b82f6; margin-right:8px;"></i>
+                                3. 애니메이션 시스템
+                            </h3>
+                            <p style="margin:0; color:#6c757d; line-height:1.8;">
+                                <strong>상태:</strong> 구현 예정<br>
+                                <strong>내용:</strong> 스켈레탈 애니메이션 및 본 애니메이션 시스템 구현. FBX 파일에서 애니메이션 데이터를 읽어 캐릭터 모델에 적용하는 기능 필요.
+                            </p>
+                        </div>
+
+                        <!-- 4. 씬에서 변경 시 코드에 자동 수정 -->
+                        <div style="margin-bottom:32px; padding:24px; background-color:#e0f2fe; border-left:4px solid #3b82f6; border-radius:4px;">
+                            <h3 style="margin-top:0; margin-bottom:16px; font-size:20px; font-weight:600; color:#2c3e50;">
+                                <i class="fas fa-clock" style="color:#3b82f6; margin-right:8px;"></i>
+                                4. 씬 변경 시 코드 자동 수정
+                            </h3>
+                            <p style="margin:0; color:#6c757d; line-height:1.8;">
+                                <strong>상태:</strong> 구현 예정<br>
+                                <strong>내용:</strong> 씬 에디터에서 오브젝트를 추가/제거하거나 속성을 변경할 때, 관련 코드 파일을 자동으로 업데이트하는 기능. 씬 데이터를 직렬화/역직렬화하여 코드 생성 자동화 필요.
+                            </p>
+                        </div>
+
+                        <!-- 5. 플레이 모드 제작 -->
+                        <div style="margin-bottom:32px; padding:24px; background-color:#e0f2fe; border-left:4px solid #3b82f6; border-radius:4px;">
+                            <h3 style="margin-top:0; margin-bottom:16px; font-size:20px; font-weight:600; color:#2c3e50;">
+                                <i class="fas fa-clock" style="color:#3b82f6; margin-right:8px;"></i>
+                                5. 플레이 모드
+                            </h3>
+                            <p style="margin:0; color:#6c757d; line-height:1.8;">
+                                <strong>상태:</strong> 구현 예정<br>
+                                <strong>내용:</strong> Unity와 같은 에디터 모드/플레이 모드 전환 기능. 현재는 에디터와 게임이 동시에 실행되는 구조이며, 플레이 모드에서 씬 상태를 저장하고 에디터 모드로 복귀 시 원래 상태로 복원하는 기능 필요.
+                            </p>
+                        </div>
+
+                        <div style="margin-top:24px; padding:20px; background-color:#f8f9fa; border-radius:8px; text-align:center;">
+                            <p style="margin:0; color:#6c757d; line-height:1.8;">
+                                <i class="fas fa-lightbulb" style="color:#f59e0b; margin-right:8px;"></i>
+                                위 기능들은 추후 업데이트를 통해 순차적으로 구현될 예정입니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="closing-github" class="anchor-section">
+                <div class="feature-container">
+                    <h2 class="section-title">포트폴리오 GitHub 주소</h2>
+                    
+                    <div class="feature-text" style="margin-top:24px;">
+                        <div style="background-color:#2d3748; border-radius:12px; padding:40px; text-align:center; box-shadow: 0 4px 16px rgba(0,0,0,0.15);">
+                            <div style="margin-bottom:24px;">
+                                <i class="fab fa-github" style="font-size:64px; color:#ffffff;"></i>
+                            </div>
+                            <h3 style="color:#ffffff; font-size:24px; font-weight:600; margin-bottom:16px;">DirectX GameEngine</h3>
+                            <p style="color:#cbd5e0; font-size:16px; margin-bottom:32px; line-height:1.6;">
+                                본 프로젝트의 전체 소스 코드와 개발 히스토리를 GitHub에서 확인하실 수 있습니다.
+                            </p>
+                            <a href="https://github.com/Red-Opera/DirectX_GameEngine" target="_blank" 
+                               style="display:inline-block; background-color:#ffffff; color:#2d3748; padding:14px 32px; border-radius:8px; text-decoration:none; font-weight:600; font-size:16px; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                <i class="fab fa-github" style="margin-right:8px;"></i>GitHub 저장소 방문하기
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:24px;">
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
+                            <div style="background-color:#f8f9fa; border-radius:8px; padding:24px; border-left:4px solid #f59e0b;">
+                                <div style="display:flex; align-items:center; ">
+                                    <i class="fas fa-book" style="font-size:24px; color:#f59e0b; margin-right:12px;"></i>
+                                    <h4 style="margin:0; font-size:18px; font-weight:600; color:#2c3e50;">README</h4>
+                                </div>
+                                <p style="margin:0; color:#6c757d; line-height:1.6;">프로젝트 빌드 방법, 의존성, 실행 방법을 README에서 확인하세요.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="closing-contact" class="anchor-section">
+                <div class="feature-container">
+                    <h2 class="section-title">연락처 및 이메일</h2>
+                    
+                    <div class="feature-text" style="margin-top:24px;">
+                        <div style="background-color:#2d3748; border-radius:12px; padding:40px; color:#ffffff; box-shadow: 0 4px 16px rgba(0,0,0,0.15);">
+                            <div style="text-align:center; margin-bottom:32px;">
+                                <i class="fas fa-envelope" style="font-size:56px; margin-bottom:16px;"></i>
+                                <h3 style="font-size:24px; font-weight:600; ">Get In Touch</h3>
+                                <p style="font-size:16px; opacity:0.9; line-height:1.6; color:#ffffff;">
+                                    프로젝트에 대한 문의사항이나 협업 제안이 있으시면 언제든 연락 주세요.
+                                </p>
+                            </div>
+
+                            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:24px; max-width:900px; margin:0 auto;">
+                                <div style="background-color:rgba(255,255,255,0.15); border-radius:8px; padding:24px; border:1px solid rgba(255,255,255,0.2);">
+                                    <div style="display:flex; align-items:center; ">
+                                        <i class="fas fa-user" style="font-size:20px; margin-right:12px; color:#ffffff;"></i>
+                                        <h4 style="margin:0; font-size:16px; font-weight:600; color:#ffffff;">이름</h4>
+                                    </div>
+                                    <p style="margin:0; font-size:18px; font-weight:500; color:#ffffff;">서정현</p>
+                                </div>
+
+                                <div style="background-color:rgba(255,255,255,0.15); border-radius:8px; padding:24px; border:1px solid rgba(255,255,255,0.2);">
+                                    <div style="display:flex; align-items:center; ">
+                                        <i class="fas fa-envelope" style="font-size:20px; margin-right:12px; color:#ffffff;"></i>
+                                        <h4 style="margin:0; font-size:16px; font-weight:600; color:#ffffff;">이메일</h4>
+                                    </div>
+                                    <a href="mailto:hyunsim01@naver.com" style="color:#ffffff; text-decoration:underline; font-size:18px; font-weight:500; display:block; word-break:break-all; cursor:pointer; position:relative; z-index:10;">
+                                        hyunsim01@naver.com
+                                    </a>
+                                </div>
+
+                                <div style="background-color:rgba(255,255,255,0.15); border-radius:8px; padding:24px; border:1px solid rgba(255,255,255,0.2);">
+                                    <div style="display:flex; align-items:center; ">
+                                        <i class="fab fa-github" style="font-size:20px; margin-right:12px; color:#ffffff;"></i>
+                                        <h4 style="margin:0; font-size:16px; font-weight:600; color:#ffffff;">GitHub</h4>
+                                    </div>
+                                    <a href="https://github.com/Red-Opera" target="_blank" style="color:#ffffff; text-decoration:none; font-size:18px; font-weight:500;">
+                                        @Red-Opera
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="feature-text" style="margin-top:48px; text-align:center; padding:32px; background-color:#f8f9fa; border-radius:8px;">
+                        <p style="margin:0; color:#6c757d; font-size:14px; line-height:1.8;">
+                            © 2025 서정현. All Rights Reserved.<br>
+                            본 프로젝트는 포트폴리오 목적으로 제작되었습니다.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="/js/directx-gameengine-code.js"></script>
+</body>
+</html>
