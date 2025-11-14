@@ -46,12 +46,13 @@
                     <div class="nav-subitem nav-subsubitem" data-target="feature-3-4">3.4 Camera Component</div>
                     <div class="nav-subitem nav-subsubitem" data-target="feature-3-5">3.5 Light Component</div>
                     <div class="nav-subitem nav-subsubitem" data-target="feature-3-6">3.6 Physics Component</div>
-                    <div class="nav-subitem" data-target="feature-4">기능 4 (엔진 스크립팅 메뉴얼)</div>
-                    <div class="nav-subitem nav-subsubitem" data-target="feature-4-1">4.1 씬(Scene) 생성</div>
-                    <div class="nav-subitem nav-subsubitem" data-target="feature-4-2">4.2 이벤트 메소드 실행 순서</div>
-                    <div class="nav-subitem nav-subsubitem" data-target="feature-4-3">4.3 오브젝트(Object) 생성</div>
-                    <div class="nav-subitem nav-subsubitem" data-target="feature-4-4">4.4 컴포넌트(Component) 시스템</div>
-                    <div class="nav-subitem nav-subsubitem" data-target="feature-4-5">4.5 키보드 및 마우스 입력</div>
+                    <div class="nav-subitem" data-target="feature-4">기능 4 (씬 이동)</div>
+                    <div class="nav-subitem" data-target="feature-5">기능 5 (엔진 스크립팅 메뉴얼)</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-5-1">5.1 씬(Scene) 생성</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-5-2">5.2 이벤트 메소드 실행 순서</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-5-3">5.3 오브젝트(Object) 생성</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-5-4">5.4 컴포넌트(Component) 시스템</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="feature-5-5">5.5 키보드 및 마우스 입력</div>
                     <div class="nav-item nav-parent" data-target="problem-1">문제 해결 사례</div>
                     <div class="nav-subitem" data-target="problem-1">ImGui Gizmo 회전 문제</div>
                     <div class="nav-subitem" data-target="problem-2">NVIDIA PhysX 연동 문제</div>
@@ -180,7 +181,13 @@
                 <div class="feature-container">
                     <h2 class="section-title">데모 영상</h2>
                     <div class="ratio ratio-16x9">
-                        <iframe src="https://www.youtube.com/embed/FSupUDrgXiA" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/cxlOxxPpNkE" allowfullscreen></iframe>
+                    </div>
+                    <div class="feature-text" style="margin-top:20px; padding:16px; background-color:#f0f9ff; border-left:4px solid #3b82f6; border-radius:4px;">
+                        <p style="margin:0; line-height:1.8; color:#6c757d;">
+                            <i class="fas fa-info-circle" style="color:#3b82f6; margin-right:8px;"></i>
+                            위 영상은 엔진의 시연 모습을 중점적으로 제작한 데모 영상입니다. 각 기능에 대한 자세한 설명과 구현 내용은 아래 글을 확인해 주세요.
+                        </p>
                     </div>
                 </div>
             </section>
@@ -222,7 +229,7 @@
                 <div class="feature-row">
                     <div class="feature-pic">
                         <video autoplay loop muted playsinline>
-                            <source src="/images/Gallery/DirectX-GameEngine/Description/EngineMove.mp4" type="video/mp4">
+                            <source src="/images/Gallery/DirectX-GameEngine/Description/SceneGraphMove.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -262,7 +269,7 @@
             <div class="feature-container" id="feature-1-3">
                 <h3 class="subsection-title">1.3 Gizmo Control</h3>
                 <div class="feature-text">
-                    <p>Gizmo Control에서는 Gizmo Mode, Coordinate System, Snap Setting을 설정할 수 있습니다. Gizmo Mode를 변경하면 그에 맞춰 기즈모 UI가 변경됩니다. Coordinate System에서는 World 좌표계와 Local 좌표계 간 전환이 가능하며, Snap Setting에서는 스냅 기능을 설정할 수 있습니다.</p>
+                    <p>Gizmo Controls에서는 Gizmo Mode, Coordinate System, Snap Setting을 설정할 수 있습니다. Gizmo Mode를 변경하면 그에 맞춰 기즈모 UI가 변경됩니다. Coordinate System에서는 World 좌표계와 Local 좌표계 간 전환이 가능하며, Snap Setting에서는 스냅 기능을 설정할 수 있습니다.</p>
                 </div>
                 <div class="gizmo-images">
                     <div class="gizmo-item">
@@ -549,7 +556,7 @@
             <div class="feature-container" id="feature-3-4">
                 <h3 class="subsection-title">3.4 Camera Component</h3>
                 <div class="feature-text">
-                    <p>Camera Component는 Unity와 Unreal Engine의 Camera Component와 유사하게 동작하며, 씬을 렌더링할 시점과 투영 방식을 제어하는 컴포넌트입니다.</p>
+                    <p>Camera Component는 Unity와 Unreal Engine의 Camera Component와 유사하게 동작하며, 메인 카메라를 변경하거나 프로젝션 설정을 할 수 있습니다.</p>
                 </div>
 
                 <div class="feature-row">
@@ -587,6 +594,18 @@
                             <li><strong>Enable Camera Indicator</strong>: 활성화하면 현재 카메라의 위치를 프레임으로 표시합니다.</li>
                             <li><strong>Enable Frustum Indicator</strong>: 활성화하면 카메라의 시야(View Frustum)를 프레임으로 시각화하여 표시합니다.</li>
                         </ul>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <div class="feature-pic">
+                        <video autoplay loop muted playsinline>
+                            <source src="/images/Gallery/DirectX-GameEngine/Description/CameraIndicator.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="feature-text">
+                        <p>카메라 인디케이터를 활성화하면 씬에서 카메라의 위치와 시야 범위를 시각적으로 확인할 수 있습니다.</p>
                     </div>
                 </div>
             </div>
@@ -731,17 +750,37 @@
                 </div>
             </div>
 
-            <!-- Feature 4: 엔진 스크립팅 메뉴얼 -->
+            <!-- Feature 4: 씬 이동 -->
             <div class="feature-container" id="feature-4">
-                <h2 class="section-title">기능 4 (엔진 스크립팅 메뉴얼)</h2>
+                <h2 class="section-title">기능 4 (씬 이동)</h2>
+                <div class="feature-text">
+                    <p>만들어진 씬을 통해서 <code>LoadScene</code> 함수를 사용하여 씬을 이동할 수 있습니다. 이를 통해 게임의 다양한 레벨이나 장면 간에 전환할 수 있습니다.</p>
+                </div>
+
+                <div class="feature-row" style="margin-top:24px;">
+                    <div class="feature-pic">
+                        <video autoplay loop muted playsinline>
+                            <source src="/images/Gallery/DirectX-GameEngine/Description/SceneMove.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="feature-text">
+                        <p>예시로 Sponza 씬과 오브젝트가 없는 빈 씬을 만들었고, <kbd>T</kbd> 키를 눌렀을 때 빈 씬으로 정상적으로 이동하는 것을 확인할 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 5: 엔진 스크립팅 메뉴얼 -->
+            <div class="feature-container" id="feature-5">
+                <h2 class="section-title">기능 5 (엔진 스크립팅 메뉴얼)</h2>
                 <div class="feature-text">
                     <p>DirectX GameEngine의 스크립팅 시스템을 활용하여 게임 로직과 씬을 구성하는 방법을 안내합니다. 이 메뉴얼을 통해 개발자는 엔진의 핵심 기능을 확장하고 커스터마이징할 수 있습니다.</p>
                 </div>
             </div>
 
-            <!-- Feature 4-1: 씬(Scene) 생성 -->
-            <div class="feature-container" id="feature-4-1">
-                <h3 class="subsection-title">4.1 씬(Scene) 생성</h3>
+            <!-- Feature 5-1: 씬(Scene) 생성 -->
+            <div class="feature-container" id="feature-5-1">
+                <h3 class="subsection-title">5.1 씬(Scene) 생성</h3>
                 <div class="feature-text">
                     <p>씬(Scene)은 게임의 각 장면이나 레벨을 나타내는 기본 단위입니다. 새로운 씬을 만들려면 <code>Scene</code> 클래스를 상속받아 커스텀 씬 클래스를 작성해야 합니다.</p>
                 </div>
@@ -851,9 +890,9 @@ LoadScene(EmptyScene::Create("MyGameScene"));</code></pre>
                 </div>
             </div>
 
-            <!-- Feature 4-2: 이벤트 메소드 실행 순서 -->
-            <div class="feature-container" id="feature-4-2">
-                <h3 class="subsection-title">4.2 이벤트 메소드의 실행 순서</h3>
+            <!-- Feature 5-2: 이벤트 메소드 실행 순서 -->
+            <div class="feature-container" id="feature-5-2">
+                <h3 class="subsection-title">5.2 이벤트 메소드의 실행 순서</h3>
                 <div class="feature-text">
                     <p>본 엔진은 Unity 엔진에서 사용하는 이벤트 메소드를 기반으로 하되, 더욱 세분화된 제어를 위해 추가 메소드를 제공합니다. 모든 씬(Scene), 오브젝트(Object), 컴포넌트(Component)는 <code>EngineLoop</code> 인터페이스를 상속받아 동일한 생명주기 메소드를 사용합니다.</p>
                 </div>
@@ -964,9 +1003,9 @@ currentScene->Destroy();</code></pre>
                 </div>
             </div>
 
-            <!-- Feature 4-3: 오브젝트(Object) 생성 -->
-            <div class="feature-container" id="feature-4-3">
-                <h3 class="subsection-title">4.3 오브젝트(Object) 생성</h3>
+            <!-- Feature 5-3: 오브젝트(Object) 생성 -->
+            <div class="feature-container" id="feature-5-3">
+                <h3 class="subsection-title">5.3 오브젝트(Object) 생성</h3>
                 <div class="feature-text">
                     <p>오브젝트는 게임 세계에 존재하는 모든 개체(캐릭터, 건물, 카메라, 라이트 등)를 나타냅니다. 오브젝트는 씬(Scene) 내의 모든 이벤트 메소드에서 자유롭게 생성할 수 있으며, 생성된 오브젝트는 자동으로 씬의 생명주기에 포함됩니다.</p>
                 </div>
@@ -1137,9 +1176,9 @@ bool isActive = myObject-&gt;GetActive();</code></pre>
                 </div>
             </div>
 
-            <!-- Feature 4-4: 컴포넌트(Component) 시스템 -->
-            <div class="feature-container" id="feature-4-4">
-                <h3 class="subsection-title">4.4 컴포넌트(Component) 시스템</h3>
+            <!-- Feature 5-4: 컴포넌트(Component) 시스템 -->
+            <div class="feature-container" id="feature-5-4">
+                <h3 class="subsection-title">5.4 컴포넌트(Component) 시스템</h3>
                 <div class="feature-text">
                     <p>컴포넌트는 오브젝트에 기능을 추가하는 모듈형 시스템입니다. Unity의 컴포넌트 시스템과 유사하게 설계되어 있으며, 오브젝트에 원하는 컴포넌트를 추가하여 다양한 기능을 구현할 수 있습니다.</p>
                 </div>
@@ -1422,9 +1461,9 @@ for (auto& component : allComponents)
                 </div>
             </div>
 
-            <!-- Feature 4-5: 키보드 및 마우스 입력 처리 -->
-            <div class="feature-container" id="feature-4-5">
-                <h3 class="subsection-title">4.5 키보드 및 마우스 입력 처리</h3>
+            <!-- Feature 5-5: 키보드 및 마우스 입력 처리 -->
+            <div class="feature-container" id="feature-5-5">
+                <h3 class="subsection-title">5.5 키보드 및 마우스 입력 처리</h3>
                 <div class="feature-text">
                     <p>이 엔진은 이벤트 기반 입력 시스템을 제공합니다. Windows 메시지를 통해 입력을 받아 큐에 저장하고, 사용자 코드에서 필요할 때 이벤트를 가져와 처리합니다.</p>
                 </div>
