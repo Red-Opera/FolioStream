@@ -53,20 +53,32 @@
                     <div class="nav-subitem nav-subsubitem" data-target="feature-5-3">5.3 오브젝트(Object) 생성</div>
                     <div class="nav-subitem nav-subsubitem" data-target="feature-5-4">5.4 컴포넌트(Component) 시스템</div>
                     <div class="nav-subitem nav-subsubitem" data-target="feature-5-5">5.5 키보드 및 마우스 입력</div>
+                    
+                    <div class="nav-item nav-parent" data-target="rendering-system">구현 설명</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="rendering-main-loop">메인 렌더링 루프</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="rendering-graph">RenderGraph 아키텍처</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="rendering-technique">Technique과 RenderJob</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="rendering-pipeline">DirectX 파이프라인 5단계</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="rendering-shader">HLSL 셰이더</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="rendering-frustum">Frustum Culling</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="physics-system">물리 시스템</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="input-system">입력 시스템</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="material-system">Material 시스템</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="object-component-system">Object와 Component</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="ui-system">UI 시스템 (ImGui)</div>
+                    
                     <div class="nav-item nav-parent" data-target="problem-1">문제 해결 사례</div>
-                    <div class="nav-subitem" data-target="problem-1">ImGui Gizmo 회전 문제</div>
-                    <div class="nav-subitem" data-target="problem-2">NVIDIA PhysX 연동 문제</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="problem-1">ImGui Gizmo 회전 문제</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="problem-2">NVIDIA PhysX 연동 문제</div>
                     <div class="nav-item nav-parent" data-target="optimization-1">최적화 기법</div>
-                    <div class="nav-subitem" data-target="optimization-1">최적화 1 (Camera View Frustum Culling)</div>
-                    <div class="nav-subitem" data-target="optimization-2">최적화 2 (Component-Based Architecture)</div>
-                    <div class="nav-subitem" data-target="optimization-3">최적화 3 (Shader Compile Caching)</div>
-                    <div class="nav-subitem" data-target="optimization-4">최적화 4 (Texture Caching)</div>
-                    <div class="nav-subitem" data-target="optimization-5">최적화 5 (Exception 메시지 버퍼화)</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="optimization-1">Camera View Frustum Culling</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="optimization-2">Component-Based Architecture</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="optimization-3">Shader Compile Caching</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="optimization-4">Texture Caching</div>
+                    <div class="nav-subitem nav-subsubitem" data-target="optimization-5">Exception 메시지 버퍼화</div>
                     <div class="nav-item" data-target="code-style">코드 스타일 / 개발 철학</div>
                     <div class="nav-item" data-target="unresolved">해결하지 못한 구현 및 문제</div>
-                    <div class="nav-item nav-parent" data-target="closing-github">마무리</div>
-                    <div class="nav-subitem" data-target="closing-github">포트폴리오 GitHub 주소</div>
-                    <div class="nav-subitem" data-target="closing-contact">연락처 및 이메일</div>
+                    <div class="nav-item" data-target="closing-contact">연락처 및 이메일</div>
                 </div>
             </div>
         </nav>
@@ -85,6 +97,37 @@
                             <div class="feature-text">
                                 <div class="intro-text">
                                     <p>이 프로젝트는 DirectX 11을 기반으로 한 자체 게임 엔진 개발 프로젝트입니다. 엔진은 렌더링, 메쉬 가져오기, 오브젝트 및 컴포넌트 관리 등 게임 엔진에 필요한 기본적인 핵심 기능들을 탑재하고 있습니다. 씬 그래프와 인스펙터를 제공하여 사용자가 모델을 직관적으로 조절할 수 있도록 구성되었으며, Mesh, Physics, Camera 등 다양한 컴포넌트를 자유롭게 추가하고 삭제할 수 있는 유연한 구조를 갖추고 있습니다. 또한 Unity와 Unreal Engine의 내부 메소드를 참고하여 엔진의 성능을 최적화하고 사용자 친화적인 인터페이스를 구현하는 데 중점을 두었습니다.</p>
+                                    <div style="margin-top:20px; padding:16px 20px; background-color:#fff3cd; border-left:4px solid #ffc107; border-radius:6px;">
+                                        <p style="margin:0; color:#856404; font-size:15px; line-height:1.6;">
+                                            <i class="fas fa-info-circle" style="margin-right:8px;"></i>
+                                            <strong>📖 읽기 전에 :</strong> 이 문서는 엔진의 전체 구조와 구현 세부사항을 상세히 다루고 있어 내용이 길어 보일 수 있습니다. 
+                                            <strong>왼쪽 네비게이션</strong>을 활용하여 핵심 부분만 보실 수 있습니다.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- GitHub 저장소 링크 -->
+                        <div style="margin-top:48px;">
+                            <div style="background-color:#434c5e; border-radius:16px; padding:48px 40px; text-align:center; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
+                                <div style="margin-bottom:28px;">
+                                    <i class="fab fa-github" style="font-size:72px; color:#ffffff;"></i>
+                                </div>
+                                <h3 style="color:#ffffff; font-size:26px; font-weight:700; margin-bottom:12px; letter-spacing:-0.5px;">DirectX GameEngine</h3>
+                                <p style="color:#d8dee9; font-size:15px; margin-bottom:36px; line-height:1.7; max-width:600px; margin-left:auto; margin-right:auto;">
+                                    본 프로젝트의 전체 소스 코드와 개발 히스토리를 GitHub에서 확인하실 수 있습니다.
+                                </p>
+                                <a href="https://github.com/Red-Opera/DirectX_GameEngine" target="_blank" 
+                                   style="display:inline-flex; align-items:center; background-color:#ffffff; color:#434c5e; padding:16px 40px; border-radius:10px; text-decoration:none; font-weight:700; font-size:16px; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                                    <i class="fab fa-github" style="margin-right:10px; font-size:20px;"></i>GitHub 저장소 방문하기
+                                </a>
+                                
+                                <div style="margin-top:32px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.1);">
+                                    <div style="display:inline-flex; align-items:center; background-color:rgba(255,255,255,0.08); border-radius:8px; padding:12px 20px;">
+                                        <i class="fas fa-book" style="font-size:18px; color:#88c0d0; margin-right:10px;"></i>
+                                        <span style="color:#e5e9f0; font-size:14px; font-weight:500;">프로젝트 빌드 방법, 의존성, 실행 방법은 README를 참고하세요</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1707,6 +1750,2111 @@ while (auto event = keyboard.ReadKey())
                 </div>
             </div>
 
+            <section id="rendering-system" class="anchor-section">
+                <div class="feature-container">
+                    <h2 class="section-title">렌더링 시스템 아키텍처</h2>
+                    <div class="feature-text">
+                        <p style="color:#6c757d; line-height:1.8;">
+                            본 엔진은 <strong>Render Graph 패턴</strong>을 활용하여 복잡한 렌더링 파이프라인을 효율적으로 관리합니다. 
+                            렌더링 프로세스는 BeginFrame, Update, RenderGraph Execute, EndFrame, Reset의 5단계로 구성되어 있으며, 
+                            각 단계가 명확히 분리되어 있어 유지보수와 확장이 용이합니다.
+                        </p>
+                    </div>
+
+                    <!-- 메인 렌더링 루프 -->
+                    <div id="rendering-main-loop" class="feature-text" style="margin-top:40px;">
+                        <h3 class="subsection-title">메인 렌더링 루프 (App::DoFrame)</h3>
+                        <p style="color:#6c757d; line-height:1.8;">
+                            모든 렌더링 작업은 App 클래스의 DoFrame 메소드를 통해 관리됩니다. 
+                            이 메소드는 물리 업데이트, 게임 로직 업데이트, RenderGraph 실행, UI 렌더링, 화면 출력까지 
+                            하나의 프레임을 완성하는 전체 파이프라인을 조율합니다.
+                        </p>
+                    </div>
+
+                    <div class="code-block" style="margin-top:20px;">
+                        <pre><code class="language-cpp">// Core/App.cpp
+void App::DoFrame(float deltaTime)
+{
+    const float t = timer.TotalTime();
+    Window::ShowGameFrame(wnd.GetHWnd());
+    
+    // [1] BeginFrame 호출
+    wnd.GetDxGraphic().BeginFrame(0.07f, 0.0f, 0.12f);
+    
+    // [2] 물리 시스템 업데이트
+    PhysicsSystem::GetInstance().Update(deltaTime);
+    
+    // [3] 씬 업데이트
+    currentScene->Update(deltaTime);
+    
+    // [4] RenderGraph 실행
+    App::GetRenderGraph().Execute();
+    
+    // [5] UI 렌더링
+    CreateSimulationWindow();
+    CreateDemoWindows();
+    currentScene->LateUpdate();
+    App::GetRenderGraph().RenderWindows();
+    
+    Engine::FolderView::instance->RenderFolderView();
+    Engine::MenuBar::menuBar->RenderMenuBar();
+    Engine::Inspector::instance->Update(deltaTime);
+    
+    // [6] EndFrame 및 Present
+    wnd.GetDxGraphic().EndFrame();
+    
+    // [7] Reset
+    App::GetRenderGraph().Reset();
+}</code></pre>
+                    </div>
+
+                    <!-- RenderGraph 아키텍처 -->
+                    <div id="rendering-graph" class="feature-text" style="margin-top:48px;">
+                        <h3 class="subsection-title">RenderGraph 아키텍처</h3>
+                        <p style="color:#6c757d; line-height:1.8;">
+                            RenderGraph는 렌더링 파이프라인을 그래프 형태로 관리하는 핵심 시스템입니다. 
+                            각 RenderPass는 데이터 의존성을 명시적으로 관리하여 불필요한 렌더링 패스를 제거하고, 
+                            복잡한 멀티패스 렌더링을 체계적으로 구성할 수 있습니다.
+                        </p>
+                    </div>
+
+                    <div style="margin-top:24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius:12px; padding:32px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);">
+                        <h4 style="font-size:20px; font-weight:700; color:#ffffff; margin-bottom:20px;">
+                            <i class="fas fa-project-diagram" style="margin-right:10px;"></i>주요 구성 요소
+                        </h4>
+                        <div style="background-color:rgba(255,255,255,0.95); border-radius:8px; padding:20px;">
+                            <div class="code-block">
+                                <pre><code class="language-plaintext">RenderGraph (Core/RenderingPipeline/RenderGraph/RenderGraph.h)
+├─ RenderPass (렌더 패스 기본 클래스)
+│  ├─ RenderingPass (렌더링 작업을 수행하는 패스)
+│  │  ├─ RenderQueuePass (렌더 작업 큐를 관리하는 패스)
+│  │  │  ├─ LambertianRenderPass (램버시안 라이팅)
+│  │  │  ├─ ShadowMapPass (그림자 맵 생성)
+│  │  │  ├─ OutlineMaskPass (아웃라인 마스크)
+│  │  │  └─ OutlineDrawPass (아웃라인 그리기)
+│  │  └─ PostProcessFullScreenRenderPass (전체 화면 포스트 프로세싱)
+│  │     ├─ HorizontalBlurPass (수평 블러)
+│  │     └─ VerticalBlurPass (수직 블러)
+│  └─ BufferPassClear (버퍼 초기화)
+├─ PipelineDataProvider (데이터 제공자)
+└─ PipelineDataConsumer (데이터 소비자)</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RenderGraph 코드 예시 -->
+                    <div class="code-block" style="margin-top:24px;">
+                        <pre><code class="language-cpp">// Core/RenderingPipeline/RenderGraph/RenderGraph.cpp
+// RenderGraph 생성자 - 백 버퍼와 마스터 깊이 버퍼 초기화
+RenderGraph::RenderGraph()
+    : backBufferTarget(Window::GetDxGraphic().GetRenderTarget()),
+      masterDepth(std::make_shared&lt;Graphic::OutputOnlyDepthStencil&gt;())
+{
+    // 글로벌 제공자들 등록 (모든 패스에서 접근 가능한 기본 리소스들)
+    AddGlobalProvider(
+        DirectBufferPipelineDataProvider&lt;Graphic::RenderTarget&gt;::Create(
+            "backbuffer", backBufferTarget
+        )
+    );
+    AddGlobalProvider(
+        DirectBufferPipelineDataProvider&lt;Graphic::DepthStencil&gt;::Create(
+            "masterDepth", masterDepth
+        )
+    );
+    
+    // 글로벌 소비자 등록 (최종 출력을 받을 소비자)
+    AddGlobalConsumer(
+        DirectBufferDataConsumer&lt;Graphic::RenderTarget&gt;::Create(
+            "backbuffer", backBufferTarget
+        )
+    );
+}
+
+// 모든 렌더 패스를 순서대로 실행
+void RenderGraph::Execute() NOEXCEPTRELEASE
+{
+    // 최종화되지 않은 그래프는 실행 불가
+    if (!isFinalized)
+        throw RENDER_GRAPHIC_EXCEPTION("최종화되지 않은 렌더 그래프는 실행할 수 없습니다.");
+    
+    // 등록된 순서대로 모든 패스 실행
+    for (auto& pass : renderPasses)
+        pass->Execute();
+}
+
+// 모든 렌더 패스를 리셋 (다음 프레임 준비)
+void RenderGraph::Reset() noexcept
+{
+    assert(isFinalized);
+    
+    // 모든 패스를 리셋하여 다음 프레임 준비
+    for (auto& pass : renderPasses)
+        pass->Reset();
+}</code></pre>
+                    </div>
+
+                    <!-- BlurOutlineRenderGraph 구조 -->
+                    <div style="margin-top:32px; background-color:#fef3c7; border-radius:12px; padding:28px; border-left:6px solid #f59e0b;">
+                        <h4 style="font-size:20px; font-weight:700; color:#2c3e50; margin-bottom:16px;">
+                            <i class="fas fa-sitemap" style="color:#f59e0b; margin-right:10px;"></i>BlurOutlineRenderGraph 예시
+                        </h4>
+                        <p style="color:#6c757d; line-height:1.8; margin-bottom:20px;">
+                            본 엔진의 기본 RenderGraph는 BlurOutlineRenderGraph로, 다음과 같은 10개의 패스로 구성됩니다:
+                        </p>
+                        
+                        <div style="display:grid; gap:16px;">
+                            <div style="background-color:#ffffff; border-radius:8px; padding:16px; border-left:4px solid #3b82f6;">
+                                <strong style="color:#2c3e50;">Pass 1-2: 버퍼 초기화</strong>
+                                <ul style="color:#6c757d; line-height:1.8; margin-top:8px; padding-left:20px; font-size:14px;">
+                                    <li>clearRenderTarget: 백버퍼 초기화</li>
+                                    <li>clearDepthStencil: 깊이-스텐실 버퍼 초기화</li>
+                                </ul>
+                            </div>
+
+                            <div style="background-color:#ffffff; border-radius:8px; padding:16px; border-left:4px solid #10b981;">
+                                <strong style="color:#2c3e50;">Pass 3-5: 기본 렌더링</strong>
+                                <ul style="color:#6c757d; line-height:1.8; margin-top:8px; padding-left:20px; font-size:14px;">
+                                    <li>ShadowMap: 라이트 시점에서 그림자 맵 생성</li>
+                                    <li>Lambertian: 램버시안 반사 모델로 오브젝트 렌더링 (ShadowMap 입력 사용)</li>
+                                    <li>Skybox: 배경 스카이박스 렌더링</li>
+                                </ul>
+                            </div>
+
+                            <div style="background-color:#ffffff; border-radius:8px; padding:16px; border-left:4px solid #8b5cf6;">
+                                <strong style="color:#2c3e50;">Pass 6-9: 아웃라인 효과</strong>
+                                <ul style="color:#6c757d; line-height:1.8; margin-top:8px; padding-left:20px; font-size:14px;">
+                                    <li>OutlineMask: 선택된 오브젝트의 마스크를 스텐실 버퍼에 렌더링</li>
+                                    <li>OutlineDraw: 블러를 적용할 아웃라인 데이터 생성</li>
+                                    <li>HorizontalBlur: 가우시안/박스 블러 커널로 수평 블러</li>
+                                    <li>VerticalBlur: 수직 블러로 최종 아웃라인 효과를 메인 렌더 타겟에 합성</li>
+                                </ul>
+                            </div>
+
+                            <div style="background-color:#ffffff; border-radius:8px; padding:16px; border-left:4px solid#f59e0b;">
+                                <strong style="color:#2c3e50;">Pass 10: 최종 출력</strong>
+                                <ul style="color:#6c757d; line-height:1.8; margin-top:8px; padding-left:20px; font-size:14px;">
+                                    <li>WireFrame: 카메라 frustum 와이어프레임을 최종 결과에 오버레이하여 백버퍼로 출력</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:20px; padding:16px; background-color:rgba(59,130,246,0.1); border-radius:8px;">
+                            <p style="margin:0; color:#2c3e50; font-size:14px; line-height:1.7;">
+                                <strong><i class="fas fa-database" style="color:#3b82f6; margin-right:6px;"></i>전역 리소스:</strong>
+                                <span style="color:#6c757d;">
+                                    $.backbuffer (최종 출력 백버퍼), $.masterDepth (메인 깊이 버퍼), 
+                                    $.blurKernel (블러 커널 계수), $.blurDirection (블러 방향 제어)
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Technique 및 RenderJob 시스템 -->
+                    <div id="rendering-technique" class="feature-text" style="margin-top:48px;">
+                        <h3 class="subsection-title">Technique 및 RenderJob 시스템</h3>
+                        <p style="color:#6c757d; line-height:1.8;">
+                            <strong>Technique</strong>는 여러 RenderStep의 조합으로 특정 렌더링 기법을 정의합니다. 
+                            각 Technique는 채널 비트마스크를 사용하여 선택적으로 렌더링할 수 있으며, 
+                            이를 통해 메인 렌더링, 그림자 렌더링, 아웃라인 렌더링 등을 독립적으로 제어할 수 있습니다.
+                        </p>
+                    </div>
+
+                    <!-- Technique 구조 -->
+                    <div style="margin-top:24px; background-color:#ecfdf5; border-radius:12px; padding:28px; border-left:6px solid #10b981;">
+                        <h4 style="font-size:20px; font-weight:700; color:#2c3e50; margin-bottom:16px;">
+                            <i class="fas fa-layer-group" style="color:#10b981; margin-right:10px;"></i>Technique 구조
+                        </h4>
+                        <div style="background-color:#ffffff; border-radius:8px; padding:20px; margin-bottom:16px;">
+                            <div class="code-block">
+                                <pre><code class="language-plaintext">Technique
+├─ name: 기법 이름 (예: "Phong", "ShadowMap")
+├─ channel: 렌더링 채널 (비트마스크, 예: 0x01, 0x02, 0x04)
+├─ isActive: 활성화 상태 (true/false)
+└─ renderSteps[]: RenderStep 배열
+    └─ RenderStep
+        ├─ targetPassName: 목표 RenderPass 이름
+        └─ renderPipeline: 파이프라인 상태 (셰이더, 버퍼 등)</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-block">
+                            <pre><code class="language-cpp">// Core/RenderingPipeline/RenderingManager/Technique/Technique.cpp
+// 렌더링 제출 - 채널 필터에 맞는 경우만 제출
+void Technique::Submit(const Drawable& drawable, size_t channelFilter) const noexcept
+{
+    // 기법이 비활성화되어 있으면 제출하지 않음
+    if (!isActive)
+        return;
+    
+    // 채널 필터와 일치하는지 확인 (비트마스크 AND 연산)
+    // 예: channel=0x01, channelFilter=0x03 → 0x01 & 0x03 = 0x01 (제출)
+    if (channelFilter & channel)
+    {
+        // 이 기법의 모든 렌더 스텝에 제출
+        for (auto& step : renderSteps)
+            step.Submit(drawable);
+    }
+}
+
+// RenderGraph와 연결
+void Technique::Link(RenderGraphNameSpace::RenderGraph& renderGraph)
+{
+    // 각 렌더 스텝을 RenderGraph의 해당 패스와 연결
+    for (auto& step : renderSteps)
+        step.Link(renderGraph);
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- RenderJob 시스템 -->
+                    <div style="margin-top:32px;">
+                        <h4 style="font-size:20px; font-weight:700; color:#2c3e50; margin-bottom:16px;">
+                            <i class="fas fa-cogs" style="color:#8b5cf6; margin-right:10px;"></i>RenderJob 실행 과정
+                        </h4>
+                        <p style="color:#6c757d; line-height:1.8; margin-bottom:20px;">
+                            RenderJob은 실제 렌더링을 수행하는 최소 단위 작업입니다. 
+                            각 RenderJob은 렌더링할 객체(drawable)와 렌더링 방법(renderStep)을 포함합니다.
+                        </p>
+                    </div>
+
+                    <div style="margin-top:20px; background: linear-gradient(to right, #f0f9ff 0%, #ede9fe 100%); border-radius:8px; padding:24px;">
+                        <div style="display:grid; gap:16px;">
+                            <div style="background-color:#ffffff; border-radius:8px; padding:20px; border-left:5px solid #3b82f6;">
+                                <h5 style="margin:0 0 12px 0; color:#2c3e50; font-size:16px; font-weight:600;">
+                                    <span style="background-color:#3b82f6; color:#ffffff; border-radius:50%; width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center; margin-right:10px; font-size:14px;">1</span>
+                                    Frustum Culling 체크
+                                </h5>
+                                <p style="margin:0; color:#6c757d; line-height:1.8; font-size:14px;">
+                                    카메라 절두체 외부에 있는 객체는 렌더링을 생략하여 성능을 향상시킵니다.
+                                </p>
+                            </div>
+
+                            <div style="background-color:#ffffff; border-radius:8px; padding:20px; border-left:5px solid #10b981;">
+                                <h5 style="margin:0 0 12px 0; color:#2c3e50; font-size:16px; font-weight:600;">
+                                    <span style="background-color:#10b981; color:#ffffff; border-radius:50%; width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center; margin-right:10px; font-size:14px;">2</span>
+                                    렌더링 파이프라인 설정
+                                </h5>
+                                <ul style="margin:8px 0 0 0; padding-left:38px; color:#6c757d; line-height:2.0; font-size:14px;">
+                                    <li><strong>drawable->SetRenderPipeline()</strong>
+                                        <ul style="margin-top:4px; padding-left:20px;">
+                                            <li>VertexBuffer, IndexBuffer 설정</li>
+                                            <li>InputLayout 설정</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>renderStep->SetRenderPipeline()</strong>
+                                        <ul style="margin-top:4px; padding-left:20px;">
+                                            <li>VertexShader, PixelShader 설정</li>
+                                            <li>ConstantBuffer, SamplerState 설정</li>
+                                            <li>RasterizerState, DepthStencilState 설정</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div style="background-color:#ffffff; border-radius:8px; padding:20px; border-left:5px solid #8b5cf6;">
+                                <h5 style="margin:0 0 12px 0; color:#2c3e50; font-size:16px; font-weight:600;">
+                                    <span style="background-color:#8b5cf6; color:#ffffff; border-radius:50%; width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center; margin-right:10px; font-size:14px;">3</span>
+                                    DrawIndexed 호출
+                                </h5>
+                                <p style="margin:0; color:#6c757d; line-height:1.8; font-size:14px;">
+                                    DirectX의 DrawIndexed 명령을 실행하여 GPU에서 실제 렌더링을 수행합니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="code-block" style="margin-top:24px;">
+                        <pre><code class="language-cpp">// Core/RenderingPipeline/RenderingManager/Pass/Base/RenderJob.cpp
+// 렌더링 작업 실행
+void RenderJob::Excute(bool isPassFrustumCulling) NOEXCEPTRELEASE
+{
+    // [1] 절두체 컬링 체크 (패스별 설정 && 전역 설정 && 실제 절두체 내 존재)
+    if (isPassFrustumCulling && useViewFrustum && !IsInViewFrustum())
+    {
+        // 절두체 밖에 있으면 렌더링 건너뛰기 (성능 최적화)
+        return;
+    }
+    
+    // [2] 렌더링 파이프라인 설정
+    drawable->SetRenderPipeline();   // 객체의 버텍스/인덱스 버퍼 설정
+    renderStep->SetRenderPipeline(); // 렌더 스텝의 셰이더/상태 설정
+    
+    // [3] 실제 드로우 콜 실행
+    Window::GetDxGraphic().DrawIndexed(drawable->GetIndexCount());
+}
+
+// 절두체 내부에 있는지 확인
+bool RenderJob::IsInViewFrustum() const
+{
+    // drawable의 Bounding Volume을 가져와서 절두체와 교차 테스트
+    return viewFrustumCulling.IsInFrustum(drawable->GetBoundingVolume());
+}</code></pre>
+                    </div>
+
+                    <!-- RenderQueuePass 작동 방식 -->
+                    <div style="margin-top:32px; background-color:#fef3c7; border-radius:12px; padding:28px; border-left:6px solid #f59e0b;">
+                        <h4 style="font-size:20px; font-weight:700; color:#2c3e50; margin-bottom:16px;">
+                            <i class="fas fa-tasks" style="color:#f59e0b; margin-right:10px;"></i>RenderQueuePass 작동 방식
+                        </h4>
+                        <p style="color:#6c757d; line-height:1.8; margin-bottom:16px;">
+                            RenderQueuePass는 제출된 모든 RenderJob을 수집하여 일괄 실행합니다.
+                        </p>
+                        
+                        <div style="background-color:#ffffff; border-radius:8px; padding:20px;">
+                            <div class="code-block">
+                                <pre><code class="language-plaintext">┌─── 제출 단계 ───┐
+Model::Submit() 
+├─> Technique::Submit() 
+│   └─> RenderStep::Submit() 
+│       └─> RenderQueuePass::Accept(RenderJob)
+│           └─> renderJobs.push_back(renderJob)
+
+┌─── 실행 단계 ───┐
+RenderQueuePass::Execute()
+├─> for (auto& job : renderJobs)
+│   └─> job.Execute()
+│       ├─ Frustum/Occlusion Culling
+│       ├─ 렌더링 파이프라인 설정
+│       └─ DrawIndexed 호출
+
+┌─── 리셋 단계 ───┐
+RenderQueuePass::Reset()
+└─> renderJobs.clear()</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DirectX 렌더링 파이프라인 -->
+                    <div id="rendering-pipeline" class="feature-text" style="margin-top:48px;">
+                        <h3 class="subsection-title">DirectX 렌더링 파이프라인 단계</h3>
+                        <p style="color:#6c757d; line-height:1.8; margin-bottom:24px;">
+                            본 엔진은 DirectX 11의 렌더링 파이프라인을 다음 5개의 주요 단계로 구성합니다. 
+                            각 단계는 독립적인 파이프라인 컴포넌트로 구현되어 있으며, 
+                            <code>Core/RenderingPipeline/Pipeline/</code> 폴더의 하위 폴더에 체계적으로 구성되어 있습니다.
+                        </p>
+                    </div>
+
+                    <div style="margin-top:20px; display:grid; grid-template-columns:repeat(auto-fit, minmax(340px, 1fr)); gap:24px;">
+                        <!-- IA Stage -->
+                        <div style="background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border-radius:12px; padding:24px; border-left:6px solid #f59e0b; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                            <h4 style="font-size:18px; font-weight:700; color:#2c3e50; margin-bottom:16px;">
+                                <i class="fas fa-stream" style="color:#f59e0b; margin-right:10px; font-size:20px;"></i>IA - Input Assembler
+                            </h4>
+                            <ul style="margin:0; line-height:2.0; padding-left:20px; color:#6c757d; font-size:15px;">
+                                <li><strong>InputLayout</strong>: 정점 데이터 레이아웃 정의</li>
+                                <li><strong>VertexBuffer</strong>: 정점 데이터</li>
+                                <li><strong>IndexBuffer</strong>: 인덱스 데이터</li>
+                                <li><strong>PrimitiveTopology</strong>: 기본 도형 유형</li>
+                            </ul>
+                            <div style="margin-top:16px; padding:12px; background-color:rgba(255,255,255,0.7); border-radius:6px; font-size:13px; color:#6c757d;">
+                                <i class="fas fa-folder" style="color:#f59e0b; margin-right:6px;"></i>
+                                <code>Pipeline/IA/</code>
+                            </div>
+                        </div>
+
+                        <!-- VS Stage -->
+                        <div style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border-radius:12px; padding:24px; border-left:6px solid #10b981; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                            <h4 style="font-size:18px; font-weight:700; color:#2c3e50; margin-bottom:16px;">
+                                <i class="fas fa-cube" style="color:#10b981; margin-right:10px; font-size:20px;"></i>VS - Vertex Shader
+                            </h4>
+                            <ul style="margin:0; line-height:2.0; padding-left:20px; color:#6c757d; font-size:15px;">
+                                <li><strong>VertexShader</strong>: 정점 셰이더 실행</li>
+                                <li><strong>ConstantBuffer</strong>: 변환 행렬 등 상수 데이터</li>
+                            </ul>
+                            <div style="margin-top:16px; padding:12px; background-color:rgba(255,255,255,0.7); border-radius:6px; font-size:13px; color:#6c757d;">
+                                <i class="fas fa-folder" style="color:#10b981; margin-right:6px;"></i>
+                                <code>Pipeline/VSPS/</code>
+                            </div>
+                        </div>
+
+                        <!-- RS Stage -->
+                        <div style="background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%); border-radius:12px; padding:24px; border-left:6px solid #8b5cf6; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                            <h4 style="font-size:18px; font-weight:700; color:#2c3e50; margin-bottom:16px;">
+                                <i class="fas fa-th" style="color:#8b5cf6; margin-right:10px; font-size:20px;"></i>RS - Rasterizer
+                            </h4>
+                            <ul style="margin:0; line-height:2.0; padding-left:20px; color:#6c757d; font-size:15px;">
+                                <li><strong>Viewport</strong>: 뷰포트 설정</li>
+                                <li><strong>RasterizerState</strong>: 컬링 모드, 채우기 모드</li>
+                            </ul>
+                            <div style="margin-top:16px; padding:12px; background-color:rgba(255,255,255,0.7); border-radius:6px; font-size:13px; color:#6c757d;">
+                                <i class="fas fa-folder" style="color:#8b5cf6; margin-right:6px;"></i>
+                                <code>Pipeline/Rasterizer/</code>
+                            </div>
+                        </div>
+
+                        <!-- PS Stage -->
+                        <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius:12px; padding:24px; border-left:6px solid #f59e0b; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                            <h4 style="font-size:18px; font-weight:700; color:#2c3e50; margin-bottom:16px;">
+                                <i class="fas fa-paint-brush" style="color:#f59e0b; margin-right:10px; font-size:20px;"></i>PS - Pixel Shader
+                            </h4>
+                            <ul style="margin:0; line-height:2.0; padding-left:20px; color:#6c757d; font-size:15px;">
+                                <li><strong>PixelShader</strong>: 픽셀 셰이더 실행</li>
+                                <li><strong>Texture</strong>: 텍스처 샘플링</li>
+                                <li><strong>SamplerState</strong>: 샘플링 방식</li>
+                            </ul>
+                            <div style="margin-top:16px; padding:12px; background-color:rgba(255,255,255,0.7); border-radius:6px; font-size:13px; color:#6c757d;">
+                                <i class="fas fa-folder" style="color:#f59e0b; margin-right:6px;"></i>
+                                <code>Pipeline/VSPS/</code>
+                            </div>
+                        </div>
+
+                        <!-- OM Stage -->
+                        <div style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border-radius:12px; padding:24px; border-left:6px solid #3b82f6; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                            <h4 style="font-size:18px; font-weight:700; color:#2c3e50; margin-bottom:16px;">
+                                <i class="fas fa-layer-group" style="color:#3b82f6; margin-right:10px; font-size:20px;"></i>OM - Output Merger
+                            </h4>
+                            <ul style="margin:0; line-height:2.0; padding-left:20px; color:#6c757d; font-size:15px;">
+                                <li><strong>RenderTarget</strong>: 렌더 타겟 설정</li>
+                                <li><strong>DepthStencil</strong>: 깊이/스텐실 버퍼</li>
+                                <li><strong>BlendState</strong>: 블렌딩 설정</li>
+                            </ul>
+                            <div style="margin-top:16px; padding:12px; background-color:rgba(255,255,255,0.7); border-radius:6px; font-size:13px; color:#6c757d;">
+                                <i class="fas fa-folder" style="color:#3b82f6; margin-right:6px;"></i>
+                                <code>Pipeline/OM/</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 코드 예시들 -->
+                    <div style="margin-top:32px;">
+                        <h4 style="font-size:20px; font-weight:700; color:#2c3e50; margin-bottom:20px;">
+                            <i class="fas fa-code" style="color:#3b82f6; margin-right:10px;"></i>파이프라인 단계별 코드
+                        </h4>
+
+                        <!-- IA 코드 -->
+                        <div style="background-color:#f8f9fa; border-radius:8px; padding:20px; margin-bottom:16px;">
+                            <h5 style="color:#2c3e50; font-size:16px; margin-bottom:12px; font-weight:600;">
+                                <span style="background-color:#f59e0b; color:#ffffff; padding:4px 12px; border-radius:4px; margin-right:8px; font-size:13px;">IA</span>
+                                Input Assembler 설정
+                            </h5>
+                            <div class="code-block">
+                                <pre><code class="language-cpp">// Core/RenderingPipeline/Pipeline/IA/VertexBuffer.cpp
+void VertexBuffer::SetRenderPipeline() NOEXCEPTRELEASE
+{
+    const UINT offset = 0u;
+    GetDeviceContext()->IASetVertexBuffers(
+        0u,                          // 시작 슬롯
+        1u,                          // 버퍼 개수
+        vertexBuffer.GetAddressOf(), // 버퍼 포인터
+        &stride,                     // 정점 크기
+        &offset                      // 오프셋
+    );
+}
+
+// Core/RenderingPipeline/Pipeline/IA/IndexBuffer.cpp
+void IndexBuffer::SetRenderPipeline() NOEXCEPTRELEASE
+{
+    GetDeviceContext()->IASetIndexBuffer(
+        indexBuffer.Get(),           // 인덱스 버퍼
+        DXGI_FORMAT_R32_UINT,       // 인덱스 포맷 (32비트 unsigned int)
+        0u                           // 오프셋
+    );
+}
+
+// Core/RenderingPipeline/Pipeline/IA/PrimitiveTopology.cpp
+void PrimitiveTopology::SetRenderPipeline() NOEXCEPTRELEASE
+{
+    GetDeviceContext()->IASetPrimitiveTopology(topology);
+    // topology 예시: D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- VS 코드 -->
+                        <div style="background-color:#f8f9fa; border-radius:8px; padding:20px; margin-bottom:16px;">
+                            <h5 style="color:#2c3e50; font-size:16px; margin-bottom:12px; font-weight:600;">
+                                <span style="background-color:#10b981; color:#ffffff; padding:4px 12px; border-radius:4px; margin-right:8px; font-size:13px;">VS</span>
+                                Vertex Shader 설정
+                            </h5>
+                            <div class="code-block">
+                                <pre><code class="language-cpp">// Core/RenderingPipeline/Pipeline/VSPS/VertexShader.cpp
+void VertexShader::SetRenderPipeline() NOEXCEPTRELEASE
+{
+    GetDeviceContext()->VSSetShader(
+        vertexShader.Get(),     // 정점 셰이더
+        nullptr,                // 클래스 인스턴스
+        0u                      // 인스턴스 개수
+    );
+}
+
+// TransformConstantBuffer.cpp - Transform 행렬 업데이트
+void TransformConstantBuffer::SetRenderPipeline() NOEXCEPTRELEASE
+{
+    // Transform 행렬 계산 및 업데이트
+    const auto modelView = parent->GetTransformMatrix() * 
+                           camera->GetViewMatrix();
+    const Transforms tf = {
+        DirectX::XMMatrixTranspose(modelView),
+        DirectX::XMMatrixTranspose(
+            modelView * camera->GetProjectionMatrix()
+        )
+    };
+    
+    // ConstantBuffer에 데이터 업데이트
+    Update(tf);
+    
+    // Vertex Shader에 바인딩 (슬롯 0)
+    GetDeviceContext()->VSSetConstantBuffers(
+        0u, 1u, constantBuffer.GetAddressOf()
+    );
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- PS 코드 -->
+                        <div style="background-color:#f8f9fa; border-radius:8px; padding:20px; margin-bottom:16px;">
+                            <h5 style="color:#2c3e50; font-size:16px; margin-bottom:12px; font-weight:600;">
+                                <span style="background-color:#f59e0b; color:#ffffff; padding:4px 12px; border-radius:4px; margin-right:8px; font-size:13px;">PS</span>
+                                Pixel Shader 및 텍스처 설정
+                            </h5>
+                            <div class="code-block">
+                                <pre><code class="language-cpp">// Core/RenderingPipeline/Pipeline/VSPS/PixelShader.cpp
+void PixelShader::SetRenderPipeline() NOEXCEPTRELEASE
+{
+    GetDeviceContext()->PSSetShader(
+        pixelShader.Get(),      // 픽셀 셰이더
+        nullptr,                // 클래스 인스턴스
+        0u                      // 인스턴스 개수
+    );
+}
+
+// Core/Draw/Base/Image/Texture.cpp
+void Texture::SetRenderPipeline() NOEXCEPTRELEASE
+{
+    GetDeviceContext()->PSSetShaderResources(
+        slot,                   // 텍스처 슬롯 (0, 1, 2...)
+        1u,                     // 리소스 개수
+        shaderResourceView.GetAddressOf()  // 텍스처 SRV
+    );
+}
+
+// SamplerState.cpp
+void SamplerState::SetRenderPipeline() NOEXCEPTRELEASE
+{
+    GetDeviceContext()->PSSetSamplers(
+        0u,                     // 샘플러 슬롯
+        1u,                     // 샘플러 개수
+        samplerState.GetAddressOf()  // 샘플러 스테이트
+    );
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- OM 코드 -->
+                        <div style="background-color:#f8f9fa; border-radius:8px; padding:20px;">
+                            <h5 style="color:#2c3e50; font-size:16px; margin-bottom:12px; font-weight:600;">
+                                <span style="background-color:#3b82f6; color:#ffffff; padding:4px 12px; border-radius:4px; margin-right:8px; font-size:13px;">OM</span>
+                                Output Merger 설정
+                            </h5>
+                            <div class="code-block">
+                                <pre><code class="language-cpp">// RenderTarget.cpp
+void RenderTarget::BindAsTarget(const DepthStencil& depthStencil) NOEXCEPTRELEASE
+{
+    // 렌더 타겟과 깊이 스텐실을 Output Merger 단계에 바인딩
+    GetDeviceContext()->OMSetRenderTargets(
+        1u,                                      // 렌더 타겟 개수
+        renderTargetView.GetAddressOf(),         // 렌더 타겟 뷰
+        depthStencil.depthStencilView.Get()      // 깊이 스텐실 뷰
+    );
+}
+
+// Pipeline/OM/DepthStencil.cpp
+void DepthStencilState::SetRenderPipeline() NOEXCEPTRELEASE
+{
+    GetDeviceContext()->OMSetDepthStencilState(
+        depthStencilState.Get(),  // 깊이 스텐실 스테이트
+        stencilRef                // 스텐실 참조 값
+    );
+}
+
+// Pipeline/OM/ColorBlend.cpp
+void ColorBlend::SetRenderPipeline() NOEXCEPTRELEASE
+{
+    GetDeviceContext()->OMSetBlendState(
+        blendState.Get(),         // 블렌드 스테이트
+        nullptr,                  // 블렌드 팩터
+        0xFFFFFFFFu               // 샘플 마스크
+    );
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 렌더링 플로우 상세 -->
+                    <div class="feature-text" style="margin-top:48px;">
+                        <h3 style="font-size:24px; font-weight:700; color:#2c3e50; margin-bottom:16px; padding-bottom:12px; border-bottom:3px solid #ef4444;">렌더링 파이프라인 상세 플로우</h3>
+                        <p style="color:#6c757d; line-height:1.8; margin-bottom:20px;">
+                            DoFrame 메소드의 각 단계를 세부적으로 분석하면 다음과 같은 순서로 렌더링이 진행됩니다:
+                        </p>
+                    </div>
+
+                    <div style="margin-top:24px;">
+                        <!-- BeginFrame -->
+                        <div style="background-color:#f0f9ff; border-left:5px solid #3b82f6; border-radius:8px; padding:24px; margin-bottom:20px;">
+                            <h4 style="font-size:18px; font-weight:700; color:#2c3e50; margin-bottom:12px;">
+                                <span style="background-color:#3b82f6; color:#ffffff; padding:4px 16px; border-radius:20px; margin-right:12px; font-size:14px;">1</span>
+                                BeginFrame - 프레임 초기화
+                            </h4>
+                            <p style="color:#6c757d; line-height:1.8; margin-bottom:16px;">ImGui 프레임을 초기화하고 이전 프레임의 셰이더 리소스를 언바인딩합니다.</p>
+                            <div class="code-block">
+                                <pre><code class="language-cpp">// Core/DxGraphic.cpp
+void DxGraphic::BeginFrame() noexcept
+{
+    // ImGui 새 프레임 시작
+    if (imGuiEnable)
+    {
+        ImGui_ImplDX11_NewFrame();
+        ImGui_ImplWin32_NewFrame();
+        ImGui::NewFrame();
+    }
+    
+    // 이전 프레임의 셰이더 리소스 뷰 초기화 (텍스처 언바인딩)
+    ID3D11ShaderResourceView* const nullTexture = nullptr;
+    deviceContext->PSSetShaderResources(0, 1, &nullTexture);
+    deviceContext->PSSetShaderResources(3, 1, &nullTexture);
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Update Systems -->
+                        <div style="background-color:#f0fdf4; border-left:5px solid #10b981; border-radius:8px; padding:24px; margin-bottom:20px;">
+                            <h4 style="font-size:18px; font-weight:700; color:#2c3e50; margin-bottom:12px;">
+                                <span style="background-color:#10b981; color:#ffffff; padding:4px 16px; border-radius:20px; margin-right:12px; font-size:14px;">2-3</span>
+                                시스템 업데이트 - 물리 및 게임 로직
+                            </h4>
+                            <ul style="color:#6c757d; line-height:2.0; padding-left:20px; margin:0;">
+                                <li><strong>PhysicsSystem::Update</strong>: NVIDIA PhysX를 통한 물리 시뮬레이션 (충돌 감지, 강체 동역학)</li>
+                                <li><strong>Scene::Update</strong>: 모든 오브젝트의 Update() 메소드 호출, Transform 계산, 애니메이션 업데이트</li>
+                            </ul>
+                        </div>
+
+                        <!-- RenderGraph Execute -->
+                        <div style="background-color:#fef3c7; border-left:5px solid #f59e0b; border-radius:8px; padding:24px; margin-bottom:20px;">
+                            <h4 style="font-size:18px; font-weight:700; color:#2c3e50; margin-bottom:12px;">
+                                <span style="background-color:#f59e0b; color:#ffffff; padding:4px 16px; border-radius:20px; margin-right:12px; font-size:14px;">4</span>
+                                RenderGraph::Execute - 렌더 패스 실행
+                            </h4>
+                            <p style="color:#6c757d; line-height:1.8; margin-bottom:12px;">등록된 순서대로 모든 RenderPass를 실행하여 화면을 그립니다:</p>
+                            <div style="background-color:#ffffff; border-radius:6px; padding:16px;">
+                                <ol style="margin:0; padding-left:20px; color:#6c757d; line-height:2.0; font-size:14px;">
+                                    <li><strong>clearRenderTarget & clearDepthStencil</strong> - 백버퍼와 깊이 버퍼 초기화</li>
+                                    <li><strong>ShadowMapPass</strong> - 라이트 시점에서 깊이 정보를 렌더링하여 그림자 맵 생성</li>
+                                    <li><strong>LambertianRenderPass</strong> - 램버시안 반사 모델로 메인 오브젝트 렌더링 (그림자 맵 사용)</li>
+                                    <li><strong>SkyboxPass</strong> - 배경 스카이박스 렌더링</li>
+                                    <li><strong>OutlineMaskPass</strong> - 선택된 오브젝트의 마스크를 스텐실 버퍼에 렌더링</li>
+                                    <li><strong>OutlineDrawPass</strong> - 아웃라인 초기 데이터 생성</li>
+                                    <li><strong>HorizontalBlurPass</strong> - 가우시안 블러 커널로 수평 방향 블러 적용</li>
+                                    <li><strong>VerticalBlurPass</strong> - 수직 방향 블러 적용 및 최종 합성</li>
+                                    <li><strong>WireFramePass</strong> - 카메라 절두체 와이어프레임 오버레이</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <!-- UI Rendering -->
+                        <div style="background-color:#ede9fe; border-left:5px solid #8b5cf6; border-radius:8px; padding:24px; margin-bottom:20px;">
+                            <h4 style="font-size:18px; font-weight:700; color:#2c3e50; margin-bottom:12px;">
+                                <span style="background-color:#8b5cf6; color:#ffffff; padding:4px 16px; border-radius:20px; margin-right:12px; font-size:14px;">5</span>
+                                UI 렌더링 - ImGui 인터페이스
+                            </h4>
+                            <ul style="color:#6c757d; line-height:2.0; padding-left:20px; margin:0;">
+                                <li><strong>CreateSimulationWindow & CreateDemoWindows</strong>: 시뮬레이션 제어 창</li>
+                                <li><strong>Scene::LateUpdate</strong>: 후처리 로직 실행</li>
+                                <li><strong>RenderGraph::RenderWindows</strong>: 디버그 윈도우 (커널 설정, 섀도우 설정)</li>
+                                <li><strong>FolderView, MenuBar, Inspector</strong>: 에디터 UI 렌더링</li>
+                            </ul>
+                        </div>
+
+                        <!-- EndFrame -->
+                        <div style="background-color:#fce7f3; border-left:5px solid #ec4899; border-radius:8px; padding:24px; margin-bottom:20px;">
+                            <h4 style="font-size:18px; font-weight:700; color:#2c3e50; margin-bottom:12px;">
+                                <span style="background-color:#ec4899; color:#ffffff; padding:4px 16px; border-radius:20px; margin-right:12px; font-size:14px;">6</span>
+                                EndFrame - 화면 출력
+                            </h4>
+                            <p style="color:#6c757d; line-height:1.8; margin-bottom:16px;">ImGui 렌더링 데이터를 생성하고 백/프론트 버퍼를 교환하여 화면에 출력합니다.</p>
+                            <div class="code-block">
+                                <pre><code class="language-cpp">// Core/DxGraphic.cpp
+void DxGraphic::EndFrame()
+{
+    // ImGui는 마지막에 처리를 해야 화면 맨 앞으로 나옴
+    if (imGuiEnable)
+    {
+        ImGui::Render();
+        ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+    }
+    
+    // 백 버퍼와 프론트 버퍼 교환 (화면에 출력)
+    // 첫 번째 인자: VSync (0 = 비활성화, 1 = 활성화)
+    HRESULT hr = swapChain->Present(0, 0);
+    
+    if (FAILED(hr))
+    {
+        if (hr == DXGI_ERROR_DEVICE_REMOVED)
+            throw GRAPHIC_REMOVE_EXCEPT(device->GetDeviceRemovedReason());
+        else
+            throw GRAPHIC_EXCEPT(hr);
+    }
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Reset -->
+                        <div style="background-color:#f1f5f9; border-left:5px solid #64748b; border-radius:8px; padding:24px;">
+                            <h4 style="font-size:18px; font-weight:700; color:#2c3e50; margin-bottom:12px;">
+                                <span style="background-color:#64748b; color:#ffffff; padding:4px 16px; border-radius:20px; margin-right:12px; font-size:14px;">7</span>
+                                Reset - 다음 프레임 준비
+                            </h4>
+                            <p style="color:#6c757d; line-height:1.8; margin:0;">
+                                모든 RenderQueuePass의 renderJobs 큐를 비워 다음 프레임을 위한 깨끗한 상태로 초기화합니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 셰이더 시스템 -->
+                    <div class="feature-text" style="margin-top:48px;">
+                        <h3 style="font-size:24px; font-weight:700; color:#2c3e50; margin-bottom:16px; padding-bottom:12px; border-bottom:3px solid #06b6d4;">셰이더 시스템 (HLSL)</h3>
+                        <p style="color:#6c757d; line-height:1.8; margin-bottom:24px;">
+                            본 엔진은 다양한 HLSL 셰이더를 지원하며, 런타임에 D3DX11CompileFromFile로 컴파일하여 사용합니다. 
+                            디버그 빌드에서는 디버그 정보를 포함하고 최적화를 생략하여 셰이더 디버깅을 용이하게 합니다.
+                        </p>
+                    </div>
+
+                    <!-- 셰이더 목록 -->
+                    <div style="margin-top:24px; background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); border-radius:12px; padding:28px; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
+                        <h4 style="font-size:20px; font-weight:700; color:#ffffff; margin-bottom:20px;">
+                            <i class="fas fa-file-code" style="margin-right:10px;"></i>지원 셰이더 목록 (Shader/ 폴더)
+                        </h4>
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
+                            <div style="background-color:rgba(255,255,255,0.95); border-radius:8px; padding:16px;">
+                                <ul style="margin:0; padding-left:20px; color:#2c3e50; line-height:2.0; font-size:14px;">
+                                    <li><strong>ColorShader.hlsl</strong> - 단색 렌더링</li>
+                                    <li><strong>LitColor.hlsl</strong> - 조명이 적용된 컬러</li>
+                                    <li><strong>LitTextureDiffuse.hlsl</strong> - 디퓨즈 텍스처 + 조명</li>
+                                </ul>
+                            </div>
+                            <div style="background-color:rgba(255,255,255,0.95); border-radius:8px; padding:16px;">
+                                <ul style="margin:0; padding-left:20px; color:#2c3e50; line-height:2.0; font-size:14px;">
+                                    <li><strong>LitTextureDiffuseNormal.hlsl</strong> - 노멀 매핑</li>
+                                    <li><strong>LitTextureDiffuseSpecular.hlsl</strong> - 스페큘러 맵</li>
+                                    <li><strong>LitTextureDiffuseSpecularNormal.hlsl</strong> - 모든 맵</li>
+                                </ul>
+                            </div>
+                            <div style="background-color:rgba(255,255,255,0.95); border-radius:8px; padding:16px;">
+                                <ul style="margin:0; padding-left:20px; color:#2c3e50; line-height:2.0; font-size:14px;">
+                                    <li><strong>ShadowVS/PS.hlsl</strong> - 그림자 맵 생성</li>
+                                    <li><strong>Skybox.hlsl</strong> - 스카이박스 렌더링</li>
+                                    <li><strong>PostProcessing/</strong> - 포스트 프로세싱 셰이더들</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 셰이더 컴파일 코드 -->
+                    <div class="code-block" style="margin-top:24px;">
+                        <pre><code class="language-cpp">// 셰이더 컴파일 및 생성 예시 (DxGraphic.cpp)
+ComPtr&lt;ID3D11VertexShader&gt; vertexShader;
+ComPtr&lt;ID3DBlob&gt; shaderCode;
+
+DWORD shaderFlags = 0;
+#if defined(DEBUG) || defined(_DEBUG)
+    shaderFlags |= D3D10_SHADER_DEBUG;           // 디버그 정보 포함
+    shaderFlags |= D3D10_SHADER_SKIP_OPTIMIZATION; // 최적화 생략
+#endif
+
+ID3D10Blob* compiledShader = 0;
+ID3D10Blob* errorMessage = 0;
+
+// HLSL 파일 컴파일
+HRESULT hr = D3DX11CompileFromFileA(
+    "Shader/ColorShader.hlsl",  // 셰이더 파일 경로
+    nullptr,                     // 매크로 정의
+    nullptr,                     // Include 파일
+    "VS",                        // 엔트리 포인트 함수명
+    "vs_5_0",                    // 셰이더 모델 (Vertex Shader 5.0)
+    shaderFlags,                 // 컴파일 플래그
+    0,                           // 효과 플래그
+    0,                           // 스레드 펌프
+    &shaderCode,                 // 컴파일된 코드
+    &errorMessage,               // 에러 메시지
+    nullptr                      // 결과
+);
+
+// 에러 체크
+if (FAILED(hr))
+{
+    if (errorMessage != 0)
+    {
+        MessageBoxA(0, (char*)errorMessage->GetBufferPointer(), 0, 0);
+        ReleaseCOM(errorMessage);
+    }
+    DXTrace(__FILE__, (DWORD)__LINE__, hr, "D3DX11CompileFromFile", true);
+}
+
+// VertexShader 객체 생성
+GRAPHIC_THROW_INFO(device->CreateVertexShader(
+    shaderCode->GetBufferPointer(),  // 바이트코드
+    shaderCode->GetBufferSize(),     // 바이트코드 크기
+    nullptr,                         // 클래스 링커
+    &vertexShader                    // 생성된 셰이더
+));
+
+// Vertex Shader 단계를 렌더링 파이프라인에 바인딩
+deviceContext->VSSetShader(vertexShader.Get(), nullptr, 0);</code></pre>
+                    </div>
+
+                    <!-- HLSL 셰이더 예시 -->
+                    <div id="rendering-shader" style="margin-top:32px;">
+                        <h4 class="subsection-title" style="font-size:20px;">
+                            <i class="fas fa-code" style="color:#06b6d4; margin-right:10px;"></i>HLSL 셰이더 코드
+                        </h4>
+                        <p style="color:#6c757d; line-height:1.8; margin-bottom:16px;">
+                            본 엔진에서 실제로 사용하는 <code>LitTextureDiffuse.hlsl</code> 셰이더는 디퓨즈 텍스처, 조명 계산, 그림자 매핑을 지원합니다. 
+                            셰이더 헤더 파일들을 include하여 재사용 가능한 구조로 설계되었습니다.
+                        </p>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-hlsl">// Shader/LitTextureDiffuse.hlsl
+#include "ShaderHeader/PointLight.hlsli"
+#include "ShaderHeader/LightShader.hlsli"
+#include "ShaderHeader/LightVector.hlsli"
+#include "ShaderHeader/Transform.hlsli"
+#include "ShaderHeader/ShadowVS.hlsli"
+#include "ShaderHeader/ShadowStaticPS.hlsli"
+
+// Vertex Shader 출력 구조체
+struct VertexOut
+{
+    float3 viewPosition : Position;
+    float3 viewNormal : Normal;
+    float2 textureCoord : TEXCOORD;
+    float4 shadowHomoPosition : ShadowPosition;
+    float4 position : SV_Position;
+};    
+
+// 오브젝트별 재질 속성
+cbuffer ObjectColor : register(b1)
+{
+    float3 specularColor;   // Specular 색상
+    float specularPower;    // Specular 강도
+    float specularGlass;    // Specular 반짝임 정도
+};
+
+Texture2D tex : register(t0);
+SamplerState state : register(s0);
+
+// Vertex Shader
+VertexOut VS(float3 localPosition : Position, float3 normal : Normal, float2 textureCoord : TEXCOORD)
+{
+    VertexOut vertexOut;
+    
+    // 로컬 좌표를 뷰 좌표로 변환
+    vertexOut.viewPosition = (float3) mul(float4(localPosition, 1.0f), cameraTransform);
+    vertexOut.viewNormal = mul(normal, (float3x3) cameraTransform);
+    vertexOut.position = mul(float4(localPosition, 1.0f), worldViewProjection);
+    
+    vertexOut.textureCoord = textureCoord;
+    vertexOut.shadowHomoPosition = GetShadowHomoSpace(localPosition, model);
+    
+    return vertexOut;
+}
+
+// Pixel Shader
+float4 PS(float3 viewPosition : Position, float3 viewNormal : Normal, 
+          float2 textureCoord : TEXCOORD, float4 shadowPosition : ShadowPosition) : SV_Target
+{
+    float3 diffuse;
+    float3 specular;
+    
+    // 그림자 체크
+    const float shadow = GetShadow(shadowPosition);
+    if (shadow != 0.0f)
+    {
+        viewNormal = normalize(viewNormal);
+        
+        // 조명 벡터 계산
+        const LightVector lightVector = GetLightVector(lightViewPosition, viewPosition);
+        
+        // 거리 감쇠 계산
+        const float attResult = GetAttenuate(attConst, attLin, attQuad, lightVector.distance);
+        
+        // Diffuse 조명 계산
+        diffuse = GetDiffuse(diffuseColor, diffuseIntensity, attResult, 
+                            lightVector.vertexToLightDir, viewNormal);
+        
+        // Specular 조명 계산
+        specular = GetSpecular(diffuseColor * diffuseIntensity * specularColor, 
+                               specularPower, viewNormal, lightVector.vertexToLight, 
+                               viewPosition, attResult, specularGlass);
+        
+        // 그림자 적용
+        diffuse *= shadow;
+        specular *= shadow;
+    }
+    else
+        diffuse = specular = 0.0f;
+    
+    // 텍스처 샘플링 및 최종 색상 계산
+    return float4(saturate((diffuse + ambient) * tex.Sample(state, textureCoord).rgb + specular), 1.0f);
+}</code></pre>
+                        </div>
+                        
+                        <div style="margin-top:24px; background-color:#f8f9fa; border-radius:8px; padding:20px;">
+                            <h5 style="font-size:16px; font-weight:600; color:#2c3e50; margin-bottom:12px;">
+                                <i class="fas fa-file-code" style="color:#06b6d4; margin-right:8px;"></i>셰이더 헤더 파일 구조
+                            </h5>
+                            <div class="code-block">
+                                <pre><code class="language-hlsl">// ShaderHeader/Transform.hlsli - 변환 행렬
+cbuffer ObjectTransform : register(b0)
+{
+    matrix model;                  // 모델 행렬
+    matrix cameraTransform;        // 카메라 변환 행렬
+    matrix worldViewProjection;    // 월드-뷰-프로젝션 행렬
+};
+
+// ShaderHeader/PointLight.hlsli - 조명 정보
+cbuffer LightInfoConstant : register(b0)
+{
+    float3 lightViewPosition;   // 조명 위치
+    float3 ambient;             // 앰비언트 조명
+    float3 diffuseColor;        // 디퓨즈 색상
+    float diffuseIntensity;     // 디퓨즈 강도
+    float attConst;             // 감쇠 상수
+    float attLin;               // 선형 감쇠
+    float attQuad;              // 제곱 감쇠
+};
+
+// ShaderHeader/LightShader.hlsli - 조명 계산 함수들
+float GetAttenuate(float attConst, float attLin, float attQuad, float distance)
+{
+    return 1.0f / (attConst + attLin * distance + attQuad * (distance * distance));
+}
+
+float3 GetDiffuse(float3 diffuseColor, float diffuseIntensity, float attResult, 
+                  float3 vertexToLightDir, float3 viewNormal)
+{
+    return diffuseColor * diffuseIntensity * attResult * 
+           max(0.0f, dot(vertexToLightDir, viewNormal));
+}
+
+float3 GetSpecular(float3 diffuseColor, float specularPower, float3 viewNormal, 
+                   float3 vertexToLight, float3 viewPosition, float attResult, float specularGlass)
+{
+    // 빛이 반사되는 벡터 계산
+    const float3 reflectAngle = viewNormal * dot(vertexToLight, viewNormal);
+    const float3 reflectVector = normalize(reflectAngle * 2.0f - vertexToLight);
+    
+    // 반사광 강도 계산
+    return attResult * diffuseColor * 
+           pow(max(0.0f, dot(-reflectVector, normalize(viewPosition))), specularPower);
+}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top:16px; padding:16px; background-color:#e0f2fe; border-left:4px solid #0284c7; border-radius:6px;">
+                            <p style="margin:0; color:#0c4a6e; font-size:14px; line-height:1.6;">
+                                <i class="fas fa-info-circle" style="margin-right:8px;"></i>
+                                <strong>설계 특징:</strong> 셰이더 헤더 파일(*.hlsli)을 사용하여 조명 계산, 변환, 그림자 등의 공통 기능을 재사용하며, 
+                                이를 통해 코드 중복을 줄이고 유지보수성을 향상시켰습니다. 엔진은 LitTextureDiffuse 외에도 
+                                Normal Mapping, Specular Mapping 등을 지원하는 다양한 셰이더를 제공합니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Frustum Culling 최적화 -->
+                    <div id="rendering-frustum" class="feature-text" style="margin-top:48px;">
+                        <h3 class="subsection-title">주요 최적화 기법: Frustum Culling</h3>
+                        <p style="color:#6c757d; line-height:1.8; margin-bottom:24px;">
+                            카메라의 시야 절두체(View Frustum) 외부에 있는 객체는 렌더링하지 않음으로써 성능을 크게 향상시킵니다. 
+                            이는 RenderJob::Execute()에서 각 객체의 Bounding Volume이 절두체 내부에 있는지 체크하여 구현됩니다.
+                        </p>
+                    </div>
+
+                    <div style="margin-top:24px; background: linear-gradient(135deg, #ec4899 0%, #be185d 100%); border-radius:12px; padding:28px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);">
+                        <h4 style="font-size:20px; font-weight:700; color:#ffffff; margin-bottom:20px;">
+                            <i class="fas fa-cut" style="margin-right:10px;"></i>Frustum Culling 동작 원리
+                        </h4>
+                        <div style="background-color:rgba(255,255,255,0.95); border-radius:8px; padding:24px;">
+                            <ol style="margin:0; padding-left:20px; color:#2c3e50; line-height:2.2; font-size:15px;">
+                                <li><strong>절두체 평면 계산</strong>: 카메라의 View/Projection 행렬로부터 6개의 절두체 평면 추출</li>
+                                <li><strong>AABB 교차 테스트</strong>: 각 객체의 Axis-Aligned Bounding Box가 절두체 내부에 있는지 체크</li>
+                                <li><strong>컬링 결정</strong>: 외부 객체는 DrawIndexed 호출 생략하여 GPU 부하 감소</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="code-block" style="margin-top:24px;">
+                        <pre><code class="language-cpp">// Core/Camera/CameraViewFrustumCulling.cpp
+// View/Projection 행렬로 절두체 업데이트
+void CameraViewFrustumCulling::UpdateFromMatrices(
+    const DirectX::XMMATRIX& viewMatrix, 
+    const DirectX::XMMATRIX& projMatrix)
+{
+    // View * Projection 행렬 계산
+    DirectX::XMMATRIX viewProj = viewMatrix * projMatrix;
+    
+    // 6개의 절두체 평면 추출 (Near, Far, Left, Right, Top, Bottom)
+    // 각 평면은 4D 벡터로 표현 (ax + by + cz + d = 0)
+    
+    // Left 평면 = 4번째 행 + 1번째 행
+    frustumPlanes[0] = DirectX::XMPlaneNormalize(
+        DirectX::XMVectorAdd(viewProj.r[3], viewProj.r[0])
+    );
+    
+    // Right 평면 = 4번째 행 - 1번째 행
+    frustumPlanes[1] = DirectX::XMPlaneNormalize(
+        DirectX::XMVectorSubtract(viewProj.r[3], viewProj.r[0])
+    );
+    
+    // Bottom 평면 = 4번째 행 + 2번째 행
+    frustumPlanes[2] = DirectX::XMPlaneNormalize(
+        DirectX::XMVectorAdd(viewProj.r[3], viewProj.r[1])
+    );
+    
+    // Top 평면 = 4번째 행 - 2번째 행
+    frustumPlanes[3] = DirectX::XMPlaneNormalize(
+        DirectX::XMVectorSubtract(viewProj.r[3], viewProj.r[1])
+    );
+    
+    // Near 평면 = 3번째 행
+    frustumPlanes[4] = DirectX::XMPlaneNormalize(viewProj.r[2]);
+    
+    // Far 평면 = 4번째 행 - 3번째 행
+    frustumPlanes[5] = DirectX::XMPlaneNormalize(
+        DirectX::XMVectorSubtract(viewProj.r[3], viewProj.r[2])
+    );
+}
+
+// AABB(Axis-Aligned Bounding Box)가 절두체 내부에 있는지 확인
+bool CameraViewFrustumCulling::IsInFrustum(const BoundingBox& bbox) const
+{
+    DirectX::XMVECTOR center = DirectX::XMLoadFloat3(&bbox.center);
+    DirectX::XMVECTOR extents = DirectX::XMLoadFloat3(&bbox.extents);
+    
+    // 6개의 평면 모두에 대해 체크
+    for (int i = 0; i < 6; i++)
+    {
+        // 평면의 노멀 방향으로 가장 먼 점 계산
+        DirectX::XMVECTOR planeNormal = frustumPlanes[i];
+        
+        // AABB의 중심에서 평면까지의 거리 계산
+        float distance = DirectX::XMVectorGetX(
+            DirectX::XMPlaneDotCoord(planeNormal, center)
+        );
+        
+        // AABB의 반경 계산 (평면 방향으로의 최대 거리)
+        float radius = DirectX::XMVectorGetX(
+            DirectX::XMVector3Dot(
+                DirectX::XMVectorAbs(planeNormal), 
+                extents
+            )
+        );
+        
+        // 평면 밖에 있으면 렌더링 불필요
+        if (distance < -radius)
+            return false;
+    }
+    
+    // 모든 평면을 통과하면 절두체 내부에 있음
+    return true;
+}
+
+// RenderJob에서 사용 예시 (RenderJob.cpp)
+void RenderJob::Excute(bool isPassFrustumCulling) NOEXCEPTRELEASE
+{
+    // 절두체 컬링 체크
+    if (isPassFrustumCulling && useViewFrustum && !IsInViewFrustum())
+    {
+        // 절두체 밖에 있으면 렌더링 건너뛰기
+        return; // ← 성능 향상! DrawIndexed 호출 안 함
+    }
+    
+    // 절두체 내부에 있는 객체만 렌더링
+    drawable->SetRenderPipeline();
+    renderStep->SetRenderPipeline();
+    Window::GetDxGraphic().DrawIndexed(drawable->GetIndexCount());
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 물리 시스템 (PhysX) -->
+            <section id="physics-system" class="anchor-section">
+                <div class="feature-container">
+                    <h2 class="section-title">물리 시스템 (NVIDIA PhysX)</h2>
+                    <div class="feature-text">
+                        <p style="color:#6c757d; line-height:1.8; margin-bottom:24px;">
+                            본 엔진은 <strong>NVIDIA PhysX</strong>를 통합하여 실시간 물리 시뮬레이션을 제공합니다. 
+                            PhysicsSystem은 싱글톤 패턴으로 구현되어 전역적으로 접근 가능하며, 
+                            고정 시간 간격(Fixed Timestep) 업데이트로 안정적인 물리 계산을 보장합니다.
+                        </p>
+                    </div>
+
+                    <!-- PhysicsSystem 구조 -->
+                    <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius:12px; padding:28px; margin-top:24px; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
+                        <h4 style="font-size:20px; font-weight:700; color:#ffffff; margin-bottom:20px;">
+                            <i class="fas fa-atom" style="margin-right:10px;"></i>PhysicsSystem 구조
+                        </h4>
+                        <div style="background-color:rgba(255,255,255,0.95); border-radius:8px; padding:20px;">
+                            <div class="code-block">
+                                <pre><code class="language-cpp">// Core/Component/Physics/PhysicsSystem.h
+class PhysicsSystem
+{
+public:
+    // 싱글톤 인스턴스
+    static PhysicsSystem& GetInstance();
+    
+    // 시스템 생명주기
+    bool Initialize();
+    void Shutdown();
+    void Update(float deltaTime);
+    
+    // PhysX 객체 접근
+    physx::PxPhysics* GetPhysics() const { return physics; }
+    physx::PxScene* GetScene() const { return scene; }
+    
+    // 메시 콜라이더 생성
+    physx::PxTriangleMesh* CreateTriangleMeshCollider(
+        const std::vector&lt;physx::PxVec3&gt;& vertices,
+        const std::vector&lt;uint32_t&gt;& indices);
+    
+    physx::PxConvexMesh* CreateConvexMeshCollider(
+        const std::vector&lt;physx::PxVec3&gt;& vertices,
+        bool autoGenerateHull = true,
+        uint32_t vertexLimit = 256);
+    
+private:
+    // PhysX 핵심 객체들
+    physx::PxFoundation* foundation = nullptr;
+    physx::PxPhysics* physics = nullptr;
+    physx::PxDefaultCpuDispatcher* dispatcher = nullptr;
+    physx::PxScene* scene = nullptr;
+    physx::PxPvd* pvd = nullptr;  // PhysX Visual Debugger
+    
+    float timeAccumulator = 0.0f;  // 고정 시간 간격 시뮬레이션용
+};</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 초기화 및 업데이트 -->
+                    <div style="margin-top:32px;">
+                        <h4 style="font-size:20px; font-weight:700; color:#2c3e50; margin-bottom:16px;">
+                            <i class="fas fa-cog" style="color:#10b981; margin-right:10px;"></i>초기화 및 업데이트 과정
+                        </h4>
+                        
+                        <div class="code-block" style="margin-bottom:20px;">
+                            <pre><code class="language-cpp">// PhysicsSystem 초기화
+bool PhysicsSystem::Initialize()
+{
+    // 1) Foundation 생성 (PhysX 기반)
+    foundation = PxCreateFoundation(PX_PHYSICS_VERSION, allocator, errorCallback);
+    
+    // 2) Physics 객체 생성
+    physics = PxCreatePhysics(PX_PHYSICS_VERSION, *foundation, PxTolerancesScale());
+    
+    // 3) CPU Dispatcher 생성 (멀티스레딩, 2개 스레드)
+    dispatcher = PxDefaultCpuDispatcherCreate(2);
+    
+    // 4) Scene 생성
+    PxSceneDesc sceneDesc(physics->getTolerancesScale());
+    sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);  // 중력 설정
+    sceneDesc.cpuDispatcher = dispatcher;
+    sceneDesc.filterShader = PxDefaultSimulationFilterShader;
+    
+    scene = physics->createScene(sceneDesc);
+    
+    return true;
+}
+
+// 고정 시간 간격 업데이트 (60 FPS)
+void PhysicsSystem::Update(float deltaTime)
+{
+    const float fixedTimestep = 1.0f / 60.0f;  // 60 FPS
+    
+    timeAccumulator += deltaTime;
+    
+    // 고정 시간 간격으로 여러 번 시뮬레이션
+    while (timeAccumulator >= fixedTimestep)
+    {
+        scene->simulate(fixedTimestep);
+        scene->fetchResults(true);  // 결과 대기
+        
+        timeAccumulator -= fixedTimestep;
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 입력 시스템 -->
+            <section id="input-system" class="anchor-section">
+                <div class="feature-container">
+                    <h2 class="section-title">입력 시스템 (Keyboard & Mouse)</h2>
+                    <div class="feature-text">
+                        <p style="color:#6c757d; line-height:1.8; margin-bottom:24px;">
+                            본 엔진은 키보드와 마우스 입력을 이벤트 기반으로 처리합니다. 
+                            이벤트 큐 방식과 상태 확인 방식을 모두 지원하여 다양한 입력 처리 패턴을 구현할 수 있습니다.
+                        </p>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(480px, 1fr)); gap:24px; margin-top:24px;">
+                        <!-- Keyboard 클래스 -->
+                        <div style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-radius:12px; padding:28px; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
+                            <h4 style="font-size:20px; font-weight:700; color:#ffffff; margin-bottom:20px;">
+                                <i class="fas fa-keyboard" style="margin-right:10px;"></i>Keyboard 클래스
+                            </h4>
+                            <div style="background-color:rgba(255,255,255,0.95); border-radius:8px; padding:20px;">
+                                <div style="margin-bottom:16px;">
+                                    <h5 style="color:#2c3e50; font-size:16px; margin-bottom:12px; font-weight:600;">주요 기능</h5>
+                                    <ul style="margin:0; padding-left:20px; color:#6c757d; line-height:2.0; font-size:14px;">
+                                        <li><strong>이벤트 큐</strong>: ReadKey() - Press/Release 이벤트</li>
+                                        <li><strong>상태 확인</strong>: IsPressed() - 실시간 키 상태</li>
+                                        <li><strong>문자 입력</strong>: ReadChar() - 텍스트 입력용</li>
+                                        <li><strong>Autorepeat</strong>: 키 반복 입력 제어</li>
+                                    </ul>
+                                </div>
+                                <div class="code-block">
+                                    <pre><code class="language-cpp">// 이벤트 큐 방식
+while (const auto key = wnd.keyBoard.ReadKey())
+{
+    if (key->IsPress())
+    {
+        switch (key->GetCode())
+        {
+        case VK_ESCAPE:
+            // ESC 키 처리
+            break;
+        }
+    }
+}
+
+// 실시간 상태 확인
+if (wnd.keyBoard.IsPressed('W'))
+    camera->MoveForward(deltaTime);</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mouse 클래스 -->
+                        <div style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); border-radius:12px; padding:28px; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
+                            <h4 style="font-size:20px; font-weight:700; color:#ffffff; margin-bottom:20px;">
+                                <i class="fas fa-mouse-pointer" style="margin-right:10px;"></i>Mouse 클래스
+                            </h4>
+                            <div style="background-color:rgba(255,255,255,0.95); border-radius:8px; padding:20px;">
+                                <div style="margin-bottom:16px;">
+                                    <h5 style="color:#2c3e50; font-size:16px; margin-bottom:12px; font-weight:600;">주요 기능</h5>
+                                    <ul style="margin:0; padding-left:20px; color:#6c757d; line-height:2.0; font-size:14px;">
+                                        <li><strong>위치 추적</strong>: GetPos() - 마우스 좌표</li>
+                                        <li><strong>버튼 상태</strong>: LeftIsPressed(), RightIsPressed()</li>
+                                        <li><strong>Raw Input</strong>: ReadRawDelta() - FPS 카메라용</li>
+                                        <li><strong>휠 스크롤</strong>: ReadWheel() - 줌 제어</li>
+                                    </ul>
+                                </div>
+                                <div class="code-block">
+                                    <pre><code class="language-cpp">// 마우스 이동으로 카메라 회전
+while (const auto delta = wnd.mouse.ReadRawDelta())
+{
+    camera->Rotate(
+        delta->x * sensitivity, 
+        delta->y * sensitivity
+    );
+}
+
+// 마우스 버튼
+if (wnd.mouse.LeftIsPressed())
+{
+    // 클릭 처리
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Material 시스템 -->
+            <section id="material-system" class="anchor-section">
+                <div class="feature-container">
+                    <h2 class="section-title">Material 시스템</h2>
+                    <div class="feature-text">
+                        <p style="color:#6c757d; line-height:1.8; margin-bottom:24px;">
+                            Material은 3D 모델의 외형을 결정하는 재질 정보를 관리합니다. 
+                            Assimp를 통해 모델 파일에서 자동으로 텍스처와 속성을 로드하며, 
+                            사용 가능한 텍스처 맵에 따라 적절한 셰이더 Technique를 자동으로 선택합니다.
+                        </p>
+                    </div>
+
+                    <div style="background-color:#fef3c7; border-radius:12px; padding:28px; margin-top:24px; border-left:6px solid #f59e0b;">
+                        <h4 style="font-size:20px; font-weight:700; color:#2c3e50; margin-bottom:16px;">
+                            <i class="fas fa-palette" style="color:#f59e0b; margin-right:10px;"></i>Assimp에서 Material 로드
+                        </h4>
+                        <div class="code-block">
+                            <pre><code class="language-cpp">// Core/Draw/Base/Material.cpp
+Material::Material(const aiMaterial& material, const std::filesystem::path& path)
+{
+    // 1) Diffuse 텍스처 로드 (기본 색상)
+    aiString texturePath;
+    if (material.GetTexture(aiTextureType_DIFFUSE, 0, &texturePath) == AI_SUCCESS)
+    {
+        std::string fullPath = path.parent_path().string() + "\\" + texturePath.C_Str();
+        diffuseTexture = Texture::Create(fullPath);
+    }
+    
+    // 2) Normal Map 로드 (노멀 매핑)
+    if (material.GetTexture(aiTextureType_NORMALS, 0, &texturePath) == AI_SUCCESS)
+    {
+        std::string fullPath = path.parent_path().string() + "\\" + texturePath.C_Str();
+        normalMap = Texture::Create(fullPath);
+    }
+    
+    // 3) Specular Map 로드 (반사광)
+    if (material.GetTexture(aiTextureType_SPECULAR, 0, &texturePath) == AI_SUCCESS)
+    {
+        std::string fullPath = path.parent_path().string() + "\\" + texturePath.C_Str();
+        specularMap = Texture::Create(fullPath);
+    }
+    
+    // 4) Technique 자동 선택 (사용 가능한 텍스처에 따라)
+    if (diffuseTexture && normalMap && specularMap)
+    {
+        // 모든 맵을 사용하는 셰이더
+        techniques.push_back(Technique("LitTextureDiffuseSpecularNormal", channel));
+    }
+    else if (diffuseTexture && normalMap)
+    {
+        techniques.push_back(Technique("LitTextureDiffuseNormal", channel));
+    }
+    else if (diffuseTexture)
+    {
+        techniques.push_back(Technique("LitTextureDiffuse", channel));
+    }
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:24px; padding:24px; background: linear-gradient(to right, #fef3c7 0%, #fed7aa 100%); border-radius:12px;">
+                        <h5 style="color:#2c3e50; font-size:18px; margin-bottom:16px; font-weight:600;">
+                            <i class="fas fa-check-circle" style="color:#f59e0b; margin-right:8px;"></i>지원하는 Material 속성
+                        </h5>
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px;">
+                            <div style="background-color:#ffffff; border-radius:8px; padding:16px;">
+                                <strong style="color:#2c3e50; display:block; margin-bottom:8px;">텍스처 맵</strong>
+                                <ul style="margin:0; padding-left:20px; color:#6c757d; line-height:1.8; font-size:14px;">
+                                    <li>Diffuse Texture</li>
+                                    <li>Normal Map</li>
+                                    <li>Specular Map</li>
+                                </ul>
+                            </div>
+                            <div style="background-color:#ffffff; border-radius:8px; padding:16px;">
+                                <strong style="color:#2c3e50; display:block; margin-bottom:8px;">재질 속성</strong>
+                                <ul style="margin:0; padding-left:20px; color:#6c757d; line-height:1.8; font-size:14px;">
+                                    <li>Ambient Color</li>
+                                    <li>Emissive Color</li>
+                                    <li>Shininess</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Object와 Component 시스템 -->
+            <section id="object-component-system" class="anchor-section">
+                <div class="feature-container">
+                    <h2 class="section-title">Object와 Component 시스템</h2>
+                    <div class="feature-text">
+                        <p style="color:#6c757d; line-height:1.8; margin-bottom:24px;">
+                            본 엔진은 <strong>Unity와 유사한 Entity-Component 패턴</strong>을 채택하여 게임 오브젝트를 구성합니다. 
+                            Object는 게임 세계의 엔티티를 나타내며, Component는 Object에 기능을 추가하는 모듈입니다. 
+                            C++20 Concept을 활용한 타입 안전성과 스마트 포인터를 통한 자동 메모리 관리로 안정적인 구조를 제공합니다.
+                        </p>
+                    </div>
+
+                    <!-- EngineLoop 인터페이스 -->
+                    <div style="margin-top:32px;">
+                        <h4 style="font-size:20px; font-weight:700; color:#2c3e50; margin-bottom:16px;">
+                            <i class="fas fa-sync-alt" style="color:#06b6d4; margin-right:10px;"></i>EngineLoop 인터페이스 - 통일된 생명주기
+                        </h4>
+                        <p style="color:#6c757d; line-height:1.8; margin-bottom:16px;">
+                            모든 Object와 Component는 EngineLoop 인터페이스를 구현하여 일관된 생명주기를 가집니다.
+                        </p>
+                        <div class="code-block">
+                            <pre><code class="language-cpp">// Core/Object/EngineLoop.h
+class EngineLoop
+{
+public:
+    virtual void Initialize() = 0;         // 초기화 (리소스 로드 등)
+    virtual void BeforeFrame() = 0;        // 첫 프레임 전 실행
+    virtual void Start() = 0;              // 게임 시작 시 1회 실행
+    virtual void LateStart() = 0;          // Start 이후 1회 실행
+    virtual void Update(float deltaTime) = 0;  // 매 프레임 업데이트
+    virtual void LateUpdate() = 0;         // Update 이후 실행
+    virtual void Finalize() = 0;           // 종료 전 정리
+    virtual void Destroy() = 0;            // 객체 파괴 시 실행
+    
+    virtual void OnEnable() = 0;           // 활성화 시
+    virtual void OnDisable() = 0;          // 비활성화 시
+    
+    virtual void Reset() = 0;              // 리셋
+    
+    virtual ~EngineLoop() = default;
+};</code></pre>
+                        </div>
+                        
+                        <div style="background-color:#e0f2fe; border-radius:8px; padding:20px; margin-top:16px; border-left:4px solid #06b6d4;">
+                            <h5 style="color:#2c3e50; font-size:16px; margin-bottom:12px; font-weight:600;">생명주기 순서</h5>
+                            <ol style="margin:0; padding-left:20px; color:#6c757d; line-height:2.0; font-size:14px;">
+                                <li><strong>Initialize()</strong> - 객체 생성 직후</li>
+                                <li><strong>BeforeFrame()</strong> - 첫 프레임 시작 전</li>
+                                <li><strong>Start()</strong> - 게임 시작 시 1회</li>
+                                <li><strong>LateStart()</strong> - Start 직후 1회</li>
+                                <li><strong>Update(deltaTime)</strong> - 매 프레임 (게임 로직)</li>
+                                <li><strong>LateUpdate()</strong> - Update 이후 (카메라, 후처리 등)</li>
+                                <li><strong>Finalize()</strong> - 씬 종료 시</li>
+                                <li><strong>Destroy()</strong> - 객체 파괴 시</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Object 클래스 -->
+                    <div style="background-color:#f0f9ff; border-radius:12px; padding:28px; margin-top:32px; border-left:6px solid #3b82f6;">
+                        <h4 style="font-size:20px; font-weight:700; color:#2c3e50; margin-bottom:16px;">
+                            <i class="fas fa-cube" style="color:#3b82f6; margin-right:10px;"></i>Object 클래스 - Component 컨테이너
+                        </h4>
+                        <p style="color:#6c757d; line-height:1.8; margin-bottom:16px;">
+                            Object는 게임 세계의 기본 엔티티로, Component들의 컨테이너 역할을 합니다. 
+                            모든 Object는 기본적으로 TransformComponent를 가지며, shared_ptr로 안전하게 참조됩니다.
+                        </p>
+                        <div class="code-block">
+                            <pre><code class="language-cpp">// C++20 Concept으로 타입 안전성 보장
+template&lt;typename T&gt;
+concept ComponentChild = std::is_base_of_v&lt;Component, T&gt;;
+
+class Object : public EngineLoop, public std::enable_shared_from_this&lt;Object&gt;
+{
+public:
+    // Object 생성 팩토리 메소드
+    static std::shared_ptr&lt;Object&gt; Create(std::string name)
+    {
+        std::shared_ptr&lt;Object&gt; newObject = std::make_shared&lt;Object&gt;(name);
+        
+        // 모든 Object는 TransformComponent를 기본으로 가짐
+        auto transformComponent = std::make_shared&lt;TransformComponent&gt;(newObject);
+        newObject->components[transformComponent->GetClassName()] = transformComponent;
+        newObject->transform = transformComponent;
+        
+        return newObject;
+    }
+    
+    // Component 추가 (템플릿, 타입 안전성 보장)
+    template &lt;ComponentChild ComponentClass, typename... Args&gt;
+    std::shared_ptr&lt;ComponentClass&gt; AddComponent(Args&&... args)
+    {
+        // TransformComponent 중복 방지
+        if constexpr (std::is_same_v&lt;ComponentClass, TransformComponent&gt;)
+            return std::dynamic_pointer_cast&lt;ComponentClass&gt;(transform);
+        
+        // 이미 존재하는 컴포넌트는 재사용
+        std::string componentName = ComponentClass::GetStaticClassName();
+        if (components.find(componentName) != components.end())
+            return std::dynamic_pointer_cast&lt;ComponentClass&gt;(components[componentName]);
+        
+        // 새 컴포넌트 생성
+        auto component = std::make_shared&lt;ComponentClass&gt;(
+            shared_from_this(), std::forward&lt;Args&gt;(args)...
+        );
+        
+        component->SetObject(shared_from_this());
+        component->transform = this->transform;
+        components[component->GetClassName()] = component;
+        
+        return component;
+    }
+    
+    // Component 가져오기
+    template &lt;ComponentChild ComponentClass&gt;
+    std::shared_ptr&lt;ComponentClass&gt; GetComponent()
+    {
+        for (auto& component : components)
+        {
+            if (component.second->GetClassName() == ComponentClass::GetStaticClassName())
+                return std::dynamic_pointer_cast&lt;ComponentClass&gt;(component.second);
+        }
+        return nullptr;
+    }
+    
+    std::shared_ptr&lt;TransformComponent&gt; transform;  // 항상 존재
+    
+protected:
+    std::unordered_map&lt;std::string, std::shared_ptr&lt;Component&gt;&gt; components;
+    std::string name;
+    bool isActive = true;
+};</code></pre>
+                        </div>
+                    </div>
+                    
+                    <!-- TransformComponent -->
+                    <div style="background-color:#fef3c7; border-radius:12px; padding:28px; margin-top:32px; border-left:6px solid #f59e0b;">
+                        <h4 style="font-size:20px; font-weight:700; color:#2c3e50; margin-bottom:16px;">
+                            <i class="fas fa-arrows-alt" style="color:#f59e0b; margin-right:10px;"></i>TransformComponent - 핵심 Component
+                        </h4>
+                        <p style="color:#6c757d; line-height:1.8; margin-bottom:16px;">
+                            모든 Object가 가지는 필수 Component로, 3D 공간에서의 위치/회전/크기를 관리합니다. 
+                            쿼터니언 기반 회전으로 짐벌락을 방지하고, 부모-자식 계층 구조를 지원합니다.
+                        </p>
+                        
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:16px; margin-top:20px;">
+                            <div style="background-color:#ffffff; border-radius:8px; padding:20px;">
+                                <h5 style="color:#2c3e50; font-size:16px; margin-bottom:12px; font-weight:600;">월드 좌표계</h5>
+                                <ul style="margin:0; padding-left:20px; color:#6c757d; line-height:1.8; font-size:14px;">
+                                    <li>SetPosition() / GetPosition()</li>
+                                    <li>SetRotation() / GetRotation()</li>
+                                    <li>SetScale() / GetScale()</li>
+                                    <li>GetRight(), GetUp(), GetForward()</li>
+                                </ul>
+                            </div>
+                            <div style="background-color:#ffffff; border-radius:8px; padding:20px;">
+                                <h5 style="color:#2c3e50; font-size:16px; margin-bottom:12px; font-weight:600;">로컬 좌표계</h5>
+                                <ul style="margin:0; padding-left:20px; color:#6c757d; line-height:1.8; font-size:14px;">
+                                    <li>SetLocalPosition() / GetLocalPosition()</li>
+                                    <li>SetLocalRotation() / GetLocalRotation()</li>
+                                    <li>SetLocalScale() / GetLocalScale()</li>
+                                    <li>부모 기준 상대 좌표</li>
+                                </ul>
+                            </div>
+                            <div style="background-color:#ffffff; border-radius:8px; padding:20px;">
+                                <h5 style="color:#2c3e50; font-size:16px; margin-bottom:12px; font-weight:600;">계층 구조</h5>
+                                <ul style="margin:0; padding-left:20px; color:#6c757d; line-height:1.8; font-size:14px;">
+                                    <li>SetParent() / RemoveParent()</li>
+                                    <li>AddChild() / RemoveChild()</li>
+                                    <li>GetChildrens() / GetChildCount()</li>
+                                    <li>UpdateTransform() - 계층 업데이트</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Transform 구조체 (SRT 행렬) -->
+                        <div class="code-block" style="margin-top:24px;">
+                            <pre><code class="language-cpp">// Transform 구조체 (쿼터니언 기반)
+struct Transform
+{
+    Position position;      // 위치 (Vector3)
+    Quaternion rotation;    // 회전 (쿼터니언)
+    Scale scale;           // 크기 (Vector3)
+    
+    // SRT 행렬 생성 (Scale -> Rotation -> Translation)
+    DirectX::XMMATRIX GetMatrix() const
+    {
+        DirectX::XMMATRIX scaleMatrix = DirectX::XMMatrixScaling(
+            scale.x, scale.y, scale.z
+        );
+        
+        DirectX::XMMATRIX rotationMatrix = 
+            DirectX::XMMatrixRotationQuaternion(
+                DirectX::XMLoadFloat4(&rotation)
+            );
+        
+        DirectX::XMMATRIX translationMatrix = 
+            DirectX::XMMatrixTranslation(
+                position.x, position.y, position.z
+            );
+        
+        return scaleMatrix * rotationMatrix * translationMatrix;
+    }
+};</code></pre>
+                        </div>
+                        
+                        <!-- TransformComponent 구현 상세 -->
+                        <div style="margin-top:32px; background-color:#ffffff; border-radius:12px; padding:28px; border:2px solid #fbbf24;">
+                            <h5 style="color:#2c3e50; font-size:18px; margin-bottom:16px; font-weight:600;">
+                                <i class="fas fa-cogs" style="color:#f59e0b; margin-right:8px;"></i>TransformComponent 핵심 구현
+                            </h5>
+                            
+                            <!-- Transform 구조체 기본 구조 -->
+                            <div style="margin-bottom:24px;">
+                                <h6 style="color:#2c3e50; font-size:16px; margin-bottom:12px; font-weight:600;">1. Transform 구조체 - 기본 구조</h6>
+                                <p style="color:#6c757d; line-height:1.8; margin-bottom:12px; font-size:14px;">
+                                    Transform 구조체는 위치, 회전(쿼터니언), 크기를 관리하며 다양한 변환 행렬을 생성합니다.
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-cpp">// Core/Component/Transform/Transform.h
+struct Transform final
+{
+    Position position;      // 위치 (Vector3)
+    Quaternion rotation;    // 회전 (쿼터니언)
+    Scale scale;           // 크기 (Vector3)
+    
+    // 생성자 - Identity Transform으로 초기화
+    Transform() 
+        : position(Vector3::zero),           // (0,0,0)
+          rotation(Quaternion::identity),    // 회전 없음
+          scale(Vector3::one)                // (1,1,1)
+    {
+    }
+    
+    // SRT 변환 행렬 생성 (Scale * Rotation * Translation)
+    XMMATRIX GetTransformMatrix() const
+    {
+        // 1. 스케일 행렬
+        XMMATRIX scaleMatrix = XMMatrixScaling(scale.x, scale.y, scale.z);
+        
+        // 2. 회전 행렬 (쿼터니언 → 행렬)
+        XMVECTOR rotQuat = XMVectorSet(rotation.x, rotation.y, rotation.z, rotation.w);
+        XMMATRIX rotationMatrix = XMMatrixRotationQuaternion(rotQuat);
+        
+        // 3. 이동 행렬
+        XMMATRIX translationMatrix = XMMatrixTranslation(
+            position.x, position.y, position.z
+        );
+        
+        // SRT 순서로 행렬 곱셈 (오른쪽에서 왼쪽으로 적용됨)
+        return scaleMatrix * rotationMatrix * translationMatrix;
+    }
+};</code></pre>
+                                </div>
+                            </div>
+                            
+                            <!-- GetTransformMatrix 구현 -->
+                            <div style="margin-bottom:24px;">
+                                <h6 style="color:#2c3e50; font-size:16px; margin-bottom:12px; font-weight:600;">2. GetTransformMatrix() - 계층 구조 고려한 최종 행렬 계산</h6>
+                                <p style="color:#6c757d; line-height:1.8; margin-bottom:12px; font-size:14px;">
+                                    부모가 있으면 <strong>로컬 행렬 × 부모 월드 행렬</strong>로 계층 구조를 적용합니다.
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-cpp">// Core/Component/Transform/TransformComponent.cpp
+DirectX::XMMATRIX TransformComponent::GetTransformMatrix() const noexcept
+{
+    if (HasParent())
+    {
+        // 부모가 있는 경우: 로컬 행렬 × 부모 월드 행렬
+        XMMATRIX localMatrix = GetLocalTransformMatrix();
+        XMMATRIX parentMatrix = parent->GetTransformMatrix();
+        
+        return localMatrix * parentMatrix;  // 행렬 곱셈으로 변환 결합
+    }
+    else
+    {
+        // 부모가 없는 경우: 월드 Transform으로 직접 행렬 생성
+        const Quaternion& rot = worldTransform.GetRotation();
+        XMVECTOR rotQuat = XMVectorSet(rot.x, rot.y, rot.z, rot.w);
+        
+        // SRT 순서로 행렬 생성
+        return
+            XMMatrixScaling(worldTransform.GetScale().x, worldTransform.GetScale().y, worldTransform.GetScale().z) *
+            XMMatrixRotationQuaternion(rotQuat) *
+            XMMatrixTranslation(worldTransform.GetPosition().x, worldTransform.GetPosition().y, worldTransform.GetPosition().z);
+    }
+}</code></pre>
+                                </div>
+                            </div>
+                            
+                            <!-- SetPosition 구현 -->
+                            <div style="margin-bottom:24px;">
+                                <h6 style="color:#2c3e50; font-size:16px; margin-bottom:12px; font-weight:600;">3. SetPosition() vs SetLocalPosition() - 월드/로컬 좌표 변환</h6>
+                                <p style="color:#6c757d; line-height:1.8; margin-bottom:12px; font-size:14px;">
+                                    SetPosition()은 월드 절대 좌표를 설정하고 로컬 좌표를 역계산하며, SetLocalPosition()은 로컬 좌표를 설정하고 월드 좌표를 계산합니다.
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-cpp">// 월드 위치 설정 (절대 좌표)
+void TransformComponent::SetPosition(Position position) noexcept
+{
+    worldTransform.SetPosition(position);
+    
+    if (HasParent())
+    {
+        // 부모가 있으면: 로컬 위치 = inv(부모 월드 행렬) × 월드 위치
+        XMVECTOR worldPosVec = Vector::ConvertXMVECTOR(position);
+        XMMATRIX parentWorldToLocalMatrix = XMMatrixInverse(nullptr, parent->GetTransformMatrix());
+        XMVECTOR localPosVec = XMVector3TransformCoord(worldPosVec, parentWorldToLocalMatrix);
+        
+        XMFLOAT3 localPosFloat3;
+        XMStoreFloat3(&localPosFloat3, localPosVec);
+        localTransform.SetPosition(localPosFloat3);
+    }
+    else
+    {
+        // 부모가 없으면: 로컬 = 월드
+        localTransform.SetPosition(position);
+    }
+}
+
+// 로컬 위치 설정 (부모 기준 상대 좌표)
+void TransformComponent::SetLocalPosition(Position position) noexcept
+{
+    localTransform.SetPosition(position);
+    
+    if (HasParent())
+    {
+        // 부모가 있으면: 월드 위치 = 부모 월드 행렬 × 로컬 위치
+        XMVECTOR localPosVec = Vector::ConvertXMVECTOR(position);
+        XMMATRIX parentWorldMatrix = parent->GetTransformMatrix();
+        XMVECTOR worldPosVec = XMVector3TransformCoord(localPosVec, parentWorldMatrix);
+        
+        XMFLOAT3 worldPosFloat3;
+        XMStoreFloat3(&worldPosFloat3, worldPosVec);
+        worldTransform.SetPosition(worldPosFloat3);
+    }
+    else
+    {
+        // 부모가 없으면: 월드 = 로컬
+        worldTransform.SetPosition(position);
+    }
+}</code></pre>
+                                </div>
+                                <div style="background-color:#fef3c7; border-radius:8px; padding:16px; margin-top:12px;">
+                                    <p style="margin:0; color:#2c3e50; font-size:13px; line-height:1.7;">
+                                        <strong><i class="fas fa-lightbulb" style="color:#f59e0b; margin-right:6px;"></i>핵심 포인트:</strong>
+                                        <span style="color:#6c757d;">
+                                            XMVector3TransformCoord는 점(위치) 변환에 사용되며 w=1로 처리합니다. 벡터 변환에는 XMVector3TransformNormal을 사용합니다.
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- 회전 동기화 구현 -->
+                            <div style="margin-bottom:24px;">
+                                <h6 style="color:#2c3e50; font-size:16px; margin-bottom:12px; font-weight:600;">4. UpdateWorldRotation() / UpdateLocalRotation() - 쿼터니언 회전 동기화</h6>
+                                <p style="color:#6c757d; line-height:1.8; margin-bottom:12px; font-size:14px;">
+                                    월드 회전과 로컬 회전을 쿼터니언 곱셈으로 동기화합니다. SetRotation() 호출 시 자동으로 실행됩니다.
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-cpp">// 로컬 회전 변경 → 월드 회전 계산
+void TransformComponent::UpdateWorldRotation() noexcept
+{
+    if (HasParent())
+    {
+        // 월드 회전 = 부모 월드 회전 × 로컬 회전
+        const Quaternion& localRot = localTransform.GetRotation();
+        const Quaternion& parentRot = parent->GetRotation();
+        
+        XMVECTOR localRotQ = XMVectorSet(localRot.x, localRot.y, localRot.z, localRot.w);
+        XMVECTOR parentRotQ = XMVectorSet(parentRot.x, parentRot.y, parentRot.z, parentRot.w);
+        
+        // 쿼터니언 곱셈으로 회전 결합 (순서 중요: Parent * Local)
+        XMVECTOR worldRotQ = XMQuaternionMultiply(parentRotQ, localRotQ);
+        worldRotQ = XMQuaternionNormalize(worldRotQ);  // 정규화로 수치 오차 방지
+        
+        Quaternion& worldQuat = worldTransform.GetRotation();
+        worldQuat.x = XMVectorGetX(worldRotQ);
+        worldQuat.y = XMVectorGetY(worldRotQ);
+        worldQuat.z = XMVectorGetZ(worldRotQ);
+        worldQuat.w = XMVectorGetW(worldRotQ);
+    }
+    else
+    {
+        // 부모가 없으면: 로컬 회전 = 월드 회전
+        worldTransform.SetRotation(localTransform.GetRotation());
+    }
+}
+
+// 월드 회전 변경 → 로컬 회전 계산
+void TransformComponent::UpdateLocalRotation() noexcept
+{
+    if (HasParent())
+    {
+        // 로컬 회전 = 부모 월드 회전의 역 × 월드 회전
+        const Quaternion& worldRot = worldTransform.GetRotation();
+        const Quaternion& parentRot = parent->GetRotation();
+        
+        XMVECTOR worldRotQ = XMVectorSet(worldRot.x, worldRot.y, worldRot.z, worldRot.w);
+        XMVECTOR parentRotQ = XMVectorSet(parentRot.x, parentRot.y, parentRot.z, parentRot.w);
+        XMVECTOR parentRotInvQ = XMQuaternionInverse(parentRotQ);  // 부모 회전의 역원
+        
+        // 로컬 회전 계산 (부모 회전 제거)
+        XMVECTOR localRotQ = XMQuaternionMultiply(parentRotInvQ, worldRotQ);
+        localRotQ = XMQuaternionNormalize(localRotQ);
+        
+        Quaternion& localQuat = localTransform.GetRotation();
+        localQuat.x = XMVectorGetX(localRotQ);
+        localQuat.y = XMVectorGetY(localRotQ);
+        localQuat.z = XMVectorGetZ(localRotQ);
+        localQuat.w = XMVectorGetW(localRotQ);
+    }
+    else
+    {
+        // 부모가 없으면: 월드 회전 = 로컬 회전
+        localTransform.SetRotation(worldTransform.GetRotation());
+    }
+}</code></pre>
+                                </div>
+                                <div style="background-color:#e0f2fe; border-radius:8px; padding:16px; margin-top:12px; border-left:4px solid #06b6d4;">
+                                    <p style="margin:0; color:#2c3e50; font-size:13px; line-height:1.7;">
+                                        <strong><i class="fas fa-info-circle" style="color:#06b6d4; margin-right:6px;"></i>쿼터니언 곱셈 순서:</strong>
+                                        <span style="color:#6c757d;">
+                                            XMQuaternionMultiply(A, B)는 "B 회전 후 A 회전"을 의미합니다. 따라서 월드 회전 = Parent × Local 순서로 곱해야 합니다.
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- UpdateTransform 구현 -->
+                            <div style="margin-bottom:24px;">
+                                <h6 style="color:#2c3e50; font-size:16px; margin-bottom:12px; font-weight:600;">5. UpdateTransform() - 계층 구조 전체 재귀 업데이트</h6>
+                                <p style="color:#6c757d; line-height:1.8; margin-bottom:12px; font-size:14px;">
+                                    부모의 Transform이 변경되면 모든 자식의 월드 Transform을 재귀적으로 업데이트합니다.
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-cpp">void TransformComponent::UpdateTransform() noexcept
+{
+    if (HasParent())
+    {
+        // 1. 위치 업데이트: 로컬 위치를 부모의 월드 변환으로 변환
+        XMVECTOR localPosVec = Vector::ConvertXMVECTOR(localTransform.GetPosition());
+        XMMATRIX parentWorldMatrix = parent->GetTransformMatrix();
+        XMVECTOR worldPosVec = XMVector3TransformCoord(localPosVec, parentWorldMatrix);
+        
+        Position& worldPos = worldTransform.GetPosition();
+        worldPos.x = XMVectorGetX(worldPosVec);
+        worldPos.y = XMVectorGetY(worldPosVec);
+        worldPos.z = XMVectorGetZ(worldPosVec);
+        
+        // 2. 회전 업데이트: 쿼터니언 곱셈으로 부모 회전과 로컬 회전 결합
+        UpdateWorldRotation();
+        
+        // 3. 스케일 업데이트: 부모 스케일과 로컬 스케일 곱셈
+        const Scale& parentScale = parent->GetScale();
+        const Scale& localScale = localTransform.GetScale();
+        worldTransform.SetScale(
+            localScale.x * parentScale.x,
+            localScale.y * parentScale.y,
+            localScale.z * parentScale.z
+        );
+    }
+    else
+    {
+        // 부모가 없으면: 로컬 변환 = 월드 변환
+        worldTransform = localTransform;
+    }
+    
+    // 4. 모든 자식도 재귀적으로 업데이트
+    for (const auto& child : children)
+    {
+        if (child != nullptr)
+            child->UpdateTransform();
+    }
+}</code></pre>
+                                </div>
+                            </div>
+                            
+                            <!-- SetParent 구현 -->
+                            <div>
+                                <h6 style="color:#2c3e50; font-size:16px; margin-bottom:12px; font-weight:600;">6. SetParent() - 부모 설정 및 계층 구조 관리</h6>
+                                <p style="color:#6c757d; line-height:1.8; margin-bottom:12px; font-size:14px;">
+                                    부모를 설정하면 <strong>현재 월드 좌표를 유지</strong>하면서 로컬 좌표를 재계산합니다.
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-cpp">void TransformComponent::SetParent(std::shared_ptr&lt;TransformComponent&gt; newParent) noexcept
+{
+    // 1. 기존 부모에서 자신을 제거
+    if (parent)
+        parent->RemoveChild(shared_from_this());
+    
+    parent = newParent;
+    
+    if (parent)
+    {
+        // 2. 새 부모의 자식으로 추가
+        parent->AddChild(shared_from_this());
+        
+        // 3. 현재 월드 좌표를 유지하면서 로컬 좌표 재계산
+        // (부모가 바뀌어도 화면상 위치는 변하지 않음)
+        SetPosition(worldTransform.GetPosition());  // 위치 로컬 재계산
+        SetRotation(worldTransform.GetRotation());  // 회전 로컬 재계산
+        SetScale(worldTransform.GetScale());        // 스케일 로컬 재계산
+    }
+    else
+    {
+        // 부모가 제거되면 로컬 = 월드
+        localTransform = worldTransform;
+    }
+}
+
+// RemoveParent - 부모 관계 해제
+void TransformComponent::RemoveParent() noexcept
+{
+    if (parent == nullptr)
+        return;
+    
+    // 부모 제거 전에 현재 월드 변환을 로컬 변환으로 설정
+    // (부모가 사라지면 현재 월드 상태가 새로운 로컬 상태가 됨)
+    worldTransform.SetPosition(GetPosition());
+    worldTransform.SetRotation(GetRotation());
+    worldTransform.SetScale(GetScale());
+    localTransform = worldTransform;
+    
+    parent->RemoveChild(shared_from_this());
+    parent = nullptr;
+}</code></pre>
+                                </div>
+                                <div style="background-color:#fef3c7; border-radius:8px; padding:16px; margin-top:12px;">
+                                    <p style="margin:0; color:#2c3e50; font-size:13px; line-height:1.7;">
+                                        <strong><i class="fas fa-star" style="color:#f59e0b; margin-right:6px;"></i>중요:</strong>
+                                        <span style="color:#6c757d;">
+                                            SetPosition/SetRotation/SetScale은 내부적으로 월드 좌표를 설정하고 로컬 좌표를 자동 계산합니다. 따라서 부모를 변경해도 화면상 위치는 변하지 않습니다.
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Component 기본 클래스 구조 -->
+                    <div style="margin-top:32px;">
+                        <h4 style="font-size:20px; font-weight:700; color:#2c3e50; margin-bottom:16px;">
+                            <i class="fas fa-layer-group" style="color:#3b82f6; margin-right:10px;"></i>Component 기본 클래스 구조
+                        </h4>
+                        <p style="color:#6c757d; line-height:1.8; margin-bottom:16px;">
+                            모든 Component는 공통 인터페이스를 상속하며, Object에 대한 참조와 Transform 캐시를 보유합니다.
+                        </p>
+                        <div class="code-block">
+                            <pre><code class="language-cpp">// Core/Component/Component.h
+class Component : public EngineLoop
+{
+public:
+    // Component가 속한 Object
+    std::shared_ptr&lt;Object&gt; GetObject() const { return object.lock(); }
+    void SetObject(std::shared_ptr&lt;Object&gt; obj) { object = obj; }
+    
+    // Transform 빠른 접근용 캐시
+    std::shared_ptr&lt;TransformComponent&gt; transform;
+    
+    // Component 타입 식별
+    virtual std::string GetClassName() const = 0;
+    static std::string GetStaticClassName() { return "Component"; }
+    
+    // 활성화 상태
+    bool IsActive() const { return isActive; }
+    void SetActive(bool active) 
+    { 
+        if (active != isActive)
+        {
+            isActive = active;
+            if (active) OnEnable();
+            else OnDisable();
+        }
+    }
+    
+protected:
+    std::weak_ptr&lt;Object&gt; object;  // 순환 참조 방지 (weak_ptr)
+    bool isActive = true;
+};</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- UI 시스템 (ImGui) -->
+            <section id="ui-system" class="anchor-section">
+                <div class="feature-container">
+                    <h2 class="section-title">UI 시스템 (ImGui)</h2>
+                    <div class="feature-text">
+                        <p style="color:#6c757d; line-height:1.8; margin-bottom:24px;">
+                            본 엔진은 <strong>Dear ImGui</strong>를 사용하여 개발자 도구 UI를 제공합니다. 
+                            Inspector, FolderView, MenuBar 등의 에디터 인터페이스를 통해 실시간으로 Object와 Component를 편집하고, 
+                            씬 계층 구조를 관리할 수 있습니다.
+                        </p>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(360px, 1fr)); gap:24px; margin-top:24px;">
+                        <!-- Inspector -->
+                        <div style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); border-radius:12px; padding:24px; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
+                            <h4 style="font-size:18px; font-weight:700; color:#ffffff; margin-bottom:16px;">
+                                <i class="fas fa-info-circle" style="margin-right:10px;"></i>Inspector (속성 편집기)
+                            </h4>
+                            <div style="background-color:rgba(255,255,255,0.95); border-radius:8px; padding:20px;">
+                                <p style="color:#6c757d; font-size:14px; line-height:1.7; margin-bottom:12px;">
+                                    선택한 Object의 Component들을 표시하고 실시간으로 편집합니다.
+                                </p>
+                                <ul style="margin:0; padding-left:20px; color:#6c757d; line-height:1.8; font-size:13px;">
+                                    <li>Transform 위치/회전/크기 실시간 편집</li>
+                                    <li>Component 목록 표시</li>
+                                    <li>각 Component의 속성 표시/수정</li>
+                                    <li>Component 추가/제거</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- FolderView -->
+                        <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius:12px; padding:24px; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
+                            <h4 style="font-size:18px; font-weight:700; color:#ffffff; margin-bottom:16px;">
+                                <i class="fas fa-folder-tree" style="margin-right:10px;"></i>FolderView (씬 계층 구조)
+                            </h4>
+                            <div style="background-color:rgba(255,255,255,0.95); border-radius:8px; padding:20px;">
+                                <p style="color:#6c757d; font-size:14px; line-height:1.7; margin-bottom:12px;">
+                                    Scene의 모든 Object를 계층 구조로 시각화합니다.
+                                </p>
+                                <ul style="margin:0; padding-left:20px; color:#6c757d; line-height:1.8; font-size:13px;">
+                                    <li>Scene의 Object 목록</li>
+                                    <li>부모-자식 계층 시각화</li>
+                                    <li>Object 선택 → Inspector 업데이트</li>
+                                    <li>Object 추가/삭제</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- MenuBar -->
+                        <div style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-radius:12px; padding:24px; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
+                            <h4 style="font-size:18px; font-weight:700; color:#ffffff; margin-bottom:16px;">
+                                <i class="fas fa-bars" style="margin-right:10px;"></i>MenuBar (상단 메뉴)
+                            </h4>
+                            <div style="background-color:rgba(255,255,255,0.95); border-radius:8px; padding:20px;">
+                                <p style="color:#6c757d; font-size:14px; line-height:1.7; margin-bottom:12px;">
+                                    주요 기능에 빠르게 접근할 수 있는 메뉴를 제공합니다.
+                                </p>
+                                <ul style="margin:0; padding-left:20px; color:#6c757d; line-height:1.8; font-size:13px;">
+                                    <li><strong>File</strong>: New/Open/Save Scene, Exit</li>
+                                    <li><strong>Edit</strong>: Undo/Redo, Preferences</li>
+                                    <li><strong>GameObject</strong>: Create Empty, 3D Object, Light</li>
+                                    <li><strong>Window</strong>: Inspector, Hierarchy, Demo Window</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ImGui 통합 코드 -->
+                    <div style="background-color:#f8f9fa; border-radius:12px; padding:28px; margin-top:32px; border-left:6px solid #6c757d;">
+                        <h4 style="font-size:20px; font-weight:700; color:#2c3e50; margin-bottom:16px;">
+                            <i class="fas fa-code" style="color:#6c757d; margin-right:10px;"></i>ImGui 통합 코드
+                        </h4>
+                        <div class="code-block">
+                            <pre><code class="language-cpp">// Window 초기화 시 ImGui 초기화
+Window::Window(int width, int height, const char* name)
+{
+    // ... 윈도우 생성
+    
+    // ImGui 초기화
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;  // 도킹 활성화
+    
+    ImGui_ImplWin32_Init(hWnd);
+    ImGui_ImplDX11_Init(device.Get(), deviceContext.Get());
+}
+
+// 렌더링 루프에서 ImGui 렌더링
+void App::DoFrame(GameTimer& timer)
+{
+    // ImGui 프레임 시작
+    ImGui_ImplDX11_NewFrame();
+    ImGui_ImplWin32_NewFrame();
+    ImGui::NewFrame();
+    
+    // UI 렌더링
+    Engine::FolderView::instance->RenderFolderView();
+    Engine::MenuBar::menuBar->RenderMenuBar();
+    Engine::Inspector::instance->Update(deltaTime);
+    
+    // ImGui 렌더링 완료
+    ImGui::Render();
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section id="problems" class="anchor-section">
                 <div class="feature-container">
                     <h2 class="section-title">핵심 문제 해결 사례</h2>
@@ -1887,11 +4035,10 @@ while (auto event = keyboard.ReadKey())
 
             <!-- 최적화 1: Camera View Frustum Culling -->
             <div class="feature-container" id="optimization-1">
-                <h3 class="subsection-title">최적화 1 (Camera View Frustum Culling)</h3>
+                <h3 class="subsection-title">Camera View Frustum Culling</h3>
                     <div class="feature-text">
                         <h4 style="margin-top:24px; margin-bottom:16px; font-size:20px; font-weight:600; color:#2c3e50;">개요</h4>
                         <p>Camera View Frustum Culling은 카메라의 시야 절두체(View Frustum) 밖에 있는 객체를 렌더링 파이프라인에서 조기에 제외시켜 GPU 부하를 크게 줄이는 핵심 최적화 기법입니다.</p>
-                        <p style="margin-top:12px;">이 구현은 <strong>Gribb-Hartmann 알고리즘</strong>을 사용하여 View-Projection 행렬로부터 6개의 절두체 평면(Near, Far, Left, Right, Top, Bottom)을 추출합니다.</p>
                     </div>
 
                     <div class="feature-text" style="margin-top:24px;">
@@ -2020,7 +4167,7 @@ private:
 
             <!-- 최적화 2: Component-Based Architecture -->
             <div class="feature-container" id="optimization-2">
-                <h3 class="subsection-title">최적화 2 (Component-Based Architecture)</h3>
+                <h3 class="subsection-title">Component-Based Architecture</h3>
                     <div class="feature-text" style="margin-top:24px;">
                         <p>객체 지향 설계와 현대 C++ 기법을 결합하여 높은 성능과 유지보수성을 동시에 달성했습니다.</p>
                     </div>
@@ -2222,7 +4369,7 @@ public:
 
             <!-- 최적화 3: Shader Compile Caching -->
             <div class="feature-container" id="optimization-3">
-                <h3 class="subsection-title">최적화 3 (쉐이더 컴파일 캐싱)</h3>
+                <h3 class="subsection-title">쉐이더 컴파일 캐싱</h3>
                     <div class="feature-text" style="margin-top:24px;">
                         <p>쉐이더 파일을 매번 컴파일하는 대신, 타임스탬프 기반 캐싱 시스템을 통해 로딩 속도를 대폭 개선했습니다. 또한 동일 커밋에서 이미지 로딩 파이프라인(Image.cpp)의 DDS 캐싱 및 메모리 매핑 개선도 함께 적용되어, 쉐이더와 텍스처 양 쪽에서 초기화 성능이 향상되었습니다.</p>
                     </div>
@@ -2305,7 +4452,7 @@ public:
 
             <!-- 최적화 4: Texture Caching -->
             <div class="feature-container" id="optimization-4">
-                <h3 class="subsection-title">최적화 4 (텍스처 캐싱 & 빠른 이미지 로딩)</h3>
+                <h3 class="subsection-title">텍스처 캐싱 & 빠른 이미지 로딩</h3>
                     <div class="feature-text" style="margin-top:24px;">
                         <p>다양한 포맷(PNG, JPG 등)의 이미지를 DirectX DDS 포맷으로 변환해 디스크에 캐시하고, 필요 시 빠르게 메모리로 매핑하여 로딩 시간을 크게 단축했습니다. 이 변경은 이미지 로드 관련 주요 리팩터링과 캐시 전략(임시 DDS 저장, 메모리 맵핑, 검증)을 포함합니다.</p>
                     </div>
@@ -2375,23 +4522,41 @@ public:
 
             <!-- 최적화 5: Exception 메시지 최적화 -->
             <div class="feature-container" id="optimization-5">
-                <h3 class="subsection-title">최적화 5 (Exception 메시지 버퍼화)</h3>
+                <h3 class="subsection-title">Exception 메시지 버퍼화</h3>
                     <div class="feature-text" style="margin-top:24px;">
                         <p><strong>기능 설명</strong>: <code>ExceptionInfo::GetMessages()</code>는 DirectX의 <code>IDXGIInfoQueue</code>에서 수집된 디버그/오류 메시지를 읽어 호출자에게 반환합니다. 이 루틴은 그래픽스 예외 발생 시 디버그 로그를 수집해 예외 객체(<code>HRException</code>, <code>InfoException</code>)에 전달하거나 로그용으로 사용됩니다.</p>
                     </div>
 
                     <div class="feature-text" style="margin-top:16px;">
                         <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">변경 전(문제점)</h4>
-                        <p>이전 구현은 호출마다 <code>std::vector&lt;std::string&gt;</code>을 생성하고 메시지를 복사해 벡터에 추가했습니다. 메시지 수·길이에 따라 빈번한 힙 할당과 문자열 복사가 발생해 프레임 성능에 악영향을 주었습니다.</p>
+                        <p>이전 구현은 호출마다 <code>std::vector&lt;std::string&gt;</code>을 생성하고 메시지를 복사해 벡터에 추가했습니다. 업데이트마다 해당 메소드가 호출되어, 메소드 내부에서 생성되는 vector 및 string의 초기화로 발생하는 런타임 시간으로 프레임 성능에 악영향을 주었습니다.</p>
+                        
+                        <p style="margin-top:12px; line-height:1.6;">업데이트마다 해당 메소드가 호출되어, 메소드 내부에서 생성되는 <code>vector</code> 및 <code>string</code>의 초기화로 발생하는 런타임 시간을 줄이기 위해 이 최적화를 적용했습니다. 아래 벤치마크는 스택 배열과 동적 컨테이너 초기화의 차이를 극명하게 보여줍니다.</p>
+
+                        <div class="code-block" style="margin-top:12px;">
+                            <pre><code class="language-cpp">// 예시 벤치마크
+// 약 8ms
+for (int i = 0; i &lt; 10000000; i++) 
+    int a[1000];      
+
+// 약 3662ms
+for (int i = 0; i &lt; 10000000; i++) 
+    std::vector<int> a;
+                            </code></pre>
+                        </div>
                     </div>
 
                     <div class="feature-text" style="margin-top:12px;">
                         <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">변경 후(최적화 내용)</h4>
                         <ul style="margin-top:12px; line-height:1.8; padding-left:20px;">
-                            <li>동적 컨테이너 대신 고정 크 버퍼를 도입: <code>char messages[100][128];</code>와 카운터 <code>UINT messageCount</code>.</li>
+                            <li>동적 컨테이너 대신 고정 크기 버퍼를 도입: <code>char messages[100][128];</code>와 카운터 <code>UINT messageCount</code>.</li>
                             <li><code>GetMessages()</code>의 반환형을 <code>std::vector&lt;std::string&gt;</code>에서 <code>const char*</code> (또는 내부 버퍼 포인터)로 변경하여 호출 시 힙 할당/문자열 생성/해제를 제거.</li>
                             <li>메시지 복사에는 <code>strncpy_s</code>를 사용해 각 메시지를 고정 버퍼의 다음 슬롯에 저장하고 <code>messageCount</code>를 증가시킴.</li>
                         </ul>
+                        
+                        <div class="feature-text" style="margin-top:12px; padding:16px; background-color:#fff7ed; border-left:4px solid #f97316; border-radius:4px;">
+                            <p style="margin:0; line-height:1.6;"><strong>단점</strong>: 고정 배열 사용으로 인해 메시지가 길 경우 잘릴 수 있고, 필요한 것보다 더 큰 고정 메모리를 사용하는 상황(메모리 낭비)이 발생할 수 있습니다. 다만 충분한 크기를 확보하면 실제 메모리 증가는 생각보다 크지 않으며, 동적 할당을 제거한 효과로 성능 측면에서 유리합니다.</p>
+                        </div>
                     </div>
 
                     <div class="code-block" style="margin-top:16px;">
@@ -2444,27 +4609,6 @@ public:
                         </ul>
                     </div>
 
-                    <div class="feature-text" style="margin-top:12px;">
-                        <h4 style=" font-size:18px; font-weight:600; color:#2c3e50;">추가 설명 (초기화 비용)</h4>
-                        <p style="margin-top:8px; line-height:1.6;">업데이트마다 해당 메소드가 호출되어, 메소드 내부에서 생성되는 <code>vector</code> 및 <code>string</code>의 초기화로 발생하는 런타임 시간을 줄이기 위해 이 최적화를 적용했습니다. 아래 벤치마크는 스택 배열과 동적 컨테이너 초기화의 차이를 극명하게 보여줍니다.</p>
-
-                        <div class="code-block">
-                            <pre><code class="language-cpp">// 예시 벤치마크
-// 약 8ms
-for (int i = 0; i &lt; 10000000; i++) 
-    int a[1000];      
-
-// 약 3662ms
-for (int i = 0; i &lt; 10000000; i++) 
-    std::vector<int> a;
-                            </code></pre>
-                        </div>
-                    </div>
-
-                    <div class="feature-text" style="margin-top:12px; padding:16px; background-color:#fff7ed; border-left:4px solid #f97316; border-radius:4px;">
-                        <p style="margin:0; line-height:1.6;"><strong>단점</strong>: 고정 배열 사용으로 인해 메시지가 길 경우 잘릴 수 있고, 필요한 것보다 더 큰 고정 메모리를 사용하는 상황(메모리 낭비)이 발생할 수 있습니다. 다만 충분한 크기를 확보하면 실제 메모리 증가는 생각보다 크지 않으며, 동적 할당을 제거한 효과로 성능 측면에서 유리합니다.</p>
-                    </div>
-
                     <div class="feature-text" style="margin-top:16px; padding:20px; background-color:#f0f9ff; border-left:4px solid #10b981; border-radius:4px;">
                         <p style="margin:0; line-height:1.8;"><strong>📌 참고 커밋</strong><br>
                         이 최적화는 다음 커밋의 변경사항을 요약한 것입니다:<br>
@@ -2484,7 +4628,7 @@ for (int i = 0; i &lt; 10000000; i++)
                         <ul style="margin-top:12px; line-height:1.8; padding-left:20px; color:#6c757d;">
                             <li><strong>전역 접근성 우선</strong>: 엔진 개발 도중 특정 변수나 메서드에 접근하기 어렵다는 경험으로 인해 싱글톤 패턴 또는 <code>static</code> 메서드/변수를 필요한 곳에 사용했습니다. 남발을 방지하기 위해 최대한 캡슐화를 중시했습니다.</li>
                             <li><strong>명명 규칙</strong>: 클래스와 메서드는 <code>PascalCase</code> (첫 글자 대문자)로, 변수는 <code>camelCase</code> (첫 글자 소문자)로 표기합니다. 상수는 <code>UPPER_SNAKE_CASE</code>로 구분하여 한눈에 구별되도록 합니다.</li>
-                            <li><strong>스마트 포인터와 RAII</strong>: 소유권이 명확하지 않은 포인터는 사용하지 않으며, `std::unique_ptr`, `std::shared_ptr` 등을 활용해 자원 관리를 자동화합니다. 예외 안전성과 리소스 누수를 방지하기 위한 RAII 스타일을 권장합니다.</li>
+                            <li><strong>스마트 포인터와 RAII</strong>: 소유권이 명확하지 않은 포인터는 사용하지 않으며, `std::unique_ptr`, `std::shared_ptr` 등을 활용해 자원 관리를 자동화했습니다.</li>
                         </ul>
                     </div>
 
@@ -2582,40 +4726,6 @@ for (int i = 0; i &lt; 10000000; i++)
                 </div>
             </section>
 
-            <section id="closing-github" class="anchor-section">
-                <div class="feature-container">
-                    <h2 class="section-title">포트폴리오 GitHub 주소</h2>
-                    
-                    <div class="feature-text" style="margin-top:24px;">
-                        <div style="background-color:#2d3748; border-radius:12px; padding:40px; text-align:center; box-shadow: 0 4px 16px rgba(0,0,0,0.15);">
-                            <div style="margin-bottom:24px;">
-                                <i class="fab fa-github" style="font-size:64px; color:#ffffff;"></i>
-                            </div>
-                            <h3 style="color:#ffffff; font-size:24px; font-weight:600; margin-bottom:16px;">DirectX GameEngine</h3>
-                            <p style="color:#cbd5e0; font-size:16px; margin-bottom:32px; line-height:1.6;">
-                                본 프로젝트의 전체 소스 코드와 개발 히스토리를 GitHub에서 확인하실 수 있습니다.
-                            </p>
-                            <a href="https://github.com/Red-Opera/DirectX_GameEngine" target="_blank" 
-                               style="display:inline-block; background-color:#ffffff; color:#2d3748; padding:14px 32px; border-radius:8px; text-decoration:none; font-weight:600; font-size:16px; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                <i class="fab fa-github" style="margin-right:8px;"></i>GitHub 저장소 방문하기
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="feature-text" style="margin-top:24px;">
-                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
-                            <div style="background-color:#f8f9fa; border-radius:8px; padding:24px; border-left:4px solid #f59e0b;">
-                                <div style="display:flex; align-items:center; ">
-                                    <i class="fas fa-book" style="font-size:24px; color:#f59e0b; margin-right:12px;"></i>
-                                    <h4 style="margin:0; font-size:18px; font-weight:600; color:#2c3e50;">README</h4>
-                                </div>
-                                <p style="margin:0; color:#6c757d; line-height:1.6;">프로젝트 빌드 방법, 의존성, 실행 방법을 README에서 확인하세요.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             <section id="closing-contact" class="anchor-section">
                 <div class="feature-container">
                     <h2 class="section-title">연락처 및 이메일</h2>
@@ -2664,7 +4774,7 @@ for (int i = 0; i &lt; 10000000; i++)
 
                     <div class="feature-text" style="margin-top:48px; text-align:center; padding:32px; background-color:#f8f9fa; border-radius:8px;">
                         <p style="margin:0; color:#6c757d; font-size:14px; line-height:1.8;">
-                            © 2025 서정현. All Rights Reserved.<br>
+                            © 2025 서정현. Some Rights Reserved.<br>
                             본 프로젝트는 포트폴리오 목적으로 제작되었습니다.
                         </p>
                     </div>

@@ -47,45 +47,66 @@ document.addEventListener('DOMContentLoaded', function() {
     // 스크롤 시 현재 섹션에 해당하는 네비게이션 항목 활성화
     function onScroll() {
         const scrollPos = window.pageYOffset || document.documentElement.scrollTop;
+        const headerOffset = getHeaderOffset();
         let currentId = null;
 
-        // Iterate over targetsMap (only unique ids from nav)
-        Object.keys(targetsMap).forEach(id => {
-            const el = targetsMap[id];
-            const headerOffset = getHeaderOffset();
-            const top = el.offsetTop - headerOffset - 8; // small extra gap
-            const bottom = top + el.offsetHeight;
-            if (scrollPos >= top && scrollPos < bottom) {
-                currentId = id;
-            }
+        // 모든 섹션 요소를 수집 (anchor-section, feature-container, 그리고 id를 가진 내부 div들)
+        const allSections = [];
+        document.querySelectorAll('.anchor-section[id], .feature-container[id], .feature-container [id], .feature-text[id]').forEach(section => {
+            allSections.push({
+                id: section.id,
+                top: section.offsetTop - headerOffset,
+                bottom: section.offsetTop + section.offsetHeight - headerOffset
+            });
         });
 
-        // If none found, check feature containers (fallback)
-        if (!currentId) {
-            const featureContainers = document.querySelectorAll('.feature-container[id]');
-            featureContainers.forEach(container => {
-                const headerOffset = getHeaderOffset();
-                const top = container.offsetTop - headerOffset - 8;
-                const bottom = top + container.offsetHeight;
-                if (scrollPos >= top && scrollPos < bottom) currentId = container.id;
-            });
+        // 현재 스크롤 위치가 속한 섹션 찾기 (화면 중앙 기준)
+        const viewportCenter = scrollPos + headerOffset + 100;
+        
+        for (let i = allSections.length - 1; i >= 0; i--) {
+            const section = allSections[i];
+            if (scrollPos + headerOffset >= section.top - 50) {
+                currentId = section.id;
+                break;
+            }
         }
 
-        // Update active states on all nav links
+        // 모든 네비게이션 항목의 active 클래스 제거
         navLinks.forEach(link => {
             link.classList.remove('active');
-            if (link.getAttribute('data-target') === currentId) {
-                link.classList.add('active');
-            }
         });
+
+        // 현재 섹션에 해당하는 네비게이션 항목 활성화
+        if (currentId) {
+            // 현재 ID에 해당하는 모든 네비게이션 항목 찾기
+            const matchingLinks = navLinks.filter(link => 
+                link.getAttribute('data-target') === currentId
+            );
+
+            matchingLinks.forEach(link => {
+                link.classList.add('active');
+                
+                // 부모 항목도 활성화 (서브아이템인 경우)
+                if (link.classList.contains('nav-subitem') || link.classList.contains('nav-subsubitem')) {
+                    const navGroup = link.closest('.nav-group');
+                    if (navGroup) {
+                        const parentNav = navGroup.querySelector('.nav-parent');
+                        if (parentNav && !parentNav.classList.contains('active')) {
+                            // 부모가 같은 섹션을 가리키지 않는 경우에만 활성화
+                            const parentTarget = parentNav.getAttribute('data-target');
+                            if (parentTarget !== currentId) {
+                                parentNav.classList.add('active');
+                            }
+                        }
+                    }
+                }
+            });
+        }
     }
 
     window.addEventListener('scroll', onScroll);
     // 초기 한 번 실행
     onScroll();
 
-    // 초기 로드 시 첫 번째 네비게이션 항목 활성화
-    if (navLinks.length > 0) {
-        navLinks[0].classList.add('active');
-    }
+    // 초기 로드 시 첫 번째 네비게이션 항목 활성화 제거 (onScroll이 자동으로 처리)
 });

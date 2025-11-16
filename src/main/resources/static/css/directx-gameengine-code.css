@@ -462,6 +462,12 @@ body {
 /* 이미지 위에 표시되는 타이틀 오버레이 */
 /* overlay removed: title is now placed above the image */
 
+/* 앵커 섹션 스크롤 오프셋 */
+.anchor-section,
+.feature-container[id] {
+    scroll-margin-top: 90px; /* 상단바 높이 + 여유 공간 */
+}
+
 /* 반응형 디자인 */
 @media (max-width: 768px) {
     .navigation {
